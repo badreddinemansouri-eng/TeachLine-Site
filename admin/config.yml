@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: badreddinemansouri-eng/TeachLine-Site   # votre dépôt
   branch: main
 
 media_folder: "static/images"
