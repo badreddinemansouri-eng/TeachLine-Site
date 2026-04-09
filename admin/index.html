@@ -8,7 +8,26 @@
 </head>
 <body>
     <script>
-        window.CMS.init({ config: '/admin/config.yml' });
+        // Demander le token GitHub à l'utilisateur (stocké dans le localStorage)
+        let token = localStorage.getItem('github_token');
+        if (!token) {
+            token = prompt("Veuillez entrer votre token GitHub (généré dans Settings → Developer settings → Personal access tokens). Scopes requis : repo");
+            if (token) localStorage.setItem('github_token', token);
+        }
+        if (token) {
+            window.CMS.init({
+                config: '/admin/config.yml',
+                backend: {
+                    name: 'github',
+                    repo: 'badreddinemansouri-eng/TeachLine-Site',
+                    branch: 'main',
+                    auth_type: 'token',
+                    token: token
+                }
+            });
+        } else {
+            document.body.innerHTML = '<h1>Token requis</h1><p>Vous devez fournir un token GitHub pour accéder à l’administration.</p>';
+        }
     </script>
 </body>
 </html>
