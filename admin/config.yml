@@ -14,16 +14,16 @@ collections:
     fields:
       - { label: "Titre", name: "title", widget: "string" }
       - { label: "Date", name: "date", widget: "datetime", default: "" }
-      - { label: "Catégorie", name: "category", widget: "select", options: ["Annonce", "Résumé", "Cours vidéo", "Événement"] }
+      - { label: "Catégorie", name: "category", widget: "select", options: ["Annonce", "Résumé", "Cours vidéo"] }
       - { label: "Contenu", name: "body", widget: "markdown" }
-      - { label: "Lien (optionnel)", name: "link", widget: "string", required: false }
+      - { label: "Lien", name: "link", widget: "string", required: false }
 
   - name: "resumes"
     label: "Résumés PDF"
     folder: "content/resumes"
     create: true
     fields:
-      - { label: "Titre du résumé", name: "title", widget: "string" }
-      - { label: "Description courte", name: "body", widget: "text" }
+      - { label: "Titre", name: "title", widget: "string" }
+      - { label: "Description", name: "body", widget: "text" }
       - { label: "Fichier PDF", name: "pdf_file", widget: "file" }
       - { label: "Matière", name: "category", widget: "string", default: "Sciences" }
