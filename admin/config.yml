@@ -1,9 +1,7 @@
 backend:
   name: github
-  repo: badreddinemansouri-eng/TeachLine-Site   # Votre dépôt
+  repo: badreddinemansouri-eng/TeachLine-Site
   branch: main
-  auth_endpoint: https://teachline.netlify.app/auth   # facultatif, on n'utilise pas OAuth
-  # On utilisera un token directement, donc pas besoin d'endpoint
 
 media_folder: "static/images"
 public_folder: "/static/images"
