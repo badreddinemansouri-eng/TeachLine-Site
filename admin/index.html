@@ -3,30 +3,45 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teach line - Admin</title>
+    <title>Admin Teach line</title>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </head>
 <body>
+    <div id="log" style="background:#f0f0f0; padding:10px; font-family:monospace;"></div>
     <script>
-        // Demander le token GitHub à l'utilisateur (stocké dans le localStorage)
+        function log(msg) {
+            console.log(msg);
+            const div = document.getElementById('log');
+            div.innerHTML += msg + '<br>';
+        }
+        log("1. Script démarré");
+        
         let token = localStorage.getItem('github_token');
         if (!token) {
-            token = prompt("Veuillez entrer votre token GitHub (généré dans Settings → Developer settings → Personal access tokens). Scopes requis : repo");
+            token = prompt("Entrez votre token GitHub (scopes repo)");
             if (token) localStorage.setItem('github_token', token);
         }
+        log("2. Token " + (token ? "présent" : "manquant"));
+
         if (token) {
-            window.CMS.init({
-                config: '/admin/config.yml',
-                backend: {
-                    name: 'github',
-                    repo: 'badreddinemansouri-eng/TeachLine-Site',
-                    branch: 'main',
-                    auth_type: 'token',
-                    token: token
-                }
-            });
+            log("3. Tentative d'initialisation de Decap CMS...");
+            try {
+                window.CMS.init({
+                    config: '/admin/config.yml',
+                    backend: {
+                        name: 'github',
+                        repo: 'badreddinemansouri-eng/TeachLine-Site',
+                        branch: 'main',
+                        auth_type: 'token',
+                        token: token
+                    }
+                });
+                log("4. Initialisation lancée (succès apparent)");
+            } catch(e) {
+                log("ERREUR : " + e.message);
+            }
         } else {
-            document.body.innerHTML = '<h1>Token requis</h1><p>Vous devez fournir un token GitHub pour accéder à l’administration.</p>';
+            document.body.innerHTML = '<h1>Token requis</h1>';
         }
     </script>
 </body>
