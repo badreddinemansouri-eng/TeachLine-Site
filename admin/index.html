@@ -15,7 +15,7 @@
             div.innerHTML += msg + '<br>';
         }
         log("1. Script démarré");
-        
+
         let token = localStorage.getItem('github_token');
         if (!token) {
             token = prompt("Entrez votre token GitHub (scopes repo)");
@@ -24,22 +24,31 @@
         log("2. Token " + (token ? "présent" : "manquant"));
 
         if (token) {
-            log("3. Tentative d'initialisation de Decap CMS...");
-            try {
-                window.CMS.init({
-                    config: '/admin/config.yml',
-                    backend: {
-                        name: 'github',
-                        repo: 'badreddinemansouri-eng/TeachLine-Site',
-                        branch: 'main',
-                        auth_type: 'token',
-                        token: token
+            log("3. Attente de Decap CMS...");
+            function initCMS() {
+                if (window.CMS) {
+                    log("4. Decap CMS trouvé. Initialisation...");
+                    try {
+                        window.CMS.init({
+                            config: '/admin/config.yml',
+                            backend: {
+                                name: 'github',
+                                repo: 'badreddinemansouri-eng/TeachLine-Site',
+                                branch: 'main',
+                                auth_type: 'token',
+                                token: token
+                            }
+                        });
+                        log("5. Initialisation lancée.");
+                    } catch(e) {
+                        log("ERREUR : " + e.message);
                     }
-                });
-                log("4. Initialisation lancée (succès apparent)");
-            } catch(e) {
-                log("ERREUR : " + e.message);
+                } else {
+                    log("4. En attente... (CMS pas encore chargé)");
+                    setTimeout(initCMS, 100);
+                }
             }
+            initCMS();
         } else {
             document.body.innerHTML = '<h1>Token requis</h1>';
         }
