@@ -1,10 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Test Admin</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teach line - Admin</title>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
-    <h1>Le dossier admin fonctionne</h1>
-    <p>Si vous voyez ce message, c’est que Netlify sert bien ce fichier.</p>
+    <h1>Chargement de l'administration...</h1>
+    <div id="status" style="background:#f0f0f0; padding:10px; margin:10px; font-family:monospace;"></div>
+
+    <script>
+        const statusDiv = document.getElementById('status');
+        function log(msg) {
+            console.log(msg);
+            statusDiv.innerHTML += msg + '<br>';
+        }
+
+        log("1. Début du script. Chargement de Decap CMS...");
+
+        const script = document.createElement('script');
+        script.src = "https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js";
+        script.onload = function() {
+            log("2. Decap CMS chargé avec succès. Tentative d'initialisation...");
+            try {
+                window.DecapCMS.init({
+                    config: '/admin/config.yml',
+                });
+                log("3. Initialisation lancée. Si vous voyez l'interface, c'est bon.");
+            } catch(e) {
+                log("ERREUR lors de l'initialisation : " + e.message);
+                console.error(e);
+            }
+        };
+        script.onerror = function() {
+            log("ERREUR : Impossible de charger Decap CMS (vérifiez l'URL ou votre connexion)");
+        };
+        document.head.appendChild(script);
+    </script>
 </body>
 </html>
