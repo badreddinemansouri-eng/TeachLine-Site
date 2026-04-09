@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: badreddine/teachline   # ⚠️ À MODIFIER : mettez votre compte/nom_dépôt
+  repo: badreddinemansouri-eng/TeachLine-Site   # ⚠️ À MODIFIER : mettez votre compte/nom_dépôt
   branch: main
   site_domain: badreddine.github.io   # ou votre domaine personnalisé
 
