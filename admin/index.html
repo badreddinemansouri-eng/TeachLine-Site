@@ -3,14 +3,20 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teach line - Administration</title>
+    <title>Teach line - Admin</title>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            window.CMS.init({ config: '/admin/config.yml' });
+        // Attendre que le DOM soit prêt et que Decap CMS soit chargé
+        window.addEventListener('load', function() {
+            // Selon la version, l'objet global est soit CMS, soit DecapCMS
+            if (window.CMS) {
+                window.CMS.init({ config: '/admin/config.yml' });
+            } else if (window.DecapCMS) {
+                window.DecapCMS.init({ config: '/admin/config.yml' });
+            }
         });
     </script>
 </body>
