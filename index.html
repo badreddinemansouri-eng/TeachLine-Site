@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
     <title>Teach line | Chaîne éducative – Cours en ligne</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -60,7 +61,7 @@
             <div class="menu-icon" id="menuToggle"><i class="fas fa-bars"></i></div>
             <div class="nav-links" id="navLinks">
                 <a href="#accueil">Accueil</a><a href="#services">Services</a><a href="#actualites">Actualités</a><a href="#ressources">Résumés</a><a href="#contact">Contact</a>
-                <a href="/admin/" class="btn-outline"><i class="fas fa-crown"></i> Admin</a>
+                <a href="admin/" class="btn-outline"><i class="fas fa-crown"></i> Admin</a>
             </div>
         </div>
     </div>
@@ -89,7 +90,10 @@
 
     <section id="contact" class="section"><div class="container"><div class="section-title">Contactez-nous</div><div class="contact-grid"><div class="contact-info"><h3><i class="fas fa-address-card"></i> Coordonnées</h3><div style="display:flex; gap:1rem; margin:1rem 0"><i class="fas fa-phone-alt"></i><span><strong>Tél :</strong> <a href="tel:+21658338187">58338187</a></span></div><div style="display:flex; gap:1rem; margin:1rem 0"><i class="fab fa-whatsapp"></i><span><strong>WhatsApp :</strong> <a href="https://wa.me/21658338187" target="_blank">Écrire directement</a></span></div><div style="display:flex; gap:1rem; margin:1rem 0"><i class="fab fa-facebook"></i><span><strong>Facebook :</strong> <a href="#" id="fbLink">Teach line Officiel</a></span></div><p><i class="fas fa-clock"></i> Disponible 7j/7, 9h–21h</p><div style="margin-top:1rem"><a href="https://wa.me/21658338187?text=Bonjour%20Teach%20line%20!%20Je%20souhaite%20un%20renseignement." class="btn-primary" style="background:#25D366"><i class="fab fa-whatsapp"></i> WhatsApp direct</a></div></div><div><h3>Formulaire rapide</h3><form id="contactForm"><input type="text" id="name" placeholder="Votre nom" required style="width:100%; padding:0.8rem; margin-bottom:1rem; border-radius:1rem; border:1px solid #cbd5e1;"><input type="email" id="email" placeholder="Email" style="width:100%; padding:0.8rem; margin-bottom:1rem; border-radius:1rem; border:1px solid #cbd5e1;"><textarea id="message" rows="3" placeholder="Niveau, matière, disponibilité..." style="width:100%; padding:0.8rem; border-radius:1rem; border:1px solid #cbd5e1;"></textarea><button type="submit" class="btn-primary" style="width:100%"><i class="fas fa-paper-plane"></i> Envoyer la demande</button><p style="font-size:0.75rem; margin-top:0.5rem">Nous répondons par WhatsApp sous 2h.</p></form></div></div></div></section>
 </main>
-<footer><div class="container"><div>© 2026 Teach line – Plateforme de cours privés à distance</div><div class="admin-link"><a href="/admin/" style="color:#94a3b8;">Accès administrateur</a> – Gérez les actualités et résumés sans coder</div></div></footer>
+<footer><div class="container"><div>© 2026 Teach line – Plateforme de cours privés à distance</div><div class="admin-link"><a href="admin/" style="color:#94a3b8;">Accès administrateur</a> – Gérez les actualités et résumés sans coder</div></div></footer>
+
+<!-- Netlify Identity Widget (indispensable pour les invitations) -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
 <script>
     // Menu mobile
@@ -97,9 +101,9 @@
     const navLinks = document.getElementById('navLinks');
     menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
 
-    // Helper: récupérer les fichiers Markdown d'un dossier via GitHub API
-    const REPO_OWNER = "badreddinemansouri-eng";   // 🔁 REMPLACEZ par votre nom GitHub
-    const REPO_NAME = "TeachLine-Site";      // 🔁 REMPLACEZ par le nom de votre dépôt
+    // ⚠️ REMPLACEZ CES VALEURS PAR LES VÔTRES (nom d'utilisateur GitHub et nom du dépôt)
+    const REPO_OWNER = "badreddinemansouri-eng";
+    const REPO_NAME = "TeachLine-Site";
     const BRANCH = "main";
 
     async function fetchMarkdownFiles(folderPath) {
@@ -112,7 +116,6 @@
             const contents = await Promise.all(mdFiles.map(async (file) => {
                 const contentRes = await fetch(file.download_url);
                 const text = await contentRes.text();
-                // Extraction du frontmatter YAML simple
                 const match = text.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
                 if (match) {
                     const frontmatter = match[1];
@@ -154,10 +157,10 @@
             let preview = post.body.substring(0, 200);
             if (post.body.length > 200) preview += '…';
             html += `<div class="service-card" style="text-align:left">
-                        <h3>${post.title}</h3>
-                        <small><i class="far fa-calendar-alt"></i> ${post.date}  |  ${post.category}</small>
-                        <p style="margin-top:0.8rem">${preview}</p>
-                        ${post.link ? `<a href="${post.link}" target="_blank" class="btn-secondary" style="margin-top:1rem; display:inline-block">Lire la suite →</a>` : ''}
+                        <h3>${escapeHtml(post.title)}</h3>
+                        <small><i class="far fa-calendar-alt"></i> ${escapeHtml(post.date)}  |  ${escapeHtml(post.category)}</small>
+                        <p style="margin-top:0.8rem">${escapeHtml(preview)}</p>
+                        ${post.link ? `<a href="${escapeHtml(post.link)}" target="_blank" class="btn-secondary" style="margin-top:1rem; display:inline-block">Lire la suite →</a>` : ''}
                      </div>`;
         }
         container.innerHTML = html;
@@ -174,8 +177,8 @@
         for (let res of resumes) {
             html += `<div class="service-card">
                         <div class="service-icon"><i class="fas fa-file-pdf"></i></div>
-                        <h3>${res.title}</h3>
-                        <p>${res.body.substring(0,100)}</p>
+                        <h3>${escapeHtml(res.title)}</h3>
+                        <p>${escapeHtml(res.body.substring(0,100))}</p>
                         ${res.pdf_file ? `<button class="btn-primary" style="margin-top:1rem" onclick="downloadPDF('${res.pdf_file}', '${res.title}')"><i class="fas fa-download"></i> Télécharger PDF</button>` : ''}
                      </div>`;
         }
@@ -183,7 +186,6 @@
     }
 
     window.downloadPDF = function(pdfPath, title) {
-        // pdfPath est le chemin relatif stocké dans le frontmatter (ex: "static/images/cours.pdf")
         const fullUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${pdfPath}`;
         const a = document.createElement('a');
         a.href = fullUrl;
@@ -193,7 +195,18 @@
         document.body.removeChild(a);
     };
 
-    // Formulaire contact -> WhatsApp
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
     document.getElementById('contactForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const name = document.getElementById('name').value;
@@ -210,11 +223,9 @@
         alert("Notre page Facebook : Teach line (22K abonnés). Contactez-nous directement par WhatsApp.");
     });
 
-    // Chargement initial
     loadPosts();
     loadResumes();
 
-    // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const target = document.querySelector(this.getAttribute('href'));
