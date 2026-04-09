@@ -1,8 +1,6 @@
 backend:
-  name: github
-  repo: badreddinemansouri-eng/TeachLine-Site   # ⚠️ À MODIFIER : mettez votre compte/nom_dépôt
+  name: git-gateway
   branch: main
-  site_domain: badreddinemansouri-eng.github.io   # ou votre domaine personnalisé
 
 media_folder: "static/images"
 public_folder: "/static/images"
