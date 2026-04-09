@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="/">
-    <title>Teach line | Chaîne éducative – Cours en ligne</title>
+    <title>Teach line | Chaîne éducative</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* (garde ton style existant) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #0f172a; scroll-behavior: smooth; }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
@@ -38,7 +39,6 @@
         .service-card { background: white; padding: 1.8rem; border-radius: 1.5rem; box-shadow: 0 8px 20px rgba(0,0,0,0.02); transition: 0.3s; }
         .service-card:hover { transform: translateY(-6px); box-shadow: 0 20px 30px rgba(0,0,0,0.08); }
         .service-icon { font-size: 2.5rem; color: #2563eb; margin-bottom: 1rem; }
-        .resume-card { background: white; border-radius: 2rem; padding: 2rem; display: flex; flex-wrap: wrap; gap: 2rem; margin-bottom: 2rem; }
         .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; background: white; border-radius: 2rem; padding: 2rem; }
         footer { background: #0f172a; color: #cbd5e1; padding: 2rem 0; text-align: center; }
         .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background: #25D366; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 99; transition: 0.2s; text-decoration: none; }
@@ -92,16 +92,21 @@
 </main>
 <footer><div class="container"><div>© 2026 Teach line – Plateforme de cours privés à distance</div><div class="admin-link"><a href="admin/" style="color:#94a3b8;">Accès administrateur</a> – Gérez les actualités et résumés sans coder</div></div></footer>
 
-<!-- Netlify Identity Widget (indispensable pour les invitations) -->
+<!-- Netlify Identity Widget -->
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<!-- Eruda pour déboguer sur mobile -->
+<script src="//cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init(); eruda.show();</script>
 
 <script>
     // Menu mobile
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
-    menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+    if (menuToggle) {
+        menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+    }
 
-    // ⚠️ REMPLACEZ CES VALEURS PAR LES VÔTRES (nom d'utilisateur GitHub et nom du dépôt)
+    // Configuration GitHub (à adapter)
     const REPO_OWNER = "badreddinemansouri-eng";
     const REPO_NAME = "TeachLine-Site";
     const BRANCH = "main";
@@ -132,7 +137,6 @@
                         link: linkMatch ? linkMatch[1] : "",
                         pdf_file: pdfMatch ? pdfMatch[1] : "",
                         body: body.trim(),
-                        filename: file.name
                     };
                 }
                 return null;
@@ -146,9 +150,10 @@
 
     async function loadPosts() {
         const container = document.getElementById('posts-container');
+        if (!container) return;
         const posts = await fetchMarkdownFiles('content/posts');
         if (posts.length === 0) {
-            container.innerHTML = '<p style="text-align:center">Aucune actualité pour le moment. Connectez-vous via /admin/ pour en ajouter.</p>';
+            container.innerHTML = '<p style="text-align:center">Aucune actualité pour le moment.</p>';
             return;
         }
         posts.sort((a,b) => new Date(b.date) - new Date(a.date));
@@ -168,9 +173,10 @@
 
     async function loadResumes() {
         const container = document.getElementById('resumes-container');
+        if (!container) return;
         const resumes = await fetchMarkdownFiles('content/resumes');
         if (resumes.length === 0) {
-            container.innerHTML = '<p style="text-align:center">Aucun résumé disponible. Ajoutez-en via l’interface admin.</p>';
+            container.innerHTML = '<p style="text-align:center">Aucun résumé disponible.</p>';
             return;
         }
         let html = '';
@@ -202,42 +208,45 @@
             if (m === '<') return '&lt;';
             if (m === '>') return '&gt;';
             return m;
-        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-            return c;
         });
     }
 
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const message = document.getElementById('message').value;
-        const whatsappMsg = `Nom: ${name}%0AEmail: ${email}%0AMessage: ${message}`;
-        window.open(`https://wa.me/21658338187?text=${whatsappMsg}`, '_blank');
-        alert("✅ Demande envoyée ! Nous vous répondrons sur WhatsApp.");
-        this.reset();
-    });
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            const whatsappMsg = `Nom: ${name}%0AEmail: ${email}%0AMessage: ${message}`;
+            window.open(`https://wa.me/21658338187?text=${whatsappMsg}`, '_blank');
+            alert("✅ Demande envoyée ! Nous vous répondrons sur WhatsApp.");
+            this.reset();
+        });
+    }
 
-    document.getElementById('fbLink')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        alert("Notre page Facebook : Teach line (22K abonnés). Contactez-nous directement par WhatsApp.");
-    });
+    const fbLink = document.getElementById('fbLink');
+    if (fbLink) {
+        fbLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert("Notre page Facebook : Teach line (22K abonnés). Contactez-nous directement par WhatsApp.");
+        });
+    }
 
     loadPosts();
     loadResumes();
 
+    // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
                 e.preventDefault();
                 target.scrollIntoView({ behavior: 'smooth' });
-                if (navLinks.classList.contains('active')) navLinks.classList.remove('active');
+                if (navLinks && navLinks.classList.contains('active')) navLinks.classList.remove('active');
             }
         });
     });
 </script>
-<script src="//cdn.jsdelivr.net/npm/eruda"></script>
-<script>eruda.init(); eruda.show();</script>
 </body>
 </html>
