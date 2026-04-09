@@ -2,433 +2,53 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="Teach line - Plateforme éducative de cours privés à distance pour tous les niveaux. Résumés de cours, préparation BAC 2026, soutien scolaire personnalisé.">
-    <title>Teach line | Chaîne éducative - Cours privés à distance</title>
-    <!-- Google Fonts + Font Awesome 6 (Free CDN) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teach line | Chaîne éducative – Cours en ligne</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f9fafc;
-            color: #1e293b;
-            scroll-behavior: smooth;
-            line-height: 1.5;
-        }
-
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* Header & navigation */
-        header {
-            background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(2px);
-            background-color: rgba(255,255,255,0.96);
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-            flex-wrap: wrap;
-        }
-
-        .logo h1 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #1E3A8A, #3B82F6);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            letter-spacing: -0.5px;
-        }
-        .logo span {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #475569;
-            display: block;
-            letter-spacing: normal;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-        .nav-links a {
-            text-decoration: none;
-            font-weight: 600;
-            color: #1e293b;
-            transition: color 0.2s;
-        }
-        .nav-links a:hover {
-            color: #2563eb;
-        }
-        .btn-outline-light {
-            background: #f1f5f9;
-            padding: 0.5rem 1.2rem;
-            border-radius: 40px;
-            font-weight: 600;
-        }
-        .btn-outline-light:hover {
-            background: #e2e8f0;
-        }
-        .menu-icon {
-            display: none;
-            font-size: 1.8rem;
-            cursor: pointer;
-        }
-
-        /* Buttons */
-        .btn-primary {
-            background: #2563eb;
-            color: white;
-            padding: 0.8rem 1.8rem;
-            border-radius: 40px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.25s;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(37,99,235,0.2);
-        }
-        .btn-primary:hover {
-            background: #1d4ed8;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(37,99,235,0.25);
-        }
-        .btn-secondary {
-            background: white;
-            color: #2563eb;
-            border: 1.5px solid #2563eb;
-            padding: 0.7rem 1.6rem;
-            border-radius: 40px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .btn-secondary:hover {
-            background: #eff6ff;
-            transform: translateY(-1px);
-        }
-
-        /* Hero */
-        .hero {
-            padding: 3rem 0 4rem;
-        }
-        .hero-grid {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 2rem;
-        }
-        .hero-content {
-            flex: 1;
-        }
-        .hero-badge {
-            background: #e0f2fe;
-            color: #0369a1;
-            display: inline-block;
-            padding: 0.3rem 1rem;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-        .hero-content h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-            background: linear-gradient(to right, #0f172a, #1e3a8a);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-        .hero-stats {
-            display: flex;
-            gap: 2rem;
-            margin: 1.5rem 0;
-        }
-        .stat-item {
-            text-align: left;
-        }
-        .stat-number {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #0f172a;
-        }
-        .hero-actions {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 1.5rem;
-        }
-        .hero-visual {
-            flex: 1;
-            background: linear-gradient(145deg, #dbeafe, #f1f5f9);
-            border-radius: 2rem;
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
-        }
-        .hero-visual i {
-            font-size: 5rem;
-            color: #2563eb;
-            margin-bottom: 1rem;
-        }
-
-        /* Section générique */
-        .section {
-            padding: 4rem 0;
-        }
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            text-align: center;
-            position: relative;
-        }
-        .section-title:after {
-            content: '';
-            width: 70px;
-            height: 4px;
-            background: #2563eb;
-            display: block;
-            margin: 0.7rem auto 0;
-            border-radius: 4px;
-        }
-
-        /* Services cards */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-        .service-card {
-            background: white;
-            padding: 1.8rem;
-            border-radius: 1.5rem;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
-            transition: all 0.3s ease;
-            border: 1px solid #eef2ff;
-            text-align: center;
-        }
-        .service-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.1);
-            border-color: #cbdffc;
-        }
-        .service-icon {
-            font-size: 2.5rem;
-            color: #2563eb;
-            margin-bottom: 1rem;
-        }
-
-        /* Résumé vedette */
-        .featured-resume {
-            background: linear-gradient(120deg, #f8fafc, #ffffff);
-            border-radius: 2rem;
-            padding: 2rem;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            border: 1px solid #e2e8f0;
-        }
-        .resume-info {
-            flex: 2;
-        }
-        .resume-tag {
-            background: #d9f99d;
-            color: #3f6212;
-            border-radius: 30px;
-            padding: 0.2rem 1rem;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 1rem;
-        }
-        .resume-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-        .resume-meta {
-            display: flex;
-            gap: 1rem;
-            margin: 1rem 0;
-            color: #475569;
-        }
-        .resume-actions {
-            margin-top: 1.5rem;
-        }
-        .resume-preview {
-            flex: 1;
-            background: #eef2ff;
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        /* Carte Facebook post */
-        .social-card {
-            background: white;
-            border-radius: 1.25rem;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            padding: 1.5rem;
-            border: 1px solid #eef2ff;
-            margin-top: 1rem;
-        }
-        .post-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 1rem;
-        }
-        .post-avatar {
-            background: #2563eb;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-        .post-stats {
-            display: flex;
-            gap: 1.5rem;
-            margin: 1rem 0;
-            color: #5b6e8c;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-        .post-actions {
-            display: flex;
-            gap: 1.5rem;
-            border-top: 1px solid #edf2f7;
-            padding-top: 0.8rem;
-            margin-top: 0.5rem;
-        }
-
-        /* Contact */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            background: white;
-            border-radius: 2rem;
-            padding: 2rem;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.03);
-            border: 1px solid #eef2ff;
-        }
-        .contact-info i {
-            width: 35px;
-            color: #2563eb;
-            font-size: 1.3rem;
-        }
-        .contact-detail {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        .contact-form input, .contact-form textarea {
-            width: 100%;
-            padding: 0.9rem;
-            border: 1px solid #cbd5e1;
-            border-radius: 1rem;
-            font-family: inherit;
-            margin-bottom: 1rem;
-        }
-
-        footer {
-            background: #0f172a;
-            color: #cbd5e1;
-            padding: 2rem 0;
-            text-align: center;
-            margin-top: 2rem;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #0f172a; scroll-behavior: smooth; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        header { background: rgba(255,255,255,0.98); backdrop-filter: blur(8px); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; flex-wrap: wrap; }
+        .logo h1 { font-size: 1.9rem; font-weight: 800; background: linear-gradient(135deg, #1e3a8a, #3b82f6); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .logo span { font-size: 0.8rem; color: #475569; }
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links a { text-decoration: none; font-weight: 600; color: #1e293b; transition: 0.2s; }
+        .nav-links a:hover { color: #2563eb; }
+        .btn-outline { background: #f1f5f9; padding: 0.5rem 1.2rem; border-radius: 40px; }
+        .menu-icon { display: none; font-size: 1.8rem; cursor: pointer; }
+        .btn-primary { background: #2563eb; color: white; padding: 0.8rem 1.8rem; border-radius: 40px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; border: none; cursor: pointer; }
+        .btn-primary:hover { background: #1d4ed8; transform: translateY(-2px); }
+        .btn-secondary { background: white; color: #2563eb; border: 1.5px solid #2563eb; padding: 0.7rem 1.6rem; border-radius: 40px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+        .hero { padding: 3rem 0 4rem; }
+        .hero-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; }
+        .hero-content { flex: 1; }
+        .hero-badge { background: #dbeafe; color: #1e40af; display: inline-block; padding: 0.3rem 1rem; border-radius: 30px; font-size: 0.85rem; font-weight: 600; }
+        .hero-content h1 { font-size: 3rem; font-weight: 800; line-height: 1.2; margin: 1rem 0; }
+        .hero-stats { display: flex; gap: 2rem; margin: 1.5rem 0; }
+        .stat-number { font-size: 1.8rem; font-weight: 800; }
+        .hero-visual { flex: 1; background: linear-gradient(145deg, #eef2ff, #ffffff); border-radius: 2rem; padding: 2rem; text-align: center; box-shadow: 0 20px 30px rgba(0,0,0,0.05); }
+        .section { padding: 4rem 0; }
+        .section-title { font-size: 2rem; font-weight: 700; text-align: center; margin-bottom: 2rem; }
+        .section-title:after { content: ''; width: 70px; height: 4px; background: #2563eb; display: block; margin: 0.7rem auto; border-radius: 4px; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 2rem; }
+        .service-card { background: white; padding: 1.8rem; border-radius: 1.5rem; box-shadow: 0 8px 20px rgba(0,0,0,0.02); transition: 0.3s; }
+        .service-card:hover { transform: translateY(-6px); box-shadow: 0 20px 30px rgba(0,0,0,0.08); }
+        .service-icon { font-size: 2.5rem; color: #2563eb; margin-bottom: 1rem; }
+        .resume-card { background: white; border-radius: 2rem; padding: 2rem; display: flex; flex-wrap: wrap; gap: 2rem; margin-bottom: 2rem; }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; background: white; border-radius: 2rem; padding: 2rem; }
+        footer { background: #0f172a; color: #cbd5e1; padding: 2rem 0; text-align: center; }
+        .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background: #25D366; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 99; transition: 0.2s; text-decoration: none; }
+        .whatsapp-float:hover { transform: scale(1.05); background: #128C7E; }
+        .admin-link { font-size: 0.7rem; opacity: 0.5; text-align: center; margin-top: 1rem; }
         @media (max-width: 850px) {
-            .nav-links {
-                display: none;
-                width: 100%;
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem 0;
-            }
-            .nav-links.active {
-                display: flex;
-            }
-            .menu-icon {
-                display: block;
-            }
-            .hero-grid {
-                flex-direction: column;
-            }
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-            .section-title {
-                font-size: 1.7rem;
-            }
-        }
-        @media (max-width: 600px) {
-            .container {
-                padding: 0 1.25rem;
-            }
-            .hero-content h1 {
-                font-size: 2.2rem;
-            }
-        }
-        .whatsapp-link {
-            background: #25D366;
-            color: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 40px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .whatsapp-link:hover {
-            background: #128C7E;
-        }
-        .fb-link {
-            background: #1877f2;
-            color: white;
+            .nav-links { display: none; flex-direction: column; width: 100%; }
+            .nav-links.active { display: flex; }
+            .menu-icon { display: block; }
+            .hero-grid, .contact-grid { flex-direction: column; grid-template-columns: 1fr; }
+            .hero-content h1 { font-size: 2rem; }
         }
     </style>
 </head>
@@ -436,235 +56,175 @@
 <header>
     <div class="container">
         <div class="navbar">
-            <div class="logo">
-                <h1>Teach line</h1>
-                <span>Éducation · Cours à distance</span>
-            </div>
-            <div class="menu-icon" id="menuToggle">
-                <i class="fas fa-bars"></i>
-            </div>
+            <div class="logo"><h1>Teach line</h1><span>Éducation · Cours à distance</span></div>
+            <div class="menu-icon" id="menuToggle"><i class="fas fa-bars"></i></div>
             <div class="nav-links" id="navLinks">
-                <a href="#accueil">Accueil</a>
-                <a href="#services">Services</a>
-                <a href="#ressources">Résumés</a>
-                <a href="#contact">Contact</a>
-                <a href="#" class="btn-outline-light"><i class="fas fa-user-graduate"></i> Espace élève</a>
+                <a href="#accueil">Accueil</a><a href="#services">Services</a><a href="#actualites">Actualités</a><a href="#ressources">Résumés</a><a href="#contact">Contact</a>
+                <a href="/admin/" class="btn-outline"><i class="fas fa-crown"></i> Admin</a>
             </div>
         </div>
     </div>
 </header>
+<a href="https://wa.me/21658338187?text=Bonjour%20Teach%20line%20!%20Je%20souhaite%20prendre%20un%20cours%20privé." class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
 <main>
-    <!-- Hero section / Accueil -->
     <section id="accueil" class="hero">
         <div class="container hero-grid">
             <div class="hero-content">
                 <div class="hero-badge"><i class="fas fa-chalkboard-user"></i> 100% en ligne · Tous niveaux</div>
-                <h1>Révisez avec <br>Teach line, réussissez vos examens</h1>
-                <p style="font-size: 1.1rem; color: #334155;">Cours privés à distance, résumés clés en main, accompagnement personnalisé pour Bac Math, Info, Sciences et plus.</p>
-                <div class="hero-stats">
-                    <div class="stat-item"><div class="stat-number">22K+</div><div>Followers</div></div>
-                    <div class="stat-item"><div class="stat-number">18+</div><div>Publications</div></div>
-                    <div class="stat-item"><div class="stat-number">15+</div><div>Partages récents</div></div>
-                </div>
-                <div class="hero-actions">
-                    <a href="#contact" class="btn-primary"><i class="fas fa-headset"></i> Demander un cours</a>
-                    <a href="#ressources" class="btn-secondary"><i class="fas fa-download"></i> Résumé gratuit</a>
-                </div>
+                <h1>Révisez avec Teach line, réussissez vos examens</h1>
+                <p style="font-size:1.1rem">Cours privés à distance, résumés clés, accompagnement BAC 2026.</p>
+                <div class="hero-stats"><div class="stat-item"><div class="stat-number">22K+</div><div>Followers</div></div><div class="stat-item"><div class="stat-number">18+</div><div>Publications</div></div><div class="stat-item"><div class="stat-number">15+</div><div>Partages</div></div></div>
+                <div class="hero-actions"><a href="#contact" class="btn-primary"><i class="fas fa-headset"></i> Demander un cours</a><a href="#ressources" class="btn-secondary"><i class="fas fa-download"></i> Résumé gratuit</a></div>
             </div>
-            <div class="hero-visual">
-                <i class="fas fa-laptop-code"></i>
-                <i class="fas fa-chalkboard" style="font-size: 3rem; margin: 0 0.5rem;"></i>
-                <i class="fas fa-book-open"></i>
-                <p style="margin-top: 1rem; font-weight: 500;">BAC 2026 · Réussite garantie</p>
-                <small>+ de 1200 élèves accompagnés</small>
-            </div>
+            <div class="hero-visual"><i class="fas fa-laptop-code fa-3x"></i><i class="fas fa-chalkboard fa-3x"></i><i class="fas fa-book-open fa-3x"></i><p>BAC 2026 · +1200 élèves accompagnés</p></div>
         </div>
     </section>
 
-    <!-- Services -->
-    <section id="services" class="section">
-        <div class="container">
-            <div class="section-title">Nos spécialités éducatives</div>
-            <div class="services-grid">
-                <div class="service-card"><div class="service-icon"><i class="fas fa-chalkboard"></i></div><h3>Cours particuliers en direct</h3><p>Visio-conférence, suivi personnalisé, exercices interactifs.</p></div>
-                <div class="service-card"><div class="service-icon"><i class="fas fa-file-alt"></i></div><h3>Résumés & fiches</h3><p>Synthèses de cours, formules clés, schémas pour Bac et concours.</p></div>
-                <div class="service-card"><div class="service-icon"><i class="fas fa-mobile-alt"></i></div><h3>Suivi hebdomadaire</h3><p>Devoirs corrigés, évaluations, planning personnalisé.</p></div>
-                <div class="service-card"><div class="service-icon"><i class="fas fa-users"></i></div><h3>Groupes de révision</h3><p>Sessions collaboratives, séances de questions/réponses intensives.</p></div>
-            </div>
-        </div>
-    </section>
+    <section id="services" class="section"><div class="container"><div class="section-title">Nos spécialités</div><div class="services-grid"><div class="service-card"><div class="service-icon"><i class="fas fa-chalkboard"></i></div><h3>Cours particuliers</h3><p>Visio, suivi personnalisé, exercices interactifs.</p></div><div class="service-card"><div class="service-icon"><i class="fas fa-file-alt"></i></div><h3>Résumés & fiches</h3><p>Synthèses, formules clés, schémas BAC.</p></div><div class="service-card"><div class="service-icon"><i class="fas fa-mobile-alt"></i></div><h3>Suivi hebdomadaire</h3><p>Devoirs corrigés, planning personnalisé.</p></div><div class="service-card"><div class="service-icon"><i class="fas fa-users"></i></div><h3>Groupes de révision</h3><p>Sessions Q/R intensives.</p></div></div></div></section>
 
-    <!-- RÉSUMÉ VEDETTE : Pile électrochimique (inspiré de la publication Facebook) -->
-    <section id="ressources" class="section">
-        <div class="container">
-            <div class="section-title">📘 Résumé à la une</div>
-            <div class="featured-resume">
-                <div class="resume-info">
-                    <div class="resume-tag"><i class="fas fa-microscope"></i> BAC Math · Info · Sciences</div>
-                    <div class="resume-title">⚡ Pile électrochimique – Cours complet</div>
-                    <p>Résumé de cours détaillé : fonctionnement d'une pile, oxydoréduction, potentiel standard, formule de Nernst, exemples type bac. Idéal pour réviser efficacement avant l'examen.</p>
-                    <div class="resume-meta">
-                        <span><i class="far fa-clock"></i> Dernière mise à jour : BAC 2026</span>
-                        <span><i class="fas fa-database"></i> 6 pages + schémas</span>
-                    </div>
-                    <div class="resume-actions">
-                        <button id="getResumeBtn" class="btn-primary"><i class="fas fa-envelope"></i> Obtenir le résumé complet</button>
-                        <a href="#contact" style="margin-left: 1rem;" class="btn-secondary"><i class="fab fa-whatsapp"></i> Demander par WhatsApp</a>
-                    </div>
-                </div>
-                <div class="resume-preview">
-                    <i class="fas fa-battery-full" style="font-size: 3rem; color:#2563eb;"></i>
-                    <p style="margin-top: 1rem;"><strong>Contenu :</strong> Demi-piles, pont salin, calcul de fem, exercice type.</p>
-                    <span style="background:#fff; padding:0.3rem 0.8rem; border-radius:50px;">#RévisionBac2026</span>
-                </div>
-            </div>
-        </div>
-    </section>
+    <section id="actualites" class="section"><div class="container"><div class="section-title">📰 Dernières actualités</div><div id="posts-container" class="services-grid" style="grid-template-columns: 1fr;"><p style="text-align:center">Chargement des publications...</p></div></div></section>
 
-    <!-- ACTIVITÉ RÉSEAU SOCIAL (post Facebook) -->
-    <section class="section" style="padding-top: 0;">
-        <div class="container">
-            <div class="section-title">📱 Dernière activité sur notre page</div>
-            <div class="social-card">
-                <div class="post-header">
-                    <div class="post-avatar">TL</div>
-                    <div><strong>Teach line</strong> <span style="color:#64748b; font-size:0.8rem;">· 22 h · 🌐</span></div>
-                </div>
-                <p style="font-size: 1rem; margin-bottom: 0.5rem;"><strong>📚 Pile électrochimique – résumé de cours</strong><br>#bac math #bac info #bac science · Révision complète avec exercices.</p>
-                <div style="margin: 0.5rem 0;"><i class="fas fa-image" style="background:#e2e8f0; padding:0.5rem 1rem; border-radius:12px;">📄 Aperçu résumé</i></div>
-                <div class="post-stats">
-                    <span><i class="fas fa-thumbs-up"></i> 49 J’aime</span>
-                    <span><i class="fas fa-comment"></i> 3 commentaires</span>
-                    <span><i class="fas fa-share"></i> 31 partages</span>
-                    <span><i class="fas fa-eye"></i> 6,1K vues</span>
-                </div>
-                <div class="post-actions">
-                    <span><i class="far fa-thumbs-up"></i> J’aime</span>
-                    <span><i class="far fa-comment"></i> Commenter</span>
-                    <span><i class="fas fa-share"></i> Partager</span>
-                </div>
-                <div style="margin-top: 1rem; background:#f1f5f9; border-radius: 2rem; padding:0.5rem 1rem; text-align: center; font-size:0.85rem;">
-                    🚀 Boostez votre réussite : rejoignez nos cours privés en ligne dès maintenant.
-                </div>
-            </div>
-        </div>
-    </section>
+    <section id="ressources" class="section"><div class="container"><div class="section-title">📚 Résumés à télécharger</div><div id="resumes-container" class="services-grid"><p>Chargement des résumés...</p></div></div></section>
 
-    <!-- Témoignages / crédibilité -->
-    <section class="section">
-        <div class="container">
-            <div class="section-title">Ils nous font confiance</div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 1.5rem;">
-                <div style="background:white; padding:1.5rem; border-radius:1.5rem;"><i class="fas fa-star" style="color:#fbbf24;"></i><i class="fas fa-star" style="color:#fbbf24;"></i><i class="fas fa-star" style="color:#fbbf24;"></i><i class="fas fa-star" style="color:#fbbf24;"></i><i class="fas fa-star"></i><p style="margin-top:0.5rem;">"Teach line m'a sauvé en physique-chimie. Résumé pile électrochimique top ! Professeur à l'écoute."</p><strong>– Yasmine, Bac Math</strong></div>
-                <div style="background:white; padding:1.5rem; border-radius:1.5rem;"><i class="fas fa-star" style="color:#fbbf24;"></i><i class="fas fa-star" style="color:#fbbf24;"></i><i class="fas fa-star" style="color:#fbbf24;"></i><i class="fas fa-star" style="color:#fbbf24;"></i><i class="fas fa-star-half-alt"></i><p>"Suivi personnalisé, séances en visio très efficaces. Merci pour les fiches de révision."</p><strong>– Rayen, Bac Info</strong></div>
-                <div style="background:white; padding:1.5rem; border-radius:1.5rem;"><i class="fas fa-star" style="color:#fbbf24;"></i><i class="fas fa-star" style="color:#fbbf24;"></i><i class="fas fa-star" style="color:#fbbf24;"></i><i class="fas fa-star" style="color:#fbbf24;"></i><i class="fas fa-star"></i><p>"Meilleurs cours à distance, j’ai augmenté ma moyenne de 4 points. Je recommande!"</p><strong>– Lina, Bac Science</strong></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact & Coordonnées -->
-    <section id="contact" class="section">
-        <div class="container">
-            <div class="section-title">Contactez-nous</div>
-            <div class="contact-grid">
-                <div class="contact-info">
-                    <h3><i class="fas fa-address-card"></i> Coordonnées directes</h3>
-                    <div class="contact-detail"><i class="fas fa-phone-alt"></i> <span><strong>Téléphone :</strong> <a href="tel:+21658338187" style="text-decoration:none; color:#1e293b;">58338187</a></span></div>
-                    <div class="contact-detail"><i class="fab fa-whatsapp"></i> <span><strong>WhatsApp :</strong> <a href="https://wa.me/21658338187" target="_blank" style="color:#25D366;"> Écrire sur WhatsApp</a></span></div>
-                    <div class="contact-detail"><i class="fab fa-facebook"></i> <span><strong>Facebook :</strong> <a href="#" id="fbLinkPlaceholder" style="color:#1877f2;">Teach line Officiel</a> <span style="font-size:12px;">(page principale)</span></span></div>
-                    <div class="contact-detail"><i class="far fa-envelope"></i> <span>contact@teachline.education (réponse sous 24h)</span></div>
-                    <hr style="margin:1rem 0;">
-                    <p><i class="fas fa-clock"></i> Disponible 7j/7 : 9h – 21h | Cours en ligne instantanés</p>
-                    <a href="https://wa.me/21658338187" class="whatsapp-link" target="_blank"><i class="fab fa-whatsapp"></i> Démarrer une séance</a>
-                    <a href="#" style="margin-left:0.5rem;" class="fb-link whatsapp-link" id="mockFbLink"><i class="fab fa-facebook-messenger"></i> Messenger</a>
-                </div>
-                <div class="contact-form">
-                    <h3>Envoyez-nous un message</h3>
-                    <form id="demoContactForm">
-                        <input type="text" placeholder="Nom & prénom" required>
-                        <input type="email" placeholder="Adresse e-mail">
-                        <textarea rows="3" placeholder="Précisez votre niveau (Bac Math, Sciences, Info) ou la matière souhaitée..."></textarea>
-                        <button type="submit" class="btn-primary" style="width:100%; justify-content: center;"><i class="fas fa-paper-plane"></i> Envoyer la demande</button>
-                        <p style="font-size: 0.75rem; margin-top: 0.8rem; color:#475569;">Nous vous répondrons par téléphone ou WhatsApp sous quelques heures.</p>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+    <section id="contact" class="section"><div class="container"><div class="section-title">Contactez-nous</div><div class="contact-grid"><div class="contact-info"><h3><i class="fas fa-address-card"></i> Coordonnées</h3><div style="display:flex; gap:1rem; margin:1rem 0"><i class="fas fa-phone-alt"></i><span><strong>Tél :</strong> <a href="tel:+21658338187">58338187</a></span></div><div style="display:flex; gap:1rem; margin:1rem 0"><i class="fab fa-whatsapp"></i><span><strong>WhatsApp :</strong> <a href="https://wa.me/21658338187" target="_blank">Écrire directement</a></span></div><div style="display:flex; gap:1rem; margin:1rem 0"><i class="fab fa-facebook"></i><span><strong>Facebook :</strong> <a href="#" id="fbLink">Teach line Officiel</a></span></div><p><i class="fas fa-clock"></i> Disponible 7j/7, 9h–21h</p><div style="margin-top:1rem"><a href="https://wa.me/21658338187?text=Bonjour%20Teach%20line%20!%20Je%20souhaite%20un%20renseignement." class="btn-primary" style="background:#25D366"><i class="fab fa-whatsapp"></i> WhatsApp direct</a></div></div><div><h3>Formulaire rapide</h3><form id="contactForm"><input type="text" id="name" placeholder="Votre nom" required style="width:100%; padding:0.8rem; margin-bottom:1rem; border-radius:1rem; border:1px solid #cbd5e1;"><input type="email" id="email" placeholder="Email" style="width:100%; padding:0.8rem; margin-bottom:1rem; border-radius:1rem; border:1px solid #cbd5e1;"><textarea id="message" rows="3" placeholder="Niveau, matière, disponibilité..." style="width:100%; padding:0.8rem; border-radius:1rem; border:1px solid #cbd5e1;"></textarea><button type="submit" class="btn-primary" style="width:100%"><i class="fas fa-paper-plane"></i> Envoyer la demande</button><p style="font-size:0.75rem; margin-top:0.5rem">Nous répondons par WhatsApp sous 2h.</p></form></div></div></div></section>
 </main>
-
-<footer>
-    <div class="container">
-        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap:1rem;">
-            <div>© 2026 Teach line – Plateforme de cours privés à distance · Tous niveaux</div>
-            <div>
-                <a href="#" style="color:#94a3b8; margin:0 0.5rem;"><i class="fab fa-facebook"></i></a>
-                <a href="#" style="color:#94a3b8; margin:0 0.5rem;"><i class="fab fa-instagram"></i></a>
-                <a href="#" style="color:#94a3b8; margin:0 0.5rem;"><i class="fab fa-whatsapp"></i></a>
-            </div>
-        </div>
-        <p style="margin-top:1rem; font-size:0.8rem;">📞 Contact direct : 58338187 | Préparation BAC 2026, résumés, cours particuliers en ligne.</p>
-    </div>
-</footer>
+<footer><div class="container"><div>© 2026 Teach line – Plateforme de cours privés à distance</div><div class="admin-link"><a href="/admin/" style="color:#94a3b8;">Accès administrateur</a> – Gérez les actualités et résumés sans coder</div></div></footer>
 
 <script>
-    // mobile menu toggle
+    // Menu mobile
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
-    menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
+    menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+
+    // Helper: récupérer les fichiers Markdown d'un dossier via GitHub API
+    const REPO_OWNER = "badreddine";   // 🔁 REMPLACEZ par votre nom GitHub
+    const REPO_NAME = "teachline";      // 🔁 REMPLACEZ par le nom de votre dépôt
+    const BRANCH = "main";
+
+    async function fetchMarkdownFiles(folderPath) {
+        const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${folderPath}?ref=${BRANCH}`;
+        try {
+            const res = await fetch(url);
+            if (!res.ok) return [];
+            const files = await res.json();
+            const mdFiles = files.filter(f => f.name.endsWith('.md'));
+            const contents = await Promise.all(mdFiles.map(async (file) => {
+                const contentRes = await fetch(file.download_url);
+                const text = await contentRes.text();
+                // Extraction du frontmatter YAML simple
+                const match = text.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+                if (match) {
+                    const frontmatter = match[1];
+                    const body = match[2];
+                    const titleMatch = frontmatter.match(/title:\s*["']?(.*?)["']?\n/);
+                    const dateMatch = frontmatter.match(/date:\s*(.*?)\n/);
+                    const categoryMatch = frontmatter.match(/category:\s*(.*?)\n/);
+                    const linkMatch = frontmatter.match(/link:\s*(.*?)\n/);
+                    const pdfMatch = frontmatter.match(/pdf_file:\s*(.*?)\n/);
+                    return {
+                        title: titleMatch ? titleMatch[1] : "Sans titre",
+                        date: dateMatch ? dateMatch[1] : "",
+                        category: categoryMatch ? categoryMatch[1] : "",
+                        link: linkMatch ? linkMatch[1] : "",
+                        pdf_file: pdfMatch ? pdfMatch[1] : "",
+                        body: body.trim(),
+                        filename: file.name
+                    };
+                }
+                return null;
+            }));
+            return contents.filter(c => c !== null);
+        } catch (e) {
+            console.error(e);
+            return [];
+        }
+    }
+
+    async function loadPosts() {
+        const container = document.getElementById('posts-container');
+        const posts = await fetchMarkdownFiles('content/posts');
+        if (posts.length === 0) {
+            container.innerHTML = '<p style="text-align:center">Aucune actualité pour le moment. Connectez-vous via /admin/ pour en ajouter.</p>';
+            return;
+        }
+        posts.sort((a,b) => new Date(b.date) - new Date(a.date));
+        let html = '';
+        for (let post of posts) {
+            let preview = post.body.substring(0, 200);
+            if (post.body.length > 200) preview += '…';
+            html += `<div class="service-card" style="text-align:left">
+                        <h3>${post.title}</h3>
+                        <small><i class="far fa-calendar-alt"></i> ${post.date}  |  ${post.category}</small>
+                        <p style="margin-top:0.8rem">${preview}</p>
+                        ${post.link ? `<a href="${post.link}" target="_blank" class="btn-secondary" style="margin-top:1rem; display:inline-block">Lire la suite →</a>` : ''}
+                     </div>`;
+        }
+        container.innerHTML = html;
+    }
+
+    async function loadResumes() {
+        const container = document.getElementById('resumes-container');
+        const resumes = await fetchMarkdownFiles('content/resumes');
+        if (resumes.length === 0) {
+            container.innerHTML = '<p style="text-align:center">Aucun résumé disponible. Ajoutez-en via l’interface admin.</p>';
+            return;
+        }
+        let html = '';
+        for (let res of resumes) {
+            html += `<div class="service-card">
+                        <div class="service-icon"><i class="fas fa-file-pdf"></i></div>
+                        <h3>${res.title}</h3>
+                        <p>${res.body.substring(0,100)}</p>
+                        ${res.pdf_file ? `<button class="btn-primary" style="margin-top:1rem" onclick="downloadPDF('${res.pdf_file}', '${res.title}')"><i class="fas fa-download"></i> Télécharger PDF</button>` : ''}
+                     </div>`;
+        }
+        container.innerHTML = html;
+    }
+
+    window.downloadPDF = function(pdfPath, title) {
+        // pdfPath est le chemin relatif stocké dans le frontmatter (ex: "static/images/cours.pdf")
+        const fullUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${pdfPath}`;
+        const a = document.createElement('a');
+        a.href = fullUrl;
+        a.download = title.replace(/[^a-z0-9]/gi, '_') + '.pdf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    };
+
+    // Formulaire contact -> WhatsApp
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
+        const whatsappMsg = `Nom: ${name}%0AEmail: ${email}%0AMessage: ${message}`;
+        window.open(`https://wa.me/21658338187?text=${whatsappMsg}`, '_blank');
+        alert("✅ Demande envoyée ! Nous vous répondrons sur WhatsApp.");
+        this.reset();
     });
 
-    // smooth scroll for anchor links
+    document.getElementById('fbLink')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        alert("Notre page Facebook : Teach line (22K abonnés). Contactez-nous directement par WhatsApp.");
+    });
+
+    // Chargement initial
+    loadPosts();
+    loadResumes();
+
+    // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
-            const targetId = this.getAttribute('href');
-            if (targetId === "#") return;
-            const targetElem = document.querySelector(targetId);
-            if (targetElem) {
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
                 e.preventDefault();
-                targetElem.scrollIntoView({ behavior: 'smooth' });
+                target.scrollIntoView({ behavior: 'smooth' });
                 if (navLinks.classList.contains('active')) navLinks.classList.remove('active');
             }
         });
     });
-
-    // BOUTON résumé : affichage d'alerte pro pour récupérer le doc
-    const resumeBtn = document.getElementById('getResumeBtn');
-    if (resumeBtn) {
-        resumeBtn.addEventListener('click', () => {
-            alert("📩 Résumé complet « Pile électrochimique » disponible gratuitement.\nContactez-nous directement par WhatsApp au 58338187 ou via le formulaire pour le recevoir par mail / PDF.\nMerci de préciser votre niveau (Bac Math/Info/Sciences).");
-        });
-    }
-
-    // formulaire contact : alerte pédagogique + redirection conseil
-    const contactForm = document.getElementById('demoContactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert("✅ Merci ! Votre demande a bien été transmise à notre équipe. Nous vous contacterons dans les plus brefs délais sur WhatsApp ou téléphone (58338187). À très vite sur Teach line !");
-            contactForm.reset();
-        });
-    }
-
-    // Gestion des liens Facebook (placeholder redirection vers la page réelle mais on simule l'info)
-    const mockFb = document.getElementById('mockFbLink');
-    if(mockFb) {
-        mockFb.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert("🌐 Retrouvez notre page Facebook officielle : Teach line (22K abonnés). Pour nous écrire directement, utilisez notre numéro WhatsApp ou appelez-nous. Merci !");
-        });
-    }
-    const fbPlaceholder = document.getElementById('fbLinkPlaceholder');
-    if(fbPlaceholder) {
-        fbPlaceholder.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert("Notre page Facebook : Teach line – Suivez-nous pour des résumés quotidiens et des conseils révisions. Contact direct par téléphone ou WhatsApp.");
-        });
-    }
-    // pour les stats : petit effet dynamique (juste design)
-    console.log("Teach line - site éducatif professionnel prêt");
 </script>
 </body>
 </html>
