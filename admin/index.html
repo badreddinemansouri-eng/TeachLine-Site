@@ -9,16 +9,8 @@
 </head>
 <body>
     <script>
-        // Attendre le chargement complet de Decap CMS
-        window.addEventListener('load', function() {
-            if (typeof window.CMS !== 'undefined') {
-                window.CMS.init({ config: '/admin/config.yml' });
-            } else {
-                // Sécurité : réessayer après un court délai
-                setTimeout(function() {
-                    if (window.CMS) window.CMS.init({ config: '/admin/config.yml' });
-                }, 500);
-            }
+        document.addEventListener('DOMContentLoaded', function() {
+            window.CMS.init({ config: '/admin/config.yml' });
         });
     </script>
 </body>
