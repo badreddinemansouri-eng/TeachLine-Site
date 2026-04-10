@@ -1,0 +1,26 @@
+media:
+  input: static/images
+  output: /static/images
+
+content:
+  - name: posts
+    label: Actualités
+    type: collection
+    path: content/posts
+    format: yaml-frontmatter
+    fields:
+      - { name: title, label: Titre, type: string }
+      - { name: date, label: Date, type: date }
+      - { name: category, label: Catégorie, type: select, options: ["Annonce", "Résumé", "Cours vidéo"] }
+      - { name: body, label: Contenu, type: rich-text }
+      - { name: link, label: Lien, type: string, required: false }
+
+  - name: resumes
+    label: Résumés PDF
+    type: collection
+    path: content/resumes
+    fields:
+      - { name: title, label: Titre, type: string }
+      - { name: body, label: Description, type: text }
+      - { name: pdf_file, label: Fichier PDF, type: file }
+      - { name: category, label: Matière, type: string, default: "Sciences" }
