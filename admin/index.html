@@ -3,67 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Teach line</title>
-    <script src="https://cdn.jsdelivr.net/npm/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <title>Teach line - Admin</title>
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </head>
 <body>
-    <div id="log" style="background:#f0f0f0; padding:10px; font-family:monospace;"></div>
     <script>
-        function log(msg) {
-            console.log(msg);
-            const div = document.getElementById('log');
-            div.innerHTML += msg + '<br>';
-        }
-        log("1. Script démarré");
-
-        let token = localStorage.getItem('github_token');
-        if (!token) {
-            token = prompt("Entrez votre token GitHub (scopes repo)");
-            if (token) localStorage.setItem('github_token', token);
-        }
-        log("2. Token " + (token ? "présent" : "manquant"));
-
-        if (!token) {
-            document.body.innerHTML = '<h1>Token requis</h1>';
-        } else {
-            let attempts = 0;
-            function initCMS() {
-                attempts++;
-                if (window.CMS) {
-                    log("✅ CMS trouvé. Initialisation...");
-                    window.CMS.init({
-                        config: '/admin/config.yml',
-                        backend: {
-                            name: 'github',
-                            repo: 'badreddinemansouri-eng/TeachLine-Site',
-                            branch: 'main',
-                            auth_type: 'token',
-                            token: token
-                        }
-                    });
-                } else if (window.DecapCMS) {
-                    log("✅ DecapCMS trouvé. Initialisation...");
-                    window.DecapCMS.init({
-                        config: '/admin/config.yml',
-                        backend: {
-                            name: 'github',
-                            repo: 'badreddinemansouri-eng/TeachLine-Site',
-                            branch: 'main',
-                            auth_type: 'token',
-                            token: token
-                        }
-                    });
-                } else {
-                    if (attempts < 30) {
-                        log("⏳ En attente de Decap CMS... (" + attempts + ")");
-                        setTimeout(initCMS, 200);
-                    } else {
-                        log("❌ Délai dépassé. Vérifiez la console.");
-                    }
-                }
-            }
-            initCMS();
-        }
+        window.CMS.init({ config: '/admin/config.yml' });
     </script>
 </body>
 </html>
