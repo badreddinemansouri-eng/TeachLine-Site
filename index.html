@@ -1,252 +1,607 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <base href="/">
-    <title>Teach line | Chaîne éducative</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* (garde ton style existant) */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #0f172a; scroll-behavior: smooth; }
-        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
-        header { background: rgba(255,255,255,0.98); backdrop-filter: blur(8px); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; flex-wrap: wrap; }
-        .logo h1 { font-size: 1.9rem; font-weight: 800; background: linear-gradient(135deg, #1e3a8a, #3b82f6); background-clip: text; -webkit-background-clip: text; color: transparent; }
-        .logo span { font-size: 0.8rem; color: #475569; }
-        .nav-links { display: flex; gap: 2rem; align-items: center; }
-        .nav-links a { text-decoration: none; font-weight: 600; color: #1e293b; transition: 0.2s; }
-        .nav-links a:hover { color: #2563eb; }
-        .btn-outline { background: #f1f5f9; padding: 0.5rem 1.2rem; border-radius: 40px; }
-        .menu-icon { display: none; font-size: 1.8rem; cursor: pointer; }
-        .btn-primary { background: #2563eb; color: white; padding: 0.8rem 1.8rem; border-radius: 40px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; border: none; cursor: pointer; }
-        .btn-primary:hover { background: #1d4ed8; transform: translateY(-2px); }
-        .btn-secondary { background: white; color: #2563eb; border: 1.5px solid #2563eb; padding: 0.7rem 1.6rem; border-radius: 40px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
-        .hero { padding: 3rem 0 4rem; }
-        .hero-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; }
-        .hero-content { flex: 1; }
-        .hero-badge { background: #dbeafe; color: #1e40af; display: inline-block; padding: 0.3rem 1rem; border-radius: 30px; font-size: 0.85rem; font-weight: 600; }
-        .hero-content h1 { font-size: 3rem; font-weight: 800; line-height: 1.2; margin: 1rem 0; }
-        .hero-stats { display: flex; gap: 2rem; margin: 1.5rem 0; }
-        .stat-number { font-size: 1.8rem; font-weight: 800; }
-        .hero-visual { flex: 1; background: linear-gradient(145deg, #eef2ff, #ffffff); border-radius: 2rem; padding: 2rem; text-align: center; box-shadow: 0 20px 30px rgba(0,0,0,0.05); }
-        .section { padding: 4rem 0; }
-        .section-title { font-size: 2rem; font-weight: 700; text-align: center; margin-bottom: 2rem; }
-        .section-title:after { content: ''; width: 70px; height: 4px; background: #2563eb; display: block; margin: 0.7rem auto; border-radius: 4px; }
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 2rem; }
-        .service-card { background: white; padding: 1.8rem; border-radius: 1.5rem; box-shadow: 0 8px 20px rgba(0,0,0,0.02); transition: 0.3s; }
-        .service-card:hover { transform: translateY(-6px); box-shadow: 0 20px 30px rgba(0,0,0,0.08); }
-        .service-icon { font-size: 2.5rem; color: #2563eb; margin-bottom: 1rem; }
-        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; background: white; border-radius: 2rem; padding: 2rem; }
-        footer { background: #0f172a; color: #cbd5e1; padding: 2rem 0; text-align: center; }
-        .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background: #25D366; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 99; transition: 0.2s; text-decoration: none; }
-        .whatsapp-float:hover { transform: scale(1.05); background: #128C7E; }
-        .admin-link { font-size: 0.7rem; opacity: 0.5; text-align: center; margin-top: 1rem; }
-        @media (max-width: 850px) {
-            .nav-links { display: none; flex-direction: column; width: 100%; }
-            .nav-links.active { display: flex; }
-            .menu-icon { display: block; }
-            .hero-grid, .contact-grid { flex-direction: column; grid-template-columns: 1fr; }
-            .hero-content h1 { font-size: 2rem; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teach Line | Plateforme Éducative Premium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --navy: #0a1628;
+  --blue: #1a56db;
+  --blue-mid: #2563eb;
+  --accent: #f59e0b;
+  --accent2: #10b981;
+  --light: #f0f4ff;
+  --white: #ffffff;
+  --gray: #64748b;
+  --border: #e2e8f0;
+  --card-bg: #ffffff;
+  --text: #0f172a;
+  --text-light: #475569;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:#f8fafd;color:var(--text);overflow-x:hidden;}
+
+/* ---- HEADER ---- */
+header{
+  position:sticky;top:0;z-index:200;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.navbar{
+  max-width:1320px;margin:0 auto;padding:0 28px;
+  display:flex;align-items:center;justify-content:space-between;height:70px;
+}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{
+  width:40px;height:40px;border-radius:12px;
+  background:linear-gradient(135deg,var(--navy),var(--blue));
+  display:flex;align-items:center;justify-content:center;
+  color:white;font-size:1.1rem;
+}
+.logo-text h1{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--navy);}
+.logo-text span{font-size:0.7rem;color:var(--gray);letter-spacing:1px;text-transform:uppercase;}
+.nav-links{display:flex;align-items:center;gap:2rem;}
+.nav-links a{text-decoration:none;font-weight:500;color:var(--text-light);font-size:0.92rem;transition:.2s;position:relative;}
+.nav-links a:hover{color:var(--blue);}
+.nav-links a.active{color:var(--blue);}
+.nav-links a.active::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;background:var(--blue);border-radius:2px;}
+.nav-cta{background:var(--navy);color:white!important;padding:.5rem 1.2rem;border-radius:8px;font-weight:600!important;transition:all .2s!important;}
+.nav-cta:hover{background:var(--blue)!important;transform:translateY(-1px);}
+.menu-icon{display:none;font-size:1.5rem;cursor:pointer;color:var(--navy);}
+
+/* ---- HERO ---- */
+.hero{
+  min-height:88vh;display:flex;align-items:center;
+  background:linear-gradient(135deg,var(--navy) 0%,#1e3a6e 50%,#1a56db 100%);
+  position:relative;overflow:hidden;
+  padding:5rem 28px;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 70% 40%,rgba(245,158,11,.12),transparent),
+              radial-gradient(ellipse 50% 80% at 10% 80%,rgba(26,86,219,.3),transparent);
+}
+.hero-grid{
+  max-width:1320px;margin:0 auto;width:100%;
+  display:grid;grid-template-columns:1.1fr 0.9fr;gap:5rem;align-items:center;
+  position:relative;z-index:1;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);
+  color:var(--accent);padding:.4rem 1rem;border-radius:30px;font-size:.82rem;font-weight:600;
+  letter-spacing:.5px;margin-bottom:1.5rem;
+}
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.2rem,4vw,3.8rem);font-weight:900;line-height:1.12;
+  color:white;margin-bottom:1.5rem;
+}
+.hero h1 em{color:var(--accent);font-style:normal;}
+.hero p{color:rgba(255,255,255,.75);font-size:1.1rem;line-height:1.7;margin-bottom:2rem;max-width:480px;}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn-hero{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:.85rem 1.8rem;border-radius:10px;font-weight:600;text-decoration:none;
+  font-size:.95rem;transition:all .25s;cursor:pointer;border:none;
+}
+.btn-hero-primary{background:var(--accent);color:var(--navy);}
+.btn-hero-primary:hover{background:#fbbf24;transform:translateY(-2px);box-shadow:0 8px 25px rgba(245,158,11,.35);}
+.btn-hero-secondary{background:rgba(255,255,255,.12);color:white;border:1.5px solid rgba(255,255,255,.25);}
+.btn-hero-secondary:hover{background:rgba(255,255,255,.2);transform:translateY(-2px);}
+
+.hero-stats{display:flex;gap:2rem;margin-top:2.5rem;padding-top:2.5rem;border-top:1px solid rgba(255,255,255,.1);}
+.stat-item{text-align:left;}
+.stat-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--accent);}
+.stat-label{font-size:.78rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.5px;}
+
+/* Right card */
+.hero-card{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+  border-radius:24px;padding:2rem;backdrop-filter:blur(20px);
+}
+.hero-card-title{color:rgba(255,255,255,.5);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem;}
+.service-pill{
+  display:flex;align-items:center;gap:12px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;padding:.9rem 1.1rem;margin-bottom:.7rem;
+  color:white;font-weight:500;transition:.2s;
+}
+.service-pill:hover{background:rgba(255,255,255,.14);}
+.service-pill i{color:var(--accent);width:20px;}
+.pill-badge{margin-left:auto;background:var(--accent2);color:white;font-size:.65rem;padding:.2rem .5rem;border-radius:20px;font-weight:700;}
+.online-dot{width:9px;height:9px;background:#22c55e;border-radius:50%;display:inline-block;margin-right:6px;animation:pulse-dot 2s infinite;}
+@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.5);}50%{box-shadow:0 0 0 6px rgba(34,197,94,0);}}
+
+/* ---- SECTIONS ---- */
+.section{padding:5rem 28px;}
+.container{max-width:1320px;margin:0 auto;}
+.section-header{text-align:center;margin-bottom:3.5rem;}
+.section-tag{
+  display:inline-block;background:var(--light);color:var(--blue);
+  font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  padding:.35rem .9rem;border-radius:20px;margin-bottom:.8rem;
+}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:900;color:var(--navy);line-height:1.2;}
+.section-sub{color:var(--text-light);margin-top:.7rem;font-size:1rem;max-width:520px;margin-inline:auto;}
+
+/* ---- SERVICES GRID ---- */
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;}
+.service-card{
+  background:white;border-radius:20px;padding:2rem;
+  border:1px solid var(--border);transition:all .3s;
+  position:relative;overflow:hidden;
+}
+.service-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--blue),var(--accent));
+  transform:scaleX(0);transition:.3s;transform-origin:left;
+}
+.service-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.08);border-color:transparent;}
+.service-card:hover::before{transform:scaleX(1);}
+.service-icon-wrap{
+  width:52px;height:52px;border-radius:14px;
+  background:var(--light);display:flex;align-items:center;justify-content:center;
+  color:var(--blue);font-size:1.3rem;margin-bottom:1.2rem;
+}
+.service-card h3{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:.5rem;}
+.service-card p{font-size:.88rem;color:var(--text-light);line-height:1.6;}
+
+/* ---- POSTS ---- */
+.posts-wrapper{display:grid;gap:1.5rem;}
+.post-card{
+  background:white;border-radius:20px;border:1px solid var(--border);
+  padding:1.8rem;display:flex;gap:1.5rem;transition:all .25s;
+}
+.post-card:hover{box-shadow:0 12px 40px rgba(0,0,0,.07);border-color:var(--blue);}
+.post-thumb{
+  width:80px;height:80px;border-radius:14px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--light),#dbeafe);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.8rem;color:var(--blue);
+}
+.post-thumb img{width:100%;height:100%;object-fit:cover;border-radius:14px;}
+.post-meta{display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem;flex-wrap:wrap;}
+.post-category{
+  background:var(--light);color:var(--blue);font-size:.7rem;
+  font-weight:700;padding:.2rem .6rem;border-radius:20px;text-transform:uppercase;
+}
+.post-date{color:var(--text-light);font-size:.75rem;}
+.post-card h3{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:.4rem;line-height:1.4;}
+.post-card p{font-size:.85rem;color:var(--text-light);line-height:1.6;}
+.post-footer{margin-top:.8rem;display:flex;gap:.8rem;align-items:center;flex-wrap:wrap;}
+.post-tag{
+  background:#fef3c7;color:#92400e;font-size:.7rem;font-weight:600;
+  padding:.2rem .6rem;border-radius:20px;display:flex;align-items:center;gap:4px;
+}
+.post-tag.locked{background:#fee2e2;color:#991b1b;}
+.read-more{
+  color:var(--blue);font-size:.82rem;font-weight:600;text-decoration:none;
+  display:flex;align-items:center;gap:4px;margin-left:auto;
+}
+.read-more:hover{color:var(--navy);}
+
+/* ---- RESOURCES ---- */
+.resources-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem;}
+.resource-card{
+  background:white;border-radius:20px;border:1px solid var(--border);
+  padding:1.6rem;transition:all .3s;
+}
+.resource-card:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(0,0,0,.08);}
+.resource-type{display:flex;align-items:center;gap:8px;margin-bottom:1rem;}
+.type-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:.3rem .8rem;border-radius:20px;font-size:.72rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.5px;
+}
+.type-pdf{background:#fee2e2;color:#dc2626;}
+.type-video{background:#fef3c7;color:#d97706;}
+.type-img{background:#d1fae5;color:#059669;}
+.resource-card h3{font-size:.95rem;font-weight:700;color:var(--navy);margin-bottom:.4rem;line-height:1.4;}
+.resource-card p{font-size:.83rem;color:var(--text-light);margin-bottom:1.2rem;}
+.resource-lock{
+  display:flex;align-items:center;gap:6px;font-size:.75rem;
+  color:#dc2626;background:#fee2e2;padding:.3rem .7rem;border-radius:8px;margin-bottom:.8rem;
+}
+.btn-download{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--blue);color:white;font-size:.82rem;font-weight:600;
+  padding:.5rem 1.1rem;border-radius:8px;text-decoration:none;border:none;cursor:pointer;
+  transition:all .2s;
+}
+.btn-download:hover{background:var(--navy);transform:translateY(-1px);}
+.btn-download.locked{background:var(--gray);}
+
+/* ---- CONTACT ---- */
+.contact-section{background:var(--navy);}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+.contact-info h2{font-family:'Playfair Display',serif;color:white;font-size:2rem;margin-bottom:1rem;}
+.contact-info p{color:rgba(255,255,255,.65);margin-bottom:2rem;line-height:1.7;}
+.contact-item{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;}
+.contact-icon{
+  width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0;
+}
+.contact-item span{color:rgba(255,255,255,.8);font-size:.9rem;}
+.contact-item a{color:white;font-weight:600;text-decoration:none;}
+.contact-form-wrap{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;padding:2rem;
+}
+.contact-form-wrap h3{color:white;font-size:1.1rem;margin-bottom:1.5rem;}
+.form-group{margin-bottom:1rem;}
+.form-group input,.form-group textarea,.form-group select{
+  width:100%;padding:.85rem 1rem;border-radius:12px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
+  color:white;font-family:inherit;font-size:.9rem;outline:none;transition:.2s;
+}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(255,255,255,.4);}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--accent);background:rgba(255,255,255,.1);}
+.form-group textarea{resize:vertical;min-height:100px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.btn-submit{
+  width:100%;padding:.9rem;background:var(--accent);color:var(--navy);
+  border:none;border-radius:12px;font-weight:700;font-size:.95rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s;
+}
+.btn-submit:hover{background:#fbbf24;transform:translateY(-1px);}
+
+/* ---- FOOTER ---- */
+footer{background:#060d1f;padding:2rem 28px;text-align:center;}
+footer p{color:rgba(255,255,255,.4);font-size:.8rem;}
+footer a{color:rgba(255,255,255,.25);text-decoration:none;font-size:.72rem;margin-top:.5rem;display:block;}
+footer a:hover{color:rgba(255,255,255,.5);}
+
+/* ---- FLOATING ---- */
+.wa-float{
+  position:fixed;bottom:24px;right:24px;
+  width:58px;height:58px;border-radius:50%;
+  background:#25D366;color:white;font-size:1.6rem;
+  display:flex;align-items:center;justify-content:center;
+  text-decoration:none;box-shadow:0 6px 20px rgba(37,211,102,.4);
+  z-index:999;transition:all .25s;
+}
+.wa-float:hover{transform:scale(1.1);background:#128C7E;}
+
+/* ---- MODAL ---- */
+.modal-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);
+  backdrop-filter:blur(4px);z-index:500;align-items:center;justify-content:center;padding:1rem;
+}
+.modal-overlay.open{display:flex;}
+.modal{
+  background:white;border-radius:24px;padding:2rem;max-width:480px;width:100%;
+  position:relative;animation:modal-in .3s ease;
+}
+@keyframes modal-in{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-close{
+  position:absolute;top:1rem;right:1rem;background:var(--light);border:none;
+  width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1rem;color:var(--gray);
+}
+.modal h3{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--navy);margin-bottom:.5rem;}
+.modal p{color:var(--text-light);font-size:.9rem;margin-bottom:1.2rem;line-height:1.6;}
+.modal .btn-wa{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  background:#25D366;color:white;padding:.85rem;border-radius:12px;
+  font-weight:700;text-decoration:none;transition:.2s;
+}
+.modal .btn-wa:hover{background:#128C7E;}
+
+/* ---- LOADING STATE ---- */
+.skeleton{
+  background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);
+  background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px;
+}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ---- RESPONSIVE ---- */
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr;}
+  .hero-card{display:none;}
+  .nav-links{display:none;flex-direction:column;position:absolute;top:70px;left:0;right:0;background:white;padding:1.5rem;border-bottom:1px solid var(--border);gap:1rem;}
+  .nav-links.open{display:flex;}
+  .menu-icon{display:block;}
+  .contact-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+}
+</style>
 </head>
 <body>
+
+<!-- HEADER -->
 <header>
-    <div class="container">
-        <div class="navbar">
-            <div class="logo"><h1>Teach line</h1><span>Éducation · Cours à distance</span></div>
-            <div class="menu-icon" id="menuToggle"><i class="fas fa-bars"></i></div>
-            <div class="nav-links" id="navLinks">
-                <a href="#accueil">Accueil</a><a href="#services">Services</a><a href="#actualites">Actualités</a><a href="#ressources">Résumés</a><a href="#contact">Contact</a>
-                <a href="admin/" class="btn-outline"><i class="fas fa-crown"></i> Admin</a>
-            </div>
-        </div>
+  <nav class="navbar">
+    <a href="#accueil" class="logo">
+      <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
+      <div class="logo-text"><h1>Teach Line</h1><span>Plateforme Éducative</span></div>
+    </a>
+    <div class="menu-icon" id="menuToggle"><i class="fas fa-bars"></i></div>
+    <div class="nav-links" id="navLinks">
+      <a href="#accueil">Accueil</a>
+      <a href="#services">Services</a>
+      <a href="#actualites">Actualités</a>
+      <a href="#ressources">Ressources</a>
+      <a href="#contact">Contact</a>
+      <a href="admin/index.html" class="nav-cta"><i class="fas fa-shield-halved"></i> Admin</a>
     </div>
+  </nav>
 </header>
-<a href="https://wa.me/21658338187?text=Bonjour%20Teach%20line%20!%20Je%20souhaite%20prendre%20un%20cours%20privé." class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
-<main>
-    <section id="accueil" class="hero">
-        <div class="container hero-grid">
-            <div class="hero-content">
-                <div class="hero-badge"><i class="fas fa-chalkboard-user"></i> 100% en ligne · Tous niveaux</div>
-                <h1>Révisez avec Teach line, réussissez vos examens</h1>
-                <p style="font-size:1.1rem">Cours privés à distance, résumés clés, accompagnement BAC 2026.</p>
-                <div class="hero-stats"><div class="stat-item"><div class="stat-number">22K+</div><div>Followers</div></div><div class="stat-item"><div class="stat-number">18+</div><div>Publications</div></div><div class="stat-item"><div class="stat-number">15+</div><div>Partages</div></div></div>
-                <div class="hero-actions"><a href="#contact" class="btn-primary"><i class="fas fa-headset"></i> Demander un cours</a><a href="#ressources" class="btn-secondary"><i class="fas fa-download"></i> Résumé gratuit</a></div>
-            </div>
-            <div class="hero-visual"><i class="fas fa-laptop-code fa-3x"></i><i class="fas fa-chalkboard fa-3x"></i><i class="fas fa-book-open fa-3x"></i><p>BAC 2026 · +1200 élèves accompagnés</p></div>
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/21658338187?text=Bonjour%20Teach%20Line%20!%20Je%20souhaite%20prendre%20un%20cours%20privé." class="wa-float" target="_blank" title="Contacter sur WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- HERO -->
+<section id="accueil" class="hero">
+  <div class="hero-grid">
+    <div class="hero-content">
+      <div class="hero-badge"><span class="online-dot"></span> Cours en ligne · BAC 2026 · Tous niveaux</div>
+      <h1>Révisez avec <em>Teach Line</em>, dépassez vos limites</h1>
+      <p>Cours particuliers à distance, résumés clés, accompagnement personnalisé pour réussir vos examens avec confiance.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-hero btn-hero-primary"><i class="fas fa-headset"></i> Demander un cours</a>
+        <a href="#ressources" class="btn-hero btn-hero-secondary"><i class="fas fa-download"></i> Ressources gratuites</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item"><div class="stat-num">22K+</div><div class="stat-label">Abonnés</div></div>
+        <div class="stat-item"><div class="stat-num">1200+</div><div class="stat-label">Élèves aidés</div></div>
+        <div class="stat-item"><div class="stat-num">18+</div><div class="stat-label">Publications</div></div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-title">Ce que vous trouvez ici</div>
+      <div class="service-pill"><i class="fas fa-video"></i> Cours vidéo en ligne <span class="pill-badge">Nouveau</span></div>
+      <div class="service-pill"><i class="fas fa-file-pdf"></i> Résumés & Fiches PDF</div>
+      <div class="service-pill"><i class="fas fa-chalkboard-teacher"></i> Cours particuliers vidéo</div>
+      <div class="service-pill"><i class="fas fa-users"></i> Groupes de révision</div>
+      <div class="service-pill"><i class="fas fa-calendar-check"></i> Suivi hebdomadaire</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Nos spécialités</div>
+      <h2 class="section-title">Tout ce dont vous avez besoin<br>pour réussir</h2>
+      <p class="section-sub">Des solutions complètes, adaptées à chaque niveau et chaque rythme d'apprentissage.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card"><div class="service-icon-wrap"><i class="fas fa-chalkboard-teacher"></i></div><h3>Cours particuliers</h3><p>Séances individuelles en visioconférence, suivi personnalisé, exercices interactifs adaptés à votre niveau.</p></div>
+      <div class="service-card"><div class="service-icon-wrap"><i class="fas fa-file-alt"></i></div><h3>Résumés & Fiches</h3><p>Synthèses complètes, formules clés, schémas explicatifs et fiches mémo pour chaque matière du BAC.</p></div>
+      <div class="service-card"><div class="service-icon-wrap"><i class="fas fa-video"></i></div><h3>Cours vidéo</h3><p>Vidéos pédagogiques claires, structurées et accessibles à tout moment pour réviser à votre rythme.</p></div>
+      <div class="service-card"><div class="service-icon-wrap"><i class="fas fa-users"></i></div><h3>Groupes de révision</h3><p>Sessions collectives intensives, Q&R en direct, échanges entre élèves et accompagnement de groupe.</p></div>
+      <div class="service-card"><div class="service-icon-wrap"><i class="fas fa-calendar-check"></i></div><h3>Suivi hebdomadaire</h3><p>Devoirs corrigés, planning personnalisé, bilan de progrès hebdomadaire et objectifs clairs.</p></div>
+      <div class="service-card"><div class="service-icon-wrap"><i class="fas fa-award"></i></div><h3>Préparation aux examens</h3><p>Entraînement aux annales, simulation d'examens, stratégies anti-stress et gestion du temps.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ACTUALITES -->
+<section id="actualites" class="section" style="background:var(--light);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Actualités</div>
+      <h2 class="section-title">Dernières publications</h2>
+      <p class="section-sub">Cours, annonces et ressources publiés par l'enseignant.</p>
+    </div>
+    <div class="posts-wrapper" id="posts-container">
+      <div class="post-card skeleton" style="height:120px;"></div>
+      <div class="post-card skeleton" style="height:120px;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESSOURCES -->
+<section id="ressources" class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Ressources</div>
+      <h2 class="section-title">Vidéos, PDF & Images</h2>
+      <p class="section-sub">Téléchargez ou regardez les ressources pédagogiques directement depuis la plateforme.</p>
+    </div>
+    <div class="resources-grid" id="resumes-container">
+      <div class="resource-card skeleton" style="height:180px;"></div>
+      <div class="resource-card skeleton" style="height:180px;"></div>
+      <div class="resource-card skeleton" style="height:180px;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section contact-section">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h2>Prêt à commencer ?</h2>
+        <p>Contactez-nous directement ou remplissez le formulaire. Nous répondons sous 2h sur WhatsApp, tous les jours de 9h à 21h.</p>
+        <div class="contact-item"><div class="contact-icon"><i class="fas fa-phone"></i></div><span>Tél : <a href="tel:+21658338187">58 338 187</a></span></div>
+        <div class="contact-item"><div class="contact-icon"><i class="fab fa-whatsapp"></i></div><span><a href="https://wa.me/21658338187" target="_blank">WhatsApp direct</a></span></div>
+        <div class="contact-item"><div class="contact-icon"><i class="fab fa-facebook"></i></div><span><a href="#" id="fbLink">Teach Line Officiel (22K)</a></span></div>
+        <div class="contact-item"><div class="contact-icon"><i class="fas fa-clock"></i></div><span style="color:rgba(255,255,255,.8)">Disponible 7j/7, 9h–21h</span></div>
+        <br>
+        <a href="https://wa.me/21658338187?text=Bonjour%20Teach%20Line%20!" target="_blank" class="btn-hero btn-hero-primary" style="margin-top:1rem"><i class="fab fa-whatsapp"></i> Écrire sur WhatsApp</a>
+      </div>
+      <div class="contact-form-wrap">
+        <h3><i class="fas fa-paper-plane" style="color:var(--accent);margin-right:8px;"></i>Formulaire de contact</h3>
+        <div class="form-row">
+          <div class="form-group"><input type="text" id="fname" placeholder="Votre prénom" required></div>
+          <div class="form-group"><input type="text" id="lname" placeholder="Nom de famille"></div>
         </div>
-    </section>
+        <div class="form-group"><input type="tel" id="phone" placeholder="Numéro de téléphone"></div>
+        <div class="form-group">
+          <select id="niveau" style="width:100%;padding:.85rem 1rem;border-radius:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-family:inherit;font-size:.9rem;outline:none;">
+            <option value="" disabled selected>Votre niveau scolaire</option>
+            <option>1ère année secondaire</option><option>2ème année secondaire</option>
+            <option>3ème année secondaire</option><option>4ème année secondaire (BAC)</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="form-group"><textarea id="message" placeholder="Votre demande : matière, disponibilité, questions..."></textarea></div>
+        <button class="btn-submit" id="submitBtn"><i class="fas fa-paper-plane"></i> Envoyer la demande</button>
+        <p style="color:rgba(255,255,255,.4);font-size:.72rem;margin-top:.8rem;text-align:center;">Nous répondons par WhatsApp sous 2h.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <section id="services" class="section"><div class="container"><div class="section-title">Nos spécialités</div><div class="services-grid"><div class="service-card"><div class="service-icon"><i class="fas fa-chalkboard"></i></div><h3>Cours particuliers</h3><p>Visio, suivi personnalisé, exercices interactifs.</p></div><div class="service-card"><div class="service-icon"><i class="fas fa-file-alt"></i></div><h3>Résumés & fiches</h3><p>Synthèses, formules clés, schémas BAC.</p></div><div class="service-card"><div class="service-icon"><i class="fas fa-mobile-alt"></i></div><h3>Suivi hebdomadaire</h3><p>Devoirs corrigés, planning personnalisé.</p></div><div class="service-card"><div class="service-icon"><i class="fas fa-users"></i></div><h3>Groupes de révision</h3><p>Sessions Q/R intensives.</p></div></div></div></section>
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Teach Line – Plateforme de cours privés à distance · Tunisie</p>
+  <a href="admin/index.html">Accès administrateur (enseignant)</a>
+</footer>
 
-    <section id="actualites" class="section"><div class="container"><div class="section-title">📰 Dernières actualités</div><div id="posts-container" class="services-grid" style="grid-template-columns: 1fr;"><p style="text-align:center">Chargement des publications...</p></div></div></section>
-
-    <section id="ressources" class="section"><div class="container"><div class="section-title">📚 Résumés à télécharger</div><div id="resumes-container" class="services-grid"><p>Chargement des résumés...</p></div></div></section>
-
-    <section id="contact" class="section"><div class="container"><div class="section-title">Contactez-nous</div><div class="contact-grid"><div class="contact-info"><h3><i class="fas fa-address-card"></i> Coordonnées</h3><div style="display:flex; gap:1rem; margin:1rem 0"><i class="fas fa-phone-alt"></i><span><strong>Tél :</strong> <a href="tel:+21658338187">58338187</a></span></div><div style="display:flex; gap:1rem; margin:1rem 0"><i class="fab fa-whatsapp"></i><span><strong>WhatsApp :</strong> <a href="https://wa.me/21658338187" target="_blank">Écrire directement</a></span></div><div style="display:flex; gap:1rem; margin:1rem 0"><i class="fab fa-facebook"></i><span><strong>Facebook :</strong> <a href="#" id="fbLink">Teach line Officiel</a></span></div><p><i class="fas fa-clock"></i> Disponible 7j/7, 9h–21h</p><div style="margin-top:1rem"><a href="https://wa.me/21658338187?text=Bonjour%20Teach%20line%20!%20Je%20souhaite%20un%20renseignement." class="btn-primary" style="background:#25D366"><i class="fab fa-whatsapp"></i> WhatsApp direct</a></div></div><div><h3>Formulaire rapide</h3><form id="contactForm"><input type="text" id="name" placeholder="Votre nom" required style="width:100%; padding:0.8rem; margin-bottom:1rem; border-radius:1rem; border:1px solid #cbd5e1;"><input type="email" id="email" placeholder="Email" style="width:100%; padding:0.8rem; margin-bottom:1rem; border-radius:1rem; border:1px solid #cbd5e1;"><textarea id="message" rows="3" placeholder="Niveau, matière, disponibilité..." style="width:100%; padding:0.8rem; border-radius:1rem; border:1px solid #cbd5e1;"></textarea><button type="submit" class="btn-primary" style="width:100%"><i class="fas fa-paper-plane"></i> Envoyer la demande</button><p style="font-size:0.75rem; margin-top:0.5rem">Nous répondons par WhatsApp sous 2h.</p></form></div></div></div></section>
-</main>
-<footer><div class="container"><div>© 2026 Teach line – Plateforme de cours privés à distance</div><div class="admin-link"><a href="admin/" style="color:#94a3b8;">Accès administrateur</a> – Gérez les actualités et résumés sans coder</div></div></footer>
-
-<!-- Netlify Identity Widget -->
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<!-- Eruda pour déboguer sur mobile -->
-<script src="//cdn.jsdelivr.net/npm/eruda"></script>
-<script>eruda.init(); eruda.show();</script>
+<!-- MODAL LOCKED RESOURCE -->
+<div class="modal-overlay" id="lockModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeLockModal()"><i class="fas fa-times"></i></button>
+    <i class="fas fa-lock" style="font-size:2rem;color:var(--accent);margin-bottom:1rem;display:block;"></i>
+    <h3>Ressource réservée</h3>
+    <p id="lockModalText">Cette ressource est réservée aux élèves inscrits. Contactez l'enseignant sur WhatsApp pour y accéder.</p>
+    <a href="https://wa.me/21658338187?text=Bonjour%20!%20Je%20souhaite%20accéder%20à%20cette%20ressource." target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i> Contacter l'enseignant</a>
+  </div>
+</div>
 
 <script>
-    // Menu mobile
-    const menuToggle = document.getElementById('menuToggle');
-    const navLinks = document.getElementById('navLinks');
-    if (menuToggle) {
-        menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
-    }
+// ---- CONFIG GitHub ----
+const REPO_OWNER = "badreddinemansouri-eng";
+const REPO_NAME  = "TeachLine-Site";
+const BRANCH     = "main";
 
-    // Configuration GitHub (à adapter)
-    const REPO_OWNER = "badreddinemansouri-eng";
-    const REPO_NAME = "TeachLine-Site";
-    const BRANCH = "main";
+// ---- MENU ----
+document.getElementById('menuToggle').addEventListener('click',()=>{
+  document.getElementById('navLinks').classList.toggle('open');
+});
 
-    async function fetchMarkdownFiles(folderPath) {
-        const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${folderPath}?ref=${BRANCH}`;
-        try {
-            const res = await fetch(url);
-            if (!res.ok) return [];
-            const files = await res.json();
-            const mdFiles = files.filter(f => f.name.endsWith('.md'));
-            const contents = await Promise.all(mdFiles.map(async (file) => {
-                const contentRes = await fetch(file.download_url);
-                const text = await contentRes.text();
-                const match = text.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
-                if (match) {
-                    const frontmatter = match[1];
-                    const body = match[2];
-                    const titleMatch = frontmatter.match(/title:\s*["']?(.*?)["']?\n/);
-                    const dateMatch = frontmatter.match(/date:\s*(.*?)\n/);
-                    const categoryMatch = frontmatter.match(/category:\s*(.*?)\n/);
-                    const linkMatch = frontmatter.match(/link:\s*(.*?)\n/);
-                    const pdfMatch = frontmatter.match(/pdf_file:\s*(.*?)\n/);
-                    return {
-                        title: titleMatch ? titleMatch[1] : "Sans titre",
-                        date: dateMatch ? dateMatch[1] : "",
-                        category: categoryMatch ? categoryMatch[1] : "",
-                        link: linkMatch ? linkMatch[1] : "",
-                        pdf_file: pdfMatch ? pdfMatch[1] : "",
-                        body: body.trim(),
-                    };
-                }
-                return null;
-            }));
-            return contents.filter(c => c !== null);
-        } catch (e) {
-            console.error(e);
-            return [];
-        }
-    }
+// ---- SMOOTH SCROLL + CLOSE MENU ----
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});document.getElementById('navLinks').classList.remove('open');}
+  });
+});
 
-    async function loadPosts() {
-        const container = document.getElementById('posts-container');
-        if (!container) return;
-        const posts = await fetchMarkdownFiles('content/posts');
-        if (posts.length === 0) {
-            container.innerHTML = '<p style="text-align:center">Aucune actualité pour le moment.</p>';
-            return;
-        }
-        posts.sort((a,b) => new Date(b.date) - new Date(a.date));
-        let html = '';
-        for (let post of posts) {
-            let preview = post.body.substring(0, 200);
-            if (post.body.length > 200) preview += '…';
-            html += `<div class="service-card" style="text-align:left">
-                        <h3>${escapeHtml(post.title)}</h3>
-                        <small><i class="far fa-calendar-alt"></i> ${escapeHtml(post.date)}  |  ${escapeHtml(post.category)}</small>
-                        <p style="margin-top:0.8rem">${escapeHtml(preview)}</p>
-                        ${post.link ? `<a href="${escapeHtml(post.link)}" target="_blank" class="btn-secondary" style="margin-top:1rem; display:inline-block">Lire la suite →</a>` : ''}
-                     </div>`;
-        }
-        container.innerHTML = html;
-    }
+// ---- CONTACT FORM ----
+document.getElementById('submitBtn').addEventListener('click',()=>{
+  const fn=document.getElementById('fname').value.trim();
+  const ln=document.getElementById('lname').value.trim();
+  const ph=document.getElementById('phone').value.trim();
+  const nv=document.getElementById('niveau').value;
+  const mg=document.getElementById('message').value.trim();
+  if(!fn){alert("Veuillez entrer votre prénom.");return;}
+  const txt=`Nom: ${fn} ${ln}%0ATél: ${ph}%0ANiveau: ${nv}%0AMessage: ${mg}`;
+  window.open(`https://wa.me/21658338187?text=${txt}`,'_blank');
+  document.getElementById('fname').value='';document.getElementById('lname').value='';
+  document.getElementById('phone').value='';document.getElementById('message').value='';
+  alert('✅ Demande envoyée ! Nous vous répondrons sur WhatsApp.');
+});
 
-    async function loadResumes() {
-        const container = document.getElementById('resumes-container');
-        if (!container) return;
-        const resumes = await fetchMarkdownFiles('content/resumes');
-        if (resumes.length === 0) {
-            container.innerHTML = '<p style="text-align:center">Aucun résumé disponible.</p>';
-            return;
-        }
-        let html = '';
-        for (let res of resumes) {
-            html += `<div class="service-card">
-                        <div class="service-icon"><i class="fas fa-file-pdf"></i></div>
-                        <h3>${escapeHtml(res.title)}</h3>
-                        <p>${escapeHtml(res.body.substring(0,100))}</p>
-                        ${res.pdf_file ? `<button class="btn-primary" style="margin-top:1rem" onclick="downloadPDF('${res.pdf_file}', '${res.title}')"><i class="fas fa-download"></i> Télécharger PDF</button>` : ''}
-                     </div>`;
-        }
-        container.innerHTML = html;
-    }
+document.getElementById('fbLink').addEventListener('click',e=>{e.preventDefault();alert('Page Facebook : Teach Line – 22K abonnés. Contactez-nous par WhatsApp pour un accès direct.');});
 
-    window.downloadPDF = function(pdfPath, title) {
-        const fullUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${pdfPath}`;
-        const a = document.createElement('a');
-        a.href = fullUrl;
-        a.download = title.replace(/[^a-z0-9]/gi, '_') + '.pdf';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    };
+// ---- GITHUB DATA ----
+async function ghFetch(path){
+  const r=await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}?ref=${BRANCH}`);
+  if(!r.ok)throw new Error('GitHub fetch failed');
+  return r.json();
+}
 
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        });
-    }
-
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
-            const whatsappMsg = `Nom: ${name}%0AEmail: ${email}%0AMessage: ${message}`;
-            window.open(`https://wa.me/21658338187?text=${whatsappMsg}`, '_blank');
-            alert("✅ Demande envoyée ! Nous vous répondrons sur WhatsApp.");
-            this.reset();
-        });
-    }
-
-    const fbLink = document.getElementById('fbLink');
-    if (fbLink) {
-        fbLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            alert("Notre page Facebook : Teach line (22K abonnés). Contactez-nous directement par WhatsApp.");
-        });
-    }
-
-    loadPosts();
-    loadResumes();
-
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                e.preventDefault();
-                target.scrollIntoView({ behavior: 'smooth' });
-                if (navLinks && navLinks.classList.contains('active')) navLinks.classList.remove('active');
-            }
-        });
+function parseFrontmatter(md){
+  const fm={};
+  const block=md.match(/^---\n([\s\S]*?)\n---/);
+  if(block){
+    block[1].split('\n').forEach(l=>{
+      const [k,...v]=l.split(':');
+      if(k)fm[k.trim()]=v.join(':').trim().replace(/^"|"$/g,'');
     });
+  }
+  const body=md.replace(/^---[\s\S]*?---\n?/,'').trim();
+  return{...fm,body};
+}
+
+function escH(s){if(!s)return'';return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]||c));}
+
+// ---- RENDER POSTS ----
+async function loadPosts(){
+  const c=document.getElementById('posts-container');
+  try{
+    const files=await ghFetch('content/posts');
+    const mdFiles=files.filter(f=>f.name.endsWith('.md'));
+    if(!mdFiles.length){c.innerHTML='<p style="text-align:center;color:var(--text-light)">Aucune actualité pour le moment.</p>';return;}
+    const posts=await Promise.all(mdFiles.map(async f=>{
+      const r=await fetch(f.download_url);const raw=await r.text();return parseFrontmatter(raw);
+    }));
+    posts.sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
+    c.innerHTML=posts.map(p=>{
+      const locked=p.locked==='true';
+      const preview=p.body.substring(0,220)+(p.body.length>220?'…':'');
+      const thumb=p.image?`<img src="${escH(p.image)}" alt="" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-newspaper\\'></i>'">`
+                        :`<i class="fas fa-newspaper"></i>`;
+      const catIcon=p.type==='video'?'fa-video':p.type==='pdf'?'fa-file-pdf':'fa-newspaper';
+      return `<div class="post-card">
+        <div class="post-thumb">${thumb}</div>
+        <div style="flex:1">
+          <div class="post-meta">
+            <span class="post-category"><i class="fas ${catIcon}"></i> ${escH(p.category||p.type||'Actualité')}</span>
+            <span class="post-date">${escH(p.date||'')}</span>
+          </div>
+          <h3>${escH(p.title||'')}</h3>
+          <p>${escH(preview)}</p>
+          <div class="post-footer">
+            ${locked?`<span class="post-tag locked"><i class="fas fa-lock"></i> Accès restreint</span><a class="read-more" href="#" onclick="openLockModal('${escH(p.title)}');return false;">Accéder <i class='fas fa-arrow-right'></i></a>`
+                    :p.link?`<a class="read-more" href="${escH(p.link)}" target="_blank">Lire la suite <i class='fas fa-arrow-right'></i></a>`:''}
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }catch(e){c.innerHTML='<p style="text-align:center;color:var(--text-light)">Actualités non disponibles pour l\'instant.</p>';}
+}
+
+// ---- RENDER RESOURCES ----
+async function loadResources(){
+  const c=document.getElementById('resumes-container');
+  try{
+    const files=await ghFetch('content/resumes');
+    const mdFiles=files.filter(f=>f.name.endsWith('.md'));
+    if(!mdFiles.length){c.innerHTML='<p style="text-align:center;color:var(--text-light)">Aucune ressource disponible.</p>';return;}
+    const items=await Promise.all(mdFiles.map(async f=>{const r=await fetch(f.download_url);const raw=await r.text();return parseFrontmatter(raw);}));
+    c.innerHTML=items.map(r=>{
+      const locked=r.locked==='true';
+      const type=r.type||'pdf';
+      const typeClass=type==='video'?'type-video':type==='image'?'type-img':'type-pdf';
+      const typeIcon=type==='video'?'fa-video':type==='image'?'fa-image':'fa-file-pdf';
+      const typeLabel=type==='video'?'Vidéo':type==='image'?'Image':'PDF';
+      return `<div class="resource-card">
+        <div class="resource-type"><span class="type-badge ${typeClass}"><i class="fas ${typeIcon}"></i> ${typeLabel}</span></div>
+        <h3>${escH(r.title||'')}</h3>
+        <p>${escH((r.body||'').substring(0,90))}</p>
+        ${locked?`<div class="resource-lock"><i class="fas fa-lock"></i> Réservé aux inscrits</div>
+          <button class="btn-download locked" onclick="openLockModal('${escH(r.title)}')"><i class="fas fa-lock"></i> Accès restreint</button>`
+               :r.pdf_file||r.video_url||r.image_url
+                 ?`<a class="btn-download" href="https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${escH(r.pdf_file||r.video_url||r.image_url)}" download="${escH(r.title)}" target="_blank"><i class="fas fa-download"></i> Télécharger</a>`
+                 :''}
+      </div>`;
+    }).join('');
+  }catch(e){c.innerHTML='<p style="text-align:center;color:var(--text-light)">Ressources non disponibles pour l\'instant.</p>';}
+}
+
+function openLockModal(title){
+  document.getElementById('lockModalText',).innerText=`"${title}" est réservé aux élèves inscrits. Contactez l'enseignant pour y accéder.`;
+  document.getElementById('lockModal').classList.add('open');
+}
+function closeLockModal(){document.getElementById('lockModal').classList.remove('open');}
+document.getElementById('lockModal').addEventListener('click',function(e){if(e.target===this)closeLockModal();});
+
+loadPosts();
+loadResources();
 </script>
 </body>
 </html>
