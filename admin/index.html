@@ -4,696 +4,1125 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Teach Line · Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 :root{
-  --navy:#0a1628;--blue:#1a56db;--accent:#f59e0b;--accent2:#10b981;
-  --red:#ef4444;--sidebar-w:260px;--border:#e2e8f0;
+  --navy:#0a1628;--navy2:#0f1f3d;--blue:#1a56db;--blue-light:#3b82f6;
+  --accent:#f59e0b;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;
+  --sidebar-w:270px;--border:#e2e8f0;
   --bg:#f0f4ff;--white:#fff;--gray:#64748b;--text:#0f172a;--text-light:#475569;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);}
 
-/* ---- LOGIN ---- */
+/* ══════════ LOGIN ══════════ */
 #loginScreen{
-  position:fixed;inset:0;background:linear-gradient(135deg,var(--navy),#1e3a6e);
-  display:flex;align-items:center;justify-content:center;z-index:9999;
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--navy) 0%,#1e3a6e 60%,#1a56db 100%);
+  z-index:9999;overflow:hidden;
 }
+#loginScreen::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 50% at 80% 20%,rgba(245,158,11,.12),transparent),
+              radial-gradient(ellipse 40% 60% at 10% 80%,rgba(139,92,246,.1),transparent);
+}
+.login-wrap{position:relative;z-index:1;width:100%;max-width:400px;padding:1.5rem;}
 .login-card{
-  background:white;border-radius:24px;padding:2.5rem;max-width:380px;width:90%;
-  box-shadow:0 30px 80px rgba(0,0,0,.3);text-align:center;
+  background:rgba(255,255,255,.97);border-radius:28px;padding:2.8rem;
+  box-shadow:0 40px 100px rgba(0,0,0,.4);
 }
-.login-card .logo-icon{width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,var(--navy),var(--blue));display:flex;align-items:center;justify-content:center;color:white;font-size:1.6rem;margin:0 auto 1rem;}
-.login-card h2{font-family:'Playfair Display',serif;color:var(--navy);font-size:1.6rem;margin-bottom:.4rem;}
-.login-card p{color:var(--gray);font-size:.88rem;margin-bottom:1.8rem;}
-.login-input{
-  width:100%;padding:.85rem 1rem;border-radius:12px;border:1.5px solid var(--border);
-  font-family:inherit;font-size:.9rem;outline:none;transition:.2s;margin-bottom:1rem;
+.login-logo{display:flex;align-items:center;gap:12px;margin-bottom:2rem;justify-content:center;}
+.login-logo-icon{
+  width:52px;height:52px;border-radius:14px;
+  background:linear-gradient(135deg,var(--navy),var(--blue));
+  display:flex;align-items:center;justify-content:center;color:white;font-size:1.4rem;
 }
-.login-input:focus{border-color:var(--blue);}
+.login-logo h1{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--navy);}
+.login-card h2{font-size:1.1rem;font-weight:600;color:var(--navy);text-align:center;margin-bottom:.3rem;}
+.login-card .sub{font-size:.82rem;color:var(--gray);text-align:center;margin-bottom:2rem;}
+.l-field{margin-bottom:1rem;position:relative;}
+.l-field i{position:absolute;left:.9rem;top:50%;transform:translateY(-50%);color:var(--gray);font-size:.9rem;}
+.l-field input{
+  width:100%;padding:.85rem 1rem .85rem 2.5rem;border-radius:12px;
+  border:1.5px solid var(--border);font-family:inherit;font-size:.9rem;outline:none;transition:.2s;
+}
+.l-field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.1);}
 .login-btn{
-  width:100%;padding:.9rem;background:var(--navy);color:white;border:none;
-  border-radius:12px;font-weight:700;font-size:.95rem;cursor:pointer;transition:.2s;
+  width:100%;padding:.9rem;background:linear-gradient(135deg,var(--navy),var(--blue));
+  color:white;border:none;border-radius:12px;font-weight:700;font-size:.95rem;
+  cursor:pointer;transition:.25s;font-family:inherit;letter-spacing:.3px;
 }
-.login-btn:hover{background:var(--blue);}
-.login-error{color:var(--red);font-size:.82rem;margin-top:.7rem;display:none;}
+.login-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(26,86,219,.35);}
+.login-err{color:var(--red);font-size:.8rem;text-align:center;margin-top:.8rem;display:none;}
+.login-hint{font-size:.7rem;color:var(--gray);text-align:center;margin-top:1rem;}
 
-/* ---- LAYOUT ---- */
-#app{display:none;min-height:100vh;}
+/* ══════════ APP SHELL ══════════ */
+#app{display:none;height:100vh;overflow:hidden;}
+.layout{display:flex;height:100vh;}
+
+/* ══════════ SIDEBAR ══════════ */
 .sidebar{
-  position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);
-  background:var(--navy);padding:1.5rem;overflow-y:auto;z-index:100;
-  display:flex;flex-direction:column;
+  width:var(--sidebar-w);background:var(--navy);flex-shrink:0;
+  display:flex;flex-direction:column;overflow-y:auto;
+  transition:.3s;
 }
-.sidebar-logo{display:flex;align-items:center;gap:10px;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(255,255,255,.08);}
-.sidebar-logo-icon{width:38px;height:38px;border-radius:10px;background:var(--blue);display:flex;align-items:center;justify-content:center;color:white;font-size:1rem;}
-.sidebar-logo span{color:white;font-weight:700;font-size:1rem;}
-.sidebar-label{color:rgba(255,255,255,.35);font-size:.68rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:.5rem;margin-top:1rem;}
+.sb-logo{
+  display:flex;align-items:center;gap:10px;padding:1.5rem;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.sb-logo-icon{width:36px;height:36px;border-radius:10px;background:var(--blue);display:flex;align-items:center;justify-content:center;color:white;font-size:.95rem;}
+.sb-logo span{color:white;font-weight:700;font-size:.95rem;}
+.sb-section{padding:.8rem 1rem .3rem;font-size:.65rem;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:1.2px;font-weight:600;}
 .nav-item{
-  display:flex;align-items:center;gap:10px;padding:.7rem .9rem;border-radius:10px;
-  color:rgba(255,255,255,.6);font-size:.88rem;font-weight:500;cursor:pointer;
-  transition:.2s;margin-bottom:.2rem;text-decoration:none;
+  display:flex;align-items:center;gap:10px;padding:.68rem 1rem;margin:.1rem .6rem;
+  border-radius:10px;color:rgba(255,255,255,.55);font-size:.85rem;font-weight:500;
+  cursor:pointer;transition:.18s;text-decoration:none;border:none;background:none;font-family:inherit;width:calc(100% - 1.2rem);text-align:left;
 }
-.nav-item i{width:18px;text-align:center;}
-.nav-item:hover{background:rgba(255,255,255,.07);color:white;}
+.nav-item i{width:18px;text-align:center;font-size:.9rem;}
+.nav-item:hover{background:rgba(255,255,255,.07);color:rgba(255,255,255,.9);}
 .nav-item.active{background:var(--blue);color:white;}
-.sidebar-footer{margin-top:auto;padding-top:1rem;border-top:1px solid rgba(255,255,255,.08);}
-.back-link{
-  display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.5);
-  font-size:.82rem;text-decoration:none;padding:.6rem;border-radius:8px;transition:.2s;
-}
-.back-link:hover{color:white;background:rgba(255,255,255,.06);}
+.nav-item .badge-count{margin-left:auto;background:var(--accent);color:var(--navy);font-size:.65rem;font-weight:800;padding:.15rem .45rem;border-radius:20px;min-width:20px;text-align:center;}
+.sb-footer{margin-top:auto;padding:1rem;border-top:1px solid rgba(255,255,255,.07);}
+.sb-footer a{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.4);font-size:.8rem;text-decoration:none;padding:.5rem .6rem;border-radius:8px;transition:.2s;}
+.sb-footer a:hover{color:white;background:rgba(255,255,255,.06);}
 .logout-btn{
-  width:100%;margin-top:.5rem;padding:.65rem;background:rgba(239,68,68,.15);
-  color:#fca5a5;border:none;border-radius:8px;cursor:pointer;font-size:.82rem;
-  font-family:inherit;transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px;
+  width:100%;margin-top:.4rem;padding:.6rem;background:rgba(239,68,68,.12);
+  color:#fca5a5;border:none;border-radius:8px;cursor:pointer;font-size:.8rem;
+  font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;transition:.2s;
 }
 .logout-btn:hover{background:rgba(239,68,68,.25);color:#ef4444;}
 
-/* ---- MAIN AREA ---- */
-.main{margin-left:var(--sidebar-w);padding:2rem;min-height:100vh;}
-.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;}
-.topbar h2{font-family:'Playfair Display',serif;font-size:1.7rem;color:var(--navy);}
-.topbar-right{display:flex;align-items:center;gap:1rem;}
-.admin-avatar{
-  width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--blue));
-  display:flex;align-items:center;justify-content:center;color:white;font-size:.9rem;font-weight:700;
-}
+/* ══════════ MAIN ══════════ */
+.main{flex:1;overflow-y:auto;padding:2rem;display:flex;flex-direction:column;gap:0;}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem;}
+.topbar-left h2{font-family:'Playfair Display',serif;font-size:1.65rem;color:var(--navy);}
+.topbar-left p{font-size:.8rem;color:var(--gray);margin-top:.1rem;}
+.topbar-right{display:flex;align-items:center;gap:.8rem;}
+.status-dot{display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--green);font-weight:600;}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse-g 2s infinite;}
+@keyframes pulse-g{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.5);}50%{box-shadow:0 0 0 5px rgba(16,185,129,0);}}
 
-/* ---- PANELS ---- */
+/* ══════════ PANELS ══════════ */
 .panel{display:none;}
 .panel.active{display:block;}
 
-/* ---- STATS ---- */
-.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1.2rem;margin-bottom:2rem;}
+/* ══════════ STATS ══════════ */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1.8rem;}
 .stat-card{
-  background:white;border-radius:16px;padding:1.3rem 1.5rem;
-  border:1px solid var(--border);display:flex;align-items:center;gap:1rem;
+  background:white;border-radius:16px;padding:1.4rem;border:1px solid var(--border);
+  display:flex;align-items:center;gap:1rem;
 }
-.stat-icon{
-  width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;
-}
-.stat-val{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--navy);}
-.stat-lbl{font-size:.75rem;color:var(--text-light);}
+.stat-icon-wrap{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.stat-val{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:900;line-height:1;color:var(--navy);}
+.stat-lbl{font-size:.72rem;color:var(--gray);margin-top:.1rem;text-transform:uppercase;letter-spacing:.4px;}
 
-/* ---- TABLES / LISTS ---- */
-.card{background:white;border-radius:20px;border:1px solid var(--border);overflow:hidden;}
+/* ══════════ CARDS ══════════ */
+.card{background:white;border-radius:20px;border:1px solid var(--border);overflow:hidden;margin-bottom:1.5rem;}
 .card-header{padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem;}
-.card-header h3{font-size:1rem;font-weight:700;color:var(--navy);}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:.5rem 1rem;border-radius:8px;font-size:.83rem;font-weight:600;cursor:pointer;transition:.2s;border:none;text-decoration:none;font-family:inherit;}
+.card-header h3{font-size:.95rem;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:.5rem;}
+.card-body{padding:1.5rem;}
+
+/* ══════════ BUTTONS ══════════ */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:.55rem 1.1rem;border-radius:9px;font-size:.82rem;font-weight:600;cursor:pointer;transition:.2s;border:none;text-decoration:none;font-family:inherit;white-space:nowrap;}
 .btn-primary{background:var(--blue);color:white;}
-.btn-primary:hover{background:var(--navy);}
+.btn-primary:hover{background:var(--navy);transform:translateY(-1px);}
+.btn-success{background:var(--green);color:white;}
+.btn-success:hover{background:#059669;}
 .btn-danger{background:var(--red);color:white;}
 .btn-danger:hover{background:#dc2626;}
 .btn-ghost{background:var(--bg);color:var(--text-light);border:1px solid var(--border);}
 .btn-ghost:hover{background:var(--border);color:var(--text);}
-.btn-success{background:var(--accent2);color:white;}
+.btn-accent{background:var(--accent);color:var(--navy);}
+.btn-accent:hover{background:#fbbf24;}
+.btn-lg{padding:.75rem 1.5rem;font-size:.92rem;border-radius:12px;}
+.btn-icon{padding:.5rem .7rem;}
 
+/* ══════════ FORM ══════════ */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.field{margin-bottom:1rem;}
+.field label{display:block;font-size:.78rem;font-weight:600;color:var(--text-light);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.4px;}
+.field input,.field textarea,.field select{
+  width:100%;padding:.8rem 1rem;border-radius:11px;border:1.5px solid var(--border);
+  font-family:inherit;font-size:.9rem;outline:none;transition:.2s;color:var(--text);background:white;
+}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
+.field textarea{resize:vertical;min-height:110px;line-height:1.6;}
+.field-hint{font-size:.72rem;color:var(--gray);margin-top:.3rem;line-height:1.5;}
+
+/* TOGGLE */
+.toggle-field{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 1.2rem;background:var(--bg);border-radius:12px;border:1.5px solid var(--border);margin-bottom:1rem;
+}
+.toggle-info label{font-size:.88rem;font-weight:600;color:var(--text);display:block;}
+.toggle-info small{font-size:.75rem;color:var(--gray);}
+.switch{position:relative;display:inline-block;width:46px;height:26px;flex-shrink:0;}
+.switch input{opacity:0;width:0;height:0;}
+.slider{position:absolute;inset:0;background:#cbd5e1;border-radius:26px;cursor:pointer;transition:.3s;}
+.slider::before{content:'';position:absolute;width:20px;height:20px;left:3px;top:3px;background:white;border-radius:50%;transition:.3s;box-shadow:0 1px 4px rgba(0,0,0,.2);}
+input:checked+.slider{background:var(--blue);}
+input:checked+.slider::before{transform:translateX(20px);}
+
+/* FILE UPLOAD */
+.file-zone{
+  border:2px dashed var(--border);border-radius:14px;padding:2rem;
+  text-align:center;cursor:pointer;transition:.25s;position:relative;
+}
+.file-zone:hover,.file-zone.drag{border-color:var(--blue);background:rgba(26,86,219,.03);}
+.file-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.file-zone i{font-size:1.8rem;color:var(--gray);margin-bottom:.5rem;display:block;}
+.file-zone p{font-size:.85rem;color:var(--gray);}
+.file-zone .fn{font-size:.82rem;font-weight:600;color:var(--blue);margin-top:.5rem;}
+
+/* IMAGE PREVIEW */
+.img-preview{width:100%;max-height:180px;object-fit:cover;border-radius:12px;margin-top:.5rem;display:none;}
+
+/* ══════════ EDITOR TOOLBAR ══════════ */
+.editor-wrap{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;transition:.2s;}
+.editor-wrap:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
+.editor-toolbar{
+  display:flex;gap:.2rem;padding:.5rem .6rem;background:#f8fafd;
+  border-bottom:1px solid var(--border);flex-wrap:wrap;
+}
+.tb-btn{
+  width:28px;height:28px;border:none;background:transparent;border-radius:6px;
+  cursor:pointer;color:var(--gray);font-size:.82rem;display:flex;align-items:center;justify-content:center;transition:.15s;
+}
+.tb-btn:hover{background:var(--border);color:var(--text);}
+.tb-sep{width:1px;height:20px;background:var(--border);margin:.4rem .2rem;align-self:center;}
+#editor-body{
+  width:100%;min-height:150px;padding:.9rem 1rem;font-family:'DM Sans',sans-serif;
+  font-size:.9rem;border:none;outline:none;resize:vertical;line-height:1.7;color:var(--text);
+}
+
+/* ══════════ TABLE ══════════ */
+.table-wrap{overflow-x:auto;}
 table{width:100%;border-collapse:collapse;}
-thead th{padding:1rem 1.2rem;text-align:left;font-size:.75rem;color:var(--gray);font-weight:600;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);background:var(--bg);}
+thead th{
+  padding:.9rem 1.2rem;text-align:left;font-size:.7rem;color:var(--gray);
+  font-weight:700;text-transform:uppercase;letter-spacing:.6px;
+  border-bottom:1px solid var(--border);background:#fafbff;white-space:nowrap;
+}
 tbody tr{border-bottom:1px solid var(--border);transition:.15s;}
 tbody tr:last-child{border-bottom:none;}
 tbody tr:hover{background:#f8faff;}
-td{padding:.85rem 1.2rem;font-size:.88rem;vertical-align:middle;}
-.badge{display:inline-flex;align-items:center;gap:4px;padding:.25rem .6rem;border-radius:20px;font-size:.7rem;font-weight:700;}
-.badge-pdf{background:#fee2e2;color:#dc2626;}
-.badge-video{background:#fef3c7;color:#d97706;}
-.badge-image{background:#d1fae5;color:#059669;}
-.badge-post{background:#dbeafe;color:#1d4ed8;}
-.badge-locked{background:#fce7f3;color:#be185d;}
-.badge-public{background:#d1fae5;color:#059669;}
-.action-btns{display:flex;gap:.4rem;}
+td{padding:.85rem 1.2rem;font-size:.86rem;vertical-align:middle;}
+.cell-title{font-weight:600;color:var(--navy);max-width:240px;}
+.cell-title small{display:block;font-size:.75rem;font-weight:400;color:var(--gray);margin-top:.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:.22rem .6rem;border-radius:20px;font-size:.68rem;font-weight:700;white-space:nowrap;}
+.b-pdf{background:#fee2e2;color:#dc2626;}
+.b-video{background:#fef3c7;color:#d97706;}
+.b-image{background:#d1fae5;color:#059669;}
+.b-post{background:#dbeafe;color:#1d4ed8;}
+.b-locked{background:#fce7f3;color:#be185d;}
+.b-pub{background:#d1fae5;color:#059669;}
+.b-cat{background:#ede9fe;color:#6d28d9;}
+.action-btns{display:flex;gap:.35rem;align-items:center;}
 
-/* ---- FORM PANEL ---- */
-.form-section{background:white;border-radius:20px;border:1px solid var(--border);padding:2rem;margin-bottom:1.5rem;}
-.form-section h3{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:1.5rem;padding-bottom:.8rem;border-bottom:1px solid var(--border);}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-.field{margin-bottom:1.1rem;}
-.field label{display:block;font-size:.8rem;font-weight:600;color:var(--text-light);margin-bottom:.4rem;}
-.field input,.field textarea,.field select{
-  width:100%;padding:.75rem 1rem;border-radius:10px;border:1.5px solid var(--border);
-  font-family:inherit;font-size:.88rem;outline:none;transition:.2s;color:var(--text);background:white;
+/* ══════════ PUBLISH PROGRESS ══════════ */
+.pub-overlay{
+  display:none;position:fixed;inset:0;background:rgba(10,22,40,.7);
+  backdrop-filter:blur(6px);z-index:8888;align-items:center;justify-content:center;
 }
-.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.1);}
-.field textarea{resize:vertical;min-height:90px;}
-.field-hint{font-size:.72rem;color:var(--gray);margin-top:.3rem;}
-.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:.8rem 1rem;background:var(--bg);border-radius:10px;}
-.toggle-row label{font-size:.88rem;font-weight:500;color:var(--text);}
-.switch{position:relative;display:inline-block;width:44px;height:24px;}
-.switch input{opacity:0;width:0;height:0;}
-.slider{position:absolute;inset:0;background:#cbd5e1;border-radius:24px;cursor:pointer;transition:.3s;}
-.slider:before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:white;border-radius:50%;transition:.3s;}
-input:checked+.slider{background:var(--blue);}
-input:checked+.slider:before{transform:translateX(20px);}
-.file-drop{
-  border:2px dashed var(--border);border-radius:12px;padding:2rem;text-align:center;cursor:pointer;
-  transition:.2s;color:var(--gray);font-size:.88rem;
+.pub-overlay.show{display:flex;}
+.pub-card{
+  background:white;border-radius:24px;padding:2.5rem;max-width:380px;width:90%;text-align:center;
+  animation:pop-in .3s ease;
 }
-.file-drop:hover{border-color:var(--blue);color:var(--blue);background:#f0f4ff;}
-.file-drop i{font-size:1.5rem;margin-bottom:.5rem;display:block;}
-.form-actions{display:flex;gap:.8rem;justify-content:flex-end;margin-top:1rem;}
+@keyframes pop-in{from{transform:scale(.88);opacity:0}to{transform:scale(1);opacity:1}}
+.pub-spinner{font-size:2.5rem;color:var(--blue);margin-bottom:1rem;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pub-check{font-size:2.5rem;color:var(--green);margin-bottom:1rem;display:none;}
+.pub-card h3{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--navy);margin-bottom:.4rem;}
+.pub-card p{font-size:.85rem;color:var(--gray);line-height:1.6;}
+.pub-step{font-size:.78rem;color:var(--blue);margin-top:.8rem;font-weight:600;}
+.pub-actions{margin-top:1.5rem;display:none;gap:.8rem;justify-content:center;}
+.pub-actions.show{display:flex;}
 
-/* ---- NOTIFICATION ---- */
-.notif{
-  position:fixed;bottom:24px;right:24px;background:var(--navy);color:white;
-  padding:1rem 1.5rem;border-radius:12px;font-size:.88rem;font-weight:500;
-  box-shadow:0 8px 30px rgba(0,0,0,.2);z-index:9999;transform:translateY(100px);opacity:0;
-  transition:all .35s;display:flex;align-items:center;gap:.7rem;
+/* ══════════ TOAST ══════════ */
+.toast-wrap{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:.6rem;z-index:9990;}
+.toast{
+  background:var(--navy);color:white;padding:.85rem 1.3rem;border-radius:12px;
+  font-size:.84rem;font-weight:500;box-shadow:0 8px 30px rgba(0,0,0,.25);
+  display:flex;align-items:center;gap:.7rem;min-width:220px;
+  animation:toast-in .3s ease;
 }
-.notif.show{transform:translateY(0);opacity:1;}
-.notif.success{background:var(--accent2);}
-.notif.error{background:var(--red);}
+@keyframes toast-in{from{transform:translateX(60px);opacity:0}to{transform:translateX(0);opacity:1}}
+.toast.t-success{background:var(--green);}
+.toast.t-error{background:var(--red);}
+.toast.t-warn{background:var(--accent);color:var(--navy);}
 
-/* ---- SETTINGS ---- */
-.settings-grid{display:grid;gap:1.5rem;}
-.setting-item{display:flex;align-items:center;justify-content:space-between;padding:1.2rem;background:var(--bg);border-radius:12px;}
-.setting-item-info h4{font-size:.9rem;font-weight:600;color:var(--navy);}
-.setting-item-info p{font-size:.8rem;color:var(--gray);}
-
-/* ---- GITHUB INSTRUCTIONS ---- */
-.instructions-box{background:var(--navy);color:white;border-radius:16px;padding:1.8rem;}
-.instructions-box h3{color:var(--accent);margin-bottom:1rem;font-size:1rem;}
-.step{display:flex;gap:1rem;margin-bottom:1rem;align-items:flex-start;}
-.step-num{
-  width:28px;height:28px;border-radius:50%;background:var(--blue);color:white;
-  font-size:.78rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+/* ══════════ SETUP BANNER ══════════ */
+.setup-banner{
+  background:linear-gradient(135deg,var(--navy),var(--navy2));
+  border-radius:20px;padding:2rem;margin-bottom:1.5rem;
+  display:flex;align-items:flex-start;gap:1.5rem;flex-wrap:wrap;
 }
-.step p{color:rgba(255,255,255,.75);font-size:.85rem;line-height:1.6;}
-.step code{background:rgba(255,255,255,.1);padding:.15rem .4rem;border-radius:4px;font-size:.82rem;font-family:monospace;}
+.setup-banner i{font-size:2rem;color:var(--accent);flex-shrink:0;margin-top:.2rem;}
+.setup-banner h3{color:white;font-size:1rem;font-weight:700;margin-bottom:.4rem;}
+.setup-banner p{color:rgba(255,255,255,.65);font-size:.85rem;line-height:1.6;}
 
-/* ---- MOBILE ---- */
-.mobile-menu-btn{display:none;position:fixed;top:1rem;left:1rem;z-index:200;background:var(--navy);color:white;width:40px;height:40px;border-radius:10px;border:none;cursor:pointer;font-size:1.1rem;}
+/* ══════════ GITHUB SETUP STEPS ══════════ */
+.step-list{display:grid;gap:.8rem;}
+.step-row{display:flex;gap:1rem;align-items:flex-start;background:var(--bg);border-radius:12px;padding:1rem;}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--blue);color:white;font-size:.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-row h4{font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:.2rem;}
+.step-row p{font-size:.8rem;color:var(--gray);line-height:1.6;}
+code{background:rgba(26,86,219,.08);color:var(--blue);padding:.1rem .4rem;border-radius:4px;font-size:.82rem;font-family:monospace;}
+
+/* ══════════ MOBILE ══════════ */
+.mobile-top{display:none;position:fixed;top:0;left:0;right:0;background:var(--navy);padding:.8rem 1rem;z-index:300;align-items:center;gap:.7rem;}
+.hamburger{background:none;border:none;color:white;font-size:1.3rem;cursor:pointer;padding:.3rem;}
+.mobile-top span{color:white;font-weight:700;font-size:.95rem;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:199;}
+
 @media(max-width:900px){
-  .sidebar{transform:translateX(-100%);transition:.3s;}
+  .sidebar{position:fixed;top:0;left:0;bottom:0;z-index:200;transform:translateX(-100%);transition:.3s;}
   .sidebar.open{transform:translateX(0);}
-  .main{margin-left:0;padding:1.2rem;padding-top:4.5rem;}
-  .mobile-menu-btn{display:flex;align-items:center;justify-content:center;}
+  .sidebar-overlay.show{display:block;}
+  .mobile-top{display:flex;}
+  .main{padding:1rem;padding-top:4.5rem;}
   .form-grid{grid-template-columns:1fr;}
-  table{font-size:.8rem;}
-  td,th{padding:.7rem .8rem;}
+  td,th{padding:.65rem .8rem;}
+  .layout{overflow:hidden;}
 }
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- ══ LOGIN ══ -->
 <div id="loginScreen">
-  <div class="login-card">
-    <div class="logo-icon"><i class="fas fa-shield-halved"></i></div>
-    <h2>Espace Enseignant</h2>
-    <p>Connectez-vous pour gérer votre contenu pédagogique</p>
-    <input class="login-input" type="text" id="loginUser" placeholder="Identifiant">
-    <input class="login-input" type="password" id="loginPass" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="login-btn" onclick="doLogin()"><i class="fas fa-unlock-alt"></i> Connexion</button>
-    <div class="login-error" id="loginErr">Identifiant ou mot de passe incorrect.</div>
-    <p style="margin-top:1rem;font-size:.72rem;color:var(--gray);">Par défaut : admin / teachline2026</p>
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="login-logo-icon"><i class="fas fa-graduation-cap"></i></div>
+        <h1>Teach Line</h1>
+      </div>
+      <h2>Espace Enseignant</h2>
+      <p class="sub">Connectez-vous pour gérer votre contenu en direct</p>
+      <div class="l-field"><i class="fas fa-user"></i><input id="lu" type="text" placeholder="Identifiant" onkeydown="if(event.key==='Enter')login()"></div>
+      <div class="l-field"><i class="fas fa-lock"></i><input id="lp" type="password" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')login()"></div>
+      <button class="login-btn" onclick="login()"><i class="fas fa-unlock-alt"></i> &nbsp;Connexion</button>
+      <div class="login-err" id="lerr">Identifiant ou mot de passe incorrect.</div>
+      <p class="login-hint">Par défaut : <strong>admin</strong> / <strong>teachline2026</strong></p>
+    </div>
   </div>
 </div>
 
-<!-- APP -->
+<!-- ══ APP ══ -->
 <div id="app">
-<button class="mobile-menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
-
-<!-- SIDEBAR -->
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-logo">
-    <div class="sidebar-logo-icon"><i class="fas fa-graduation-cap"></i></div>
-    <span>Teach Line</span>
+  <div class="mobile-top">
+    <button class="hamburger" onclick="toggleSb()"><i class="fas fa-bars"></i></button>
+    <span>Teach Line Admin</span>
   </div>
+  <div class="sidebar-overlay" id="sbOverlay" onclick="closeSb()"></div>
 
-  <div class="sidebar-label">Navigation</div>
-  <a class="nav-item active" onclick="showPanel('dashboard')" href="#"><i class="fas fa-chart-line"></i> Tableau de bord</a>
-  <a class="nav-item" onclick="showPanel('newPost')" href="#"><i class="fas fa-plus-circle"></i> Nouvelle publication</a>
-  <a class="nav-item" onclick="showPanel('newResource')" href="#"><i class="fas fa-upload"></i> Ajouter ressource</a>
-  <a class="nav-item" onclick="showPanel('posts')" href="#"><i class="fas fa-newspaper"></i> Publications</a>
-  <a class="nav-item" onclick="showPanel('resources')" href="#"><i class="fas fa-folder-open"></i> Ressources</a>
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sb-logo">
+        <div class="sb-logo-icon"><i class="fas fa-graduation-cap"></i></div>
+        <span>Teach Line</span>
+      </div>
 
-  <div class="sidebar-label">Paramètres</div>
-  <a class="nav-item" onclick="showPanel('settings')" href="#"><i class="fas fa-cog"></i> Configuration</a>
-  <a class="nav-item" onclick="showPanel('deploy')" href="#"><i class="fab fa-github"></i> Mise en ligne</a>
+      <div class="sb-section">Tableau de bord</div>
+      <button class="nav-item active" onclick="showPanel('dashboard')"><i class="fas fa-chart-pie"></i> Vue d'ensemble</button>
 
-  <div class="sidebar-footer">
-    <a href="../index.html" class="back-link"><i class="fas fa-arrow-left"></i> Voir le site</a>
-    <button class="logout-btn" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+      <div class="sb-section">Contenu</div>
+      <button class="nav-item" onclick="showPanel('newPost')"><i class="fas fa-plus-circle"></i> Nouvelle publication</button>
+      <button class="nav-item" onclick="showPanel('newResource')"><i class="fas fa-upload"></i> Ajouter ressource</button>
+      <button class="nav-item" onclick="showPanel('posts')"><i class="fas fa-newspaper"></i> Publications <span class="badge-count" id="nb-posts">—</span></button>
+      <button class="nav-item" onclick="showPanel('resources')"><i class="fas fa-folder-open"></i> Ressources <span class="badge-count" id="nb-res">—</span></button>
+
+      <div class="sb-section">Compte</div>
+      <button class="nav-item" onclick="showPanel('settings')"><i class="fas fa-cog"></i> Configuration GitHub</button>
+      <button class="nav-item" onclick="showPanel('password')"><i class="fas fa-key"></i> Mot de passe</button>
+
+      <div class="sb-footer">
+        <a href="../index.html" target="_blank"><i class="fas fa-external-link-alt"></i> Voir le site public</a>
+        <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <!-- ── DASHBOARD ── -->
+      <div class="panel active" id="panel-dashboard">
+        <div class="topbar">
+          <div class="topbar-left"><h2>Tableau de bord</h2><p>Tout votre contenu, publié en un clic.</p></div>
+          <div class="topbar-right">
+            <div class="status-dot" id="ghStatus"><span class="live-dot"></span> Vérification…</div>
+          </div>
+        </div>
+
+        <div id="setup-warning" style="display:none">
+          <div class="setup-banner">
+            <i class="fas fa-triangle-exclamation"></i>
+            <div>
+              <h3>Configuration GitHub requise</h3>
+              <p>Pour publier automatiquement, vous devez configurer votre dépôt GitHub et votre token d'accès. Rendez-vous dans <strong>Configuration GitHub</strong> ci-dessous.</p>
+              <button class="btn btn-accent" style="margin-top:.8rem" onclick="showPanel('settings')"><i class="fas fa-cog"></i> Configurer maintenant</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-icon-wrap" style="background:#dbeafe;color:var(--blue)"><i class="fas fa-newspaper"></i></div><div><div class="stat-val" id="s-p">—</div><div class="stat-lbl">Publications</div></div></div>
+          <div class="stat-card"><div class="stat-icon-wrap" style="background:#d1fae5;color:var(--green)"><i class="fas fa-file-pdf"></i></div><div><div class="stat-val" id="s-r">—</div><div class="stat-lbl">Ressources</div></div></div>
+          <div class="stat-card"><div class="stat-icon-wrap" style="background:#fce7f3;color:#be185d"><i class="fas fa-lock"></i></div><div><div class="stat-val" id="s-l">—</div><div class="stat-lbl">Privés</div></div></div>
+          <div class="stat-card"><div class="stat-icon-wrap" style="background:#fef3c7;color:#d97706"><i class="fas fa-users"></i></div><div><div class="stat-val">22K+</div><div class="stat-lbl">Abonnés</div></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3><i class="fas fa-bolt" style="color:var(--accent)"></i> Actions rapides</h3></div>
+          <div class="card-body" style="display:flex;gap:.8rem;flex-wrap:wrap;">
+            <button class="btn btn-primary btn-lg" onclick="showPanel('newPost')"><i class="fas fa-plus"></i> Nouvelle publication</button>
+            <button class="btn btn-success btn-lg" onclick="showPanel('newResource')"><i class="fas fa-upload"></i> Ajouter ressource</button>
+            <button class="btn btn-ghost btn-lg" onclick="showPanel('posts')"><i class="fas fa-list"></i> Voir toutes les publications</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3><i class="fab fa-github"></i> Comment ça fonctionne ?</h3></div>
+          <div class="card-body">
+            <div class="step-list">
+              <div class="step-row"><div class="step-num">1</div><div><h4>Remplissez le formulaire</h4><p>Ajoutez titre, contenu, type, image… directement dans l'interface d'administration.</p></div></div>
+              <div class="step-row"><div class="step-num">2</div><div><h4>Cliquez « Publier »</h4><p>L'admin envoie automatiquement le fichier dans votre dépôt GitHub via l'API. Zéro manipulation manuelle.</p></div></div>
+              <div class="step-row"><div class="step-num">3</div><div><h4>Votre site se met à jour instantanément</h4><p>Le site public relit les fichiers GitHub et affiche votre nouveau contenu. Vos élèves le voient en quelques secondes.</p></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── NEW POST ── -->
+      <div class="panel" id="panel-newPost">
+        <div class="topbar">
+          <div class="topbar-left"><h2>Nouvelle publication</h2><p>Publiée en direct sur votre site</p></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3><i class="fas fa-newspaper" style="color:var(--blue)"></i> Contenu de la publication</h3></div>
+          <div class="card-body">
+            <div class="field"><label>Titre *</label><input id="pt" type="text" placeholder="Ex: Cours de mathématiques – Chapitre 5"></div>
+            <div class="form-grid">
+              <div class="field"><label>Catégorie</label>
+                <select id="pc">
+                  <option>Cours</option><option>Annonce</option><option>Résumé</option>
+                  <option>Exercice</option><option>Examen</option><option>Actualité</option>
+                </select>
+              </div>
+              <div class="field"><label>Type</label>
+                <select id="ptype">
+                  <option value="post">Publication</option><option value="video">Vidéo</option><option value="pdf">PDF</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field"><label>Contenu *</label>
+              <div class="editor-wrap">
+                <div class="editor-toolbar">
+                  <button class="tb-btn" title="Gras" onclick="fmt('bold')"><i class="fas fa-bold"></i></button>
+                  <button class="tb-btn" title="Italique" onclick="fmt('italic')"><i class="fas fa-italic"></i></button>
+                  <button class="tb-btn" title="Souligné" onclick="fmt('underline')"><i class="fas fa-underline"></i></button>
+                  <span class="tb-sep"></span>
+                  <button class="tb-btn" title="Liste" onclick="insertList()"><i class="fas fa-list-ul"></i></button>
+                  <button class="tb-btn" title="Numérotée" onclick="insertOl()"><i class="fas fa-list-ol"></i></button>
+                  <span class="tb-sep"></span>
+                  <button class="tb-btn" title="Emoji 📌" onclick="insertEmoji('📌')">📌</button>
+                  <button class="tb-btn" title="Emoji ✅" onclick="insertEmoji('✅')">✅</button>
+                  <button class="tb-btn" title="Emoji 📚" onclick="insertEmoji('📚')">📚</button>
+                  <button class="tb-btn" title="Emoji ⚠️" onclick="insertEmoji('⚠️')">⚠️</button>
+                  <button class="tb-btn" title="Emoji 🎯" onclick="insertEmoji('🎯')">🎯</button>
+                </div>
+                <textarea id="editor-body" placeholder="Rédigez votre publication ici… Partagez un cours, une annonce, un résumé…"></textarea>
+              </div>
+            </div>
+
+            <div class="field"><label>Lien externe (YouTube, Drive, etc.)</label><input id="pl" type="url" placeholder="https://…"></div>
+
+            <div class="field"><label>Image de couverture (URL)</label>
+              <input id="pi" type="url" placeholder="https://images.unsplash.com/…" oninput="previewImg(this.value,'p-imgprev')">
+              <img id="p-imgprev" class="img-preview">
+            </div>
+
+            <div class="toggle-field">
+              <div class="toggle-info"><label>🔒 Accès restreint</label><small>Les visiteurs devront contacter l'enseignant pour accéder à ce contenu.</small></div>
+              <label class="switch"><input type="checkbox" id="plocked"><span class="slider"></span></label>
+            </div>
+
+            <div style="display:flex;justify-content:flex-end;gap:.8rem;margin-top:.5rem;">
+              <button class="btn btn-ghost" onclick="clearPost()"><i class="fas fa-trash"></i> Effacer</button>
+              <button class="btn btn-primary btn-lg" onclick="publishPost()"><i class="fas fa-paper-plane"></i> &nbsp;Publier maintenant</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── NEW RESOURCE ── -->
+      <div class="panel" id="panel-newResource">
+        <div class="topbar">
+          <div class="topbar-left"><h2>Ajouter une ressource</h2><p>PDF, vidéo ou image publiée directement</p></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3><i class="fas fa-upload" style="color:var(--green)"></i> Détails de la ressource</h3></div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="field"><label>Titre *</label><input id="rt" type="text" placeholder="Ex: Résumé Physique – Mécanique"></div>
+              <div class="field"><label>Type</label>
+                <select id="rtype" onchange="toggleResourceFields()">
+                  <option value="pdf">📄 PDF</option>
+                  <option value="video">🎬 Vidéo</option>
+                  <option value="image">🖼️ Image</option>
+                </select>
+              </div>
+              <div class="field"><label>Matière</label>
+                <select id="rsubj">
+                  <option>Mathématiques</option><option>Physique</option><option>Chimie</option>
+                  <option>Sciences naturelles</option><option>Français</option><option>Arabe</option>
+                  <option>Histoire-Géo</option><option>Philosophie</option><option>Anglais</option><option>Informatique</option><option>Autre</option>
+                </select>
+              </div>
+              <div class="field"><label>Niveau</label>
+                <select id="rlevel">
+                  <option>BAC (4ème année)</option><option>3ème année</option>
+                  <option>2ème année</option><option>1ère année</option><option>Tous niveaux</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field"><label>Description</label><textarea id="rdesc" placeholder="Décrivez cette ressource : contenu, chapitres, utilité…" style="min-height:80px"></textarea></div>
+
+            <!-- PDF UPLOAD -->
+            <div id="field-pdf">
+              <div class="field"><label>Fichier PDF (upload direct)</label>
+                <div class="file-zone" id="pdfZone">
+                  <input type="file" id="pdfFile" accept=".pdf" onchange="handleFile('pdfFile','pdfName','pdf')">
+                  <i class="fas fa-file-pdf" style="color:#dc2626"></i>
+                  <p>Glissez votre PDF ici ou cliquez pour parcourir</p>
+                  <div class="fn" id="pdfName"></div>
+                </div>
+                <div class="field-hint">Ou entrez un lien direct :</div>
+                <input id="rfile" type="url" placeholder="https://drive.google.com/…" style="margin-top:.4rem">
+              </div>
+            </div>
+
+            <!-- VIDEO FIELDS -->
+            <div id="field-video" style="display:none">
+              <div class="field"><label>URL de la vidéo *</label>
+                <input id="rvideo" type="url" placeholder="https://youtube.com/watch?v=…">
+                <div class="field-hint">YouTube, Vimeo, Google Drive vidéo, Dailymotion…</div>
+              </div>
+              <div class="field"><label>Miniature (URL image)</label>
+                <input id="rthumb" type="url" placeholder="https://…" oninput="previewImg(this.value,'r-imgprev')">
+                <img id="r-imgprev" class="img-preview">
+              </div>
+            </div>
+
+            <!-- IMAGE FIELDS -->
+            <div id="field-image" style="display:none">
+              <div class="field"><label>Image (upload direct)</label>
+                <div class="file-zone">
+                  <input type="file" id="imgFile" accept="image/*" onchange="handleFile('imgFile','imgName','img')">
+                  <i class="fas fa-image" style="color:#059669"></i>
+                  <p>Glissez votre image ici ou cliquez pour parcourir</p>
+                  <div class="fn" id="imgName"></div>
+                </div>
+                <input id="rimg" type="url" placeholder="Ou entrez une URL d'image" style="margin-top:.5rem">
+              </div>
+            </div>
+
+            <div class="toggle-field">
+              <div class="toggle-info"><label>🔒 Accès restreint</label><small>Les visiteurs devront contacter l'enseignant pour accéder.</small></div>
+              <label class="switch"><input type="checkbox" id="rlocked"><span class="slider"></span></label>
+            </div>
+
+            <div style="display:flex;justify-content:flex-end;gap:.8rem;margin-top:.5rem;">
+              <button class="btn btn-ghost" onclick="clearResource()"><i class="fas fa-trash"></i> Effacer</button>
+              <button class="btn btn-success btn-lg" onclick="publishResource()"><i class="fas fa-rocket"></i> &nbsp;Publier la ressource</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── POSTS LIST ── -->
+      <div class="panel" id="panel-posts">
+        <div class="topbar">
+          <div class="topbar-left"><h2>Publications</h2></div>
+          <button class="btn btn-primary" onclick="showPanel('newPost')"><i class="fas fa-plus"></i> Nouvelle</button>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3><i class="fas fa-newspaper"></i> Toutes les publications</h3><span id="posts-count" style="font-size:.78rem;color:var(--gray)"></span></div>
+          <div class="table-wrap">
+            <table><thead><tr><th>Titre</th><th>Catégorie</th><th>Type</th><th>Accès</th><th>Actions</th></tr></thead>
+            <tbody id="posts-tbody"><tr><td colspan="5" style="text-align:center;padding:2.5rem;color:var(--gray)"><i class="fas fa-spinner fa-spin"></i> Chargement…</td></tr></tbody></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── RESOURCES LIST ── -->
+      <div class="panel" id="panel-resources">
+        <div class="topbar">
+          <div class="topbar-left"><h2>Ressources</h2></div>
+          <button class="btn btn-success" onclick="showPanel('newResource')"><i class="fas fa-plus"></i> Ajouter</button>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3><i class="fas fa-folder-open"></i> Toutes les ressources</h3><span id="res-count" style="font-size:.78rem;color:var(--gray)"></span></div>
+          <div class="table-wrap">
+            <table><thead><tr><th>Titre</th><th>Type</th><th>Matière</th><th>Niveau</th><th>Accès</th><th>Actions</th></tr></thead>
+            <tbody id="res-tbody"><tr><td colspan="6" style="text-align:center;padding:2.5rem;color:var(--gray)"><i class="fas fa-spinner fa-spin"></i> Chargement…</td></tr></tbody></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SETTINGS ── -->
+      <div class="panel" id="panel-settings">
+        <div class="topbar"><div class="topbar-left"><h2>Configuration GitHub</h2><p>Requis pour publier automatiquement</p></div></div>
+
+        <div class="card">
+          <div class="card-header"><h3><i class="fab fa-github"></i> Paramètres du dépôt</h3></div>
+          <div class="card-body">
+            <div class="setup-banner" style="margin-bottom:1.5rem">
+              <i class="fas fa-info-circle"></i>
+              <div>
+                <h3>Pourquoi GitHub ?</h3>
+                <p>Votre site est hébergé sur GitHub Pages (100% gratuit). Le contenu est stocké dans votre dépôt sous forme de fichiers. Ce panneau configure l'accès pour que l'admin puisse y écrire directement, sans que vous touchiez au code.</p>
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="field"><label>Nom d'utilisateur GitHub *</label><input id="cfg-owner" type="text" placeholder="badreddinemansouri-eng"></div>
+              <div class="field"><label>Nom du dépôt *</label><input id="cfg-repo" type="text" placeholder="TeachLine-Site"></div>
+            </div>
+            <div class="field"><label>Token GitHub (Personal Access Token) *</label>
+              <input id="cfg-token" type="password" placeholder="ghp_xxxxxxxxxxxx">
+              <div class="field-hint">Créez votre token sur : <strong>github.com → Settings → Developer settings → Personal access tokens → Tokens (classic)</strong> → Cochez <code>repo</code> → Generate token. <strong>Copiez-le immédiatement</strong>, il n'est affiché qu'une fois.</div>
+            </div>
+            <button class="btn btn-primary btn-lg" onclick="saveConfig()"><i class="fas fa-save"></i> Sauvegarder la configuration</button>
+            <button class="btn btn-ghost" style="margin-left:.8rem" onclick="testGithub()"><i class="fas fa-flask"></i> Tester la connexion</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3><i class="fas fa-rocket"></i> Guide : Mettre le site en ligne</h3></div>
+          <div class="card-body">
+            <div class="step-list">
+              <div class="step-row"><div class="step-num">1</div><div><h4>Créez un compte GitHub</h4><p>Allez sur <strong>github.com</strong> → Sign up. Gratuit, rapide.</p></div></div>
+              <div class="step-row"><div class="step-num">2</div><div><h4>Créez un dépôt public</h4><p>New repository → Nom : <code>TeachLine-Site</code> → Public → Create. Ensuite créez les dossiers : <code>content/posts/</code> <code>content/resumes/</code> <code>content/files/</code> (créez un fichier <code>.gitkeep</code> vide dans chacun).</p></div></div>
+              <div class="step-row"><div class="step-num">3</div><div><h4>Uploadez les fichiers du site</h4><p>Add file → Upload files → Glissez <code>index.html</code> et le dossier <code>admin/</code> complet. Commit.</p></div></div>
+              <div class="step-row"><div class="step-num">4</div><div><h4>Activez GitHub Pages</h4><p>Settings → Pages → Source : <code>main</code> → Dossier : <code>/ (root)</code> → Save. Votre site est en ligne sur <code>votre-username.github.io/TeachLine-Site/</code> ✅</p></div></div>
+              <div class="step-row"><div class="step-num">5</div><div><h4>Créez votre token et configurez l'admin</h4><p>Settings → Developer settings → Personal access tokens → Tokens (classic) → New token → cochez <code>repo</code> → Copiez et collez dans la configuration ci-dessus. Vous pouvez maintenant publier en un clic ! 🎉</p></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PASSWORD ── -->
+      <div class="panel" id="panel-password">
+        <div class="topbar"><div class="topbar-left"><h2>Mot de passe Admin</h2></div></div>
+        <div class="card" style="max-width:480px">
+          <div class="card-header"><h3><i class="fas fa-key"></i> Changer le mot de passe</h3></div>
+          <div class="card-body">
+            <div class="field"><label>Mot de passe actuel</label><input id="cp-old" type="password" placeholder="Mot de passe actuel"></div>
+            <div class="field"><label>Nouveau mot de passe</label><input id="cp-new" type="password" placeholder="Nouveau mot de passe"></div>
+            <div class="field"><label>Confirmer</label><input id="cp-new2" type="password" placeholder="Confirmer le mot de passe"></div>
+            <button class="btn btn-primary btn-lg" onclick="changePass()"><i class="fas fa-shield-halved"></i> Mettre à jour</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
   </div>
-</aside>
-
-<!-- MAIN -->
-<main class="main">
-  <!-- DASHBOARD -->
-  <div class="panel active" id="panel-dashboard">
-    <div class="topbar">
-      <h2>Tableau de bord</h2>
-      <div class="topbar-right">
-        <div class="admin-avatar">TL</div>
-      </div>
-    </div>
-
-    <div class="stats-row">
-      <div class="stat-card"><div class="stat-icon" style="background:#dbeafe;color:var(--blue)"><i class="fas fa-newspaper"></i></div><div><div class="stat-val" id="s-posts">—</div><div class="stat-lbl">Publications</div></div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:#d1fae5;color:var(--accent2)"><i class="fas fa-file-pdf"></i></div><div><div class="stat-val" id="s-res">—</div><div class="stat-lbl">Ressources</div></div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:#fef3c7;color:#d97706"><i class="fas fa-lock"></i></div><div><div class="stat-val" id="s-locked">—</div><div class="stat-lbl">Contenus privés</div></div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:#fce7f3;color:#be185d"><i class="fas fa-users"></i></div><div><div class="stat-val">22K+</div><div class="stat-lbl">Abonnés</div></div></div>
-    </div>
-
-    <!-- Quick actions -->
-    <div class="card" style="margin-bottom:1.5rem">
-      <div class="card-header"><h3><i class="fas fa-bolt" style="color:var(--accent)"></i> Actions rapides</h3></div>
-      <div style="padding:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
-        <button class="btn btn-primary" onclick="showPanel('newPost')"><i class="fas fa-plus"></i> Nouvelle publication</button>
-        <button class="btn btn-success" onclick="showPanel('newResource')"><i class="fas fa-upload"></i> Ajouter une ressource</button>
-        <button class="btn btn-ghost" onclick="showPanel('deploy')"><i class="fab fa-github"></i> Voir guide déploiement</button>
-        <a href="../index.html" target="_blank" class="btn btn-ghost"><i class="fas fa-eye"></i> Voir le site public</a>
-      </div>
-    </div>
-
-    <!-- Github instructions summary -->
-    <div class="instructions-box">
-      <h3><i class="fas fa-info-circle"></i> Comment publier du contenu ?</h3>
-      <div class="step"><div class="step-num">1</div><p>Créez votre fichier de contenu depuis <strong>« Nouvelle publication »</strong> ou <strong>« Ajouter ressource »</strong> ici. L'outil génère le texte Markdown prêt à copier.</p></div>
-      <div class="step"><div class="step-num">2</div><p>Allez sur votre dépôt GitHub <code>TeachLine-Site</code> → dossier <code>content/posts/</code> (ou <code>content/resumes/</code>) → cliquez <code>Add file → Create new file</code>.</p></div>
-      <div class="step"><div class="step-num">3</div><p>Collez le contenu généré, nommez le fichier (ex: <code>cours-maths-2026.md</code>), puis cliquez <strong>Commit changes</strong>. En quelques secondes, votre contenu apparaît sur le site !</p></div>
-    </div>
-  </div>
-
-  <!-- NEW POST -->
-  <div class="panel" id="panel-newPost">
-    <div class="topbar"><h2>Nouvelle publication</h2></div>
-    <div class="form-section">
-      <h3><i class="fas fa-newspaper" style="color:var(--blue);margin-right:6px"></i> Informations de la publication</h3>
-      <div class="form-grid">
-        <div class="field"><label>Titre *</label><input type="text" id="p-title" placeholder="Titre de la publication"></div>
-        <div class="field"><label>Catégorie</label>
-          <select id="p-cat">
-            <option>Cours</option><option>Annonce</option><option>Résumé</option>
-            <option>Examen</option><option>Ressource</option><option>Actualité</option>
-          </select>
-        </div>
-        <div class="field"><label>Date</label><input type="date" id="p-date"></div>
-        <div class="field"><label>Type</label>
-          <select id="p-type"><option value="post">Publication normale</option><option value="video">Vidéo</option><option value="pdf">PDF</option></select>
-        </div>
-      </div>
-      <div class="field"><label>Contenu / Description *</label><textarea id="p-body" placeholder="Rédigez votre publication ici..."></textarea></div>
-      <div class="field"><label>Lien externe (optionnel)</label><input type="url" id="p-link" placeholder="https://youtube.com/..."></div>
-      <div class="field"><label>URL image de couverture (optionnel)</label><input type="url" id="p-img" placeholder="https://..."></div>
-      <div class="toggle-row">
-        <div><label>Accès restreint (contact pour accéder)</label><p style="font-size:.75rem;color:var(--gray)">Si activé, les visiteurs doivent contacter l'enseignant pour accéder.</p></div>
-        <label class="switch"><input type="checkbox" id="p-locked"><span class="slider"></span></label>
-      </div>
-    </div>
-    <div class="form-section">
-      <h3><i class="fas fa-code" style="color:var(--accent);margin-right:6px"></i> Fichier Markdown généré</h3>
-      <p style="font-size:.82rem;color:var(--gray);margin-bottom:1rem">Cliquez sur "Générer" pour obtenir le fichier à publier sur GitHub.</p>
-      <div class="form-actions" style="justify-content:flex-start;margin-bottom:1rem">
-        <button class="btn btn-primary" onclick="generatePost()"><i class="fas fa-magic"></i> Générer le fichier</button>
-      </div>
-      <textarea id="p-output" readonly style="width:100%;min-height:180px;padding:1rem;border-radius:12px;border:1.5px solid var(--border);font-family:monospace;font-size:.8rem;background:#f8fafd;color:var(--navy);resize:vertical;" placeholder="Le fichier Markdown apparaîtra ici..."></textarea>
-      <div class="form-actions">
-        <button class="btn btn-ghost" onclick="copyOutput('p-output')"><i class="fas fa-copy"></i> Copier</button>
-        <button class="btn btn-success" onclick="downloadMd('p-output','post')"><i class="fas fa-download"></i> Télécharger .md</button>
-      </div>
-    </div>
-    <div class="instructions-box">
-      <h3><i class="fab fa-github"></i> Où mettre ce fichier ?</h3>
-      <div class="step"><div class="step-num">1</div><p>Sur GitHub, allez dans votre dépôt → <code>content/posts/</code></p></div>
-      <div class="step"><div class="step-num">2</div><p>Cliquez <code>Add file</code> → <code>Create new file</code></p></div>
-      <div class="step"><div class="step-num">3</div><p>Nommez le fichier : <code>mon-titre.md</code> et collez le contenu ci-dessus.</p></div>
-      <div class="step"><div class="step-num">4</div><p>Cliquez <strong>Commit changes</strong>. Votre publication apparaît sur le site en quelques secondes.</p></div>
-    </div>
-  </div>
-
-  <!-- NEW RESOURCE -->
-  <div class="panel" id="panel-newResource">
-    <div class="topbar"><h2>Ajouter une ressource</h2></div>
-    <div class="form-section">
-      <h3><i class="fas fa-upload" style="color:var(--accent2);margin-right:6px"></i> Détails de la ressource</h3>
-      <div class="form-grid">
-        <div class="field"><label>Titre *</label><input type="text" id="r-title" placeholder="Ex: Résumé Mathématiques BAC"></div>
-        <div class="field"><label>Type de ressource</label>
-          <select id="r-type"><option value="pdf">PDF</option><option value="video">Vidéo</option><option value="image">Image</option></select>
-        </div>
-        <div class="field"><label>Matière</label>
-          <select id="r-subject">
-            <option>Mathématiques</option><option>Physique</option><option>Chimie</option>
-            <option>Sciences naturelles</option><option>Français</option><option>Arabe</option>
-            <option>Histoire-Géo</option><option>Philosophie</option><option>Anglais</option><option>Autre</option>
-          </select>
-        </div>
-        <div class="field"><label>Niveau</label>
-          <select id="r-level">
-            <option>BAC</option><option>3ème année</option><option>2ème année</option>
-            <option>1ère année</option><option>Tous niveaux</option>
-          </select>
-        </div>
-      </div>
-      <div class="field"><label>Description</label><textarea id="r-desc" placeholder="Décrivez cette ressource..."></textarea></div>
-      <div class="field"><label>Chemin du fichier sur GitHub</label><input type="text" id="r-file" placeholder="content/files/mon-fichier.pdf"><div class="field-hint">Le fichier doit être uploadé dans votre dépôt GitHub (glissez-déposez dans l'interface GitHub).</div></div>
-      <div class="field"><label>Ou URL vidéo (YouTube, etc.)</label><input type="url" id="r-video" placeholder="https://youtube.com/..."></div>
-      <div class="toggle-row">
-        <div><label>Accès restreint</label><p style="font-size:.75rem;color:var(--gray)">Les visiteurs devront contacter l'enseignant pour y accéder.</p></div>
-        <label class="switch"><input type="checkbox" id="r-locked"><span class="slider"></span></label>
-      </div>
-    </div>
-    <div class="form-section">
-      <h3><i class="fas fa-code" style="color:var(--accent);margin-right:6px"></i> Fichier Markdown généré</h3>
-      <div class="form-actions" style="justify-content:flex-start;margin-bottom:1rem">
-        <button class="btn btn-primary" onclick="generateResource()"><i class="fas fa-magic"></i> Générer le fichier</button>
-      </div>
-      <textarea id="r-output" readonly style="width:100%;min-height:160px;padding:1rem;border-radius:12px;border:1.5px solid var(--border);font-family:monospace;font-size:.8rem;background:#f8fafd;color:var(--navy);resize:vertical;" placeholder="Le fichier Markdown apparaîtra ici..."></textarea>
-      <div class="form-actions">
-        <button class="btn btn-ghost" onclick="copyOutput('r-output')"><i class="fas fa-copy"></i> Copier</button>
-        <button class="btn btn-success" onclick="downloadMd('r-output','resource')"><i class="fas fa-download"></i> Télécharger .md</button>
-      </div>
-    </div>
-    <div class="instructions-box">
-      <h3><i class="fab fa-github"></i> Comment uploader un fichier PDF/image sur GitHub ?</h3>
-      <div class="step"><div class="step-num">1</div><p>Dans votre dépôt GitHub, allez dans <code>content/files/</code> (créez ce dossier si nécessaire).</p></div>
-      <div class="step"><div class="step-num">2</div><p>Cliquez <code>Add file → Upload files</code> et glissez votre PDF ou image.</p></div>
-      <div class="step"><div class="step-num">3</div><p>Notez le chemin exact (ex: <code>content/files/maths-bac.pdf</code>) et entrez-le dans le champ ci-dessus.</p></div>
-      <div class="step"><div class="step-num">4</div><p>Placez le fichier .md généré dans <code>content/resumes/</code> de la même façon.</p></div>
-    </div>
-  </div>
-
-  <!-- POSTS LIST -->
-  <div class="panel" id="panel-posts">
-    <div class="topbar"><h2>Publications</h2><button class="btn btn-primary" onclick="showPanel('newPost')"><i class="fas fa-plus"></i> Nouvelle</button></div>
-    <div class="card">
-      <div class="card-header"><h3>Toutes les publications</h3><span style="font-size:.8rem;color:var(--gray)" id="posts-info">Chargement depuis GitHub...</span></div>
-      <div style="overflow-x:auto">
-        <table>
-          <thead><tr><th>Titre</th><th>Catégorie</th><th>Date</th><th>Accès</th><th>Actions</th></tr></thead>
-          <tbody id="posts-table"><tr><td colspan="5" style="text-align:center;color:var(--gray);padding:2rem">Chargement...</td></tr></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- RESOURCES LIST -->
-  <div class="panel" id="panel-resources">
-    <div class="topbar"><h2>Ressources</h2><button class="btn btn-success" onclick="showPanel('newResource')"><i class="fas fa-plus"></i> Ajouter</button></div>
-    <div class="card">
-      <div class="card-header"><h3>Toutes les ressources</h3><span style="font-size:.8rem;color:var(--gray)" id="res-info">Chargement depuis GitHub...</span></div>
-      <div style="overflow-x:auto">
-        <table>
-          <thead><tr><th>Titre</th><th>Type</th><th>Matière</th><th>Accès</th><th>Actions</th></tr></thead>
-          <tbody id="res-table"><tr><td colspan="5" style="text-align:center;color:var(--gray);padding:2rem">Chargement...</td></tr></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- SETTINGS -->
-  <div class="panel" id="panel-settings">
-    <div class="topbar"><h2>Configuration</h2></div>
-    <div class="form-section">
-      <h3><i class="fas fa-github" style="margin-right:6px"></i> Configuration GitHub</h3>
-      <div class="form-grid">
-        <div class="field"><label>Nom d'utilisateur GitHub</label><input type="text" id="cfg-owner" placeholder="badreddinemansouri-eng"></div>
-        <div class="field"><label>Nom du dépôt</label><input type="text" id="cfg-repo" placeholder="TeachLine-Site"></div>
-      </div>
-      <div class="field"><label>Token GitHub (Personal Access Token)</label><input type="password" id="cfg-token" placeholder="ghp_..."></div>
-      <div class="field-hint" style="font-size:.78rem;color:var(--gray);margin-top:-.5rem;margin-bottom:1rem">Créez un token sur github.com → Settings → Developer settings → Personal access tokens → Tokens (classic). Cochez <strong>repo</strong>.</div>
-      <div class="form-actions"><button class="btn btn-primary" onclick="saveConfig()"><i class="fas fa-save"></i> Sauvegarder</button></div>
-    </div>
-    <div class="form-section">
-      <h3><i class="fas fa-lock" style="margin-right:6px"></i> Mot de passe Admin</h3>
-      <div class="form-grid">
-        <div class="field"><label>Nouveau mot de passe</label><input type="password" id="new-pass" placeholder="Nouveau mot de passe"></div>
-        <div class="field"><label>Confirmer</label><input type="password" id="new-pass2" placeholder="Confirmer"></div>
-      </div>
-      <div class="form-actions"><button class="btn btn-primary" onclick="changePass()"><i class="fas fa-key"></i> Changer le mot de passe</button></div>
-    </div>
-  </div>
-
-  <!-- DEPLOY GUIDE -->
-  <div class="panel" id="panel-deploy">
-    <div class="topbar"><h2>Mise en ligne gratuite</h2></div>
-    <div class="card" style="margin-bottom:1.5rem">
-      <div class="card-header"><h3><i class="fab fa-github" style="color:var(--navy)"></i> Étapes pour mettre en ligne votre site (gratuit, illimité)</h3></div>
-      <div style="padding:1.5rem;display:grid;gap:1.5rem">
-
-        <div style="background:var(--bg);border-radius:14px;padding:1.5rem">
-          <h4 style="color:var(--navy);margin-bottom:1rem"><span style="background:var(--blue);color:white;padding:.2rem .7rem;border-radius:20px;font-size:.8rem;margin-right:.5rem">1</span> Créer un compte GitHub</h4>
-          <p style="font-size:.88rem;color:var(--text-light);line-height:1.7">Allez sur <strong>github.com</strong> → Sign up → Créez votre compte gratuitement. GitHub est la plateforme où votre site sera hébergé.</p>
-        </div>
-
-        <div style="background:var(--bg);border-radius:14px;padding:1.5rem">
-          <h4 style="color:var(--navy);margin-bottom:1rem"><span style="background:var(--blue);color:white;padding:.2rem .7rem;border-radius:20px;font-size:.8rem;margin-right:.5rem">2</span> Créer un dépôt public</h4>
-          <p style="font-size:.88rem;color:var(--text-light);line-height:1.7">Sur GitHub : <strong>New repository</strong> → Nom : <code style="background:rgba(0,0,0,.06);padding:.1rem .4rem;border-radius:4px">TeachLine-Site</code> → Public → Create repository. Créez aussi ces dossiers : <code>content/posts/</code>, <code>content/resumes/</code>, <code>content/files/</code>.</p>
-        </div>
-
-        <div style="background:var(--bg);border-radius:14px;padding:1.5rem">
-          <h4 style="color:var(--navy);margin-bottom:1rem"><span style="background:var(--blue);color:white;padding:.2rem .7rem;border-radius:20px;font-size:.8rem;margin-right:.5rem">3</span> Uploader les fichiers du site</h4>
-          <p style="font-size:.88rem;color:var(--text-light);line-height:1.7">Uploadez <code>index.html</code> et le dossier <code>admin/</code> (avec <code>admin/index.html</code>) dans votre dépôt via <strong>Add file → Upload files</strong>. Glissez-déposez directement dans l'interface GitHub.</p>
-        </div>
-
-        <div style="background:var(--bg);border-radius:14px;padding:1.5rem">
-          <h4 style="color:var(--navy);margin-bottom:1rem"><span style="background:var(--blue);color:white;padding:.2rem .7rem;border-radius:20px;font-size:.8rem;margin-right:.5rem">4</span> Activer GitHub Pages (hébergement gratuit)</h4>
-          <p style="font-size:.88rem;color:var(--text-light);line-height:1.7">Dans votre dépôt → <strong>Settings</strong> → <strong>Pages</strong> → Source : <strong>Deploy from a branch</strong> → Branch : <code>main</code> → Dossier : <code>/ (root)</code> → Save. Votre site sera accessible en quelques minutes sur : <code>https://votre-username.github.io/TeachLine-Site/</code></p>
-        </div>
-
-        <div style="background:#d1fae5;border-radius:14px;padding:1.5rem">
-          <h4 style="color:#059669;margin-bottom:.5rem"><i class="fas fa-check-circle"></i> Avantages de GitHub Pages</h4>
-          <p style="font-size:.88rem;color:#065f46;line-height:1.7">✅ 100% gratuit, sans limitation de trafic<br>✅ HTTPS automatique (site sécurisé)<br>✅ Mises à jour instantanées après chaque commit<br>✅ Nom de domaine personnalisé possible<br>✅ Fiable, stable, géré par Microsoft/GitHub</p>
-        </div>
-
-        <div style="background:#fef3c7;border-radius:14px;padding:1.5rem">
-          <h4 style="color:#92400e;margin-bottom:.5rem"><i class="fas fa-domain"></i> Domaine personnalisé (optionnel)</h4>
-          <p style="font-size:.88rem;color:#78350f;line-height:1.7">Pour avoir <code>teachline.tn</code> au lieu de <code>github.io/...</code> : achetez un domaine sur <strong>Namecheap</strong> ou <strong>Gandi</strong> (~10$/an), puis configurez-le dans Settings → Pages → Custom domain. Totalement optionnel.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</main>
 </div>
 
-<!-- NOTIFICATION -->
-<div class="notif" id="notif"></div>
+<!-- ══ PUBLISH OVERLAY ══ -->
+<div class="pub-overlay" id="pubOverlay">
+  <div class="pub-card">
+    <i class="fas fa-spinner pub-spinner" id="pubSpinner"></i>
+    <i class="fas fa-check-circle pub-check" id="pubCheck" style="color:var(--green)"></i>
+    <h3 id="pubTitle">Publication en cours…</h3>
+    <p id="pubMsg">Connexion à GitHub…</p>
+    <div class="pub-step" id="pubStep"></div>
+    <div class="pub-actions" id="pubActions">
+      <a href="../index.html" target="_blank" class="btn btn-ghost"><i class="fas fa-eye"></i> Voir le site</a>
+      <button class="btn btn-primary" onclick="closePubOverlay()"><i class="fas fa-check"></i> OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOASTS ══ -->
+<div class="toast-wrap" id="toastWrap"></div>
 
 <script>
-// ---- AUTH ----
-const CREDS={user:'admin',pass:'teachline2026'};
-let SESSION={user:null,pass:null};
+/* ══════════════════════════════════════
+   AUTH
+══════════════════════════════════════ */
+function getPass(){return localStorage.getItem('tl_pass')||'teachline2026';}
+function getUser(){return localStorage.getItem('tl_user')||'admin';}
 
-function doLogin(){
-  const u=document.getElementById('loginUser').value.trim();
-  const p=document.getElementById('loginPass').value;
-  const savedPass=localStorage.getItem('tl_admin_pass')||CREDS.pass;
-  const savedUser=localStorage.getItem('tl_admin_user')||CREDS.user;
-  if(u===savedUser&&p===savedPass){
-    SESSION={user:u,pass:p};
+function login(){
+  const u=document.getElementById('lu').value.trim();
+  const p=document.getElementById('lp').value;
+  if(u===getUser()&&p===getPass()){
     document.getElementById('loginScreen').style.display='none';
     document.getElementById('app').style.display='block';
-    loadConfig();loadDashboardStats();
-    document.getElementById('p-date').value=new Date().toISOString().split('T')[0];
+    init();
   }else{
-    document.getElementById('loginErr').style.display='block';
-    setTimeout(()=>document.getElementById('loginErr').style.display='none',3000);
+    document.getElementById('lerr').style.display='block';
+    setTimeout(()=>document.getElementById('lerr').style.display='none',3000);
   }
 }
 
-function doLogout(){
+function logout(){
   document.getElementById('loginScreen').style.display='flex';
   document.getElementById('app').style.display='none';
-  document.getElementById('loginUser').value='';
-  document.getElementById('loginPass').value='';
+  document.getElementById('lu').value='';document.getElementById('lp').value='';
 }
 
 function changePass(){
-  const p1=document.getElementById('new-pass').value;
-  const p2=document.getElementById('new-pass2').value;
-  if(!p1){notify('Entrez un mot de passe','error');return;}
-  if(p1!==p2){notify('Les mots de passe ne correspondent pas','error');return;}
-  localStorage.setItem('tl_admin_pass',p1);
-  notify('Mot de passe mis à jour ✓','success');
+  const old=document.getElementById('cp-old').value;
+  const n1=document.getElementById('cp-new').value;
+  const n2=document.getElementById('cp-new2').value;
+  if(old!==getPass()){toast('Mot de passe actuel incorrect','error');return;}
+  if(!n1||n1!==n2){toast('Les mots de passe ne correspondent pas','error');return;}
+  localStorage.setItem('tl_pass',n1);
+  document.getElementById('cp-old').value='';document.getElementById('cp-new').value='';document.getElementById('cp-new2').value='';
+  toast('Mot de passe mis à jour ✓','success');
 }
 
-// ---- SIDEBAR ----
-function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');}
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
+function init(){
+  loadConfig();
+  checkGithubStatus();
+  loadStats();
+}
 
+/* ══════════════════════════════════════
+   SIDEBAR & PANELS
+══════════════════════════════════════ */
 function showPanel(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n=>{if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+id+"'"))n.classList.add('active');});
-  document.getElementById('sidebar').classList.remove('open');
+  document.querySelectorAll('.nav-item').forEach(n=>{
+    if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+id+"'"))n.classList.add('active');
+  });
+  closeSb();
   if(id==='posts')loadPostsTable();
   if(id==='resources')loadResTable();
 }
+function toggleSb(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('sbOverlay').classList.toggle('show');}
+function closeSb(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sbOverlay').classList.remove('show');}
 
-// ---- NOTIFY ----
-function notify(msg,type='success'){
-  const el=document.getElementById('notif');
-  el.textContent=type==='success'?'✓ '+msg:'✗ '+msg;
-  el.className='notif '+type+' show';
-  setTimeout(()=>el.classList.remove('show'),3500);
-}
-
-// ---- CONFIG ----
+/* ══════════════════════════════════════
+   CONFIG
+══════════════════════════════════════ */
 function loadConfig(){
-  document.getElementById('cfg-owner').value=localStorage.getItem('tl_owner')||'badreddinemansouri-eng';
+  document.getElementById('cfg-owner').value=localStorage.getItem('tl_owner')||'';
   document.getElementById('cfg-repo').value=localStorage.getItem('tl_repo')||'TeachLine-Site';
   document.getElementById('cfg-token').value=localStorage.getItem('tl_token')||'';
 }
 function saveConfig(){
-  localStorage.setItem('tl_owner',document.getElementById('cfg-owner').value.trim());
-  localStorage.setItem('tl_repo',document.getElementById('cfg-repo').value.trim());
-  localStorage.setItem('tl_token',document.getElementById('cfg-token').value.trim());
-  notify('Configuration sauvegardée ✓');
+  const o=document.getElementById('cfg-owner').value.trim();
+  const r=document.getElementById('cfg-repo').value.trim();
+  const t=document.getElementById('cfg-token').value.trim();
+  if(!o||!t){toast('Remplissez le nom d\'utilisateur et le token','error');return;}
+  localStorage.setItem('tl_owner',o);localStorage.setItem('tl_repo',r);localStorage.setItem('tl_token',t);
+  toast('Configuration sauvegardée ✓','success');
+  checkGithubStatus();
 }
-function getCfg(){
-  return{
-    owner:localStorage.getItem('tl_owner')||'badreddinemansouri-eng',
-    repo:localStorage.getItem('tl_repo')||'TeachLine-Site',
-    token:localStorage.getItem('tl_token')||'',
-    branch:'main'
-  };
-}
+function cfg(){return{owner:localStorage.getItem('tl_owner'),repo:localStorage.getItem('tl_repo')||'TeachLine-Site',token:localStorage.getItem('tl_token'),branch:'main'};}
 
-// ---- GITHUB API ----
+/* ══════════════════════════════════════
+   GITHUB API
+══════════════════════════════════════ */
 async function ghGet(path){
-  const{owner,repo,token,branch}=getCfg();
-  const headers={'Content-Type':'application/json'};
-  if(token)headers['Authorization']='Bearer '+token;
-  const r=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`,{headers});
-  if(!r.ok)throw new Error('GitHub fetch failed '+r.status);
+  const c=cfg();
+  const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}?ref=${c.branch}`,{
+    headers:{Authorization:'Bearer '+c.token,'Content-Type':'application/json'}
+  });
+  if(!r.ok)throw new Error('GH '+r.status);
   return r.json();
 }
 
-function parseFM(md){
-  const fm={};const block=md.match(/^---\n([\s\S]*?)\n---/);
-  if(block)block[1].split('\n').forEach(l=>{const[k,...v]=l.split(':');if(k)fm[k.trim()]=v.join(':').trim().replace(/^"|"$/g,'');});
-  const body=md.replace(/^---[\s\S]*?---\n?/,'').trim();
-  return{...fm,body};
+async function ghPut(path,content,message,sha=null){
+  const c=cfg();
+  const body={message,content:btoa(unescape(encodeURIComponent(content))),branch:c.branch};
+  if(sha)body.sha=sha;
+  const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}`,{
+    method:'PUT',
+    headers:{Authorization:'Bearer '+c.token,'Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  });
+  if(!r.ok){const e=await r.json();throw new Error(e.message||'GH PUT failed '+r.status);}
+  return r.json();
 }
 
-// ---- DASHBOARD STATS ----
-async function loadDashboardStats(){
+async function ghPutBinary(path,base64content,message,sha=null){
+  const c=cfg();
+  const body={message,content:base64content,branch:c.branch};
+  if(sha)body.sha=sha;
+  const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}`,{
+    method:'PUT',
+    headers:{Authorization:'Bearer '+c.token,'Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  });
+  if(!r.ok){const e=await r.json();throw new Error(e.message||'GH binary PUT failed');}
+  return r.json();
+}
+
+async function ghDel(path,message,sha){
+  const c=cfg();
+  const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}`,{
+    method:'DELETE',
+    headers:{Authorization:'Bearer '+c.token,'Content-Type':'application/json'},
+    body:JSON.stringify({message,sha,branch:c.branch})
+  });
+  if(!r.ok)throw new Error('GH DEL failed');
+  return r.json();
+}
+
+async function getSha(path){
+  try{const d=await ghGet(path);return d.sha||null;}catch(e){return null;}
+}
+
+/* ══════════════════════════════════════
+   STATUS CHECK
+══════════════════════════════════════ */
+async function checkGithubStatus(){
+  const el=document.getElementById('ghStatus');
+  const warn=document.getElementById('setup-warning');
+  const c=cfg();
+  if(!c.owner||!c.token){
+    el.innerHTML='<i class="fas fa-circle" style="color:var(--red)"></i> Non configuré';
+    warn.style.display='block';return;
+  }
   try{
-    const posts=await ghGet('content/posts');
-    const res=await ghGet('content/resumes');
-    const pmd=posts.filter(f=>f.name.endsWith('.md'));
-    const rmd=res.filter(f=>f.name.endsWith('.md'));
-    document.getElementById('s-posts').textContent=pmd.length;
-    document.getElementById('s-res').textContent=rmd.length;
+    const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}`,{headers:{Authorization:'Bearer '+c.token}});
+    if(r.ok){
+      el.innerHTML='<span class="live-dot"></span> GitHub connecté';
+      warn.style.display='none';
+    }else{
+      el.innerHTML='<i class="fas fa-circle" style="color:var(--red)"></i> Erreur token';
+      warn.style.display='block';
+    }
+  }catch(e){el.innerHTML='<i class="fas fa-circle" style="color:#fbbf24"></i> Hors ligne';}
+}
+
+async function testGithub(){
+  const c=cfg();
+  if(!c.owner||!c.token){toast('Remplissez d\'abord les champs','error');return;}
+  try{
+    const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}`,{headers:{Authorization:'Bearer '+c.token}});
+    if(r.ok){const d=await r.json();toast('✅ Connexion OK ! Dépôt : '+d.full_name,'success');}
+    else toast('❌ Erreur : vérifiez le token et le nom du dépôt','error');
+  }catch(e){toast('❌ Impossible de joindre GitHub','error');}
+}
+
+/* ══════════════════════════════════════
+   STATS
+══════════════════════════════════════ */
+async function loadStats(){
+  try{
+    const[posts,res]=await Promise.all([ghGet('content/posts').catch(()=>[]),ghGet('content/resumes').catch(()=>[])]);
+    const pm=posts.filter?.(f=>f.name?.endsWith('.md'))||[];
+    const rm=res.filter?.(f=>f.name?.endsWith('.md'))||[];
+    document.getElementById('s-p').textContent=pm.length;
+    document.getElementById('s-r').textContent=rm.length;
+    document.getElementById('nb-posts').textContent=pm.length;
+    document.getElementById('nb-res').textContent=rm.length;
     // count locked
     let locked=0;
-    const all=[...pmd,...rmd];
-    for(const f of all){
-      try{const r=await fetch(f.download_url);const t=await r.text();if(t.includes('locked: "true"')||t.includes('locked: true'))locked++;}catch(e){}
-    }
-    document.getElementById('s-locked').textContent=locked;
-  }catch(e){
-    document.getElementById('s-posts').textContent='—';
-    document.getElementById('s-res').textContent='—';
-    document.getElementById('s-locked').textContent='—';
-  }
+    for(const f of [...pm,...rm]){try{const r=await fetch(f.download_url);const t=await r.text();if(t.includes('locked: "true"'))locked++;}catch(e){}}
+    document.getElementById('s-l').textContent=locked;
+  }catch(e){}
 }
 
-// ---- POSTS TABLE ----
+/* ══════════════════════════════════════
+   SLUG
+══════════════════════════════════════ */
+function slug(s){
+  return s.toLowerCase()
+    .replace(/[àáâãä]/g,'a').replace(/[éèêë]/g,'e').replace(/[îï]/g,'i').replace(/[ôö]/g,'o').replace(/[ùûü]/g,'u')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').substring(0,50)||'post';
+}
+
+function today(){return new Date().toISOString().split('T')[0];}
+
+/* ══════════════════════════════════════
+   PUBLISH POST
+══════════════════════════════════════ */
+async function publishPost(){
+  const title=document.getElementById('pt').value.trim();
+  const body=document.getElementById('editor-body').value.trim();
+  if(!title||!body){toast('Remplissez le titre et le contenu','error');return;}
+  const c=cfg();
+  if(!c.owner||!c.token){toast('Configurez GitHub d\'abord','error');showPanel('settings');return;}
+
+  const cat=document.getElementById('pc').value;
+  const type=document.getElementById('ptype').value;
+  const link=document.getElementById('pl').value.trim();
+  const img=document.getElementById('pi').value.trim();
+  const locked=document.getElementById('plocked').checked;
+  const date=today();
+  const filename=slug(title)+'-'+date.replace(/-/g,'')+'.md';
+  const path=`content/posts/${filename}`;
+
+  const md=`---\ntitle: "${title}"\ndate: "${date}"\ncategory: "${cat}"\ntype: "${type}"\nlocked: "${locked}"\n${link?`link: "${link}"\n`:''}${img?`image: "${img}"\n`:''}\n---\n\n${body}`;
+
+  showPubOverlay('Publication en cours…','Envoi vers GitHub…');
+  try{
+    setPubStep('Création du fichier dans le dépôt…');
+    await ghPut(path,md,`✏️ Nouvelle publication : ${title}`);
+    setPubDone(`"${title}" publié avec succès !`,'Votre publication est maintenant visible sur le site public.');
+    clearPost();
+    loadStats();
+  }catch(e){closePubOverlay();toast('Erreur : '+e.message,'error');}
+}
+
+function clearPost(){
+  document.getElementById('pt').value='';
+  document.getElementById('editor-body').value='';
+  document.getElementById('pl').value='';
+  document.getElementById('pi').value='';
+  document.getElementById('plocked').checked=false;
+  document.getElementById('p-imgprev').style.display='none';
+}
+
+/* ══════════════════════════════════════
+   PUBLISH RESOURCE
+══════════════════════════════════════ */
+let fileData={pdf:null,img:null};// base64 data
+function handleFile(inputId,nameId,type){
+  const file=document.getElementById(inputId).files[0];
+  if(!file)return;
+  document.getElementById(nameId).textContent=file.name;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const b64=e.target.result.split(',')[1];
+    fileData[type]={name:file.name,data:b64,mime:file.type};
+  };
+  reader.readAsDataURL(file);
+}
+
+function toggleResourceFields(){
+  const t=document.getElementById('rtype').value;
+  document.getElementById('field-pdf').style.display=t==='pdf'?'block':'none';
+  document.getElementById('field-video').style.display=t==='video'?'block':'none';
+  document.getElementById('field-image').style.display=t==='image'?'block':'none';
+}
+
+async function publishResource(){
+  const title=document.getElementById('rt').value.trim();
+  const type=document.getElementById('rtype').value;
+  if(!title){toast('Entrez un titre','error');return;}
+  const c=cfg();
+  if(!c.owner||!c.token){toast('Configurez GitHub d\'abord','error');showPanel('settings');return;}
+
+  const subj=document.getElementById('rsubj').value;
+  const level=document.getElementById('rlevel').value;
+  const desc=document.getElementById('rdesc').value.trim();
+  const locked=document.getElementById('rlocked').checked;
+  const date=today();
+  const filename=slug(title)+'-'+date.replace(/-/g,'')+'.md';
+
+  showPubOverlay('Publication de la ressource…','Envoi vers GitHub…');
+
+  try{
+    let filePath='',videoUrl='',imageUrl='';
+
+    if(type==='pdf'){
+      const urlField=document.getElementById('rfile').value.trim();
+      if(fileData.pdf){
+        setPubStep('Upload du PDF…');
+        const pdfPath=`content/files/${fileData.pdf.name}`;
+        await ghPutBinary(pdfPath,fileData.pdf.data,`📄 Upload PDF : ${fileData.pdf.name}`);
+        filePath=pdfPath;
+      }else if(urlField){filePath=urlField;}
+    } else if(type==='video'){
+      videoUrl=document.getElementById('rvideo').value.trim();
+    } else if(type==='image'){
+      const urlField=document.getElementById('rimg').value.trim();
+      if(fileData.img){
+        setPubStep('Upload de l\'image…');
+        const imgPath=`content/files/${fileData.img.name}`;
+        await ghPutBinary(imgPath,fileData.img.data,`🖼️ Upload image : ${fileData.img.name}`);
+        imageUrl=imgPath;
+      }else if(urlField){imageUrl=urlField;}
+    }
+
+    const md=`---\ntitle: "${title}"\ntype: "${type}"\nsubject: "${subj}"\nlevel: "${level}"\nlocked: "${locked}"\ndate: "${date}"\n${filePath?`pdf_file: "${filePath}"\n`:''}${videoUrl?`video_url: "${videoUrl}"\n`:''}${imageUrl?`image_url: "${imageUrl}"\n`:''}\n---\n\n${desc}`;
+
+    setPubStep('Création de la fiche ressource…');
+    await ghPut(`content/resumes/${filename}`,md,`📚 Nouvelle ressource : ${title}`);
+    setPubDone(`"${title}" publié avec succès !`,'La ressource est maintenant visible sur le site public.');
+    clearResource();
+    fileData={pdf:null,img:null};
+    loadStats();
+  }catch(e){closePubOverlay();toast('Erreur : '+e.message,'error');}
+}
+
+function clearResource(){
+  document.getElementById('rt').value='';
+  document.getElementById('rdesc').value='';
+  document.getElementById('rfile').value='';
+  document.getElementById('rvideo').value='';
+  document.getElementById('rimg').value='';
+  document.getElementById('rlocked').checked=false;
+  document.getElementById('pdfName').textContent='';
+  document.getElementById('imgName').textContent='';
+  document.getElementById('r-imgprev').style.display='none';
+}
+
+/* ══════════════════════════════════════
+   POSTS TABLE
+══════════════════════════════════════ */
+function parseFM(md){
+  const fm={};const b=md.match(/^---\n([\s\S]*?)\n---/);
+  if(b)b[1].split('\n').forEach(l=>{const[k,...v]=l.split(':');if(k)fm[k.trim()]=v.join(':').trim().replace(/^"|"$/g,'');});
+  return fm;
+}
+
 async function loadPostsTable(){
-  const tb=document.getElementById('posts-table');
-  const info=document.getElementById('posts-info');
-  tb.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:2rem"><i class="fas fa-spinner fa-spin"></i> Chargement...</td></tr>';
+  const tb=document.getElementById('posts-tbody');
+  tb.innerHTML='<tr><td colspan="5" style="text-align:center;padding:2.5rem;color:var(--gray)"><i class="fas fa-spinner fa-spin"></i> Chargement…</td></tr>';
   try{
     const files=await ghGet('content/posts');
-    const mds=files.filter(f=>f.name.endsWith('.md'));
-    if(!mds.length){tb.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:2rem">Aucune publication trouvée.</td></tr>';return;}
-    const posts=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return{...parseFM(t),_file:f.name,_url:f.html_url};}));
-    info.textContent=posts.length+' publication(s)';
-    tb.innerHTML=posts.sort((a,b)=>new Date(b.date||0)-new Date(a.date||0)).map(p=>`
+    const mds=files.filter(f=>f.name?.endsWith('.md'));
+    document.getElementById('posts-count').textContent=mds.length+' publication(s)';
+    if(!mds.length){tb.innerHTML='<tr><td colspan="5" style="text-align:center;padding:2.5rem;color:var(--gray)">Aucune publication trouvée.</td></tr>';return;}
+    const items=await Promise.all(mds.map(async f=>{
+      const r=await fetch(f.download_url);const t=await r.text();
+      return{...parseFM(t),_name:f.name,_sha:f.sha,_url:f.html_url};
+    }));
+    items.sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
+    const typeIcon={post:'fa-newspaper',video:'fa-video',pdf:'fa-file-pdf'};
+    tb.innerHTML=items.map(p=>`
       <tr>
-        <td style="font-weight:600">${p.title||'Sans titre'}</td>
-        <td><span class="badge badge-post">${p.category||'—'}</span></td>
-        <td>${p.date||'—'}</td>
-        <td><span class="badge ${p.locked==='true'?'badge-locked':'badge-public'}">${p.locked==='true'?'🔒 Restreint':'✅ Public'}</span></td>
+        <td><div class="cell-title">${esc(p.title||'Sans titre')}<small>${esc(p.date||'')}</small></div></td>
+        <td><span class="badge b-cat">${esc(p.category||'—')}</span></td>
+        <td><span class="badge ${p.type==='video'?'b-video':p.type==='pdf'?'b-pdf':'b-post'}"><i class="fas ${typeIcon[p.type]||'fa-newspaper'}"></i> ${esc(p.type||'post')}</span></td>
+        <td><span class="badge ${p.locked==='true'?'b-locked':'b-pub'}">${p.locked==='true'?'🔒 Restreint':'✅ Public'}</span></td>
         <td><div class="action-btns">
-          <a href="${p._url}" target="_blank" class="btn btn-ghost" style="font-size:.75rem"><i class="fas fa-external-link-alt"></i> GitHub</a>
+          <a href="${esc(p._url)}" target="_blank" class="btn btn-ghost btn-icon" title="Voir sur GitHub"><i class="fas fa-code"></i></a>
+          <button class="btn btn-danger btn-icon" title="Supprimer" onclick="deleteFile('content/posts/${esc(p._name)}','${esc(p._sha)}','post','${esc(p.title)}')"><i class="fas fa-trash"></i></button>
         </div></td>
       </tr>`).join('');
-  }catch(e){tb.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:2rem">⚠️ Impossible de charger. Vérifiez la configuration GitHub.</td></tr>';}
+  }catch(e){tb.innerHTML='<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--red)">⚠️ Impossible de charger. Vérifiez la configuration GitHub.</td></tr>';}
 }
 
-// ---- RESOURCES TABLE ----
+/* ══════════════════════════════════════
+   RESOURCES TABLE
+══════════════════════════════════════ */
 async function loadResTable(){
-  const tb=document.getElementById('res-table');
-  const info=document.getElementById('res-info');
-  tb.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:2rem"><i class="fas fa-spinner fa-spin"></i> Chargement...</td></tr>';
+  const tb=document.getElementById('res-tbody');
+  tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2.5rem;color:var(--gray)"><i class="fas fa-spinner fa-spin"></i> Chargement…</td></tr>';
   try{
     const files=await ghGet('content/resumes');
-    const mds=files.filter(f=>f.name.endsWith('.md'));
-    if(!mds.length){tb.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:2rem">Aucune ressource trouvée.</td></tr>';return;}
-    const items=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return{...parseFM(t),_file:f.name,_url:f.html_url};}));
-    info.textContent=items.length+' ressource(s)';
-    const typeClass={'pdf':'badge-pdf','video':'badge-video','image':'badge-image'};
+    const mds=files.filter(f=>f.name?.endsWith('.md'));
+    document.getElementById('res-count').textContent=mds.length+' ressource(s)';
+    if(!mds.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2.5rem;color:var(--gray)">Aucune ressource trouvée.</td></tr>';return;}
+    const items=await Promise.all(mds.map(async f=>{
+      const r=await fetch(f.download_url);const t=await r.text();
+      return{...parseFM(t),_name:f.name,_sha:f.sha,_url:f.html_url};
+    }));
+    const tc={pdf:'b-pdf',video:'b-video',image:'b-image'};
+    const ti={pdf:'fa-file-pdf',video:'fa-video',image:'fa-image'};
     tb.innerHTML=items.map(r=>`
       <tr>
-        <td style="font-weight:600">${r.title||'Sans titre'}</td>
-        <td><span class="badge ${typeClass[r.type]||'badge-pdf'}">${(r.type||'pdf').toUpperCase()}</span></td>
-        <td>${r.subject||'—'}</td>
-        <td><span class="badge ${r.locked==='true'?'badge-locked':'badge-public'}">${r.locked==='true'?'🔒 Restreint':'✅ Public'}</span></td>
-        <td><a href="${r._url}" target="_blank" class="btn btn-ghost" style="font-size:.75rem"><i class="fas fa-external-link-alt"></i> GitHub</a></td>
+        <td><div class="cell-title">${esc(r.title||'Sans titre')}<small>${esc(r.date||'')}</small></div></td>
+        <td><span class="badge ${tc[r.type]||'b-pdf'}"><i class="fas ${ti[r.type]||'fa-file-pdf'}"></i> ${(r.type||'pdf').toUpperCase()}</span></td>
+        <td>${esc(r.subject||'—')}</td>
+        <td>${esc(r.level||'—')}</td>
+        <td><span class="badge ${r.locked==='true'?'b-locked':'b-pub'}">${r.locked==='true'?'🔒 Restreint':'✅ Public'}</span></td>
+        <td><div class="action-btns">
+          <a href="${esc(r._url)}" target="_blank" class="btn btn-ghost btn-icon"><i class="fas fa-code"></i></a>
+          <button class="btn btn-danger btn-icon" onclick="deleteFile('content/resumes/${esc(r._name)}','${esc(r._sha)}','resource','${esc(r.title)}')"><i class="fas fa-trash"></i></button>
+        </div></td>
       </tr>`).join('');
-  }catch(e){tb.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:2rem">⚠️ Impossible de charger. Vérifiez la configuration GitHub.</td></tr>';}
+  }catch(e){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">⚠️ Impossible de charger.</td></tr>';}
 }
 
-// ---- GENERATE POST MD ----
-function generatePost(){
-  const title=document.getElementById('p-title').value.trim();
-  const cat=document.getElementById('p-cat').value;
-  const date=document.getElementById('p-date').value;
-  const type=document.getElementById('p-type').value;
-  const body=document.getElementById('p-body').value.trim();
-  const link=document.getElementById('p-link').value.trim();
-  const img=document.getElementById('p-img').value.trim();
-  const locked=document.getElementById('p-locked').checked;
-  if(!title||!body){notify('Remplissez le titre et le contenu','error');return;}
-  let md=`---\ntitle: "${title}"\ndate: "${date}"\ncategory: "${cat}"\ntype: "${type}"\nlocked: "${locked}"\n`;
-  if(link)md+=`link: "${link}"\n`;
-  if(img)md+=`image: "${img}"\n`;
-  md+=`---\n\n${body}`;
-  document.getElementById('p-output').value=md;
-  notify('Fichier généré ! Copiez-le dans GitHub.');
+/* ══════════════════════════════════════
+   DELETE
+══════════════════════════════════════ */
+async function deleteFile(path,sha,type,title){
+  if(!confirm(`Supprimer "${title}" ?\n\nCette action est irréversible.`))return;
+  try{
+    await ghDel(path,`🗑️ Suppression : ${title}`,sha);
+    toast(`"${title}" supprimé.`,'success');
+    if(type==='post')loadPostsTable();else loadResTable();
+    loadStats();
+  }catch(e){toast('Erreur de suppression : '+e.message,'error');}
 }
 
-// ---- GENERATE RESOURCE MD ----
-function generateResource(){
-  const title=document.getElementById('r-title').value.trim();
-  const type=document.getElementById('r-type').value;
-  const subj=document.getElementById('r-subject').value;
-  const level=document.getElementById('r-level').value;
-  const desc=document.getElementById('r-desc').value.trim();
-  const file=document.getElementById('r-file').value.trim();
-  const video=document.getElementById('r-video').value.trim();
-  const locked=document.getElementById('r-locked').checked;
-  if(!title){notify('Entrez un titre pour la ressource','error');return;}
-  let md=`---\ntitle: "${title}"\ntype: "${type}"\nsubject: "${subj}"\nlevel: "${level}"\nlocked: "${locked}"\n`;
-  if(file)md+=`pdf_file: "${file}"\n`;
-  if(video)md+=`video_url: "${video}"\n`;
-  md+=`---\n\n${desc}`;
-  document.getElementById('r-output').value=md;
-  notify('Fichier généré ! Copiez-le dans GitHub.');
+/* ══════════════════════════════════════
+   PUBLISH OVERLAY
+══════════════════════════════════════ */
+function showPubOverlay(title,msg){
+  document.getElementById('pubTitle').textContent=title;
+  document.getElementById('pubMsg').textContent=msg;
+  document.getElementById('pubStep').textContent='';
+  document.getElementById('pubSpinner').style.display='block';
+  document.getElementById('pubCheck').style.display='none';
+  document.getElementById('pubActions').classList.remove('show');
+  document.getElementById('pubOverlay').classList.add('show');
+}
+function setPubStep(s){document.getElementById('pubStep').textContent=s;}
+function setPubDone(title,msg){
+  document.getElementById('pubSpinner').style.display='none';
+  document.getElementById('pubCheck').style.display='block';
+  document.getElementById('pubTitle').textContent=title;
+  document.getElementById('pubMsg').textContent=msg;
+  document.getElementById('pubStep').textContent='';
+  document.getElementById('pubActions').classList.add('show');
+  toast(title,'success');
+}
+function closePubOverlay(){document.getElementById('pubOverlay').classList.remove('show');}
+
+/* ══════════════════════════════════════
+   EDITOR HELPERS
+══════════════════════════════════════ */
+function fmt(cmd){document.getElementById('editor-body').focus();document.execCommand(cmd);}
+function insertList(){const el=document.getElementById('editor-body');const pos=el.selectionStart;el.value=el.value.slice(0,pos)+'\n- \n- \n- '+el.value.slice(pos);el.selectionStart=el.selectionEnd=pos+3;}
+function insertOl(){const el=document.getElementById('editor-body');const pos=el.selectionStart;el.value=el.value.slice(0,pos)+'\n1. \n2. \n3. '+el.value.slice(pos);el.selectionStart=el.selectionEnd=pos+4;}
+function insertEmoji(e){const el=document.getElementById('editor-body');const pos=el.selectionStart;el.value=el.value.slice(0,pos)+e+el.value.slice(pos);el.selectionStart=el.selectionEnd=pos+e.length;el.focus();}
+
+function previewImg(url,id){
+  const img=document.getElementById(id);
+  if(url){img.src=url;img.style.display='block';}else{img.style.display='none';}
 }
 
-// ---- COPY / DOWNLOAD ----
-function copyOutput(id){
-  const v=document.getElementById(id).value;
-  if(!v){notify('Générez d\'abord le fichier','error');return;}
-  navigator.clipboard.writeText(v).then(()=>notify('Copié dans le presse-papier !'));
+/* ══════════════════════════════════════
+   TOAST
+══════════════════════════════════════ */
+function toast(msg,type='success'){
+  const wrap=document.getElementById('toastWrap');
+  const el=document.createElement('div');
+  const icon=type==='success'?'fa-check-circle':type==='error'?'fa-times-circle':'fa-info-circle';
+  el.className='toast t-'+type;
+  el.innerHTML=`<i class="fas ${icon}"></i> ${msg}`;
+  wrap.appendChild(el);
+  setTimeout(()=>{el.style.opacity='0';el.style.transform='translateX(60px)';setTimeout(()=>el.remove(),400);},4000);
 }
 
-function downloadMd(id,type){
-  const v=document.getElementById(id).value;
-  if(!v){notify('Générez d\'abord le fichier','error');return;}
-  const title=type==='post'?document.getElementById('p-title').value:document.getElementById('r-title').value;
-  const slug=title.toLowerCase().replace(/[^a-z0-9]/g,'-').replace(/-+/g,'-').substring(0,40)||type;
-  const a=document.createElement('a');
-  a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(v);
-  a.download=slug+'.md';a.click();
-}
+/* ══════════════════════════════════════
+   UTILS
+══════════════════════════════════════ */
+function esc(s){if(!s)return'';return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]||c));}
+
+// Init fields
+document.addEventListener('DOMContentLoaded',()=>{
+  toggleResourceFields();
+  document.querySelectorAll('.file-zone').forEach(z=>{
+    z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('drag');});
+    z.addEventListener('dragleave',()=>z.classList.remove('drag'));
+    z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('drag');});
+  });
+});
 </script>
 </body>
 </html>
