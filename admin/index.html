@@ -821,6 +821,10 @@ async function publishResource(){
 function clearResource(){['rt','rdesc','r-pdfurl','r-video','r-imgurl','r-emails'].forEach(id=>document.getElementById(id).value='');document.getElementById('r-locked').checked=false;document.getElementById('r-allowed-row').style.display='none';document.getElementById('rPdfFn').textContent='';document.getElementById('rImgFn').textContent='';document.getElementById('rImgPrev').style.display='none';fData.rpdf=null;fData.rimg=null;}
 
 /* ══════════ POSTS TABLE ══════════ */
+// Store posts in a map keyed by row-id so openEditModal can safely retrieve them
+// without embedding the full object in an onclick attribute (which breaks with quotes/newlines)
+const postsCache = {};
+
 async function loadPostsTable(){
   const tb=document.getElementById('posts-tbody');
   tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray)"><i class="fas fa-spinner fa-spin"></i></td></tr>';
@@ -829,58 +833,110 @@ async function loadPostsTable(){
     const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
     document.getElementById('posts-count').textContent=mds.length+' publication(s)';
     if(!mds.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray)">Aucune publication.</td></tr>';return;}
-    const items=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return{...parseFM(t),_n:f.name,_sha:f.sha,_url:f.html_url};}));
+    const items=await Promise.all(mds.map(async f=>{
+      const r=await fetch(f.download_url+'?t='+Date.now()); // bust cache on reload
+      const t=await r.text();
+      return{...parseFM(t),_n:f.name,_sha:f.sha,_url:f.html_url};
+    }));
     items.sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
     const ti={post:'fa-newspaper',video:'fa-video',pdf:'fa-file-pdf',image:'fa-image',announcement:'fa-bullhorn'};
     const tc={post:'b-post',video:'b-video',pdf:'b-pdf',image:'b-image',announcement:'b-cat'};
-    tb.innerHTML=items.map(p=>`<tr>
-      <td><div class="cell-main">${esc(p.title||'Sans titre')}</div><div class="cell-sub">${esc(p.date||'')}</div></td>
-      <td><span class="badge b-cat">${esc(p.category||'—')}</span></td>
-      <td><span class="badge ${tc[p.type]||'b-post'}"><i class="fas ${ti[p.type]||'fa-newspaper'}"></i> ${esc(p.type||'post')}</span></td>
-      <td>${esc(p.date||'—')}</td>
-      <td><span class="badge ${p.locked==='true'?'b-locked':'b-pub'}">${p.locked==='true'?'🔒 Privé':'✅ Public'}</span></td>
-      <td><div class="ab">
-        <button class="btn b-primary btn-icon" onclick='openEditModal(${JSON.stringify(p).replace(/'/g,"&#39;")})' title="Modifier"><i class="fas fa-edit"></i></button>
-        <button class="btn b-danger btn-icon" onclick="delFile('content/posts/${esc(p._n)}','${esc(p._sha)}','post','${esc(p.title)}')" title="Supprimer"><i class="fas fa-trash"></i></button>
-      </div></td>
-    </tr>`).join('');
+    // Clear old cache entries
+    Object.keys(postsCache).forEach(k=>delete postsCache[k]);
+    tb.innerHTML=items.map((p,i)=>{
+      const rowKey='post_row_'+i;
+      postsCache[rowKey]=p; // safe storage — no HTML serialisation
+      return `<tr id="tr-${esc(p._n)}">
+        <td><div class="cell-main">${esc(p.title||'Sans titre')}</div><div class="cell-sub">${esc(p.date||'')}</div></td>
+        <td><span class="badge b-cat">${esc(p.category||'—')}</span></td>
+        <td><span class="badge ${tc[p.type]||'b-post'}"><i class="fas ${ti[p.type]||'fa-newspaper'}"></i> ${esc(p.type||'post')}</span></td>
+        <td>${esc(p.date||'—')}</td>
+        <td><span class="badge ${p.locked==='true'?'b-locked':'b-pub'}">${p.locked==='true'?'🔒 Privé':'✅ Public'}</span></td>
+        <td><div class="ab">
+          <button class="btn b-primary btn-icon" onclick="openEditModal('${rowKey}')" title="Modifier"><i class="fas fa-edit"></i></button>
+          <button class="btn b-danger btn-icon" onclick="delFile('content/posts/${esc(p._n)}','${esc(p._sha)}','post','${esc(p.title)}','${esc(p._n)}')" title="Supprimer"><i class="fas fa-trash"></i></button>
+        </div></td>
+      </tr>`;
+    }).join('');
   }catch(e){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">Erreur. Vérifiez config GitHub.</td></tr>';}
 }
 
 /* ══════════ EDIT POST ══════════ */
 let editingPost=null;
-function openEditModal(p){
+
+// Receives a cache key string (safe to pass in onclick), retrieves full object from postsCache
+function openEditModal(rowKey){
+  const p=postsCache[rowKey];
+  if(!p){toast('Impossible de charger ce post','err');return;}
   editingPost=p;
   const sv=(id,val)=>{const el=document.getElementById(id);if(el)el.value=val||'';};
-  sv('edit-title',p.title);sv('edit-body',p.body);sv('edit-link',p.link);sv('edit-cover',p.image);
-  sv('edit-video',p.video_url);sv('edit-pdf',p.pdf_file);sv('edit-emails',p.allowed_emails);
+  sv('edit-title',p.title);
+  sv('edit-body',p.body);
+  sv('edit-link',p.link);
+  sv('edit-cover',p.image);
+  sv('edit-video',p.video_url);
+  sv('edit-pdf',p.pdf_file);
+  sv('edit-emails',p.allowed_emails);
+  // Set category select
   const catSel=document.getElementById('edit-cat');
-  for(let i=0;i<catSel.options.length;i++){if(catSel.options[i].text===p.category){catSel.selectedIndex=i;break;}}
+  for(let i=0;i<catSel.options.length;i++){
+    if(catSel.options[i].text===p.category){catSel.selectedIndex=i;break;}
+  }
+  // Set type select
   const typeSel=document.getElementById('edit-type');
-  for(let i=0;i<typeSel.options.length;i++){if(typeSel.options[i].value===p.type){typeSel.selectedIndex=i;break;}}
-  document.getElementById('edit-locked').checked=p.locked==='true';
+  for(let i=0;i<typeSel.options.length;i++){
+    if(typeSel.options[i].value===p.type){typeSel.selectedIndex=i;break;}
+  }
+  document.getElementById('edit-locked').checked=(p.locked==='true');
   document.getElementById('editOverlay').classList.add('open');
 }
+
 function closeEditModal(){document.getElementById('editOverlay').classList.remove('open');editingPost=null;}
+
 async function saveEditPost(){
   if(!editingPost){closeEditModal();return;}
   const title=document.getElementById('edit-title').value.trim();
   if(!title){toast('Entrez un titre','err');return;}
-  const c=cfg();if(!c.token){toast('Configurez GitHub','err');return;}
-  const type=document.getElementById('edit-type').value,cat=document.getElementById('edit-cat').value;
-  const body=document.getElementById('edit-body').value.trim(),link=document.getElementById('edit-link').value.trim();
-  const cover=document.getElementById('edit-cover').value.trim(),vurl=document.getElementById('edit-video').value.trim();
-  const pdf=document.getElementById('edit-pdf').value.trim(),emails=document.getElementById('edit-emails').value.trim();
+  const c=cfg();
+  if(!c.token){toast('Configurez GitHub','err');return;}
+  const type=document.getElementById('edit-type').value;
+  const cat=document.getElementById('edit-cat').value;
+  const body=document.getElementById('edit-body').value.trim();
+  const link=document.getElementById('edit-link').value.trim();
+  const cover=document.getElementById('edit-cover').value.trim();
+  const vurl=document.getElementById('edit-video').value.trim();
+  const pdf=document.getElementById('edit-pdf').value.trim();
+  const emails=document.getElementById('edit-emails').value.trim();
   const locked=document.getElementById('edit-locked').checked;
-  let fm='---\ntitle: "'+title+'"\ndate: "'+(editingPost.date||today())+'"\ncategory: "'+cat+'"\ntype: "'+type+'"\nlocked: "'+locked+'"\n';
-  if(emails)fm+='allowed_emails: "'+emails+'"\n';if(cover)fm+='image: "'+cover+'"\n';if(vurl)fm+='video_url: "'+vurl+'"\n';if(pdf)fm+='pdf_file: "'+pdf+'"\n';if(link)fm+='link: "'+link+'"\n';
+
+  // Build frontmatter
+  let fm='---\n';
+  fm+='title: "'+title.replace(/"/g,'\\"')+'"\n';
+  fm+='date: "'+(editingPost.date||today())+'"\n';
+  fm+='category: "'+cat+'"\n';
+  fm+='type: "'+type+'"\n';
+  fm+='locked: "'+locked+'"\n';
+  if(emails)fm+='allowed_emails: "'+emails+'"\n';
+  if(cover)fm+='image: "'+cover+'"\n';
+  if(vurl)fm+='video_url: "'+vurl+'"\n';
+  if(pdf)fm+='pdf_file: "'+pdf+'"\n';
+  if(link)fm+='link: "'+link+'"\n';
   fm+='---\n\n'+body;
-  closeEditModal();showPub('Mise à jour…','Modification sur GitHub…');
+
+  closeEditModal();
+  showPub('Mise à jour…','Envoi vers GitHub…');
   try{
-    const sha=editingPost._sha||await getSha('content/posts/'+editingPost._n);
-    await ghPut('content/posts/'+editingPost._n,fm,'Edit: '+title,sha);
-    setPubDone('"'+title+'" mis à jour !','Modifications visibles sur le site.');loadPostsTable();
-  }catch(e){closePub();toast('Erreur: '+e.message,'err');}
+    // Always get fresh SHA before writing to avoid 409 conflicts
+    const freshSHA=await getSha('content/posts/'+editingPost._n);
+    if(!freshSHA){throw new Error('Fichier introuvable sur GitHub (SHA manquant)');}
+    await ghPut('content/posts/'+editingPost._n, fm, 'Edit: '+title, freshSHA);
+    setPubDone('"'+title+'" mis à jour !','Modifications visibles sur le site.');
+    // Reload table with a short delay to let GitHub index the new content
+    setTimeout(()=>loadPostsTable(), 1200);
+  }catch(e){
+    closePub();
+    toast('Erreur: '+e.message,'err');
+  }
 }
 
 /* ══════════ RESOURCES TABLE ══════════ */
@@ -892,23 +948,54 @@ async function loadResTable(){
     const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
     document.getElementById('res-count').textContent=mds.length+' ressource(s)';
     if(!mds.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray)">Aucune ressource.</td></tr>';return;}
-    const items=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return{...parseFM(t),_n:f.name,_sha:f.sha,_url:f.html_url};}));
+    const items=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url+'?t='+Date.now());const t=await r.text();return{...parseFM(t),_n:f.name,_sha:f.sha,_url:f.html_url};}));
     const tc={pdf:'b-pdf',video:'b-video',image:'b-image'};
-    tb.innerHTML=items.map(r=>`<tr>
+    tb.innerHTML=items.map(r=>`<tr id="tr-${esc(r._n)}">
       <td><div class="cell-main">${esc(r.title||'Sans titre')}</div></td>
       <td><span class="badge ${tc[r.type]||'b-pdf'}">${(r.type||'pdf').toUpperCase()}</span></td>
       <td>${esc(r.subject||'—')}</td><td>${esc(r.level||'—')}</td>
       <td><span class="badge ${r.locked==='true'?'b-locked':'b-pub'}">${r.locked==='true'?'🔒 Privé':'✅ Public'}</span></td>
-      <td><div class="ab"><button class="btn b-danger btn-icon" onclick="delFile('content/resumes/${esc(r._n)}','${esc(r._sha)}','resource','${esc(r.title)}')"><i class="fas fa-trash"></i></button></div></td>
+      <td><div class="ab"><button class="btn b-danger btn-icon" onclick="delFile('content/resumes/${esc(r._n)}','${esc(r._sha)}','resource','${esc(r.title)}','${esc(r._n)}')"><i class="fas fa-trash"></i></button></div></td>
     </tr>`).join('');
   }catch(e){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">Erreur.</td></tr>';}
 }
 
 /* ══════════ DELETE ══════════ */
-async function delFile(path,sha,type,title){
+async function delFile(path,sha,type,title,filename){
   if(!confirm('Supprimer "'+title+'" ?\nIrréversible.'))return;
-  try{await ghDel(path,'Suppression: '+title,sha);toast('"'+title+'" supprimé.','ok');if(type==='post')loadPostsTable();else loadResTable();loadStats();}
-  catch(e){toast('Erreur: '+e.message,'err');}
+  // 1. Remove from DOM immediately — no waiting for API
+  if(filename){
+    const row=document.getElementById('tr-'+filename);
+    if(row){
+      row.style.transition='opacity .3s';
+      row.style.opacity='0';
+      setTimeout(()=>row.remove(), 320);
+    }
+  }
+  // 2. Update counter
+  const countEl=document.getElementById(type==='post'?'posts-count':'res-count');
+  if(countEl){
+    const n=parseInt(countEl.textContent)||1;
+    countEl.textContent=(n-1)+' '+(type==='post'?'publication(s)':'ressource(s)');
+  }
+  const nbEl=document.getElementById(type==='post'?'nb-posts':'nb-res');
+  if(nbEl){const n=parseInt(nbEl.textContent)||1;nbEl.textContent=n-1;}
+
+  // 3. Delete from GitHub
+  try{
+    await ghDel(path,'Suppression: '+title,sha);
+    toast('"'+title+'" supprimé.','ok');
+    loadStats();
+    // Reload table silently in background after a delay to let GitHub update
+    setTimeout(()=>{if(type==='post')loadPostsTable();else loadResTable();}, 2000);
+  }catch(e){
+    // If delete failed, restore row visibility
+    if(filename){
+      const row=document.getElementById('tr-'+filename);
+      if(row)row.style.opacity='1';
+    }
+    toast('Erreur suppression: '+e.message,'err');
+  }
 }
 
 /* ══════════ ACCESS — EMAIL + PASSWORD ══════════ */
