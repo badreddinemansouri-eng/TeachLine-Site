@@ -7,11 +7,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-:root{--navy:#0a1628;--blue:#1a56db;--accent:#f59e0b;--green:#10b981;--red:#ef4444;--border:#e2e8f0;--bg:#f0f4ff;--white:#fff;--gray:#64748b;--text:#0f172a;--light:#475569;}
+:root{--navy:#0a1628;--blue:#1a56db;--accent:#f59e0b;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;--border:#e2e8f0;--bg:#f0f4ff;--white:#fff;--gray:#64748b;--text:#0f172a;--light:#475569;}
 *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}body{font-family:'DM Sans',sans-serif;background:#f8fafd;color:var(--text);overflow-x:hidden;}
 
 /* HEADER */
-header{position:sticky;top:0;z-index:300;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);box-shadow:0 2px 20px rgba(0,0,0,.04);}
+header{position:sticky;top:0;z-index:300;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
 .navbar{max-width:1380px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:68px;gap:1rem;}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;}
 .logo-icon{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--navy),var(--blue));display:flex;align-items:center;justify-content:center;color:white;font-size:1rem;}
@@ -20,15 +20,14 @@ header{position:sticky;top:0;z-index:300;background:rgba(255,255,255,.97);backdr
 .nav-links{display:flex;align-items:center;gap:1.5rem;}
 .nav-links a{text-decoration:none;font-weight:500;color:var(--light);font-size:.88rem;transition:.2s;}
 .nav-links a:hover{color:var(--blue);}
-.nav-login{display:inline-flex;align-items:center;gap:6px;background:var(--bg);color:var(--navy)!important;border:1.5px solid var(--border);padding:.42rem .95rem;border-radius:8px;font-weight:600!important;font-size:.8rem!important;cursor:pointer;transition:.2s!important;text-decoration:none;}
+.nav-login{display:inline-flex;align-items:center;gap:6px;background:var(--bg);color:var(--navy)!important;border:1.5px solid var(--border);padding:.42rem .95rem;border-radius:8px;font-weight:600!important;font-size:.8rem!important;cursor:pointer;transition:.2s;text-decoration:none;}
 .nav-login:hover{border-color:var(--blue)!important;color:var(--blue)!important;}
-.nav-cta{background:var(--navy);color:white!important;padding:.45rem 1.1rem;border-radius:8px;font-weight:600!important;transition:all .2s!important;font-size:.83rem!important;}
+.nav-cta{background:var(--navy);color:white!important;padding:.45rem 1.1rem;border-radius:8px;font-weight:600!important;font-size:.83rem!important;}
 .nav-cta:hover{background:var(--blue)!important;}
 .menu-icon{display:none;font-size:1.4rem;cursor:pointer;color:var(--navy);flex-shrink:0;}
 .student-badge{display:none;align-items:center;gap:7px;background:#d1fae5;border:1.5px solid #6ee7b7;padding:.35rem .85rem;border-radius:20px;font-size:.75rem;font-weight:600;color:#065f46;}
 .student-badge.show{display:flex;}
 .student-badge button{background:none;border:none;color:#065f46;cursor:pointer;opacity:.5;margin-left:2px;}
-.student-badge button:hover{opacity:1;}
 
 /* HERO */
 .hero{min-height:88vh;display:flex;align-items:center;background:linear-gradient(135deg,var(--navy) 0%,#1e3a6e 55%,#1a56db 100%);position:relative;overflow:hidden;padding:5rem 24px;}
@@ -65,7 +64,7 @@ header{position:sticky;top:0;z-index:300;background:rgba(255,255,255,.97);backdr
 .section-sub{color:var(--light);margin-top:.6rem;font-size:.95rem;max-width:520px;margin-inline:auto;}
 
 /* SERVICES */
-.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));gap:1.3rem;}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.3rem;}
 .svc-card{background:white;border-radius:18px;padding:1.8rem;border:1px solid var(--border);transition:all .3s;position:relative;overflow:hidden;}
 .svc-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--accent));transform:scaleX(0);transition:.3s;transform-origin:left;}
 .svc-card:hover{transform:translateY(-5px);box-shadow:0 18px 50px rgba(0,0,0,.08);}
@@ -74,11 +73,25 @@ header{position:sticky;top:0;z-index:300;background:rgba(255,255,255,.97);backdr
 .svc-card h3{font-size:.95rem;font-weight:700;color:var(--navy);margin-bottom:.45rem;}
 .svc-card p{font-size:.83rem;color:var(--light);line-height:1.65;}
 
+/* PACKS SECTION */
+.packs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.4rem;}
+.pack-card-pub{background:white;border-radius:20px;border:1px solid var(--border);overflow:hidden;transition:all .3s;position:relative;}
+.pack-card-pub:hover{transform:translateY(-4px);box-shadow:0 16px 50px rgba(0,0,0,.09);}
+.pack-header{background:linear-gradient(135deg,var(--navy),#1e3a6e);padding:1.5rem;color:white;}
+.pack-header h3{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:.3rem;}
+.pack-price{font-size:1.5rem;font-weight:900;color:var(--accent);margin-top:.5rem;}
+.pack-body{padding:1.4rem;}
+.pack-feature{display:flex;align-items:center;gap:8px;font-size:.84rem;color:var(--light);padding:.35rem 0;border-bottom:1px solid var(--border);}
+.pack-feature:last-child{border-bottom:none;}
+.pack-feature i{color:var(--green);width:14px;}
+.pack-cta{margin-top:1.2rem;width:100%;padding:.82rem;background:var(--blue);color:white;border:none;border-radius:11px;font-weight:700;font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s;font-family:inherit;}
+.pack-cta:hover{background:var(--navy);}
+
 /* FEED TABS */
 .feed-tabs{display:flex;gap:.4rem;margin-bottom:2rem;background:white;padding:.35rem;border-radius:13px;border:1px solid var(--border);width:fit-content;margin-inline:auto;flex-wrap:wrap;}
 .feed-tab{padding:.45rem 1.1rem;border-radius:9px;border:none;background:none;font-family:inherit;font-size:.82rem;font-weight:600;color:var(--light);cursor:pointer;transition:.2s;display:flex;align-items:center;gap:5px;}
 .feed-tab.active{background:var(--navy);color:white;}
-.feed-tab:hover:not(.active){background:var(--bg);color:var(--navy);}
+.feed-tab:hover:not(.active){background:var(--bg);}
 
 /* POST CARD */
 .post-card{background:white;border-radius:22px;border:1px solid var(--border);overflow:hidden;transition:all .28s;margin-bottom:1.5rem;}
@@ -90,27 +103,32 @@ header{position:sticky;top:0;z-index:300;background:rgba(255,255,255,.97);backdr
 .post-card:hover .post-media>img{transform:scale(1.02);}
 .video-wrap{position:relative;width:100%;padding-bottom:56.25%;background:#000;}
 .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
-.pdf-thumb-click{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.8rem 2rem;background:linear-gradient(135deg,#fef2f2,#fee2e2);cursor:pointer;min-height:190px;transition:.2s;}
+.pdf-thumb-click{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.5rem 2rem;background:linear-gradient(135deg,#fef2f2,#fee2e2);cursor:pointer;min-height:180px;transition:.2s;}
 .pdf-thumb-click:hover{background:linear-gradient(135deg,#fee2e2,#fecaca);}
-.pdf-thumb-click i{font-size:3.2rem;color:#dc2626;margin-bottom:.8rem;}
-.pdf-thumb-click span{font-weight:700;color:#dc2626;font-size:.92rem;}
-.pdf-thumb-click small{color:#991b1b;font-size:.75rem;margin-top:.3rem;}
+.pdf-thumb-click i{font-size:3rem;color:#dc2626;margin-bottom:.7rem;}
+.pdf-thumb-click span{font-weight:700;color:#dc2626;font-size:.9rem;}
+.pdf-thumb-click small{color:#991b1b;font-size:.73rem;margin-top:.2rem;}
 .img-gallery{display:grid;gap:3px;}
-.img-gallery.g1{grid-template-columns:1fr;}
-.img-gallery.g1 img{max-height:400px;}
+.img-gallery.g1 img{max-height:400px;width:100%;object-fit:cover;}
 .img-gallery.g2{grid-template-columns:1fr 1fr;}
-.img-gallery.g2 img{height:220px;}
+.img-gallery.g2 img{height:220px;width:100%;object-fit:cover;}
 .img-gallery.g3{grid-template-columns:1fr 1fr;grid-template-rows:200px 200px;}
 .img-gallery.g3 img:first-child{grid-row:span 2;height:100%;}
-.img-gallery.g3 img{height:200px;}
-.img-gallery img{width:100%;object-fit:cover;cursor:pointer;transition:.22s;display:block;}
+.img-gallery.g3 img{height:200px;width:100%;object-fit:cover;}
+.img-gallery img{cursor:pointer;transition:.22s;display:block;}
 .img-gallery img:hover{opacity:.88;}
 
 /* LOCK OVERLAY */
 .lock-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,22,40,.88),rgba(26,86,219,.72));display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;text-align:center;padding:2rem;backdrop-filter:blur(6px);}
-.lock-overlay i{font-size:2.8rem;margin-bottom:.8rem;color:var(--accent);}
-.lock-overlay h4{font-size:1.08rem;font-weight:700;margin-bottom:.4rem;}
-.lock-overlay p{font-size:.82rem;opacity:.78;margin-bottom:1.1rem;line-height:1.55;max-width:320px;}
+.lock-overlay .lock-icon{font-size:2.5rem;margin-bottom:.8rem;color:var(--accent);}
+.lock-overlay h4{font-size:1rem;font-weight:700;margin-bottom:.3rem;}
+.lock-overlay p{font-size:.8rem;opacity:.78;margin-bottom:.6rem;line-height:1.5;max-width:300px;}
+.lock-badge{display:inline-flex;align-items:center;gap:5px;background:var(--accent);color:var(--navy);font-size:.72rem;font-weight:800;padding:.25rem .7rem;border-radius:20px;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.5px;}
+
+/* EXPIRED OVERLAY */
+.expired-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,22,40,.9),rgba(239,68,68,.6));display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;text-align:center;padding:2rem;backdrop-filter:blur(6px);}
+.expired-overlay i{font-size:2.5rem;margin-bottom:.8rem;color:#fca5a5;}
+.expired-overlay h4{font-size:1rem;font-weight:700;margin-bottom:.3rem;}
 
 /* POST BODY */
 .post-body{padding:1.5rem;}
@@ -126,16 +144,24 @@ header{position:sticky;top:0;z-index:300;background:rgba(255,255,255,.97);backdr
 .post-card h3{font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:.55rem;line-height:1.4;}
 .post-text{font-size:.87rem;color:var(--light);line-height:1.7;white-space:pre-wrap;}
 .post-footer{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;padding-top:1rem;margin-top:1rem;border-top:1px solid var(--border);}
+
+/* Attachments in post */
+.post-attachments{margin-top:.8rem;display:flex;flex-direction:column;gap:.4rem;}
+.attach-item-pub{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:.5rem .8rem;font-size:.8rem;color:var(--navy);font-weight:500;text-decoration:none;transition:.2s;}
+.attach-item-pub:hover{border-color:var(--blue);background:white;color:var(--blue);}
+.attach-item-pub i{color:var(--blue);}
+
+/* BUTTONS */
 .btn-sm{display:inline-flex;align-items:center;gap:5px;padding:.42rem .88rem;border-radius:8px;font-size:.77rem;font-weight:600;cursor:pointer;transition:.2s;border:none;font-family:inherit;text-decoration:none;white-space:nowrap;}
-.bs-blue{background:var(--blue);color:white;}
-.bs-blue:hover{background:var(--navy);}
-.bs-out{background:white;color:var(--navy);border:1.5px solid var(--border);}
-.bs-out:hover{border-color:var(--blue);color:var(--blue);}
-.bs-wa{background:#25D366;color:white;}
-.bs-wa:hover{background:#128C7E;}
-.bs-green{background:var(--green);color:white;}
+.bs-blue{background:var(--blue);color:white;}.bs-blue:hover{background:var(--navy);}
+.bs-out{background:white;color:var(--navy);border:1.5px solid var(--border);}.bs-out:hover{border-color:var(--blue);color:var(--blue);}
+.bs-wa{background:#25D366;color:white;}.bs-wa:hover{background:#128C7E;}
 .lock-tag{display:inline-flex;align-items:center;gap:5px;font-size:.7rem;font-weight:600;color:#be185d;background:#fce7f3;padding:.2rem .58rem;border-radius:20px;margin-left:auto;}
 .access-tag{display:inline-flex;align-items:center;gap:5px;font-size:.7rem;font-weight:600;color:#065f46;background:#d1fae5;padding:.2rem .58rem;border-radius:20px;margin-left:auto;}
+
+/* READ MORE */
+.read-more-btn{display:inline-flex;align-items:center;gap:5px;background:none;border:none;color:var(--blue);font-size:.8rem;font-weight:600;cursor:pointer;margin-top:.5rem;padding:.3rem 0;font-family:inherit;transition:.2s;}
+.read-more-btn:hover{color:var(--navy);}
 
 /* RESOURCES */
 .res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:1.3rem;}
@@ -171,21 +197,17 @@ header{position:sticky;top:0;z-index:300;background:rgba(255,255,255,.97);backdr
 .cff{margin-bottom:.85rem;}
 .cff input,.cff textarea,.cff select{width:100%;padding:.78rem 1rem;border-radius:11px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.11);color:white;font-family:inherit;font-size:.87rem;outline:none;transition:.2s;}
 .cff input::placeholder,.cff textarea::placeholder{color:rgba(255,255,255,.38);}
-.cff input:focus,.cff textarea:focus{border-color:var(--accent);background:rgba(255,255,255,.1);}
+.cff input:focus,.cff textarea:focus{border-color:var(--accent);}
 .cff textarea{min-height:90px;resize:vertical;}
 .cf-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}
 .btn-submit{width:100%;padding:.85rem;background:var(--accent);color:var(--navy);border:none;border-radius:11px;font-weight:700;font-size:.92rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s;font-family:inherit;}
-.btn-submit:hover{background:#fbbf24;transform:translateY(-1px);}
+.btn-submit:hover{background:#fbbf24;}
 
-/* FOOTER */
 footer{background:#060d1f;padding:2rem 24px;text-align:center;}
 footer p{color:rgba(255,255,255,.35);font-size:.76rem;}
 footer a{color:rgba(255,255,255,.2);text-decoration:none;font-size:.68rem;margin-top:.4rem;display:inline-block;}
-footer a:hover{color:rgba(255,255,255,.5);}
-
-/* WA FLOAT */
 .wa-float{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:#25D366;color:white;font-size:1.55rem;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 6px 20px rgba(37,211,102,.4);z-index:999;transition:all .25s;}
-.wa-float:hover{transform:scale(1.1);background:#128C7E;}
+.wa-float:hover{transform:scale(1.1);}
 
 /* MODALS */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(5px);z-index:1000;align-items:center;justify-content:center;padding:1rem;}
@@ -198,15 +220,13 @@ footer a:hover{color:rgba(255,255,255,.5);}
 .mf{margin-bottom:.85rem;}
 .mf label{display:block;font-size:.73rem;font-weight:700;color:var(--light);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.4rem;}
 .mf input{width:100%;padding:.75rem 1rem;border-radius:10px;border:1.5px solid var(--border);font-family:inherit;font-size:.9rem;outline:none;transition:.2s;}
-.mf input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
+.mf input:focus{border-color:var(--blue);}
 .modal-err{color:var(--red);font-size:.78rem;margin-bottom:.8rem;display:none;background:#fee2e2;padding:.5rem .8rem;border-radius:8px;}
 .btn-full{width:100%;padding:.82rem;border-radius:10px;font-weight:700;font-size:.9rem;cursor:pointer;border:none;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s;margin-top:.6rem;}
-.bfb{background:var(--blue);color:white;}
-.bfb:hover{background:var(--navy);}
-.bfwa{background:#25D366;color:white;}
-.bfwa:hover{background:#128C7E;}
+.bfb{background:var(--blue);color:white;}.bfb:hover{background:var(--navy);}
+.bfwa{background:#25D366;color:white;}.bfwa:hover{background:#128C7E;}
 
-/* LIGHTBOX */
+/* Lightbox */
 .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:2000;align-items:center;justify-content:center;}
 .lightbox.open{display:flex;}
 .lightbox img{max-width:92vw;max-height:90vh;border-radius:8px;object-fit:contain;}
@@ -217,7 +237,7 @@ footer a:hover{color:rgba(255,255,255,.5);}
 .pdf-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:2000;flex-direction:column;}
 .pdf-modal.open{display:flex;}
 .pdf-bar{background:#1e293b;padding:.65rem 1.2rem;display:flex;align-items:center;justify-content:space-between;color:white;font-size:.83rem;flex-shrink:0;}
-.pdf-bar span{font-weight:600;flex:1;margin-right:1rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.pdf-bar span{font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-right:1rem;}
 .pdf-bar-btns{display:flex;gap:1rem;flex-shrink:0;}
 .pdf-bar-btns a,.pdf-bar-btns button{color:white;text-decoration:none;display:flex;align-items:center;gap:5px;opacity:.7;transition:.2s;background:none;border:none;cursor:pointer;font-family:inherit;font-size:.82rem;}
 .pdf-bar-btns a:hover,.pdf-bar-btns button:hover{opacity:1;}
@@ -227,21 +247,15 @@ footer a:hover{color:rgba(255,255,255,.5);}
 .toast-wrap{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:.5rem;align-items:center;pointer-events:none;}
 .toast{background:var(--navy);color:white;padding:.75rem 1.4rem;border-radius:30px;font-size:.82rem;font-weight:500;box-shadow:0 8px 30px rgba(0,0,0,.2);animation:ti .3s ease;display:flex;align-items:center;gap:.6rem;pointer-events:auto;}
 @keyframes ti{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
-.t-ok{background:var(--green);}
-.t-err{background:var(--red);}
+.t-ok{background:var(--green);}.t-err{background:var(--red);}
 
 /* SKELETON */
 .skel{background:linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%);background-size:200% 100%;animation:sh 1.5s infinite;border-radius:14px;}
 @keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
-/* READ MORE */
-.read-more-btn{display:inline-flex;align-items:center;gap:5px;background:none;border:none;color:var(--blue);font-size:.8rem;font-weight:600;cursor:pointer;margin-top:.5rem;padding:.3rem 0;font-family:inherit;transition:.2s;}
-.read-more-btn:hover{color:var(--navy);}
-
 /* EMPTY */
 .empty-state{text-align:center;padding:4rem 2rem;color:var(--gray);}
 .empty-state i{font-size:2.8rem;margin-bottom:1rem;opacity:.35;display:block;}
-.empty-state p{font-size:.9rem;}
 
 /* RESPONSIVE */
 @media(max-width:960px){
@@ -263,7 +277,6 @@ footer a:hover{color:rgba(255,255,255,.5);}
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
   <nav class="navbar">
     <a href="#accueil" class="logo">
@@ -273,13 +286,13 @@ footer a:hover{color:rgba(255,255,255,.5);}
     <div class="menu-icon" onclick="document.getElementById('navLinks').classList.toggle('open')"><i class="fas fa-bars"></i></div>
     <div class="nav-links" id="navLinks">
       <a href="#accueil" onclick="closeNav()">Accueil</a>
-      <a href="#feed" onclick="closeNav()">Publications</a>
+      <a href="#feed" onclick="closeNav()">Cours</a>
+      <a href="#packs" onclick="closeNav()">Packs</a>
       <a href="#ressources" onclick="closeNav()">Ressources</a>
       <a href="#contact" onclick="closeNav()">Contact</a>
       <div class="student-badge" id="studentBadge">
-        <i class="fas fa-user-graduate"></i>
-        <span id="studentEmailDisplay">—</span>
-        <button onclick="studentLogout()" title="Se déconnecter"><i class="fas fa-times"></i></button>
+        <i class="fas fa-user-graduate"></i><span id="studentName">—</span>
+        <button onclick="studentLogout()" title="Déconnexion"><i class="fas fa-times"></i></button>
       </div>
       <a href="#" class="nav-login" id="studentLoginBtn" onclick="openStudentLogin();return false;"><i class="fas fa-unlock-alt"></i> Accès élève</a>
       <a href="admin/index.html" class="nav-cta"><i class="fas fa-shield-halved"></i> Admin</a>
@@ -287,8 +300,7 @@ footer a:hover{color:rgba(255,255,255,.5);}
   </nav>
 </header>
 
-<!-- WA FLOAT -->
-<a href="https://wa.me/21658338187?text=Bonjour%20Teach%20Line%20!" class="wa-float" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+<a href="https://wa.me/21658338187?text=Bonjour%20Teach%20Line%20!" class="wa-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
 <!-- HERO -->
 <section id="accueil" class="hero">
@@ -296,7 +308,7 @@ footer a:hover{color:rgba(255,255,255,.5);}
     <div>
       <div class="hero-badge"><span class="live-dot"></span> Cours en ligne · BAC 2026 · Tous niveaux</div>
       <h1>Révisez avec <em>Teach Line</em>,<br>dépassez vos limites</h1>
-      <p>Cours vidéo HD, résumés PDF, fiches illustrées et accompagnement personnalisé. Tout ce qu'il vous faut pour réussir vos examens.</p>
+      <p>Cours vidéo HD, résumés PDF, fiches illustrées et accompagnement personnalisé. La plateforme complète pour réussir vos examens.</p>
       <div class="hero-actions">
         <a href="#contact" class="btn-hero btn-hp"><i class="fas fa-headset"></i> Demander un cours</a>
         <a href="#feed" class="btn-hero btn-hs"><i class="fas fa-play"></i> Voir les cours</a>
@@ -311,9 +323,9 @@ footer a:hover{color:rgba(255,255,255,.5);}
       <div class="hero-card-title">Ce que vous trouvez ici</div>
       <div class="pill"><i class="fas fa-video"></i> Cours vidéo HD <span class="pill-new">Nouveau</span></div>
       <div class="pill"><i class="fas fa-file-pdf"></i> Résumés PDF téléchargeables</div>
-      <div class="pill"><i class="fas fa-images"></i> Fiches illustrées</div>
+      <div class="pill"><i class="fas fa-box-open"></i> Packs de cours complets</div>
       <div class="pill"><i class="fas fa-chalkboard-teacher"></i> Cours particuliers en direct</div>
-      <div class="pill"><i class="fas fa-lock"></i> Contenus privés sur demande</div>
+      <div class="pill"><i class="fas fa-lock"></i> Contenus exclusifs sur demande</div>
     </div>
   </div>
 </section>
@@ -324,26 +336,40 @@ footer a:hover{color:rgba(255,255,255,.5);}
     <div class="section-header">
       <div class="section-tag">Spécialités</div>
       <h2 class="section-title">Tout ce dont vous avez besoin</h2>
-      <p class="section-sub">Des solutions complètes pour chaque niveau et rythme d'apprentissage.</p>
     </div>
     <div class="services-grid">
-      <div class="svc-card"><div class="svc-icon"><i class="fas fa-video"></i></div><h3>Cours vidéo HD</h3><p>Vidéos pédagogiques claires, visibles directement sur la plateforme, à tout moment.</p></div>
-      <div class="svc-card"><div class="svc-icon"><i class="fas fa-file-pdf"></i></div><h3>PDF & Résumés</h3><p>Fiches de révision consultables et téléchargeables directement depuis la plateforme.</p></div>
-      <div class="svc-card"><div class="svc-icon"><i class="fas fa-chalkboard-teacher"></i></div><h3>Cours particuliers</h3><p>Séances individuelles en visioconférence, suivi personnalisé en temps réel.</p></div>
-      <div class="svc-card"><div class="svc-icon"><i class="fas fa-users"></i></div><h3>Groupes de révision</h3><p>Sessions collectives, questions-réponses intensifs, entraînement aux annales.</p></div>
-      <div class="svc-card"><div class="svc-icon"><i class="fas fa-lock"></i></div><h3>Contenus exclusifs</h3><p>Accès réservé aux élèves inscrits. L'enseignant débloque votre accès personnellement.</p></div>
-      <div class="svc-card"><div class="svc-icon"><i class="fas fa-award"></i></div><h3>Préparation BAC</h3><p>Simulation d'examens, stratégies anti-stress et gestion du temps éprouvées.</p></div>
+      <div class="svc-card"><div class="svc-icon"><i class="fas fa-video"></i></div><h3>Cours vidéo HD</h3><p>Vidéos pédagogiques claires intégrées directement dans la plateforme.</p></div>
+      <div class="svc-card"><div class="svc-icon"><i class="fas fa-file-pdf"></i></div><h3>PDF & Résumés</h3><p>Fiches consultables et téléchargeables pour chaque chapitre.</p></div>
+      <div class="svc-card"><div class="svc-icon"><i class="fas fa-box-open"></i></div><h3>Packs de cours</h3><p>Regroupement complet de cours, exercices et ressources par matière.</p></div>
+      <div class="svc-card"><div class="svc-icon"><i class="fas fa-chalkboard-teacher"></i></div><h3>Cours particuliers</h3><p>Séances individuelles en visioconférence avec suivi personnalisé.</p></div>
+      <div class="svc-card"><div class="svc-icon"><i class="fas fa-lock"></i></div><h3>Contenus exclusifs</h3><p>Accès réservé après inscription. L'enseignant gère chaque accès personnellement.</p></div>
+      <div class="svc-card"><div class="svc-icon"><i class="fas fa-award"></i></div><h3>Préparation BAC</h3><p>Examens blancs, annales, stratégies anti-stress et gestion du temps.</p></div>
     </div>
   </div>
 </section>
 
-<!-- FEED (posts) -->
+<!-- PACKS -->
+<section id="packs" class="section" style="background:var(--navy);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag" style="background:rgba(255,255,255,.1);color:var(--accent);">Packs</div>
+      <h2 class="section-title" style="color:white;">Packs de cours complets</h2>
+      <p class="section-sub" style="color:rgba(255,255,255,.6);">Accédez à tous les cours, exercices et ressources d'une matière en un seul pack.</p>
+    </div>
+    <div class="packs-grid" id="packs-container">
+      <div class="skel" style="height:300px;border-radius:20px;opacity:.3;"></div>
+      <div class="skel" style="height:300px;border-radius:20px;opacity:.3;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEED -->
 <section id="feed" class="section" style="background:var(--bg);">
   <div class="container">
     <div class="section-header">
       <div class="section-tag">Publications</div>
       <h2 class="section-title">Cours, Vidéos & Actualités</h2>
-      <p class="section-sub">Tout le contenu publié par l'enseignant, affiché directement ici.</p>
+      <p class="section-sub">Tout le contenu publié par l'enseignant, directement ici.</p>
     </div>
     <div class="feed-tabs">
       <button class="feed-tab active" onclick="switchTab('all',this)"><i class="fas fa-th-large"></i> Tout</button>
@@ -365,7 +391,6 @@ footer a:hover{color:rgba(255,255,255,.5);}
     <div class="section-header">
       <div class="section-tag">Ressources</div>
       <h2 class="section-title">Bibliothèque pédagogique</h2>
-      <p class="section-sub">PDF, vidéos et images classés par matière et niveau.</p>
     </div>
     <div class="res-grid" id="res-container">
       <div class="skel" style="height:255px;border-radius:20px;"></div>
@@ -381,10 +406,10 @@ footer a:hover{color:rgba(255,255,255,.5);}
     <div class="contact-grid">
       <div class="contact-info">
         <h2>Prêt à commencer ?</h2>
-        <p>Contactez-nous pour un cours privé, l'accès à des ressources exclusives ou toute question. Réponse garantie sous 2h sur WhatsApp.</p>
+        <p>Contactez-nous pour un cours privé, l'accès à un pack, ou toute question. Réponse garantie sous 2h sur WhatsApp.</p>
         <div class="ci"><div class="ci-icon"><i class="fas fa-phone"></i></div><span>Tél : <a href="tel:+21658338187">58 338 187</a></span></div>
         <div class="ci"><div class="ci-icon"><i class="fab fa-whatsapp"></i></div><span><a href="https://wa.me/21658338187" target="_blank">WhatsApp direct</a></span></div>
-        <div class="ci"><div class="ci-icon"><i class="fab fa-facebook"></i></div><span><a href="#" onclick="alert('Teach Line – 22K abonnés. Contactez-nous via WhatsApp.');return false;">Teach Line Officiel (22K)</a></span></div>
+        <div class="ci"><div class="ci-icon"><i class="fab fa-facebook"></i></div><span><a href="#" onclick="alert('Teach Line – 22K abonnés. Contactez via WhatsApp.');return false;">Teach Line Officiel (22K)</a></span></div>
         <div class="ci"><div class="ci-icon"><i class="fas fa-clock"></i></div><span style="color:rgba(255,255,255,.72)">7j/7 · 9h – 21h</span></div>
         <a href="https://wa.me/21658338187?text=Bonjour%20Teach%20Line%20!" target="_blank" class="btn-hero btn-hp" style="margin-top:1.5rem"><i class="fab fa-whatsapp"></i> Écrire sur WhatsApp</a>
       </div>
@@ -395,7 +420,7 @@ footer a:hover{color:rgba(255,255,255,.5);}
           <div class="cff"><input type="text" id="cf-lname" placeholder="Nom"></div>
         </div>
         <div class="cff"><input type="tel" id="cf-phone" placeholder="Téléphone"></div>
-        <div class="cff"><input type="email" id="cf-email" placeholder="Email (pour accès aux cours privés)"></div>
+        <div class="cff"><input type="email" id="cf-email" placeholder="Email"></div>
         <div class="cff">
           <select id="cf-niveau" style="width:100%;padding:.78rem 1rem;border-radius:11px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.11);color:rgba(255,255,255,.65);font-family:inherit;font-size:.87rem;outline:none;">
             <option value="" disabled selected>Niveau scolaire</option>
@@ -403,9 +428,9 @@ footer a:hover{color:rgba(255,255,255,.5);}
             <option>3ème année secondaire</option><option>4ème année (BAC)</option><option>Autre</option>
           </select>
         </div>
-        <div class="cff"><textarea id="cf-msg" placeholder="Matière, disponibilité, demande d'accès à un cours privé…"></textarea></div>
+        <div class="cff"><textarea id="cf-msg" placeholder="Votre demande, matière souhaitée, pack voulu…"></textarea></div>
         <button class="btn-submit" onclick="sendContact()"><i class="fas fa-paper-plane"></i> Envoyer la demande</button>
-        <p style="color:rgba(255,255,255,.3);font-size:.68rem;margin-top:.7rem;text-align:center;">Précisez votre email pour recevoir l'accès aux cours privés</p>
+        <p style="color:rgba(255,255,255,.3);font-size:.68rem;margin-top:.7rem;text-align:center;">Réponse par WhatsApp sous 2h</p>
       </div>
     </div>
   </div>
@@ -422,24 +447,24 @@ footer a:hover{color:rgba(255,255,255,.5);}
     <button class="modal-close" onclick="closeModal('studentLoginModal')"><i class="fas fa-times"></i></button>
     <i class="fas fa-user-graduate" style="font-size:2rem;color:var(--blue);display:block;margin-bottom:1rem;"></i>
     <h3>Accès Élève</h3>
-    <p>Entrez l'email et le mot de passe que votre enseignant vous a envoyés.</p>
+    <p>Entrez l'email et le mot de passe que votre enseignant vous a envoyés par WhatsApp.</p>
     <div class="mf"><label>Adresse email</label><input type="email" id="student-email-input" placeholder="votre@email.com"></div>
     <div class="mf"><label>Mot de passe</label><input type="password" id="student-pass-input" placeholder="Mot de passe reçu" onkeydown="if(event.key==='Enter')studentLogin()"></div>
-    <div class="modal-err" id="student-err">Email ou mot de passe incorrect. Contactez l'enseignant.</div>
+    <div class="modal-err" id="student-err">Email ou mot de passe incorrect.</div>
     <button class="btn-full bfb" onclick="studentLogin()"><i class="fas fa-unlock-alt"></i> Accéder à mes cours</button>
-    <button class="btn-full bfwa" onclick="window.open('https://wa.me/21658338187?text=Bonjour%20!%20Je%20souhaite%20accéder%20aux%20cours%20privés.%20Mon%20email%20: ','_blank')"><i class="fab fa-whatsapp"></i> Demander l'accès à l'enseignant</button>
+    <button class="btn-full bfwa" onclick="window.open('https://wa.me/21658338187?text=Bonjour%20!%20Je%20voudrais%20accéder%20aux%20cours%20privés.','_blank')"><i class="fab fa-whatsapp"></i> Demander l'accès</button>
   </div>
 </div>
 
-<!-- LOCKED RESOURCE MODAL -->
+<!-- LOCK MODAL -->
 <div class="modal-overlay" id="lockModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal('lockModal')"><i class="fas fa-times"></i></button>
     <i class="fas fa-lock" style="font-size:2rem;color:var(--accent);display:block;margin-bottom:1rem;"></i>
-    <h3>Contenu réservé</h3>
-    <p id="lockModalMsg">Ce contenu est réservé aux élèves autorisés. Connectez-vous avec votre email ou contactez l'enseignant.</p>
-    <button class="btn-full bfb" onclick="closeModal('lockModal');openStudentLogin()"><i class="fas fa-unlock-alt"></i> Me connecter avec mon email</button>
-    <button class="btn-full bfwa" onclick="window.open('https://wa.me/21658338187?text=Bonjour%20!%20Je%20souhaite%20accéder%20à%20ce%20contenu%20privé.','_blank')"><i class="fab fa-whatsapp"></i> Contacter l'enseignant</button>
+    <h3>Contenu payant</h3>
+    <p id="lockModalMsg">Ce contenu est réservé aux élèves inscrits. Contactez l'enseignant pour vous inscrire et recevoir vos accès.</p>
+    <button class="btn-full bfb" onclick="closeModal('lockModal');openStudentLogin()"><i class="fas fa-unlock-alt"></i> J'ai déjà mes accès</button>
+    <button class="btn-full bfwa" onclick="window.open('https://wa.me/21658338187?text=Bonjour%20!%20Je%20souhaite%20m\'inscrire%20pour%20accéder%20aux%20cours%20privés.','_blank')"><i class="fab fa-whatsapp"></i> Contacter l'enseignant</button>
   </div>
 </div>
 
@@ -455,60 +480,54 @@ footer a:hover{color:rgba(255,255,255,.5);}
     <span id="pdfModalTitle">Document</span>
     <div class="pdf-bar-btns">
       <a id="pdfDlBtn" href="#" download><i class="fas fa-download"></i> Télécharger</a>
-      <a href="#" onclick="openPdfInTab();return false;"><i class="fas fa-external-link-alt"></i> Ouvrir</a>
+      <a href="#" onclick="window.open(document.getElementById('pdfFrame').src,'_blank');return false;"><i class="fas fa-external-link-alt"></i> Ouvrir</a>
       <button onclick="closePdfModal()"><i class="fas fa-times"></i> Fermer</button>
     </div>
   </div>
   <iframe id="pdfFrame" src=""></iframe>
 </div>
 
-<!-- TOAST -->
 <div class="toast-wrap" id="toastWrap"></div>
 
 <script>
-/* ══ CONFIG ══ */
 const REPO_OWNER="badreddinemansouri-eng",REPO_NAME="TeachLine-Site",BRANCH="main";
 const RAW=`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}`;
+const PREVIEW_LEN=280;
 
 /* ══ NAV ══ */
 function closeNav(){document.getElementById('navLinks').classList.remove('open');}
-document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
-  const t=document.querySelector(a.getAttribute('href'));
-  if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});closeNav();}
-}));
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});closeNav();}}));
 
 /* ══ GITHUB ══ */
-async function ghList(path){
-  try{const r=await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}?ref=${BRANCH}`);if(!r.ok)return[];return r.json();}catch(e){return[];}
-}
-function parseFM(md){
-  const fm={};const b=md.match(/^---\n([\s\S]*?)\n---/);
-  if(b)b[1].split('\n').forEach(l=>{const[k,...v]=l.split(':');if(k&&k.trim())fm[k.trim()]=v.join(':').trim().replace(/^"|"$/g,'');});
-  const body=md.replace(/^---[\s\S]*?---\n?/,'').trim();
-  return{...fm,body};
-}
-function esc(s){if(s==null)return'';return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]||c));}
+async function ghList(path){try{const r=await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}?ref=${BRANCH}&t=${Date.now()}`);if(!r.ok)return[];return r.json();}catch(e){return[];}}
+const parseFM=md=>{const fm={};const b=md.match(/^---\n([\s\S]*?)\n---/);if(b)b[1].split('\n').forEach(l=>{const[k,...v]=l.split(':');if(k&&k.trim())fm[k.trim()]=v.join(':').trim().replace(/^"|"$/g,'');});return{...fm,body:md.replace(/^---[\s\S]*?---\n?/,'').trim()};};
+const esc=s=>s==null?'':String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const resolvePdf=p=>!p?'':p.startsWith('http')?p:`${RAW}/${p}`;
 
 /* ══ STUDENT ACCESS ══ */
 let currentStudent=JSON.parse(localStorage.getItem('tl_student_session')||'null');
-let accessData={students:[],posts:{}};
+let accessData={students:[]};
 
 async function loadAccessData(){
-  try{
-    const r=await fetch(RAW+'/access/allowed.json?t='+Date.now());
-    if(r.ok){const d=await r.json();accessData={students:d.students||d.global?.map(e=>({email:e,password:'',name:''}))||[],posts:d.posts||{}};}
-  }catch(e){accessData={students:[],posts:{}};}
+  try{const r=await fetch(`${RAW}/access/allowed.json?t=${Date.now()}`);if(r.ok){const d=await r.json();accessData={students:d.students||d.global?.map(e=>({email:e,password:'',name:'',expires:''}))||[]};}}
+  catch(e){accessData={students:[]};}
+  // Validate current session — check expiry
+  if(currentStudent){
+    const found=accessData.students.find(s=>s.email===currentStudent.email&&s.password===currentStudent.password);
+    if(found){
+      if(found.expires){const exp=new Date(found.expires);if(exp<new Date()){studentLogout(true);return;}} // expired
+    }else{studentLogout(false);}// no longer in list
+  }
   refreshStudentUI();
 }
 
 function refreshStudentUI(){
-  const badge=document.getElementById('studentBadge');
-  const loginBtn=document.getElementById('studentLoginBtn');
+  const badge=document.getElementById('studentBadge');const loginBtn=document.getElementById('studentLoginBtn');
   if(currentStudent){
-    document.getElementById('studentEmailDisplay').textContent=currentStudent.name||currentStudent.email;
+    document.getElementById('studentName').textContent=currentStudent.name||currentStudent.email;
     badge.classList.add('show');loginBtn.style.display='none';
   }else{badge.classList.remove('show');loginBtn.style.display='';}
-  renderFeed();renderResources();
+  renderFeed();renderResources();loadPacks();
 }
 
 function openStudentLogin(){document.getElementById('studentLoginModal').classList.add('open');}
@@ -516,242 +535,226 @@ function openStudentLogin(){document.getElementById('studentLoginModal').classLi
 function studentLogin(){
   const email=document.getElementById('student-email-input').value.trim().toLowerCase();
   const pass=document.getElementById('student-pass-input').value.trim();
-  if(!email){showModalErr('student-err','Entrez votre email.');return;}
+  if(!email){showErr('student-err','Entrez votre email.');return;}
   const found=accessData.students.find(s=>s.email.toLowerCase()===email&&(s.password===pass||!s.password));
-  if(!found){showModalErr('student-err','Email ou mot de passe incorrect. Contactez l\'enseignant.');return;}
-  currentStudent={email:found.email,name:found.name||'',password:found.password};
+  if(!found){showErr('student-err','Email ou mot de passe incorrect. Contactez l\'enseignant.');return;}
+  if(found.expires){const exp=new Date(found.expires);if(exp<new Date()){showErr('student-err','Votre accès a expiré. Contactez l\'enseignant pour renouveler.');return;}}
+  currentStudent={email:found.email,name:found.name||'',password:found.password,expires:found.expires||''};
   localStorage.setItem('tl_student_session',JSON.stringify(currentStudent));
   document.getElementById('student-err').style.display='none';
-  closeModal('studentLoginModal');
-  document.getElementById('student-email-input').value='';
-  document.getElementById('student-pass-input').value='';
-  refreshStudentUI();
-  toast('✅ Bienvenue '+(found.name||found.email)+' !','ok');
+  document.getElementById('student-email-input').value='';document.getElementById('student-pass-input').value='';
+  closeModal('studentLoginModal');refreshStudentUI();
+  toast('✅ Bienvenue '+(found.name||found.email)+' !','t-ok');
 }
 
-function studentLogout(){
+function studentLogout(expired=false){
   currentStudent=null;localStorage.removeItem('tl_student_session');
-  refreshStudentUI();toast('Déconnecté.');
+  refreshStudentUI();
+  if(expired)toast('Votre accès a expiré. Contactez l\'enseignant.','t-err');
+  else toast('Déconnecté.');
 }
 
 function hasAccess(item){
-  if(!item||item.locked!=='true')return true;
-  if(!currentStudent)return false;
+  if(!item||item.locked!=='true')return{ok:true,expired:false};
+  if(!currentStudent)return{ok:false,expired:false};
   const email=currentStudent.email.toLowerCase();
-  const inGlobal=accessData.students.find(s=>s.email.toLowerCase()===email);
-  if(inGlobal)return true;
-  if(item.allowed_emails){
-    const list=item.allowed_emails.split(',').map(e=>e.trim().toLowerCase());
-    if(list.includes(email))return true;
+  const found=accessData.students.find(s=>s.email.toLowerCase()===email);
+  if(found){
+    if(found.expires){const exp=new Date(found.expires);if(exp<new Date())return{ok:false,expired:true};}
+    return{ok:true,expired:false};
   }
-  return false;
+  if(item.allowed_emails){const list=item.allowed_emails.split(',').map(e=>e.trim().toLowerCase());if(list.includes(email))return{ok:true,expired:false};}
+  return{ok:false,expired:false};
 }
 
 /* ══ FEED ══ */
 let allPosts=[];let activeTab='all';
-
 async function loadFeed(){
   try{
     const files=await ghList('content/posts');
     const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
-    const posts=await Promise.all(mds.map(async f=>{
-      const r=await fetch(f.download_url);const t=await r.text();return{...parseFM(t),_name:f.name};
-    }));
+    const posts=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url+'?t='+Date.now());const t=await r.text();return{...parseFM(t),_name:f.name};}));
     allPosts=posts.sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
   }catch(e){allPosts=[];}
   renderFeed();
 }
-
-function switchTab(filter,btn){
-  activeTab=filter;
-  document.querySelectorAll('.feed-tab').forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');renderFeed();
-}
-
+function switchTab(filter,btn){activeTab=filter;document.querySelectorAll('.feed-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');renderFeed();}
 function renderFeed(){
   const c=document.getElementById('feed-container');
-  let posts=allPosts;
-  if(activeTab!=='all')posts=posts.filter(p=>(p.type||'post')===activeTab);
+  let posts=allPosts;if(activeTab!=='all')posts=posts.filter(p=>(p.type||'post')===activeTab);
   if(!posts.length){c.innerHTML='<div class="empty-state"><i class="fas fa-inbox"></i><p>Aucune publication dans cette catégorie.</p></div>';return;}
   c.innerHTML=posts.map(p=>buildPostCard(p)).join('');
 }
 
-const PREVIEW_LEN=280;
-
 function buildPostCard(p){
-  const locked=p.locked==='true';
-  const access=hasAccess(p);
   const type=p.type||'post';
+  const {ok:access,expired}=hasAccess(p);
+  const locked=p.locked==='true';
   const typeMap={post:['tb-post','fa-newspaper','Publication'],video:['tb-video','fa-video','Vidéo'],pdf:['tb-pdf','fa-file-pdf','PDF'],image:['tb-image','fa-image','Image'],announcement:['tb-announcement','fa-bullhorn','Annonce']};
   const [tbCls,icon,label]=typeMap[type]||typeMap.post;
-  const cardId='c'+Math.random().toString(36).substr(2,7);
-  const bodyText=p.body||'';
-  const isLong=bodyText.length>PREVIEW_LEN;
+  const cid='c'+Math.random().toString(36).substr(2,7);
+  const bodyText=p.body||'';const isLong=bodyText.length>PREVIEW_LEN;
 
+  // MEDIA
   let media='';
   if(locked&&!access){
-    let bg=p.image?'<img src="'+esc(p.image)+'" alt="" style="filter:blur(10px);transform:scale(1.08);width:100%;height:220px;object-fit:cover;display:block;">':'<div style="height:200px;background:linear-gradient(135deg,#0a1628,#1a56db);"></div>';
-    media='<div class="post-media" style="position:relative;">'+bg+'<div class="lock-overlay"><i class="fas fa-lock"></i><h4>Contenu réservé</h4><p>Connectez-vous avec votre email et mot de passe pour débloquer.</p><div style="display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;"><button class="btn-sm bs-blue" onclick="openStudentLogin()"><i class="fas fa-unlock-alt"></i> Me connecter</button><a class="btn-sm bs-wa" href="https://wa.me/21658338187?text=Bonjour%20je%20veux%20acceder" target="_blank"><i class="fab fa-whatsapp"></i> Contacter</a></div></div></div>';
+    let bg=p.image?`<img src="${esc(p.image)}" alt="" style="filter:blur(12px);transform:scale(1.08);width:100%;height:200px;object-fit:cover;display:block;">`:`<div style="height:180px;background:linear-gradient(135deg,#0a1628,#1a56db);"></div>`;
+    if(expired){
+      media=`<div class="post-media" style="position:relative;">${bg}<div class="expired-overlay"><i class="fas fa-clock-rotate-left"></i><h4>Accès expiré</h4><p style="font-size:.8rem;opacity:.8;">Renouvelez votre abonnement pour continuer.</p><a href="https://wa.me/21658338187?text=Je%20veux%20renouveler%20mon%20accès" target="_blank" class="btn-sm bs-wa" style="margin-top:.5rem"><i class="fab fa-whatsapp"></i> Renouveler</a></div></div>`;
+    }else{
+      media=`<div class="post-media" style="position:relative;">${bg}
+        <div class="lock-overlay">
+          <span class="lock-badge"><i class="fas fa-crown"></i> Contenu payant</span>
+          <i class="lock-icon fas fa-lock"></i>
+          <h4>Réservé aux élèves inscrits</h4>
+          <p>Inscrivez-vous et recevez vos accès par WhatsApp pour débloquer ce contenu.</p>
+          <div style="display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;">
+            <button class="btn-sm bs-blue" onclick="openStudentLogin()"><i class="fas fa-unlock-alt"></i> J'ai mes accès</button>
+            <a class="btn-sm bs-wa" href="https://wa.me/21658338187?text=Bonjour%20!%20Je%20veux%20m%27inscrire%20pour%20accéder%20aux%20cours%20privés." target="_blank"><i class="fab fa-whatsapp"></i> S'inscrire</a>
+          </div>
+        </div>
+      </div>`;
+    }
   } else if(type==='video'&&p.video_url){
     const embed=toEmbed(p.video_url);
-    if(embed){media='<div class="post-media"><div class="video-wrap"><iframe src="'+esc(embed)+'" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share" allowfullscreen loading="lazy"></iframe></div></div>';}
-    else if(p.image){media='<div class="post-media" style="cursor:pointer;position:relative;" onclick="window.open(\''+esc(p.video_url)+'\',\'_blank\')"><img src="'+esc(p.image)+'" alt="" style="width:100%;max-height:380px;object-fit:cover;"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.28)"><i class="fas fa-play-circle" style="font-size:4rem;color:white;"></i></div></div>';}
+    if(embed){media=`<div class="post-media"><div class="video-wrap"><iframe src="${esc(embed)}" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share" allowfullscreen loading="lazy"></iframe></div></div>`;}
+    else if(p.image){media=`<div class="post-media" style="cursor:pointer;position:relative;" onclick="window.open('${esc(p.video_url)}','_blank')"><img src="${esc(p.image)}" alt="" style="width:100%;max-height:380px;object-fit:cover;"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.28)"><i class="fas fa-play-circle" style="font-size:4rem;color:white;"></i></div></div>`;}
   } else if(type==='pdf'&&(p.pdf_file||p.link)){
     const url=resolvePdf(p.pdf_file||p.link);
-    media='<div class="post-media"><div class="pdf-thumb-click" onclick="openPdfModal(\''+esc(url)+'\',\''+esc(p.title)+'\')"><i class="fas fa-file-pdf"></i><span>Cliquer pour ouvrir le PDF</span><small>'+esc(p.title||'')+'</small></div></div>';
+    media=`<div class="post-media"><div class="pdf-thumb-click" onclick="openPdfModal('${esc(url)}','${esc(p.title)}')"><i class="fas fa-file-pdf"></i><span>Cliquer pour ouvrir le PDF</span><small>${esc(p.title||'')}</small></div></div>`;
   } else if(type==='image'){
     const imgs=[];if(p.image)imgs.push(p.image);if(p.image2)imgs.push(p.image2);if(p.image3)imgs.push(p.image3);
-    if(imgs.length){const gc=imgs.length===1?'g1':imgs.length===2?'g2':'g3';media='<div class="post-media"><div class="img-gallery '+gc+'">'+imgs.map(u=>'<img src="'+esc(u)+'" alt="" onclick="openLightbox(\''+esc(u)+'\')">').join('')+'</div></div>';}
-    else if(p.image){media='<div class="post-media"><img src="'+esc(p.image)+'" alt="" onclick="openLightbox(\''+esc(p.image)+'\');" style="width:100%;max-height:400px;object-fit:cover;cursor:zoom-in;" loading="lazy"></div>';}
+    if(imgs.length){const gc=imgs.length===1?'g1':imgs.length===2?'g2':'g3';media=`<div class="post-media"><div class="img-gallery ${gc}">${imgs.map(u=>`<img src="${esc(u)}" alt="" onclick="openLightbox('${esc(u)}')">`).join('')}</div></div>`;}
+    else if(p.image){media=`<div class="post-media"><img src="${esc(p.image)}" alt="" onclick="openLightbox('${esc(p.image)}')" style="width:100%;max-height:400px;object-fit:cover;cursor:zoom-in;"></div>`;}
   } else if(p.image){
-    media='<div class="post-media"><img src="'+esc(p.image)+'" alt="" onclick="openLightbox(\''+esc(p.image)+'\');" style="width:100%;max-height:380px;object-fit:cover;cursor:zoom-in;" loading="lazy"></div>';
+    media=`<div class="post-media"><img src="${esc(p.image)}" alt="" onclick="openLightbox('${esc(p.image)}')" style="width:100%;max-height:380px;object-fit:cover;cursor:zoom-in;"></div>`;
   }
 
-  let btns='';
-  if(access||!locked){
-    if(type==='video'&&p.video_url) btns+='<a class="btn-sm bs-out" href="'+esc(p.video_url)+'" target="_blank"><i class="fas fa-external-link-alt"></i> Ouvrir vidéo</a>';
-    if(type==='pdf'&&(p.pdf_file||p.link)){const url=resolvePdf(p.pdf_file||p.link);btns+='<button class="btn-sm bs-blue" onclick="openPdfModal(\''+esc(url)+'\',\''+esc(p.title)+'\')"><i class="fas fa-eye"></i> Voir PDF</button><a class="btn-sm bs-out" href="'+esc(url)+'" download><i class="fas fa-download"></i> Télécharger</a>';}
-    if(p.link&&type!=='pdf'&&type!=='video') btns+='<a class="btn-sm bs-out" href="'+esc(p.link)+'" target="_blank"><i class="fas fa-link"></i> Lien</a>';
-  }
-  if(locked){
-    if(access) btns+='<span class="access-tag" style="margin-left:auto"><i class="fas fa-check-circle"></i> Accès autorisé</span>';
-    else btns+='<span class="lock-tag" style="margin-left:auto"><i class="fas fa-lock"></i> Accès restreint</span>';
-  }
-
-  let textHtml='';
-  if(locked&&!access){
-    textHtml='<p style="color:var(--gray);font-size:.84rem;font-style:italic;margin-bottom:.5rem">Connectez-vous pour lire ce contenu.</p>';
-  } else if(bodyText){
-    if(isLong){
-      textHtml='<div class="post-text"><span id="prev-'+cardId+'">'+esc(bodyText.substring(0,PREVIEW_LEN))+'<span style="color:var(--gray)">…</span></span>'
-        +'<span id="full-'+cardId+'" style="display:none">'+esc(bodyText)+'</span>'
-        +'<br><button class="read-more-btn" id="rmb-'+cardId+'" onclick="expandPost(\''+cardId+'\')"><i class="fas fa-chevron-down"></i> Lire la suite</button></div>';
-    } else {
-      textHtml='<div class="post-text">'+esc(bodyText)+'</div>';
+  // ATTACHMENTS (shown when access granted)
+  let attachHtml='';
+  if(access&&!locked||!locked){
+    if(p.attachments){
+      try{
+        const atts=JSON.parse(p.attachments.replace(/^'|'$/g,''));
+        if(atts.length){attachHtml=`<div class="post-attachments">${atts.map(a=>a.url?`<a class="attach-item-pub" href="${esc(a.url)}" target="_blank"><i class="fas fa-link"></i>${esc(a.name)}</a>`:`<a class="attach-item-pub" href="${RAW}/${esc(a.path)}" download><i class="fas fa-file-pdf"></i>${esc(a.name)}</a>`).join('')}</div>`;}
+      }catch(e){}
     }
   }
 
-  return '<div class="post-card" id="'+cardId+'">'+media+'<div class="post-body"><div class="post-meta-row"><span class="type-badge '+tbCls+'"><i class="fas '+icon+'"></i> '+label+'</span>'+(p.category?'<span class="post-cat">'+esc(p.category)+'</span>':'')+'<span class="post-date"><i class="far fa-calendar-alt"></i> '+esc(p.date||'')+'</span></div><h3>'+esc(p.title||'')+'</h3>'+textHtml+(btns?'<div class="post-footer">'+btns+'</div>':'')+'</div></div>';
+  // FOOTER BUTTONS
+  let btns='';
+  if(access||!locked){
+    if(type==='video'&&p.video_url) btns+=`<a class="btn-sm bs-out" href="${esc(p.video_url)}" target="_blank" style="display:none"></a>`; // video shown inline, no external button
+    if(type==='pdf'&&(p.pdf_file||p.link)){const url=resolvePdf(p.pdf_file||p.link);btns+=`<button class="btn-sm bs-blue" onclick="openPdfModal('${esc(url)}','${esc(p.title)}')"><i class="fas fa-eye"></i> Voir PDF</button><a class="btn-sm bs-out" href="${esc(url)}" download><i class="fas fa-download"></i> Télécharger</a>`;}
+    if(p.link&&type!=='pdf'&&type!=='video') btns+=`<a class="btn-sm bs-out" href="${esc(p.link)}" target="_blank"><i class="fas fa-link"></i> Lien</a>`;
+  }
+  if(locked){
+    if(access&&!expired) btns+=`<span class="access-tag" style="margin-left:auto"><i class="fas fa-check-circle"></i> Accès actif</span>`;
+    else if(expired) btns+=`<span class="lock-tag" style="margin-left:auto;color:#dc2626;background:#fee2e2;"><i class="fas fa-clock"></i> Expiré</span>`;
+    else btns+=`<span class="lock-tag" style="margin-left:auto"><i class="fas fa-crown"></i> Contenu payant</span>`;
+  }
+
+  // TEXT
+  let textHtml='';
+  if(locked&&!access&&!expired){
+    textHtml=`<p style="color:var(--gray);font-size:.84rem;font-style:italic;">Inscrivez-vous pour accéder à ce contenu.</p>`;
+  } else if(bodyText){
+    if(isLong){textHtml=`<div class="post-text"><span id="prev-${cid}">${esc(bodyText.substring(0,PREVIEW_LEN))}<span style="color:var(--gray)">…</span></span><span id="full-${cid}" style="display:none">${esc(bodyText)}</span><br><button class="read-more-btn" id="rmb-${cid}" onclick="expandPost('${cid}')"><i class="fas fa-chevron-down"></i> Lire la suite</button></div>`;}
+    else textHtml=`<div class="post-text">${esc(bodyText)}</div>`;
+  }
+
+  return `<div class="post-card" id="${cid}">${media}<div class="post-body">
+    <div class="post-meta-row"><span class="type-badge ${tbCls}"><i class="fas ${icon}"></i> ${label}</span>${p.category?`<span class="post-cat">${esc(p.category)}</span>`:''}<span class="post-date"><i class="far fa-calendar-alt"></i> ${esc(p.date||'')}</span></div>
+    <h3>${esc(p.title||'')}</h3>${textHtml}${attachHtml}${btns?`<div class="post-footer">${btns}</div>`:''}
+  </div></div>`;
 }
 
 function expandPost(id){
-  document.getElementById('prev-'+id).style.display='none';
-  document.getElementById('full-'+id).style.display='inline';
-  const btn=document.getElementById('rmb-'+id);
-  btn.innerHTML='<i class="fas fa-chevron-up"></i> Réduire';
-  btn.onclick=function(){collapsePost(id);};
+  document.getElementById('prev-'+id).style.display='none';document.getElementById('full-'+id).style.display='inline';
+  const b=document.getElementById('rmb-'+id);b.innerHTML='<i class="fas fa-chevron-up"></i> Réduire';b.onclick=()=>collapsePost(id);
 }
 function collapsePost(id){
-  document.getElementById('prev-'+id).style.display='inline';
-  document.getElementById('full-'+id).style.display='none';
-  const btn=document.getElementById('rmb-'+id);
-  btn.innerHTML='<i class="fas fa-chevron-down"></i> Lire la suite';
-  btn.onclick=function(){expandPost(id);};
+  document.getElementById('prev-'+id).style.display='inline';document.getElementById('full-'+id).style.display='none';
+  const b=document.getElementById('rmb-'+id);b.innerHTML='<i class="fas fa-chevron-down"></i> Lire la suite';b.onclick=()=>expandPost(id);
   document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+/* ══ PACKS ══ */
+async function loadPacks(){
+  const c=document.getElementById('packs-container');
+  try{
+    const files=await ghList('content/packs');const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
+    if(!mds.length){c.innerHTML='<p style="color:rgba(255,255,255,.5);font-size:.9rem;font-style:italic;grid-column:1/-1;">Aucun pack disponible pour le moment.</p>';return;}
+    const packs=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url+'?t='+Date.now());const t=await r.text();return parseFM(t);}));
+    c.innerHTML=packs.map(p=>{
+      const {ok:access}=hasAccess({...p,locked:p.locked||'false'});
+      const items=(p.body||'').split('\n').filter(l=>l.startsWith('- ')).map(l=>l.slice(2));
+      return `<div class="pack-card-pub">
+        <div class="pack-header">
+          <h3>${esc(p.title||'Pack')}</h3>
+          <div style="font-size:.82rem;opacity:.7;margin-bottom:.5rem;">${esc(p.body?.split('\n').find(l=>!l.startsWith('#')&&!l.startsWith('-')&&l.trim())||'')}</div>
+          ${p.price?`<div class="pack-price">${esc(p.price)}</div>`:''}
+        </div>
+        <div class="pack-body">
+          ${items.slice(0,6).map(item=>`<div class="pack-feature"><i class="fas fa-check-circle"></i>${esc(item)}</div>`).join('')}
+          ${items.length>6?`<div class="pack-feature" style="color:var(--blue);font-weight:600;">+${items.length-6} autres éléments…</div>`:''}
+          ${p.locked==='true'?`<button class="pack-cta" onclick="${access?'openStudentLogin()':'openPackModal('+JSON.stringify(p.title)+')'}"><i class="fas fa-${access?'unlock':'crown'}"></i> ${access?'Accéder au pack':'S\'inscrire pour accéder'}</button>`:`<button class="pack-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})"><i class="fas fa-headset"></i> Contacter l'enseignant</button>`}
+        </div>
+      </div>`;
+    }).join('');
+  }catch(e){c.innerHTML='<p style="color:rgba(255,255,255,.4);font-size:.83rem;grid-column:1/-1;">Packs indisponibles pour le moment.</p>';}
+}
+function openPackModal(title){
+  document.getElementById('lockModalMsg').textContent=`Le pack "${title}" est réservé aux élèves inscrits. Contactez l'enseignant pour vous inscrire et recevoir vos accès.`;
+  document.getElementById('lockModal').classList.add('open');
 }
 
 /* ══ RESOURCES ══ */
 let allRes=[];
 async function loadResources(){
-  try{
-    const files=await ghList('content/resumes');
-    const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
-    allRes=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return parseFM(t);}));
-  }catch(e){allRes=[];}
+  try{const files=await ghList('content/resumes');const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));allRes=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url+'?t='+Date.now());const t=await r.text();return parseFM(t);}));}catch(e){allRes=[];}
   renderResources();
 }
-
 function renderResources(){
   const c=document.getElementById('res-container');
   if(!allRes.length){c.innerHTML='<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-folder-open"></i><p>Aucune ressource disponible.</p></div>';return;}
   const thumbCls={pdf:'rt-pdf',video:'rt-video',image:'rt-image'};
-  const thumbIcon={pdf:'<span style="color:#dc2626;font-size:2.8rem;">📄</span>',video:'<span style="color:#60a5fa;font-size:2.8rem;">🎬</span>',image:'<span style="color:#059669;font-size:2.8rem;">🖼️</span>'};
+  const thumbIcon={pdf:'📄',video:'🎬',image:'🖼️'};
   const tagCls={pdf:'rt-tag-pdf',video:'rt-tag-video',image:'rt-tag-image'};
-  const tagLabel={pdf:'PDF',video:'Vidéo',image:'Image'};
-
   c.innerHTML=allRes.map(r=>{
-    const access=hasAccess(r);
-    const type=r.type||'pdf';
-    let thumbContent=thumbIcon[type]||thumbIcon.pdf;
-    if(type==='image'&&(r.image||r.image_url)){
-      const u=(r.image||r.image_url).startsWith('http')?(r.image||r.image_url):`${RAW}/${r.image||r.image_url}`;
-      thumbContent=`<img src="${esc(u)}" alt="" style="width:100%;height:100%;object-fit:cover;">`;
-    }
-    if(type==='video'&&r.video_url){
-      const th=ytThumb(r.video_url);
-      if(th)thumbContent=`<img src="${esc(th)}" alt="" style="width:100%;height:100%;object-fit:cover;">`;
-    }
-
+    const {ok:access,expired}=hasAccess(r);const type=r.type||'pdf';
+    let thumbContent=`<span style="font-size:2.8rem;">${thumbIcon[type]||'📄'}</span>`;
+    if(type==='image'&&(r.image||r.image_url)){const u=(r.image||r.image_url).startsWith('http')?(r.image||r.image_url):`${RAW}/${r.image||r.image_url}`;thumbContent=`<img src="${esc(u)}" alt="" style="width:100%;height:100%;object-fit:cover;">`;}
+    if(type==='video'&&r.video_url){const th=ytThumb(r.video_url);if(th)thumbContent=`<img src="${esc(th)}" alt="" style="width:100%;height:100%;object-fit:cover;">`;}
     let btn='';
-    if(r.locked==='true'&&!access){
-      btn=`<button class="btn-sm bs-blue" onclick="openLockModal('${esc(r.title)}')"><i class="fas fa-lock"></i> Accès restreint</button>`;
-    }else{
-      if(type==='pdf'){
-        const url=resolvePdf(r.pdf_file||r.link||'');
-        if(url){btn=`<button class="btn-sm bs-blue" onclick="openPdfModal('${esc(url)}','${esc(r.title)}')"><i class="fas fa-eye"></i> Voir</button><a class="btn-sm bs-out" href="${esc(url)}" download><i class="fas fa-download"></i></a>`;}
-      }else if(type==='video'&&r.video_url){
-        btn=`<a class="btn-sm bs-blue" href="${esc(r.video_url)}" target="_blank"><i class="fas fa-play"></i> Regarder</a>`;
-        const embed=toEmbed(r.video_url);
-        if(embed)btn+=`<button class="btn-sm bs-out" onclick="openVideoModal('${esc(embed)}','${esc(r.title)}')"><i class="fas fa-expand"></i></button>`;
-      }else if(type==='image'){
-        const url=(r.image_url||r.image||'').startsWith('http')?(r.image_url||r.image):`${RAW}/${r.image_url||r.image}`;
-        if(url){btn=`<button class="btn-sm bs-blue" onclick="openLightbox('${esc(url)}')"><i class="fas fa-expand"></i> Voir</button><a class="btn-sm bs-out" href="${esc(url)}" download><i class="fas fa-download"></i></a>`;}
-      }
-    }
-
-    return `<div class="res-card">
-      <div class="res-thumb ${thumbCls[type]||'rt-pdf'}" style="position:relative;">
-        ${thumbContent}
-        ${r.locked==='true'&&!access?`<div class="res-lock-veil"><i class="fas fa-lock" style="color:white;font-size:1.7rem;"></i></div>`:r.locked==='true'&&access?`<div style="position:absolute;bottom:.4rem;right:.4rem;background:var(--green);color:white;font-size:.6rem;font-weight:700;padding:.18rem .45rem;border-radius:10px;">✓ Autorisé</div>`:''}
-      </div>
-      <div class="res-body">
-        <div class="res-meta-row">
-          <span class="res-tag ${tagCls[type]||'rt-tag-pdf'}">${tagLabel[type]||'PDF'}</span>
-          ${r.subject?`<span class="res-tag rt-tag-sub">${esc(r.subject)}</span>`:''}
-          ${r.level?`<span class="res-tag rt-tag-sub">${esc(r.level)}</span>`:''}
-        </div>
-        <h3>${esc(r.title||'')}</h3>
-        <p>${esc((r.body||'').substring(0,85))}${(r.body||'').length>85?'…':''}</p>
-        <div style="display:flex;gap:.45rem;flex-wrap:wrap;">${btn}</div>
-      </div>
-    </div>`;
+    if(r.locked==='true'&&!access){btn=`<button class="btn-sm bs-blue" style="background:${expired?'var(--red)':'var(--gray)'}" onclick="openLockModal('${esc(r.title)}')"><i class="fas fa-${expired?'clock':'crown'}"></i> ${expired?'Accès expiré':'Contenu payant'}</button>`;}
+    else if(type==='pdf'){const url=resolvePdf(r.pdf_file||r.link||'');if(url){btn=`<button class="btn-sm bs-blue" onclick="openPdfModal('${esc(url)}','${esc(r.title)}')"><i class="fas fa-eye"></i> Voir</button><a class="btn-sm bs-out" href="${esc(url)}" download><i class="fas fa-download"></i></a>`;}}
+    else if(type==='video'&&r.video_url){const embed=toEmbed(r.video_url);if(embed){btn=`<button class="btn-sm bs-blue" onclick="openVideoModal('${esc(embed)}','${esc(r.title)}')"><i class="fas fa-play"></i> Regarder</button>`;}else btn=`<a class="btn-sm bs-blue" href="${esc(r.video_url)}" target="_blank"><i class="fas fa-play"></i> Regarder</a>`;}
+    else if(type==='image'){const url=(r.image_url||r.image||'').startsWith('http')?(r.image_url||r.image):`${RAW}/${r.image_url||r.image}`;if(url){btn=`<button class="btn-sm bs-blue" onclick="openLightbox('${esc(url)}')"><i class="fas fa-expand"></i> Voir</button><a class="btn-sm bs-out" href="${esc(url)}" download><i class="fas fa-download"></i></a>`;}}
+    return `<div class="res-card"><div class="res-thumb ${thumbCls[type]||'rt-pdf'}" style="position:relative;">${thumbContent}${r.locked==='true'&&!access?`<div class="res-lock-veil"><i class="fas fa-${expired?'clock':'crown'}" style="color:white;font-size:1.7rem;"></i></div>`:''}</div>
+    <div class="res-body"><div class="res-meta-row"><span class="res-tag ${tagCls[type]||'rt-tag-pdf'}">${type.toUpperCase()}</span>${r.subject?`<span class="res-tag rt-tag-sub">${esc(r.subject)}</span>`:''}</div>
+    <h3>${esc(r.title||'')}</h3><p>${esc((r.body||'').substring(0,80))}${(r.body||'').length>80?'…':''}</p>
+    <div style="display:flex;gap:.45rem;flex-wrap:wrap;">${btn}</div></div></div>`;
   }).join('');
 }
 
-/* ══ VIDEO MODAL (inline for resources) ══ */
+/* ══ VIDEO MODAL ══ */
 let videoModalEl=null;
 function openVideoModal(embed,title){
-  if(!videoModalEl){
-    videoModalEl=document.createElement('div');
-    videoModalEl.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:2000;display:flex;flex-direction:column;';
-    videoModalEl.innerHTML=`<div style="background:#1e293b;padding:.6rem 1rem;display:flex;align-items:center;justify-content:space-between;color:white;font-size:.82rem;flex-shrink:0;"><span id="vm-title"></span><button onclick="document.getElementById('vm-frame').src='';this.closest('div').parentElement.remove();videoModalEl=null;" style="background:none;border:none;color:white;cursor:pointer;opacity:.7;font-size:.82rem;"><i class="fas fa-times"></i> Fermer</button></div><iframe id="vm-frame" style="flex:1;border:none;" allowfullscreen></iframe>`;
-    document.body.appendChild(videoModalEl);
-  }
-  videoModalEl.querySelector('#vm-title').textContent=title||'Vidéo';
-  videoModalEl.querySelector('#vm-frame').src=embed;
+  if(!videoModalEl){videoModalEl=document.createElement('div');videoModalEl.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:2000;display:flex;flex-direction:column;';videoModalEl.innerHTML=`<div style="background:#1e293b;padding:.6rem 1rem;display:flex;align-items:center;justify-content:space-between;color:white;font-size:.82rem;flex-shrink:0;"><span id="vm-title"></span><button onclick="document.getElementById('vm-frame').src='';this.closest('div').parentElement.remove();videoModalEl=null;" style="background:none;border:none;color:white;cursor:pointer;opacity:.7;font-size:.82rem;"><i class="fas fa-times"></i> Fermer</button></div><iframe id="vm-frame" style="flex:1;border:none;" allowfullscreen></iframe>`;document.body.appendChild(videoModalEl);}
+  videoModalEl.querySelector('#vm-title').textContent=title||'Vidéo';videoModalEl.querySelector('#vm-frame').src=embed;
 }
 
-/* ══ EMBED HELPERS ══ */
+/* ══ EMBED & HELPERS ══ */
 function toEmbed(url){
   if(!url)return null;
-  let m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
-  if(m)return`https://www.youtube.com/embed/${m[1]}?rel=0&modestbranding=1`;
-  m=url.match(/vimeo\.com\/(\d+)/);
-  if(m)return`https://player.vimeo.com/video/${m[1]}`;
-  m=url.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
-  if(m)return`https://www.dailymotion.com/embed/video/${m[1]}`;
-  m=url.match(/drive\.google\.com\/file\/d\/([^/]+)/);
-  if(m)return`https://drive.google.com/file/d/${m[1]}/preview`;
+  let m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);if(m)return`https://www.youtube.com/embed/${m[1]}?rel=0&modestbranding=1`;
+  m=url.match(/vimeo\.com\/(\d+)/);if(m)return`https://player.vimeo.com/video/${m[1]}`;
+  m=url.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);if(m)return`https://www.dailymotion.com/embed/video/${m[1]}`;
+  m=url.match(/drive\.google\.com\/file\/d\/([^/]+)/);if(m)return`https://drive.google.com/file/d/${m[1]}/preview`;
   return null;
 }
-function ytThumb(url){
-  const m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-  return m?`https://img.youtube.com/vi/${m[1]}/hqdefault.jpg`:null;
-}
-function resolvePdf(p){
-  if(!p)return'';
-  return p.startsWith('http')?p:`${RAW}/${p}`;
-}
+function ytThumb(url){const m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);return m?`https://img.youtube.com/vi/${m[1]}/hqdefault.jpg`:null;}
 
 /* ══ LIGHTBOX ══ */
 function openLightbox(src){document.getElementById('lb-img').src=src;document.getElementById('lightbox').classList.add('open');}
@@ -759,53 +762,35 @@ function closeLightbox(){document.getElementById('lightbox').classList.remove('o
 document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this||e.target===document.getElementById('lb-img'))closeLightbox();});
 
 /* ══ PDF MODAL ══ */
-let currentPdfUrl='';
-function openPdfModal(url,title){
-  currentPdfUrl=url;
-  document.getElementById('pdfFrame').src=url;
-  document.getElementById('pdfModalTitle').textContent=title||'Document';
-  document.getElementById('pdfDlBtn').href=url;
-  document.getElementById('pdfDlBtn').download=title||'document';
-  document.getElementById('pdfModal').classList.add('open');
-}
+function openPdfModal(url,title){document.getElementById('pdfFrame').src=url;document.getElementById('pdfModalTitle').textContent=title||'Document';document.getElementById('pdfDlBtn').href=url;document.getElementById('pdfModal').classList.add('open');}
 function closePdfModal(){document.getElementById('pdfModal').classList.remove('open');document.getElementById('pdfFrame').src='';}
-function openPdfInTab(){if(currentPdfUrl)window.open(currentPdfUrl,'_blank');}
 
 /* ══ LOCK MODAL ══ */
-function openLockModal(title){
-  document.getElementById('lockModalMsg').textContent=`"${title}" est réservé aux élèves autorisés. Connectez-vous avec votre email ou contactez l'enseignant sur WhatsApp.`;
-  document.getElementById('lockModal').classList.add('open');
-}
+function openLockModal(title){document.getElementById('lockModalMsg').textContent=`"${title}" est un contenu payant. Contactez l'enseignant pour vous inscrire et recevoir vos accès.`;document.getElementById('lockModal').classList.add('open');}
 
 /* ══ MODALS ══ */
 function closeModal(id){document.getElementById(id).classList.remove('open');}
-function showModalErr(id,msg){const el=document.getElementById(id);el.textContent=msg;el.style.display='block';}
+function showErr(id,msg){const el=document.getElementById(id);el.textContent=msg;el.style.display='block';}
 document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');}));
 
 /* ══ CONTACT ══ */
 function sendContact(){
-  const fn=document.getElementById('cf-fname').value.trim();
-  if(!fn){toast('Entrez votre prénom','err');return;}
+  const fn=document.getElementById('cf-fname').value.trim();if(!fn){toast('Entrez votre prénom');return;}
   const parts=[`Nom: ${fn} ${document.getElementById('cf-lname').value.trim()}`,`Tél: ${document.getElementById('cf-phone').value.trim()}`,`Email: ${document.getElementById('cf-email').value.trim()}`,`Niveau: ${document.getElementById('cf-niveau').value}`,`Message: ${document.getElementById('cf-msg').value.trim()}`];
   window.open(`https://wa.me/21658338187?text=${encodeURIComponent(parts.join('\n'))}`,'_blank');
   ['cf-fname','cf-lname','cf-phone','cf-email','cf-msg'].forEach(id=>document.getElementById(id).value='');
-  toast('✅ Demande envoyée !','ok');
+  toast('✅ Demande envoyée !','t-ok');
 }
 
 /* ══ TOAST ══ */
 function toast(msg,type=''){
-  const w=document.getElementById('toastWrap');
-  const el=document.createElement('div');
-  el.className='toast'+(type?' t-'+type:'');
-  el.textContent=msg;
-  w.appendChild(el);
+  const w=document.getElementById('toastWrap'),el=document.createElement('div');
+  el.className='toast'+(type?' '+type:'');el.textContent=msg;w.appendChild(el);
   setTimeout(()=>{el.style.opacity='0';el.style.transform='translateY(10px)';setTimeout(()=>el.remove(),400);},4500);
 }
 
 /* ══ INIT ══ */
-loadAccessData();
-loadFeed();
-loadResources();
+loadAccessData().then(()=>{loadFeed();loadResources();loadPacks();});
 </script>
 </body>
 </html>
