@@ -185,6 +185,30 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
 @keyframes tin{from{transform:translateX(50px);opacity:0}to{transform:translateX(0);opacity:1}}
 .toast.t-ok{background:var(--green);}.toast.t-err{background:var(--red);}.toast.t-warn{background:var(--accent);color:var(--navy);}
 
+/* EDIT MODAL */
+.edit-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);z-index:5000;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto;}
+.edit-overlay.open{display:flex;}
+.edit-modal{background:white;border-radius:22px;width:100%;max-width:720px;overflow:hidden;animation:pop .3s ease;margin:auto;}
+.edit-modal-header{background:var(--navy);padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;}
+.edit-modal-header h3{color:white;font-size:.95rem;font-weight:700;}
+.edit-modal-header button{background:rgba(255,255,255,.1);border:none;color:white;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:.2s;}
+.edit-modal-header button:hover{background:rgba(255,255,255,.2);}
+.edit-modal-body{padding:1.6rem;max-height:75vh;overflow-y:auto;}
+.edit-modal-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:.7rem;background:#fafbff;}
+
+/* STUDENT PASSWORD ACCESS */
+.access-student-row{display:flex;align-items:center;gap:.7rem;background:white;border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin-bottom:.5rem;}
+.asr-email{flex:1;font-weight:600;font-size:.85rem;color:var(--navy);}
+.asr-pass{font-family:monospace;font-size:.82rem;background:var(--bg);border:1px solid var(--border);padding:.25rem .6rem;border-radius:6px;color:var(--blue);}
+.asr-date{font-size:.72rem;color:var(--gray);}
+.copy-btn{background:none;border:none;cursor:pointer;color:var(--blue);font-size:.8rem;opacity:.6;transition:.2s;}
+.copy-btn:hover{opacity:1;}
+
+/* MASKED FIELD */
+.masked-field{position:relative;}
+.masked-field input{padding-right:2.5rem;}
+.masked-field .toggle-vis{position:absolute;right:.7rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--gray);font-size:.85rem;}
+
 /* MOBILE */
 .mob-top{display:none;position:fixed;top:0;left:0;right:0;background:var(--navy);padding:.75rem 1rem;z-index:300;align-items:center;gap:.7rem;}
 .mob-top span{color:white;font-weight:700;font-size:.9rem;}
@@ -417,44 +441,53 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
 
       <!-- ACCESS MANAGEMENT -->
       <div class="panel" id="panel-access">
-        <div class="topbar"><div class="tb-left"><h2>Gérer les accès élèves</h2><p>Contrôlez qui peut voir les contenus privés</p></div></div>
+        <div class="topbar"><div class="tb-left"><h2>Gérer les accès élèves</h2><p>Email + mot de passe unique par élève</p></div></div>
 
-        <!-- GLOBAL ACCESS -->
+        <!-- STUDENT PASSWORD ACCESS -->
         <div class="card">
-          <div class="card-header"><h3><i class="fas fa-globe" style="color:var(--green)"></i> Accès global</h3><span style="font-size:.76rem;color:var(--gray)">Ces élèves accèdent à TOUS les contenus privés</span></div>
+          <div class="card-header"><h3><i class="fas fa-user-shield" style="color:var(--purple)"></i> Élèves autorisés</h3><span style="font-size:.76rem;color:var(--gray)" id="student-count-lbl"></span></div>
           <div class="card-body">
-            <div class="global-access-area">
-              <h4><i class="fas fa-user-check"></i> Élèves avec accès global</h4>
-              <p>Ces emails peuvent voir tous les contenus marqués « Accès restreint » sur le site, sans exception.</p>
-              <div class="email-chips" id="globalChips"><span style="font-size:.78rem;color:var(--gray);padding:.2rem .4rem;">Chargement…</span></div>
-              <div class="add-email-row">
-                <input type="email" id="globalEmailInput" placeholder="nouvel-email@exemple.com" onkeydown="if(event.key==='Enter')addGlobalEmail()">
-                <button class="btn b-success" onclick="addGlobalEmail()"><i class="fas fa-plus"></i> Ajouter</button>
+            <div style="background:#ede9fe;border:1px solid #c4b5fd;border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.4rem;">
+              <h4 style="color:#5b21b6;font-size:.85rem;margin-bottom:.4rem;"><i class="fas fa-info-circle"></i> Comment ça marche</h4>
+              <p style="font-size:.8rem;color:#6d28d9;line-height:1.55;">1. Entrez l'email de l'élève → cliquez <strong>Ajouter</strong> → un mot de passe aléatoire est généré.<br>2. Envoyez-lui cet email + mot de passe par WhatsApp.<br>3. L'élève entre son email + mot de passe sur le site → il voit les contenus débloqués.</p>
+            </div>
+
+            <!-- ADD NEW STUDENT -->
+            <div style="background:var(--bg);border-radius:12px;padding:1.2rem;margin-bottom:1.2rem;border:1.5px dashed var(--border);">
+              <h4 style="font-size:.85rem;font-weight:700;color:var(--navy);margin-bottom:.9rem;"><i class="fas fa-user-plus" style="color:var(--green)"></i> Ajouter un élève</h4>
+              <div class="fgrid" style="gap:.7rem;">
+                <div class="fg" style="margin-bottom:0"><label>Email de l'élève *</label><input type="email" id="new-student-email" placeholder="eleve@email.com"></div>
+                <div class="fg" style="margin-bottom:0"><label>Nom (optionnel)</label><input type="text" id="new-student-name" placeholder="Ex: Ahmed Ben Ali"></div>
+              </div>
+              <div style="display:flex;gap:.7rem;margin-top:.9rem;flex-wrap:wrap;align-items:center;">
+                <button class="btn b-success btn-lg" onclick="addStudent()"><i class="fas fa-plus"></i> Ajouter & générer mot de passe</button>
+                <span style="font-size:.75rem;color:var(--gray);">Un mot de passe sécurisé sera généré automatiquement</span>
               </div>
             </div>
-            <div style="display:flex;justify-content:flex-end;gap:.7rem;">
-              <button class="btn b-ghost" onclick="loadAccessData()"><i class="fas fa-sync"></i> Recharger</button>
-              <button class="btn b-primary btn-lg" onclick="saveAccessData()"><i class="fas fa-save"></i> Sauvegarder les accès</button>
+
+            <!-- STUDENT LIST -->
+            <div id="studentList"><p style="color:var(--gray);font-size:.83rem;"><i class="fas fa-spinner fa-spin"></i> Chargement…</p></div>
+
+            <div style="display:flex;justify-content:flex-end;gap:.7rem;margin-top:1.2rem;">
+              <button class="btn b-ghost" onclick="loadAccessPanel()"><i class="fas fa-sync"></i> Recharger</button>
+              <button class="btn b-primary btn-lg" onclick="saveAccessData()"><i class="fas fa-save"></i> Sauvegarder tous les accès</button>
             </div>
           </div>
         </div>
 
-        <!-- PER-CONTENT ACCESS (read from posts/resources) -->
+        <!-- PER-CONTENT ACCESS -->
         <div class="card">
-          <div class="card-header"><h3><i class="fas fa-file-lock" style="color:var(--purple)"></i> Accès par contenu</h3><span style="font-size:.76rem;color:var(--gray)">Emails autorisés spécifiquement dans chaque publication</span></div>
+          <div class="card-header"><h3><i class="fas fa-file-lock" style="color:var(--blue)"></i> Contenus privés & accès spécifiques</h3></div>
           <div class="card-body">
-            <p style="font-size:.84rem;color:var(--gray);margin-bottom:1.2rem;line-height:1.6;">Pour définir des accès spécifiques à une publication ou ressource, editez-la et ajoutez les emails dans le champ « Emails autorisés ». Ces accès sont enregistrés directement dans le fichier de ce contenu sur GitHub.</p>
-            <div id="perContentList"><p style="color:var(--gray);font-size:.83rem;font-style:italic;"><i class="fas fa-spinner fa-spin"></i> Chargement des contenus privés…</p></div>
+            <p style="font-size:.83rem;color:var(--gray);margin-bottom:1.1rem;line-height:1.6;">Les élèves ayant un accès global (ci-dessus) peuvent voir tous les contenus privés. Vous pouvez aussi définir des accès par contenu dans le formulaire de publication.</p>
+            <div id="perContentList"><p style="color:var(--gray);font-size:.83rem;font-style:italic;"><i class="fas fa-spinner fa-spin"></i> Chargement…</p></div>
           </div>
         </div>
 
-        <!-- HOW IT WORKS -->
-        <div style="background:var(--navy);border-radius:16px;padding:1.6rem;">
-          <h4 style="color:var(--accent);font-size:.88rem;margin-bottom:1rem;"><i class="fas fa-info-circle"></i> Fonctionnement du système d'accès</h4>
-          <div style="display:grid;gap:.6rem;">
-            <p style="color:rgba(255,255,255,.7);font-size:.82rem;line-height:1.55;"><strong style="color:white;">Étape 1 :</strong> L'élève vous contacte (WhatsApp ou email) pour demander l'accès à un cours privé.</p>
-            <p style="color:rgba(255,255,255,.7);font-size:.82rem;line-height:1.55;"><strong style="color:white;">Étape 2 :</strong> Vous ajoutez son email ici (accès global) ou dans le contenu spécifique. Cliquez Sauvegarder.</p>
-            <p style="color:rgba(255,255,255,.7);font-size:.82rem;line-height:1.55;"><strong style="color:white;">Étape 3 :</strong> L'élève va sur le site → clique « Accès élève » → entre son email → il voit instantanément les contenus débloqués.</p>
+        <div style="background:var(--navy);border-radius:16px;padding:1.5rem;">
+          <h4 style="color:var(--accent);font-size:.85rem;margin-bottom:.9rem;"><i class="fas fa-share-alt"></i> Message WhatsApp type à envoyer à l'élève</h4>
+          <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:1rem;font-size:.82rem;color:rgba(255,255,255,.8);line-height:1.7;font-family:monospace;" id="wa-template">
+            Bonjour ! 👋<br>Votre accès à Teach Line est activé :<br>🌐 Site : [URL de votre site]<br>📧 Email : [EMAIL]<br>🔑 Mot de passe : [MOT DE PASSE]<br><br>Cliquez sur "Accès élève" en haut du site et connectez-vous avec ces identifiants. ✅
           </div>
         </div>
       </div>
@@ -465,11 +498,22 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
         <div class="card">
           <div class="card-header"><h3><i class="fab fa-github"></i> Dépôt GitHub</h3></div>
           <div class="card-body">
-            <div class="fgrid">
-              <div class="fg"><label>Nom d'utilisateur GitHub *</label><input type="text" id="cfg-owner" placeholder="votre-username"></div>
-              <div class="fg"><label>Nom du dépôt *</label><input type="text" id="cfg-repo" placeholder="TeachLine-Site"></div>
+            <div style="background:#fef3c7;border:1px solid #fcd34d;border-radius:10px;padding:.9rem 1rem;margin-bottom:1.2rem;font-size:.82rem;color:#92400e;display:flex;gap:.6rem;align-items:flex-start;">
+              <i class="fas fa-shield-halved" style="margin-top:.1rem;flex-shrink:0;"></i>
+              <span>Vos identifiants GitHub sont stockés <strong>uniquement sur votre appareil</strong> (localStorage). Ils ne sont jamais visibles sur le site public ni partagés.</span>
             </div>
-            <div class="fg"><label>Personal Access Token (PAT) *</label><input type="password" id="cfg-token" placeholder="ghp_xxxxxxxxxxxx"><div class="hint">github.com → Settings → Developer settings → Personal access tokens (classic) → New token → cochez <strong>repo</strong>.</div></div>
+            <div class="fgrid">
+              <div class="fg"><label>Nom du dépôt *</label><input type="text" id="cfg-repo" placeholder="TeachLine-Site"></div>
+              <div class="fg"><label>Branche</label><input type="text" id="cfg-branch" placeholder="main" value="main"></div>
+            </div>
+            <div class="fg"><label>Personal Access Token (PAT) *</label>
+              <div class="masked-field">
+                <input type="password" id="cfg-token" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
+                <button class="toggle-vis" onclick="toggleVis('cfg-token',this)" tabindex="-1"><i class="fas fa-eye"></i></button>
+              </div>
+              <div class="hint">Créez votre token : github.com → Settings → Developer settings → Personal access tokens (classic) → New → cochez <strong>repo</strong> → Generate. <strong>Ce token n'est affiché qu'une seule fois par GitHub.</strong></div>
+            </div>
+            <div class="fg" style="display:none"><label>Username (masqué)</label><input type="password" id="cfg-owner" placeholder="votre-username" autocomplete="off"></div>
             <div style="display:flex;gap:.7rem;flex-wrap:wrap;">
               <button class="btn b-primary btn-lg" onclick="saveConfig()"><i class="fas fa-save"></i> Sauvegarder</button>
               <button class="btn b-ghost" onclick="testGH()"><i class="fas fa-flask"></i> Tester la connexion</button>
@@ -505,6 +549,37 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
   </div>
 </div>
 
+<!-- EDIT POST MODAL -->
+<div class="edit-overlay" id="editOverlay">
+  <div class="edit-modal">
+    <div class="edit-modal-header">
+      <h3><i class="fas fa-edit"></i> Modifier la publication</h3>
+      <button onclick="closeEditModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="edit-modal-body">
+      <div class="fg"><label>Titre</label><input type="text" id="edit-title"></div>
+      <div class="fgrid">
+        <div class="fg"><label>Catégorie</label><select id="edit-cat"><option>Cours</option><option>Annonce</option><option>Résumé</option><option>Exercice</option><option>Examen</option><option>Actualité</option></select></div>
+        <div class="fg"><label>Type</label><select id="edit-type"><option value="post">📝 Article</option><option value="video">🎬 Vidéo</option><option value="pdf">📄 PDF</option><option value="image">🖼️ Image</option><option value="announcement">📣 Annonce</option></select></div>
+      </div>
+      <div class="fg"><label>URL vidéo</label><input type="url" id="edit-video" placeholder="https://youtube.com/…"></div>
+      <div class="fg"><label>Fichier PDF (chemin ou URL)</label><input type="text" id="edit-pdf" placeholder="content/files/… ou https://…"></div>
+      <div class="fg"><label>Image de couverture (URL)</label><input type="url" id="edit-cover" placeholder="https://…"></div>
+      <div class="fg"><label>Contenu / Description</label><textarea id="edit-body" style="min-height:130px;"></textarea></div>
+      <div class="fg"><label>Lien externe</label><input type="url" id="edit-link" placeholder="https://…"></div>
+      <div class="toggle-field" style="margin-bottom:.9rem;">
+        <div class="toggle-info"><label>🔒 Contenu privé</label><small>Seuls les élèves autorisés peuvent y accéder.</small></div>
+        <label class="switch"><input type="checkbox" id="edit-locked"><span class="slider"></span></label>
+      </div>
+      <div class="fg"><label>Emails autorisés (séparés par virgule)</label><input type="text" id="edit-emails" placeholder="email1@ex.com, email2@ex.com"></div>
+    </div>
+    <div class="edit-modal-footer">
+      <button class="btn b-ghost" onclick="closeEditModal()">Annuler</button>
+      <button class="btn b-primary btn-lg" onclick="saveEditPost()"><i class="fas fa-save"></i> Enregistrer les modifications</button>
+    </div>
+  </div>
+</div>
+
 <!-- PUBLISH OVERLAY -->
 <div class="pub-overlay" id="pubOverlay">
   <div class="pub-card">
@@ -522,6 +597,7 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
 
 <!-- TOAST -->
 <div class="toast-wrap" id="toastWrap"></div>
+
 
 <script>
 /* ══════════ AUTH ══════════ */
@@ -544,6 +620,12 @@ function changePass(){
   document.getElementById('cp1').value='';document.getElementById('cp2').value='';document.getElementById('cp3').value='';
   toast('Mot de passe mis à jour ✓','ok');
 }
+function toggleVis(id,btn){
+  const el=document.getElementById(id);
+  const show=el.type==='password';
+  el.type=show?'text':'password';
+  btn.innerHTML=show?'<i class="fas fa-eye-slash"></i>':'<i class="fas fa-eye"></i>';
+}
 
 /* ══════════ SIDEBAR ══════════ */
 function toggleSb(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('sbOverlay').classList.toggle('show');}
@@ -561,17 +643,28 @@ function showPanel(id){
 
 /* ══════════ CONFIG ══════════ */
 function loadConfig(){
-  document.getElementById('cfg-owner').value=localStorage.getItem('tl_owner')||'';
   document.getElementById('cfg-repo').value=localStorage.getItem('tl_repo')||'TeachLine-Site';
+  document.getElementById('cfg-branch').value=localStorage.getItem('tl_branch')||'main';
   document.getElementById('cfg-token').value=localStorage.getItem('tl_token')||'';
+  document.getElementById('cfg-owner').value=localStorage.getItem('tl_owner')||'';
 }
 function saveConfig(){
-  const o=document.getElementById('cfg-owner').value.trim(),r=document.getElementById('cfg-repo').value.trim(),t=document.getElementById('cfg-token').value.trim();
-  if(!o||!t){toast('Remplissez username et token','err');return;}
-  localStorage.setItem('tl_owner',o);localStorage.setItem('tl_repo',r);localStorage.setItem('tl_token',t);
+  const r=document.getElementById('cfg-repo').value.trim();
+  const br=document.getElementById('cfg-branch').value.trim()||'main';
+  const t=document.getElementById('cfg-token').value.trim();
+  const o=document.getElementById('cfg-owner').value.trim();
+  if(!t){toast('Entrez votre token GitHub','err');return;}
+  localStorage.setItem('tl_repo',r);
+  localStorage.setItem('tl_branch',br);
+  localStorage.setItem('tl_token',t);
+  if(o)localStorage.setItem('tl_owner',o);
+  if(!localStorage.getItem('tl_owner'))fetchOwnerFromToken(t);
   toast('Configuration sauvegardée ✓','ok');checkGH();
 }
-function cfg(){return{owner:localStorage.getItem('tl_owner'),repo:localStorage.getItem('tl_repo')||'TeachLine-Site',token:localStorage.getItem('tl_token'),branch:'main'};}
+async function fetchOwnerFromToken(token){
+  try{const r=await fetch('https://api.github.com/user',{headers:{Authorization:'Bearer '+token}});if(r.ok){const d=await r.json();localStorage.setItem('tl_owner',d.login);}}catch(e){}
+}
+function cfg(){return{owner:localStorage.getItem('tl_owner')||'',repo:localStorage.getItem('tl_repo')||'TeachLine-Site',token:localStorage.getItem('tl_token')||'',branch:localStorage.getItem('tl_branch')||'main'};}
 
 /* ══════════ GITHUB API ══════════ */
 async function ghGet(path){
@@ -605,18 +698,22 @@ async function getSha(path){try{const d=await ghGet(path);return d.sha||null;}ca
 async function checkGH(){
   const el=document.getElementById('ghStatus');
   const c=cfg();
-  if(!c.owner||!c.token){el.innerHTML='<i class="fas fa-circle" style="color:var(--red)"></i> Non configuré';document.getElementById('setup-warn').style.display='flex';return;}
+  if(!c.token){el.innerHTML='<i class="fas fa-circle" style="color:var(--red)"></i> Non configuré';document.getElementById('setup-warn').style.display='flex';return;}
+  if(!c.owner)await fetchOwnerFromToken(c.token);
+  const c2=cfg();
   try{
-    const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}`,{headers:{Authorization:'Bearer '+c.token}});
+    const r=await fetch(`https://api.github.com/repos/${c2.owner}/${c2.repo}`,{headers:{Authorization:'Bearer '+c2.token}});
     if(r.ok){el.innerHTML='<i class="fas fa-circle" style="color:var(--green)"></i> GitHub connecté';document.getElementById('setup-warn').style.display='none';}
     else{el.innerHTML='<i class="fas fa-circle" style="color:var(--red)"></i> Erreur token';document.getElementById('setup-warn').style.display='flex';}
   }catch(e){el.innerHTML='<i class="fas fa-circle" style="color:var(--accent)"></i> Hors ligne';}
 }
 async function testGH(){
-  const c=cfg();if(!c.owner||!c.token){toast('Remplissez les champs d\'abord','err');return;}
-  try{const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}`,{headers:{Authorization:'Bearer '+c.token}});
-  if(r.ok){const d=await r.json();toast('✅ Connexion OK : '+d.full_name,'ok');}else toast('❌ Erreur – vérifiez token / repo','err');}
-  catch(e){toast('❌ Impossible de joindre GitHub','err');}
+  const c=cfg();if(!c.token){toast("Entrez votre token d'abord",'err');return;}
+  if(!c.owner)await fetchOwnerFromToken(c.token);
+  const c2=cfg();
+  try{const r=await fetch(`https://api.github.com/repos/${c2.owner}/${c2.repo}`,{headers:{Authorization:'Bearer '+c2.token}});
+  if(r.ok){const d=await r.json();toast('OK : '+d.full_name,'ok');}else toast('Erreur – vérifiez token','err');}
+  catch(e){toast('Impossible de joindre GitHub','err');}
 }
 
 /* ══════════ STATS ══════════ */
@@ -632,17 +729,19 @@ async function loadStats(){
     for(const f of [...pm,...rm]){try{const rr=await fetch(f.download_url);const t=await rr.text();if(t.includes('locked: "true"'))locked++;}catch(e){}}
     document.getElementById('s-l').textContent=locked;
   }catch(e){}
-  // Count global access
   try{
-    const r=await fetch(`https://raw.githubusercontent.com/${cfg().owner}/${cfg().repo}/${cfg().branch}/access/allowed.json?t=${Date.now()}`);
-    if(r.ok){const d=await r.json();const g=(d.global||[]).length;document.getElementById('s-a').textContent=g;document.getElementById('nb-access').textContent=g;}
+    const c=cfg();
+    const r=await fetch(`https://raw.githubusercontent.com/${c.owner}/${c.repo}/${c.branch}/access/allowed.json?t=${Date.now()}`);
+    if(r.ok){const d=await r.json();const g=(d.students||d.global||[]).length;document.getElementById('s-a').textContent=g;document.getElementById('nb-access').textContent=g;}
   }catch(e){document.getElementById('s-a').textContent='0';}
 }
 
-/* ══════════ SLUG ══════════ */
+/* ══════════ UTILS ══════════ */
 function slug(s){return s.toLowerCase().replace(/[àáâãä]/g,'a').replace(/[éèêë]/g,'e').replace(/[îï]/g,'i').replace(/[ôö]/g,'o').replace(/[ùûü]/g,'u').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').substring(0,50)||'post';}
 function today(){return new Date().toISOString().split('T')[0];}
 function esc(s){if(s==null)return'';return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function randPass(len=10){const ch='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789@#!';let p='';for(let i=0;i<len;i++)p+=ch[Math.floor(Math.random()*ch.length)];return p;}
+function copyText(txt){navigator.clipboard.writeText(txt).then(()=>toast('Copié !','ok'));}
 
 /* ══════════ FORM HELPERS ══════════ */
 let fData={pdf:null,img:null,rpdf:null,rimg:null};
@@ -660,7 +759,6 @@ function onResTypeChange(){const t=document.getElementById('rtype').value;['pdf'
 function fmt(cmd){document.getElementById('editor-body').focus();document.execCommand(cmd);}
 function ins(txt){const el=document.getElementById('editor-body');const p=el.selectionStart;el.value=el.value.slice(0,p)+txt+el.value.slice(el.selectionEnd);el.selectionStart=el.selectionEnd=p+txt.length;el.focus();}
 
-/* ══════════ PARSEFM ══════════ */
 function parseFM(md){
   const fm={};const b=md.match(/^---\n([\s\S]*?)\n---/);
   if(b)b[1].split('\n').forEach(l=>{const[k,...v]=l.split(':');if(k&&k.trim())fm[k.trim()]=v.join(':').trim().replace(/^"|"$/g,'');});
@@ -673,112 +771,53 @@ async function publishPost(){
   const title=document.getElementById('pt').value.trim();
   const body=document.getElementById('editor-body').value.trim();
   if(!title){toast('Entrez un titre','err');return;}
-  const c=cfg();if(!c.owner||!c.token){toast('Configurez GitHub d\'abord','err');showPanel('settings');return;}
-
-  const type=document.getElementById('ptype').value;
-  const cat=document.getElementById('pc').value;
-  const locked=document.getElementById('p-locked').checked;
-  const emails=document.getElementById('p-emails').value.trim();
-  const link=document.getElementById('p-link').value.trim();
-  const cover=document.getElementById('p-cover').value.trim();
-  const vurl=document.getElementById('p-video').value.trim();
-  const purl=document.getElementById('p-pdfurl').value.trim();
-  const img1=document.getElementById('p-img1').value.trim();
-  const img2=document.getElementById('p-img2').value.trim();
-  const img3=document.getElementById('p-img3').value.trim();
-  const date=today();
-  const filename=slug(title)+'-'+date.replace(/-/g,'')+'.md';
-
-  showPub('Publication en cours…','Connexion à GitHub…');
-
+  const c=cfg();if(!c.token){toast('Configurez GitHub','err');showPanel('settings');return;}
+  if(!c.owner)await fetchOwnerFromToken(c.token);
+  const type=document.getElementById('ptype').value,cat=document.getElementById('pc').value;
+  const locked=document.getElementById('p-locked').checked,emails=document.getElementById('p-emails').value.trim();
+  const link=document.getElementById('p-link').value.trim(),cover=document.getElementById('p-cover').value.trim();
+  const vurl=document.getElementById('p-video').value.trim(),purl=document.getElementById('p-pdfurl').value.trim();
+  const img1=document.getElementById('p-img1').value.trim(),img2=document.getElementById('p-img2').value.trim(),img3=document.getElementById('p-img3').value.trim();
+  const date=today(),filename=slug(title)+'-'+date.replace(/-/g,'')+'.md';
+  showPub('Publication…','GitHub…');
   try{
     let pdfPath='',imgUploadPath='';
-
-    if(type==='pdf'&&fData.pdf){
-      setPubStep('Upload du PDF…');
-      const p=`content/files/${fData.pdf.name}`;
-      await ghPutB64(p,fData.pdf.data,`📄 PDF: ${fData.pdf.name}`);
-      pdfPath=p;
-    }else if(type==='pdf'&&purl){pdfPath=purl;}
-
-    if(type==='image'&&fData.img){
-      setPubStep('Upload de l\'image…');
-      const p=`content/files/${fData.img.name}`;
-      await ghPutB64(p,fData.img.data,`🖼️ Image: ${fData.img.name}`);
-      imgUploadPath=p;
-    }
-
-    let fm=`---\ntitle: "${title}"\ndate: "${date}"\ncategory: "${cat}"\ntype: "${type}"\nlocked: "${locked}"\n`;
-    if(emails)fm+=`allowed_emails: "${emails}"\n`;
-    if(cover)fm+=`image: "${cover}"\n`;
-    if(vurl)fm+=`video_url: "${vurl}"\n`;
-    if(pdfPath)fm+=`pdf_file: "${pdfPath}"\n`;
-    if(link)fm+=`link: "${link}"\n`;
-    if(img1||imgUploadPath)fm+=`image: "${imgUploadPath||img1}"\n`;
-    if(img2)fm+=`image2: "${img2}"\n`;
-    if(img3)fm+=`image3: "${img3}"\n`;
-    fm+=`---\n\n${body}`;
-
-    setPubStep('Création du fichier…');
-    await ghPut(`content/posts/${filename}`,fm,`✏️ Nouvelle publication: ${title}`);
-    setPubDone(`"${title}" publié !`,'Visible sur le site public en quelques secondes.');
-    clearPost();loadStats();
+    if(type==='pdf'&&fData.pdf){setPubStep('Upload PDF…');const pp='content/files/'+fData.pdf.name;await ghPutB64(pp,fData.pdf.data,'PDF: '+fData.pdf.name);pdfPath=pp;}
+    else if(type==='pdf'&&purl)pdfPath=purl;
+    if(type==='image'&&fData.img){setPubStep('Upload image…');const pp='content/files/'+fData.img.name;await ghPutB64(pp,fData.img.data,'Img: '+fData.img.name);imgUploadPath=pp;}
+    let fm='---\ntitle: "'+title+'"\ndate: "'+date+'"\ncategory: "'+cat+'"\ntype: "'+type+'"\nlocked: "'+locked+'"\n';
+    if(emails)fm+='allowed_emails: "'+emails+'"\n';if(cover)fm+='image: "'+cover+'"\n';if(vurl)fm+='video_url: "'+vurl+'"\n';
+    if(pdfPath)fm+='pdf_file: "'+pdfPath+'"\n';if(link)fm+='link: "'+link+'"\n';
+    if(imgUploadPath)fm+='image: "'+imgUploadPath+'"\n';else if(img1)fm+='image: "'+img1+'"\n';
+    if(img2)fm+='image2: "'+img2+'"\n';if(img3)fm+='image3: "'+img3+'"\n';
+    fm+='---\n\n'+body;
+    setPubStep('Écriture…');await ghPut('content/posts/'+filename,fm,'Post: '+title);
+    setPubDone('"'+title+'" publié !','Visible sur le site.');clearPost();loadStats();
   }catch(e){closePub();toast('Erreur: '+e.message,'err');}
 }
-
 function clearPost(){['pt','editor-body','p-link','p-cover','p-video','p-pdfurl','p-img1','p-img2','p-img3','p-emails'].forEach(id=>document.getElementById(id).value='');document.getElementById('p-locked').checked=false;document.getElementById('p-allowed-row').style.display='none';['pCoverPrev','pi1','pi2','pi3'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});document.getElementById('pdfFn').textContent='';fData.pdf=null;fData.img=null;}
 
 /* ══════════ PUBLISH RESOURCE ══════════ */
 async function publishResource(){
-  const title=document.getElementById('rt').value.trim();
-  if(!title){toast('Entrez un titre','err');return;}
-  const c=cfg();if(!c.owner||!c.token){toast('Configurez GitHub d\'abord','err');showPanel('settings');return;}
-
-  const type=document.getElementById('rtype').value;
-  const subj=document.getElementById('rsubj').value;
-  const level=document.getElementById('rlevel').value;
-  const desc=document.getElementById('rdesc').value.trim();
-  const locked=document.getElementById('r-locked').checked;
-  const emails=document.getElementById('r-emails').value.trim();
-  const vurl=document.getElementById('r-video').value.trim();
-  const purl=document.getElementById('r-pdfurl').value.trim();
-  const iurl=document.getElementById('r-imgurl').value.trim();
-  const date=today();
-  const filename=slug(title)+'-'+date.replace(/-/g,'')+'.md';
-
-  showPub('Publication de la ressource…','Connexion à GitHub…');
-
+  const title=document.getElementById('rt').value.trim();if(!title){toast('Entrez un titre','err');return;}
+  const c=cfg();if(!c.token){toast('Configurez GitHub','err');showPanel('settings');return;}
+  if(!c.owner)await fetchOwnerFromToken(c.token);
+  const type=document.getElementById('rtype').value,subj=document.getElementById('rsubj').value,level=document.getElementById('rlevel').value;
+  const desc=document.getElementById('rdesc').value.trim(),locked=document.getElementById('r-locked').checked,emails=document.getElementById('r-emails').value.trim();
+  const vurl=document.getElementById('r-video').value.trim(),purl=document.getElementById('r-pdfurl').value.trim(),iurl=document.getElementById('r-imgurl').value.trim();
+  const date=today(),filename=slug(title)+'-'+date.replace(/-/g,'')+'.md';
+  showPub('Publication ressource…','GitHub…');
   try{
     let pdfPath='',imgPath='';
-
-    if(type==='pdf'&&fData.rpdf){
-      setPubStep('Upload du PDF…');
-      const p=`content/files/${fData.rpdf.name}`;
-      await ghPutB64(p,fData.rpdf.data,`📄 PDF: ${fData.rpdf.name}`);
-      pdfPath=p;
-    }else if(type==='pdf'&&purl)pdfPath=purl;
-
-    if(type==='image'&&fData.rimg){
-      setPubStep('Upload de l\'image…');
-      const p=`content/files/${fData.rimg.name}`;
-      await ghPutB64(p,fData.rimg.data,`🖼️ Image: ${fData.rimg.name}`);
-      imgPath=p;
-    }else if(type==='image'&&iurl)imgPath=iurl;
-
-    let fm=`---\ntitle: "${title}"\ntype: "${type}"\nsubject: "${subj}"\nlevel: "${level}"\nlocked: "${locked}"\ndate: "${date}"\n`;
-    if(emails)fm+=`allowed_emails: "${emails}"\n`;
-    if(pdfPath)fm+=`pdf_file: "${pdfPath}"\n`;
-    if(vurl)fm+=`video_url: "${vurl}"\n`;
-    if(imgPath)fm+=`image_url: "${imgPath}"\n`;
-    fm+=`---\n\n${desc}`;
-
-    setPubStep('Création de la fiche…');
-    await ghPut(`content/resumes/${filename}`,fm,`📚 Nouvelle ressource: ${title}`);
-    setPubDone(`"${title}" publié !`,'La ressource est maintenant visible sur le site.');
-    clearResource();loadStats();
+    if(type==='pdf'&&fData.rpdf){setPubStep('Upload PDF…');const pp='content/files/'+fData.rpdf.name;await ghPutB64(pp,fData.rpdf.data,'PDF: '+fData.rpdf.name);pdfPath=pp;}else if(type==='pdf'&&purl)pdfPath=purl;
+    if(type==='image'&&fData.rimg){setPubStep('Upload image…');const pp='content/files/'+fData.rimg.name;await ghPutB64(pp,fData.rimg.data,'Img: '+fData.rimg.name);imgPath=pp;}else if(type==='image'&&iurl)imgPath=iurl;
+    let fm='---\ntitle: "'+title+'"\ntype: "'+type+'"\nsubject: "'+subj+'"\nlevel: "'+level+'"\nlocked: "'+locked+'"\ndate: "'+date+'"\n';
+    if(emails)fm+='allowed_emails: "'+emails+'"\n';if(pdfPath)fm+='pdf_file: "'+pdfPath+'"\n';if(vurl)fm+='video_url: "'+vurl+'"\n';if(imgPath)fm+='image_url: "'+imgPath+'"\n';
+    fm+='---\n\n'+desc;
+    setPubStep('Écriture…');await ghPut('content/resumes/'+filename,fm,'Ressource: '+title);
+    setPubDone('"'+title+'" publié !','Visible sur le site.');clearResource();loadStats();
   }catch(e){closePub();toast('Erreur: '+e.message,'err');}
 }
-
 function clearResource(){['rt','rdesc','r-pdfurl','r-video','r-imgurl','r-emails'].forEach(id=>document.getElementById(id).value='');document.getElementById('r-locked').checked=false;document.getElementById('r-allowed-row').style.display='none';document.getElementById('rPdfFn').textContent='';document.getElementById('rImgFn').textContent='';document.getElementById('rImgPrev').style.display='none';fData.rpdf=null;fData.rimg=null;}
 
 /* ══════════ POSTS TABLE ══════════ */
@@ -795,17 +834,53 @@ async function loadPostsTable(){
     const ti={post:'fa-newspaper',video:'fa-video',pdf:'fa-file-pdf',image:'fa-image',announcement:'fa-bullhorn'};
     const tc={post:'b-post',video:'b-video',pdf:'b-pdf',image:'b-image',announcement:'b-cat'};
     tb.innerHTML=items.map(p=>`<tr>
-      <td><div class="cell-main">${esc(p.title||'Sans titre')}</div></td>
+      <td><div class="cell-main">${esc(p.title||'Sans titre')}</div><div class="cell-sub">${esc(p.date||'')}</div></td>
       <td><span class="badge b-cat">${esc(p.category||'—')}</span></td>
       <td><span class="badge ${tc[p.type]||'b-post'}"><i class="fas ${ti[p.type]||'fa-newspaper'}"></i> ${esc(p.type||'post')}</span></td>
       <td>${esc(p.date||'—')}</td>
       <td><span class="badge ${p.locked==='true'?'b-locked':'b-pub'}">${p.locked==='true'?'🔒 Privé':'✅ Public'}</span></td>
       <td><div class="ab">
-        <a href="${esc(p._url)}" target="_blank" class="btn b-ghost btn-icon" title="GitHub"><i class="fas fa-code"></i></a>
+        <button class="btn b-primary btn-icon" onclick='openEditModal(${JSON.stringify(p).replace(/'/g,"&#39;")})' title="Modifier"><i class="fas fa-edit"></i></button>
         <button class="btn b-danger btn-icon" onclick="delFile('content/posts/${esc(p._n)}','${esc(p._sha)}','post','${esc(p.title)}')" title="Supprimer"><i class="fas fa-trash"></i></button>
       </div></td>
     </tr>`).join('');
-  }catch(e){tb.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">⚠️ Erreur. Vérifiez la config GitHub.</td></tr>`;}
+  }catch(e){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">Erreur. Vérifiez config GitHub.</td></tr>';}
+}
+
+/* ══════════ EDIT POST ══════════ */
+let editingPost=null;
+function openEditModal(p){
+  editingPost=p;
+  const sv=(id,val)=>{const el=document.getElementById(id);if(el)el.value=val||'';};
+  sv('edit-title',p.title);sv('edit-body',p.body);sv('edit-link',p.link);sv('edit-cover',p.image);
+  sv('edit-video',p.video_url);sv('edit-pdf',p.pdf_file);sv('edit-emails',p.allowed_emails);
+  const catSel=document.getElementById('edit-cat');
+  for(let i=0;i<catSel.options.length;i++){if(catSel.options[i].text===p.category){catSel.selectedIndex=i;break;}}
+  const typeSel=document.getElementById('edit-type');
+  for(let i=0;i<typeSel.options.length;i++){if(typeSel.options[i].value===p.type){typeSel.selectedIndex=i;break;}}
+  document.getElementById('edit-locked').checked=p.locked==='true';
+  document.getElementById('editOverlay').classList.add('open');
+}
+function closeEditModal(){document.getElementById('editOverlay').classList.remove('open');editingPost=null;}
+async function saveEditPost(){
+  if(!editingPost){closeEditModal();return;}
+  const title=document.getElementById('edit-title').value.trim();
+  if(!title){toast('Entrez un titre','err');return;}
+  const c=cfg();if(!c.token){toast('Configurez GitHub','err');return;}
+  const type=document.getElementById('edit-type').value,cat=document.getElementById('edit-cat').value;
+  const body=document.getElementById('edit-body').value.trim(),link=document.getElementById('edit-link').value.trim();
+  const cover=document.getElementById('edit-cover').value.trim(),vurl=document.getElementById('edit-video').value.trim();
+  const pdf=document.getElementById('edit-pdf').value.trim(),emails=document.getElementById('edit-emails').value.trim();
+  const locked=document.getElementById('edit-locked').checked;
+  let fm='---\ntitle: "'+title+'"\ndate: "'+(editingPost.date||today())+'"\ncategory: "'+cat+'"\ntype: "'+type+'"\nlocked: "'+locked+'"\n';
+  if(emails)fm+='allowed_emails: "'+emails+'"\n';if(cover)fm+='image: "'+cover+'"\n';if(vurl)fm+='video_url: "'+vurl+'"\n';if(pdf)fm+='pdf_file: "'+pdf+'"\n';if(link)fm+='link: "'+link+'"\n';
+  fm+='---\n\n'+body;
+  closeEditModal();showPub('Mise à jour…','Modification sur GitHub…');
+  try{
+    const sha=editingPost._sha||await getSha('content/posts/'+editingPost._n);
+    await ghPut('content/posts/'+editingPost._n,fm,'Edit: '+title,sha);
+    setPubDone('"'+title+'" mis à jour !','Modifications visibles sur le site.');loadPostsTable();
+  }catch(e){closePub();toast('Erreur: '+e.message,'err');}
 }
 
 /* ══════════ RESOURCES TABLE ══════════ */
@@ -822,79 +897,83 @@ async function loadResTable(){
     tb.innerHTML=items.map(r=>`<tr>
       <td><div class="cell-main">${esc(r.title||'Sans titre')}</div></td>
       <td><span class="badge ${tc[r.type]||'b-pdf'}">${(r.type||'pdf').toUpperCase()}</span></td>
-      <td>${esc(r.subject||'—')}</td>
-      <td>${esc(r.level||'—')}</td>
+      <td>${esc(r.subject||'—')}</td><td>${esc(r.level||'—')}</td>
       <td><span class="badge ${r.locked==='true'?'b-locked':'b-pub'}">${r.locked==='true'?'🔒 Privé':'✅ Public'}</span></td>
-      <td><div class="ab">
-        <a href="${esc(r._url)}" target="_blank" class="btn b-ghost btn-icon"><i class="fas fa-code"></i></a>
-        <button class="btn b-danger btn-icon" onclick="delFile('content/resumes/${esc(r._n)}','${esc(r._sha)}','resource','${esc(r.title)}')"><i class="fas fa-trash"></i></button>
-      </div></td>
+      <td><div class="ab"><button class="btn b-danger btn-icon" onclick="delFile('content/resumes/${esc(r._n)}','${esc(r._sha)}','resource','${esc(r.title)}')"><i class="fas fa-trash"></i></button></div></td>
     </tr>`).join('');
-  }catch(e){tb.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">⚠️ Erreur.</td></tr>`;}
+  }catch(e){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">Erreur.</td></tr>';}
 }
 
 /* ══════════ DELETE ══════════ */
 async function delFile(path,sha,type,title){
-  if(!confirm(`Supprimer "${title}" ?\nCette action est irréversible.`))return;
-  try{await ghDel(path,`🗑️ Suppression: ${title}`,sha);toast(`"${title}" supprimé.`,'ok');if(type==='post')loadPostsTable();else loadResTable();loadStats();}
+  if(!confirm('Supprimer "'+title+'" ?\nIrréversible.'))return;
+  try{await ghDel(path,'Suppression: '+title,sha);toast('"'+title+'" supprimé.','ok');if(type==='post')loadPostsTable();else loadResTable();loadStats();}
   catch(e){toast('Erreur: '+e.message,'err');}
 }
 
-/* ══════════ ACCESS MANAGEMENT ══════════ */
-let accessData={global:[],posts:{}};
-
+/* ══════════ ACCESS — EMAIL + PASSWORD ══════════ */
+let accessData={students:[],posts:{}};
 async function loadAccessData(){
+  const c=cfg();
   try{
-    const c=cfg();
-    const r=await fetch(`https://raw.githubusercontent.com/${c.owner}/${c.repo}/${c.branch}/access/allowed.json?t=${Date.now()}`);
-    if(r.ok)accessData=await r.json();
-    else accessData={global:[],posts:{}};
-  }catch(e){accessData={global:[],posts:{}};}
-  renderGlobalChips();
+    const r=await fetch('https://raw.githubusercontent.com/'+c.owner+'/'+c.repo+'/'+c.branch+'/access/allowed.json?t='+Date.now());
+    if(r.ok){
+      const d=await r.json();
+      accessData={students:d.students||d.global?.map(e=>({email:e,password:'',name:'',date:''}))||[],posts:d.posts||{}};
+    }else accessData={students:[],posts:{}};
+  }catch(e){accessData={students:[],posts:{}};}
+  renderStudentList();
+}
+async function loadAccessPanel(){await loadAccessData();await loadPerContentAccess();}
+
+function renderStudentList(){
+  const c=document.getElementById('studentList');
+  const cnt=document.getElementById('student-count-lbl');
+  const students=accessData.students||[];
+  cnt.textContent=students.length+' élève(s) autorisé(s)';
+  document.getElementById('s-a').textContent=students.length;
+  document.getElementById('nb-access').textContent=students.length;
+  if(!students.length){c.innerHTML='<p style="color:var(--gray);font-size:.83rem;font-style:italic;padding:1rem 0;">Aucun élève. Ajoutez le premier ci-dessus.</p>';return;}
+  c.innerHTML=students.map((s,i)=>{
+    const ini=(s.name||s.email||'?').substring(0,2).toUpperCase();
+    const waTxt=encodeURIComponent('Bonjour '+(s.name||'')+'! 👋\nVotre accès Teach Line:\n📧 Email: '+s.email+'\n🔑 Mot de passe: '+s.password+'\nConnectez-vous avec "Accès élève" sur le site ✅');
+    return '<div class="access-student-row">'
+      +'<div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--blue));color:white;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;">'+ini+'</div>'
+      +'<div style="flex:1;min-width:0;"><div class="asr-email">'+esc(s.name||s.email)+'</div><div style="font-size:.72rem;color:var(--gray);">'+(s.name?esc(s.email):'')+' · '+esc(s.date||'')+'</div></div>'
+      +'<span class="asr-pass" title="Mot de passe">'+esc(s.password||'—')+'</span>'
+      +'<button class="copy-btn" onclick="copyText(\''+esc(s.email)+':'+esc(s.password)+'\')" title="Copier"><i class="fas fa-copy"></i></button>'
+      +'<a href="https://wa.me/21658338187?text='+waTxt+'" target="_blank" class="btn b-success btn-icon" style="font-size:.75rem;" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>'
+      +'<button class="btn b-danger btn-icon" onclick="removeStudent('+i+')" title="Supprimer"><i class="fas fa-trash"></i></button>'
+      +'</div>';
+  }).join('');
 }
 
-async function loadAccessPanel(){
-  await loadAccessData();
-  // Also load per-content
-  await loadPerContentAccess();
-}
-
-function renderGlobalChips(){
-  const c=document.getElementById('globalChips');
-  if(!accessData.global||!accessData.global.length){c.innerHTML='<span style="font-size:.78rem;color:var(--gray);padding:.2rem .4rem;">Aucun élève avec accès global.</span>';return;}
-  c.innerHTML=accessData.global.map(e=>`<span class="e-chip">${esc(e)}<button onclick="removeGlobalEmail('${esc(e)}')"><i class="fas fa-times"></i></button></span>`).join('');
-  document.getElementById('nb-access').textContent=accessData.global.length;
-  document.getElementById('s-a').textContent=accessData.global.length;
-}
-
-function addGlobalEmail(){
-  const input=document.getElementById('globalEmailInput');
-  const email=input.value.trim().toLowerCase();
+function addStudent(){
+  const email=document.getElementById('new-student-email').value.trim().toLowerCase();
+  const name=document.getElementById('new-student-name').value.trim();
   if(!email||!email.includes('@')){toast('Email invalide','err');return;}
-  if(!accessData.global)accessData.global=[];
-  if(accessData.global.includes(email)){toast('Cet email est déjà dans la liste','warn');return;}
-  accessData.global.push(email);
-  renderGlobalChips();
-  input.value='';
-  toast(email+' ajouté (n\'oubliez pas de sauvegarder)','warn');
+  if((accessData.students||[]).find(s=>s.email===email)){toast('Email déjà dans la liste','warn');return;}
+  const password=randPass();
+  if(!accessData.students)accessData.students=[];
+  accessData.students.push({email,name,password,date:today()});
+  document.getElementById('new-student-email').value='';
+  document.getElementById('new-student-name').value='';
+  renderStudentList();
+  toast('✅ '+email+' ajouté · Pass: '+password+' — Sauvegardez !','ok');
 }
 
-function removeGlobalEmail(email){
-  accessData.global=accessData.global.filter(e=>e!==email);
-  renderGlobalChips();
-  toast(email+' retiré (n\'oubliez pas de sauvegarder)','warn');
+function removeStudent(i){
+  if(!confirm('Retirer cet élève ? Il perdra l\'accès.'))return;
+  accessData.students.splice(i,1);renderStudentList();toast('Élève retiré. Sauvegardez.','warn');
 }
 
 async function saveAccessData(){
-  const c=cfg();
-  if(!c.owner||!c.token){toast('Configurez GitHub d\'abord','err');showPanel('settings');return;}
+  const c=cfg();if(!c.token){toast('Configurez GitHub','err');showPanel('settings');return;}
   try{
-    showPub('Sauvegarde des accès…','Écriture sur GitHub…');
-    const json=JSON.stringify(accessData,null,2);
+    showPub('Sauvegarde accès…','GitHub…');
     const sha=await getSha('access/allowed.json');
-    await ghPut('access/allowed.json',json,'🔑 Mise à jour des accès élèves',sha);
-    setPubDone('Accès sauvegardés !','Les élèves autorisés peuvent maintenant voir les contenus privés.');
-    loadStats();
+    await ghPut('access/allowed.json',JSON.stringify(accessData,null,2),'Accès élèves mis à jour',sha);
+    setPubDone('Accès sauvegardés !','Élèves autorisés peuvent voir les contenus privés.');loadStats();
   }catch(e){closePub();toast('Erreur: '+e.message,'err');}
 }
 
@@ -906,64 +985,44 @@ async function loadPerContentAccess(){
     const pm=(pf||[]).filter(f=>f.name?.endsWith('.md')),rm=(rf||[]).filter(f=>f.name?.endsWith('.md'));
     const all=await Promise.all([...pm,...rm].map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return{...parseFM(t),_n:f.name};}));
     const locked=all.filter(x=>x.locked==='true');
-    if(!locked.length){c.innerHTML='<p style="color:var(--gray);font-size:.83rem;font-style:italic;">Aucun contenu privé trouvé.</p>';return;}
-    c.innerHTML=locked.map(x=>`
-      <div class="access-card">
-        <div class="access-header">
-          <div><h4>${esc(x.title||x._n)}</h4><small>${x.date||''} · ${x.type||'post'}</small></div>
-        </div>
-        <div class="access-list">
-          ${x.allowed_emails
-            ?x.allowed_emails.split(',').map(e=>`<span class="email-tag"><i class="fas fa-user-check" style="color:var(--green)"></i>${esc(e.trim())}</span>`).join('')
-            :'<span class="no-access">Aucun email spécifique — utilise les accès globaux.</span>'
-          }
-        </div>
-      </div>`).join('');
-  }catch(e){c.innerHTML='<p style="color:var(--red);font-size:.83rem;">⚠️ Erreur de chargement.</p>';}
+    if(!locked.length){c.innerHTML='<p style="color:var(--gray);font-size:.83rem;font-style:italic;">Aucun contenu privé.</p>';return;}
+    c.innerHTML=locked.map(x=>'<div class="access-card"><div class="access-header"><div><h4>'+esc(x.title||x._n)+'</h4><small>'+(x.date||'')+' · '+(x.type||'post')+'</small></div></div>'
+      +'<div class="access-list">'+(x.allowed_emails?x.allowed_emails.split(',').map(e=>'<span class="email-tag"><i class="fas fa-user-check" style="color:var(--green)"></i>'+esc(e.trim())+'</span>').join(''):'<span class="no-access">Utilise les accès globaux.</span>')+'</div></div>').join('');
+  }catch(e){c.innerHTML='<p style="color:var(--red);font-size:.83rem;">Erreur.</p>';}
 }
 
 /* ══════════ PUBLISH OVERLAY ══════════ */
 function showPub(title,msg){
-  document.getElementById('pubTitle').textContent=title;
-  document.getElementById('pubMsg').textContent=msg;
-  document.getElementById('pubStep').textContent='';
-  document.getElementById('pubSpin').style.display='block';
-  document.getElementById('pubCheck').style.display='none';
-  document.getElementById('pubActions').classList.remove('show');
-  document.getElementById('pubOverlay').classList.add('show');
+  document.getElementById('pubTitle').textContent=title;document.getElementById('pubMsg').textContent=msg;document.getElementById('pubStep').textContent='';
+  document.getElementById('pubSpin').style.display='block';document.getElementById('pubCheck').style.display='none';
+  document.getElementById('pubActions').classList.remove('show');document.getElementById('pubOverlay').classList.add('show');
 }
 function setPubStep(s){document.getElementById('pubStep').textContent=s;}
 function setPubDone(title,msg){
-  document.getElementById('pubSpin').style.display='none';
-  document.getElementById('pubCheck').style.display='block';
-  document.getElementById('pubTitle').textContent=title;
-  document.getElementById('pubMsg').textContent=msg;
-  document.getElementById('pubStep').textContent='';
-  document.getElementById('pubActions').classList.add('show');
-  toast(title,'ok');
+  document.getElementById('pubSpin').style.display='none';document.getElementById('pubCheck').style.display='block';
+  document.getElementById('pubTitle').textContent=title;document.getElementById('pubMsg').textContent=msg;
+  document.getElementById('pubStep').textContent='';document.getElementById('pubActions').classList.add('show');toast(title,'ok');
 }
 function closePub(){document.getElementById('pubOverlay').classList.remove('show');}
 
 /* ══════════ TOAST ══════════ */
 function toast(msg,type=''){
-  const w=document.getElementById('toastWrap');
-  const el=document.createElement('div');
+  const w=document.getElementById('toastWrap'),el=document.createElement('div');
   el.className='toast'+(type?' t-'+type:'');
-  el.innerHTML=`<i class="fas ${type==='ok'?'fa-check-circle':type==='err'?'fa-times-circle':'fa-exclamation-triangle'}"></i> ${msg}`;
-  w.appendChild(el);
-  setTimeout(()=>{el.style.opacity='0';el.style.transform='translateX(50px)';setTimeout(()=>el.remove(),400);},5000);
+  el.innerHTML='<i class="fas '+(type==='ok'?'fa-check-circle':type==='err'?'fa-times-circle':'fa-exclamation-triangle')+'"></i> '+msg;
+  w.appendChild(el);setTimeout(()=>{el.style.opacity='0';el.style.transform='translateX(50px)';setTimeout(()=>el.remove(),400);},5000);
 }
 
 /* ══════════ INIT ══════════ */
-function init(){loadConfig();checkGH();loadStats();}
-
+async function init(){
+  loadConfig();
+  if(!cfg().owner&&cfg().token)await fetchOwnerFromToken(cfg().token);
+  checkGH();loadStats();
+}
 document.addEventListener('DOMContentLoaded',()=>{
   onPostTypeChange();onResTypeChange();
-  document.querySelectorAll('.file-zone').forEach(z=>{
-    z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('drag');});
-    z.addEventListener('dragleave',()=>z.classList.remove('drag'));
-    z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('drag');});
-  });
+  document.querySelectorAll('.file-zone').forEach(z=>{z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('drag');});z.addEventListener('dragleave',()=>z.classList.remove('drag'));z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('drag');});});
+  document.getElementById('editOverlay').addEventListener('click',function(e){if(e.target===this)closeEditModal();});
 });
 </script>
 </body>
