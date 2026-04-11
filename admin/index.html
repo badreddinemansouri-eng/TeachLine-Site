@@ -7,10 +7,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-:root{--navy:#0a1628;--blue:#1a56db;--accent:#f59e0b;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;--border:#e2e8f0;--bg:#f0f4ff;--white:#fff;--gray:#64748b;--text:#0f172a;--light:#475569;}
+:root{--navy:#0a1628;--blue:#1a56db;--accent:#f59e0b;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;--teal:#0891b2;--border:#e2e8f0;--bg:#f0f4ff;--white:#fff;--gray:#64748b;--text:#0f172a;--light:#475569;}
 *{margin:0;padding:0;box-sizing:border-box;}html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);}
 
-/* LOGIN */
 #loginScreen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--navy) 0%,#1e3a6e 60%,#1a56db 100%);z-index:9999;}
 .login-card{background:white;border-radius:26px;padding:2.8rem;max-width:390px;width:90%;box-shadow:0 40px 100px rgba(0,0,0,.35);}
 .lc-logo{display:flex;align-items:center;gap:11px;justify-content:center;margin-bottom:2rem;}
@@ -21,18 +20,16 @@
 .lf{position:relative;margin-bottom:.95rem;}
 .lf i{position:absolute;left:.9rem;top:50%;transform:translateY(-50%);color:var(--gray);font-size:.88rem;}
 .lf input{width:100%;padding:.83rem 1rem .83rem 2.5rem;border-radius:11px;border:1.5px solid var(--border);font-family:inherit;font-size:.9rem;outline:none;transition:.2s;}
-.lf input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.1);}
+.lf input:focus{border-color:var(--blue);}
 .login-btn{width:100%;padding:.88rem;background:linear-gradient(135deg,var(--navy),var(--blue));color:white;border:none;border-radius:11px;font-weight:700;font-size:.93rem;cursor:pointer;font-family:inherit;transition:.25s;}
-.login-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(26,86,219,.35);}
+.login-btn:hover{transform:translateY(-2px);}
 .login-err{color:var(--red);font-size:.78rem;text-align:center;margin-top:.7rem;display:none;}
 .login-hint{font-size:.7rem;color:var(--gray);text-align:center;margin-top:.9rem;}
 
-/* LAYOUT */
 #app{display:none;height:100vh;overflow:hidden;}
 .layout{display:flex;height:100vh;}
 
-/* SIDEBAR */
-.sidebar{width:268px;background:var(--navy);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0;transition:.3s;}
+.sidebar{width:268px;background:var(--navy);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0;}
 .sb-logo{display:flex;align-items:center;gap:10px;padding:1.4rem 1.2rem;border-bottom:1px solid rgba(255,255,255,.07);}
 .sb-logo-icon{width:36px;height:36px;border-radius:10px;background:var(--blue);display:flex;align-items:center;justify-content:center;color:white;font-size:.9rem;}
 .sb-logo span{color:white;font-weight:700;font-size:.92rem;}
@@ -48,47 +45,36 @@
 .logout-btn{width:100%;margin-top:.4rem;padding:.58rem;background:rgba(239,68,68,.12);color:#fca5a5;border:none;border-radius:8px;cursor:pointer;font-size:.78rem;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;transition:.2s;}
 .logout-btn:hover{background:rgba(239,68,68,.25);color:var(--red);}
 
-/* MAIN */
-.main{flex:1;overflow-y:auto;padding:2rem;display:flex;flex-direction:column;}
+.main{flex:1;overflow-y:auto;padding:2rem;}
 .topbar{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem;}
 .tb-left h2{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--navy);}
 .tb-left p{font-size:.78rem;color:var(--gray);margin-top:.1rem;}
 .gh-status{display:flex;align-items:center;gap:6px;font-size:.76rem;font-weight:600;padding:.38rem .85rem;border-radius:20px;background:var(--bg);border:1px solid var(--border);}
 
-/* PANELS */
 .panel{display:none;}.panel.active{display:block;}
 
-/* STATS */
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1rem;margin-bottom:1.8rem;}
 .stat-card{background:white;border-radius:15px;padding:1.3rem;border:1px solid var(--border);display:flex;align-items:center;gap:1rem;}
 .stat-ico{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
 .stat-val{font-family:'Playfair Display',serif;font-size:1.65rem;font-weight:900;line-height:1;color:var(--navy);}
 .stat-lbl{font-size:.7rem;color:var(--gray);text-transform:uppercase;letter-spacing:.4px;}
 
-/* CARDS */
 .card{background:white;border-radius:18px;border:1px solid var(--border);overflow:hidden;margin-bottom:1.5rem;}
 .card-header{padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.7rem;}
 .card-header h3{font-size:.92rem;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:.5rem;}
 .card-body{padding:1.4rem;}
 
-/* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:.52rem 1rem;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;transition:.2s;border:none;font-family:inherit;text-decoration:none;white-space:nowrap;}
-.b-primary{background:var(--blue);color:white;}
-.b-primary:hover{background:var(--navy);}
-.b-success{background:var(--green);color:white;}
-.b-success:hover{background:#059669;}
-.b-danger{background:var(--red);color:white;}
-.b-danger:hover{background:#dc2626;}
-.b-ghost{background:var(--bg);color:var(--light);border:1px solid var(--border);}
-.b-ghost:hover{background:var(--border);color:var(--text);}
-.b-accent{background:var(--accent);color:var(--navy);}
-.b-accent:hover{background:#fbbf24;}
-.b-purple{background:var(--purple);color:white;}
-.b-purple:hover{background:#7c3aed;}
+.b-primary{background:var(--blue);color:white;}.b-primary:hover{background:var(--navy);}
+.b-success{background:var(--green);color:white;}.b-success:hover{background:#059669;}
+.b-danger{background:var(--red);color:white;}.b-danger:hover{background:#dc2626;}
+.b-ghost{background:var(--bg);color:var(--light);border:1px solid var(--border);}.b-ghost:hover{background:var(--border);color:var(--text);}
+.b-accent{background:var(--accent);color:var(--navy);}.b-accent:hover{background:#fbbf24;}
+.b-purple{background:var(--purple);color:white;}.b-purple:hover{background:#7c3aed;}
+.b-teal{background:var(--teal);color:white;}.b-teal:hover{background:#0e7490;}
 .btn-lg{padding:.72rem 1.4rem;font-size:.9rem;border-radius:11px;}
 .btn-icon{padding:.5rem .65rem;}
 
-/* FORM */
 .fg{margin-bottom:.95rem;}
 .fg label{display:block;font-size:.76rem;font-weight:700;color:var(--light);text-transform:uppercase;letter-spacing:.4px;margin-bottom:.38rem;}
 .fg input,.fg textarea,.fg select{width:100%;padding:.78rem 1rem;border-radius:10px;border:1.5px solid var(--border);font-family:inherit;font-size:.88rem;outline:none;transition:.2s;color:var(--text);}
@@ -96,17 +82,16 @@
 .fg textarea{resize:vertical;min-height:100px;line-height:1.6;}
 .fg .hint{font-size:.71rem;color:var(--gray);margin-top:.3rem;line-height:1.5;}
 .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:.95rem;}
+.fgrid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.95rem;}
 
-/* EDITOR */
 .editor-wrap{border:1.5px solid var(--border);border-radius:11px;overflow:hidden;transition:.2s;}
 .editor-wrap:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
 .etb{display:flex;gap:.2rem;padding:.45rem .55rem;background:#f8fafd;border-bottom:1px solid var(--border);flex-wrap:wrap;}
 .etb-btn{width:27px;height:27px;border:none;background:transparent;border-radius:5px;cursor:pointer;color:var(--gray);font-size:.8rem;display:flex;align-items:center;justify-content:center;transition:.15s;}
-.etb-btn:hover{background:var(--border);color:var(--text);}
+.etb-btn:hover{background:var(--border);}
 .etb-sep{width:1px;height:18px;background:var(--border);margin:.3rem .15rem;align-self:center;}
 #editor-body{width:100%;min-height:140px;padding:.85rem 1rem;font-family:'DM Sans',sans-serif;font-size:.88rem;border:none;outline:none;resize:vertical;line-height:1.7;color:var(--text);}
 
-/* TOGGLE */
 .toggle-field{display:flex;align-items:center;justify-content:space-between;padding:.95rem 1.1rem;background:var(--bg);border-radius:11px;border:1.5px solid var(--border);margin-bottom:.95rem;}
 .toggle-info label{font-size:.86rem;font-weight:600;color:var(--text);display:block;}
 .toggle-info small{font-size:.73rem;color:var(--gray);}
@@ -117,8 +102,7 @@
 input:checked+.slider{background:var(--blue);}
 input:checked+.slider::before{transform:translateX(20px);}
 
-/* FILE ZONE */
-.file-zone{border:2px dashed var(--border);border-radius:12px;padding:1.8rem;text-align:center;cursor:pointer;transition:.22s;position:relative;}
+.file-zone{border:2px dashed var(--border);border-radius:12px;padding:1.5rem;text-align:center;cursor:pointer;transition:.22s;position:relative;}
 .file-zone:hover,.file-zone.drag{border-color:var(--blue);background:rgba(26,86,219,.03);}
 .file-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
 .file-zone i{font-size:1.6rem;color:var(--gray);margin-bottom:.45rem;display:block;}
@@ -126,7 +110,14 @@ input:checked+.slider::before{transform:translateX(20px);}
 .file-zone .fname{font-size:.8rem;font-weight:600;color:var(--blue);margin-top:.4rem;}
 .img-preview{width:100%;max-height:165px;object-fit:cover;border-radius:10px;margin-top:.5rem;display:none;}
 
-/* TABLE */
+/* Attachments zone (for video + attachments) */
+.attach-zone{background:var(--bg);border:1.5px dashed var(--border);border-radius:12px;padding:1.2rem;margin-top:.8rem;}
+.attach-zone h5{font-size:.78rem;font-weight:700;color:var(--light);text-transform:uppercase;letter-spacing:.4px;margin-bottom:.8rem;}
+.attach-item{display:flex;align-items:center;gap:.7rem;background:white;border:1px solid var(--border);border-radius:10px;padding:.6rem .9rem;margin-bottom:.5rem;}
+.attach-item i{color:var(--blue);}
+.attach-item span{flex:1;font-size:.82rem;color:var(--navy);font-weight:500;}
+.attach-item button{background:none;border:none;color:var(--red);cursor:pointer;font-size:.8rem;}
+
 .table-wrap{overflow-x:auto;}
 table{width:100%;border-collapse:collapse;}
 thead th{padding:.85rem 1.1rem;text-align:left;font-size:.68rem;color:var(--gray);font-weight:700;text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);background:#fafbff;white-space:nowrap;}
@@ -135,37 +126,54 @@ tbody tr:last-child{border-bottom:none;}
 tbody tr:hover{background:#f8faff;}
 td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
 .cell-main{font-weight:600;color:var(--navy);}
-.cell-sub{font-size:.73rem;font-weight:400;color:var(--gray);margin-top:.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;}
+.cell-sub{font-size:.73rem;font-weight:400;color:var(--gray);margin-top:.1rem;}
 .badge{display:inline-flex;align-items:center;gap:4px;padding:.2rem .56rem;border-radius:20px;font-size:.67rem;font-weight:700;}
 .b-pdf{background:#fee2e2;color:#dc2626;}.b-video{background:#fef3c7;color:#d97706;}.b-image{background:#d1fae5;color:#059669;}
-.b-post{background:#dbeafe;color:#1d4ed8;}.b-locked{background:#fce7f3;color:#be185d;}.b-pub{background:#d1fae5;color:#059669;}
-.b-cat{background:#ede9fe;color:#6d28d9;}
+.b-post{background:#dbeafe;color:#1d4ed8;}.b-locked{background:#fce7f3;color:#be185d;}.b-pub{background:#d1fae5;color:#059669;}.b-cat{background:#ede9fe;color:#6d28d9;}
+.b-pack{background:linear-gradient(135deg,#f59e0b,#d97706);color:white;}
 .ab{display:flex;gap:.32rem;align-items:center;}
 
-/* ACCESS PANEL */
-.access-card{background:white;border-radius:18px;border:1px solid var(--border);overflow:hidden;margin-bottom:1.2rem;}
-.access-header{padding:1rem 1.4rem;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,var(--navy),#1e3a6e);color:white;}
-.access-header h4{font-size:.9rem;font-weight:700;}
-.access-header small{font-size:.73rem;opacity:.65;}
-.access-list{padding:1rem 1.4rem;}
-.email-tag{display:inline-flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:.3rem .75rem;font-size:.78rem;font-weight:500;color:var(--navy);margin:.25rem;}
-.email-tag button{background:none;border:none;color:var(--red);cursor:pointer;font-size:.7rem;padding:0 0 0 4px;opacity:.6;transition:.2s;}
-.email-tag button:hover{opacity:1;}
-.no-access{font-size:.82rem;color:var(--gray);font-style:italic;}
+/* Access rows */
+.asr{display:flex;align-items:center;gap:.7rem;background:white;border:1px solid var(--border);border-radius:12px;padding:.85rem 1rem;margin-bottom:.5rem;flex-wrap:wrap;}
+.asr-info{flex:1;min-width:120px;}
+.asr-name{font-weight:700;font-size:.85rem;color:var(--navy);}
+.asr-email{font-size:.75rem;color:var(--gray);}
+.asr-pass{font-family:monospace;font-size:.8rem;background:var(--bg);border:1px solid var(--border);padding:.22rem .6rem;border-radius:6px;color:var(--blue);}
+.asr-expire{font-size:.72rem;padding:.2rem .55rem;border-radius:20px;font-weight:600;}
+.asr-expire.active{background:#d1fae5;color:#059669;}
+.asr-expire.expired{background:#fee2e2;color:#dc2626;}
+.asr-expire.soon{background:#fef3c7;color:#d97706;}
+.copy-btn{background:none;border:none;cursor:pointer;color:var(--blue);font-size:.8rem;opacity:.6;transition:.2s;}
+.copy-btn:hover{opacity:1;}
 
-/* GLOBAL ACCESS AREA */
-.global-access-area{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #86efac;border-radius:14px;padding:1.4rem;margin-bottom:1.5rem;}
-.global-access-area h4{color:#166534;font-size:.9rem;font-weight:700;margin-bottom:.6rem;}
-.global-access-area p{color:#15803d;font-size:.8rem;margin-bottom:1rem;line-height:1.5;}
-.email-chips{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.8rem;min-height:36px;padding:.4rem;background:white;border-radius:10px;border:1.5px solid var(--border);}
-.e-chip{display:inline-flex;align-items:center;gap:5px;background:var(--navy);color:white;border-radius:20px;padding:.25rem .7rem;font-size:.75rem;font-weight:500;}
-.e-chip button{background:none;border:none;color:rgba(255,255,255,.65);cursor:pointer;font-size:.7rem;padding:0 0 0 3px;}
-.e-chip button:hover{color:white;}
-.add-email-row{display:flex;gap:.5rem;}
-.add-email-row input{flex:1;padding:.65rem .9rem;border-radius:9px;border:1.5px solid var(--border);font-family:inherit;font-size:.85rem;outline:none;transition:.2s;}
-.add-email-row input:focus{border-color:var(--green);}
+/* Pack cards */
+.pack-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem;}
+.pack-card{background:white;border-radius:16px;border:1px solid var(--border);overflow:hidden;transition:.25s;}
+.pack-card:hover{box-shadow:0 8px 30px rgba(0,0,0,.08);}
+.pack-card-header{padding:1rem 1.2rem;background:linear-gradient(135deg,var(--navy),#1e3a6e);color:white;}
+.pack-card-header h4{font-size:.9rem;font-weight:700;}
+.pack-card-header small{font-size:.72rem;opacity:.65;}
+.pack-card-body{padding:1rem 1.2rem;}
+.pack-item{display:flex;align-items:center;gap:7px;font-size:.8rem;color:var(--light);padding:.3rem 0;border-bottom:1px solid var(--border);}
+.pack-item:last-child{border-bottom:none;}
+.pack-item i{color:var(--blue);width:14px;}
 
-/* PUBLISH OVERLAY */
+/* Masked field */
+.masked-field{position:relative;}
+.masked-field input{padding-right:2.5rem;}
+.masked-field .toggle-vis{position:absolute;right:.7rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--gray);font-size:.85rem;}
+
+/* Edit overlay */
+.edit-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);z-index:5000;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto;}
+.edit-overlay.open{display:flex;}
+.edit-modal{background:white;border-radius:22px;width:100%;max-width:740px;overflow:hidden;animation:pop .3s ease;margin:auto;}
+.edit-modal-header{background:var(--navy);padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;}
+.edit-modal-header h3{color:white;font-size:.95rem;font-weight:700;}
+.edit-modal-header button{background:rgba(255,255,255,.1);border:none;color:white;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;}
+.edit-modal-body{padding:1.6rem;max-height:78vh;overflow-y:auto;}
+.edit-modal-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:.7rem;background:#fafbff;}
+
+/* Publish overlay */
 .pub-overlay{display:none;position:fixed;inset:0;background:rgba(10,22,40,.72);backdrop-filter:blur(6px);z-index:8888;align-items:center;justify-content:center;}
 .pub-overlay.show{display:flex;}
 .pub-card{background:white;border-radius:22px;padding:2.4rem;max-width:360px;width:90%;text-align:center;animation:pop .3s ease;}
@@ -179,37 +187,13 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
 .pub-actions{margin-top:1.4rem;display:none;gap:.7rem;justify-content:center;}
 .pub-actions.show{display:flex;}
 
-/* TOAST */
+/* Toast */
 .toast-wrap{position:fixed;bottom:22px;right:22px;display:flex;flex-direction:column;gap:.5rem;z-index:9990;}
-.toast{background:var(--navy);color:white;padding:.8rem 1.2rem;border-radius:11px;font-size:.82rem;font-weight:500;box-shadow:0 8px 30px rgba(0,0,0,.22);display:flex;align-items:center;gap:.6rem;min-width:200px;animation:tin .3s ease;}
+.toast{background:var(--navy);color:white;padding:.8rem 1.2rem;border-radius:11px;font-size:.82rem;font-weight:500;box-shadow:0 8px 30px rgba(0,0,0,.22);display:flex;align-items:center;gap:.6rem;min-width:220px;animation:tin .3s ease;}
 @keyframes tin{from{transform:translateX(50px);opacity:0}to{transform:translateX(0);opacity:1}}
 .toast.t-ok{background:var(--green);}.toast.t-err{background:var(--red);}.toast.t-warn{background:var(--accent);color:var(--navy);}
 
-/* EDIT MODAL */
-.edit-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);z-index:5000;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto;}
-.edit-overlay.open{display:flex;}
-.edit-modal{background:white;border-radius:22px;width:100%;max-width:720px;overflow:hidden;animation:pop .3s ease;margin:auto;}
-.edit-modal-header{background:var(--navy);padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;}
-.edit-modal-header h3{color:white;font-size:.95rem;font-weight:700;}
-.edit-modal-header button{background:rgba(255,255,255,.1);border:none;color:white;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:.2s;}
-.edit-modal-header button:hover{background:rgba(255,255,255,.2);}
-.edit-modal-body{padding:1.6rem;max-height:75vh;overflow-y:auto;}
-.edit-modal-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:.7rem;background:#fafbff;}
-
-/* STUDENT PASSWORD ACCESS */
-.access-student-row{display:flex;align-items:center;gap:.7rem;background:white;border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;margin-bottom:.5rem;}
-.asr-email{flex:1;font-weight:600;font-size:.85rem;color:var(--navy);}
-.asr-pass{font-family:monospace;font-size:.82rem;background:var(--bg);border:1px solid var(--border);padding:.25rem .6rem;border-radius:6px;color:var(--blue);}
-.asr-date{font-size:.72rem;color:var(--gray);}
-.copy-btn{background:none;border:none;cursor:pointer;color:var(--blue);font-size:.8rem;opacity:.6;transition:.2s;}
-.copy-btn:hover{opacity:1;}
-
-/* MASKED FIELD */
-.masked-field{position:relative;}
-.masked-field input{padding-right:2.5rem;}
-.masked-field .toggle-vis{position:absolute;right:.7rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--gray);font-size:.85rem;}
-
-/* MOBILE */
+/* Mobile */
 .mob-top{display:none;position:fixed;top:0;left:0;right:0;background:var(--navy);padding:.75rem 1rem;z-index:300;align-items:center;gap:.7rem;}
 .mob-top span{color:white;font-weight:700;font-size:.9rem;}
 .hamburger{background:none;border:none;color:white;font-size:1.25rem;cursor:pointer;}
@@ -221,7 +205,7 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
   .sb-overlay.show{display:block;}
   .mob-top{display:flex;}
   .main{padding:1rem;padding-top:4.5rem;}
-  .fgrid{grid-template-columns:1fr;}
+  .fgrid,.fgrid3{grid-template-columns:1fr;}
   td,th{padding:.62rem .75rem;}
 }
 </style>
@@ -247,7 +231,6 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
   <div class="mob-top"><button class="hamburger" onclick="toggleSb()"><i class="fas fa-bars"></i></button><span>Teach Line Admin</span></div>
   <div class="sb-overlay" id="sbOverlay" onclick="closeSb()"></div>
   <div class="layout">
-    <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
       <div class="sb-logo"><div class="sb-logo-icon"><i class="fas fa-graduation-cap"></i></div><span>Teach Line</span></div>
       <div class="sb-sec">Principal</div>
@@ -255,53 +238,54 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
       <div class="sb-sec">Contenu</div>
       <button class="nb" onclick="showPanel('newPost')"><i class="fas fa-plus-circle"></i> Nouvelle publication</button>
       <button class="nb" onclick="showPanel('newResource')"><i class="fas fa-upload"></i> Ajouter ressource</button>
+      <button class="nb" onclick="showPanel('packs')"><i class="fas fa-box-open"></i> Packs de cours <span class="cnt" id="nb-packs" style="background:var(--teal)">—</span></button>
       <button class="nb" onclick="showPanel('posts')"><i class="fas fa-newspaper"></i> Publications <span class="cnt" id="nb-posts">—</span></button>
       <button class="nb" onclick="showPanel('resources')"><i class="fas fa-folder-open"></i> Ressources <span class="cnt" id="nb-res">—</span></button>
-      <div class="sb-sec">Accès élèves</div>
+      <div class="sb-sec">Élèves</div>
       <button class="nb" onclick="showPanel('access')"><i class="fas fa-user-shield"></i> Gérer les accès <span class="cnt" id="nb-access" style="background:var(--purple)">—</span></button>
       <div class="sb-sec">Compte</div>
       <button class="nb" onclick="showPanel('settings')"><i class="fas fa-cog"></i> Configuration GitHub</button>
       <button class="nb" onclick="showPanel('password')"><i class="fas fa-key"></i> Mot de passe</button>
       <div class="sb-footer">
-        <a href="../index.html" target="_blank"><i class="fas fa-external-link-alt"></i> Voir le site public</a>
+        <a href="../index.html" target="_blank"><i class="fas fa-external-link-alt"></i> Voir le site</a>
         <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
       </div>
     </aside>
 
-    <!-- MAIN -->
     <main class="main">
 
       <!-- DASHBOARD -->
       <div class="panel active" id="panel-dashboard">
         <div class="topbar">
-          <div class="tb-left"><h2>Tableau de bord</h2><p>Tout votre contenu publié en un clic.</p></div>
+          <div class="tb-left"><h2>Tableau de bord</h2><p>Contenu publié en un clic, accès élèves contrôlé.</p></div>
           <div class="gh-status" id="ghStatus"><i class="fas fa-circle" style="color:var(--gray)"></i> Vérification…</div>
         </div>
-        <div id="setup-warn" style="display:none;background:linear-gradient(135deg,var(--navy),#1e3a6e);border-radius:18px;padding:1.8rem;margin-bottom:1.5rem;display:flex;gap:1.2rem;align-items:flex-start;flex-wrap:wrap;">
+        <div id="setup-warn" style="display:none;background:linear-gradient(135deg,var(--navy),#1e3a6e);border-radius:18px;padding:1.8rem;margin-bottom:1.5rem;gap:1.2rem;align-items:flex-start;flex-wrap:wrap;">
           <i class="fas fa-triangle-exclamation" style="font-size:1.8rem;color:var(--accent);flex-shrink:0;margin-top:.2rem;"></i>
-          <div><h3 style="color:white;margin-bottom:.4rem;font-size:.95rem;">Configuration GitHub requise</h3><p style="color:rgba(255,255,255,.65);font-size:.83rem;margin-bottom:.8rem;">Pour publier automatiquement, configurez votre dépôt GitHub et votre token d'accès.</p><button class="btn b-accent" onclick="showPanel('settings')"><i class="fas fa-cog"></i> Configurer maintenant</button></div>
+          <div><h3 style="color:white;margin-bottom:.4rem;font-size:.95rem;">Configuration GitHub requise</h3><p style="color:rgba(255,255,255,.65);font-size:.83rem;margin-bottom:.8rem;">Entrez votre token GitHub pour activer la publication automatique.</p><button class="btn b-accent" onclick="showPanel('settings')"><i class="fas fa-cog"></i> Configurer maintenant</button></div>
         </div>
         <div class="stats-grid">
           <div class="stat-card"><div class="stat-ico" style="background:#dbeafe;color:var(--blue)"><i class="fas fa-newspaper"></i></div><div><div class="stat-val" id="s-p">—</div><div class="stat-lbl">Publications</div></div></div>
           <div class="stat-card"><div class="stat-ico" style="background:#d1fae5;color:var(--green)"><i class="fas fa-folder"></i></div><div><div class="stat-val" id="s-r">—</div><div class="stat-lbl">Ressources</div></div></div>
-          <div class="stat-card"><div class="stat-ico" style="background:#ede9fe;color:var(--purple)"><i class="fas fa-user-check"></i></div><div><div class="stat-val" id="s-a">—</div><div class="stat-lbl">Élèves autorisés</div></div></div>
-          <div class="stat-card"><div class="stat-ico" style="background:#fef3c7;color:#d97706"><i class="fas fa-lock"></i></div><div><div class="stat-val" id="s-l">—</div><div class="stat-lbl">Contenus privés</div></div></div>
+          <div class="stat-card"><div class="stat-ico" style="background:#cffafe;color:var(--teal)"><i class="fas fa-box-open"></i></div><div><div class="stat-val" id="s-pk">—</div><div class="stat-lbl">Packs</div></div></div>
+          <div class="stat-card"><div class="stat-ico" style="background:#ede9fe;color:var(--purple)"><i class="fas fa-user-check"></i></div><div><div class="stat-val" id="s-a">—</div><div class="stat-lbl">Élèves inscrits</div></div></div>
         </div>
         <div class="card">
           <div class="card-header"><h3><i class="fas fa-bolt" style="color:var(--accent)"></i> Actions rapides</h3></div>
           <div class="card-body" style="display:flex;gap:.7rem;flex-wrap:wrap;">
             <button class="btn b-primary btn-lg" onclick="showPanel('newPost')"><i class="fas fa-plus"></i> Nouvelle publication</button>
             <button class="btn b-success btn-lg" onclick="showPanel('newResource')"><i class="fas fa-upload"></i> Ajouter ressource</button>
-            <button class="btn b-purple btn-lg" onclick="showPanel('access')"><i class="fas fa-user-shield"></i> Gérer accès élèves</button>
-            <a href="../index.html" target="_blank" class="btn b-ghost btn-lg"><i class="fas fa-eye"></i> Voir site public</a>
+            <button class="btn b-teal btn-lg" onclick="showPanel('packs')"><i class="fas fa-box-open"></i> Créer un pack</button>
+            <button class="btn b-purple btn-lg" onclick="showPanel('access')"><i class="fas fa-user-shield"></i> Gérer les accès</button>
           </div>
         </div>
-        <div style="background:var(--navy);border-radius:16px;padding:1.6rem;">
-          <h4 style="color:var(--accent);font-size:.88rem;margin-bottom:1rem;"><i class="fas fa-magic"></i> Comment ça marche ?</h4>
-          <div style="display:grid;gap:.7rem;">
-            <div style="display:flex;gap:.9rem;align-items:flex-start;"><div style="width:26px;height:26px;border-radius:50%;background:var(--blue);color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div><p style="color:rgba(255,255,255,.7);font-size:.82rem;line-height:1.55;">Remplissez le formulaire de publication ou de ressource — vidéo YouTube, PDF, image, texte.</p></div>
-            <div style="display:flex;gap:.9rem;align-items:flex-start;"><div style="width:26px;height:26px;border-radius:50%;background:var(--blue);color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div><p style="color:rgba(255,255,255,.7);font-size:.82rem;line-height:1.55;">Cliquez <strong style="color:white;">Publier</strong> — le contenu est envoyé directement sur GitHub et apparaît sur le site.</p></div>
-            <div style="display:flex;gap:.9rem;align-items:flex-start;"><div style="width:26px;height:26px;border-radius:50%;background:var(--purple);color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div><p style="color:rgba(255,255,255,.7);font-size:.82rem;line-height:1.55;">Pour les contenus privés, ajoutez l'email de l'élève dans <strong style="color:white;">Gérer les accès</strong>. Il pourra voir le contenu en entrant son email sur le site.</p></div>
+        <div style="background:var(--navy);border-radius:16px;padding:1.5rem;">
+          <h4 style="color:var(--accent);font-size:.85rem;margin-bottom:.9rem;"><i class="fas fa-magic"></i> Flux de travail</h4>
+          <div style="display:grid;gap:.6rem;">
+            <div style="display:flex;gap:.9rem;"><div style="width:26px;height:26px;border-radius:50%;background:var(--blue);color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div><p style="color:rgba(255,255,255,.7);font-size:.82rem;line-height:1.55;">Publiez un cours (vidéo + PDF attachés) ou créez un <strong style="color:white;">Pack</strong> regroupant plusieurs cours.</p></div>
+            <div style="display:flex;gap:.9rem;"><div style="width:26px;height:26px;border-radius:50%;background:var(--blue);color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div><p style="color:rgba(255,255,255,.7);font-size:.82rem;line-height:1.55;">Marquez le contenu comme <strong style="color:white;">Privé</strong> → il affiche « Contenu payant » sur le site.</p></div>
+            <div style="display:flex;gap:.9rem;"><div style="width:26px;height:26px;border-radius:50%;background:var(--purple);color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div><p style="color:rgba(255,255,255,.7);font-size:.82rem;line-height:1.55;">Ajoutez l'élève dans <strong style="color:white;">Gérer les accès</strong> avec une durée d'accès définie (ex: 1 mois).</p></div>
+            <div style="display:flex;gap:.9rem;"><div style="width:26px;height:26px;border-radius:50%;background:var(--green);color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">4</div><p style="color:rgba(255,255,255,.7);font-size:.82rem;line-height:1.55;">Envoyez-lui son email + mot de passe par WhatsApp → il accède au contenu jusqu'à expiration.</p></div>
           </div>
         </div>
       </div>
@@ -310,40 +294,43 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
       <div class="panel" id="panel-newPost">
         <div class="topbar"><div class="tb-left"><h2>Nouvelle publication</h2><p>Publiée instantanément sur le site</p></div></div>
         <div class="card">
-          <div class="card-header"><h3><i class="fas fa-newspaper" style="color:var(--blue)"></i> Contenu</h3></div>
+          <div class="card-header"><h3><i class="fas fa-newspaper" style="color:var(--blue)"></i> Contenu principal</h3></div>
           <div class="card-body">
-            <div class="fg"><label>Titre *</label><input type="text" id="pt" placeholder="Titre de la publication"></div>
+            <div class="fg"><label>Titre *</label><input type="text" id="pt" placeholder="Ex: Chapitre 5 – Les fonctions dérivées"></div>
             <div class="fgrid">
               <div class="fg"><label>Catégorie</label><select id="pc"><option>Cours</option><option>Annonce</option><option>Résumé</option><option>Exercice</option><option>Examen</option><option>Actualité</option></select></div>
-              <div class="fg"><label>Type de contenu</label><select id="ptype" onchange="onPostTypeChange()"><option value="post">📝 Article / Texte</option><option value="video">🎬 Vidéo</option><option value="pdf">📄 PDF</option><option value="image">🖼️ Image(s)</option><option value="announcement">📣 Annonce</option></select></div>
+              <div class="fg"><label>Type</label><select id="ptype" onchange="onPostTypeChange()"><option value="post">📝 Article</option><option value="video">🎬 Vidéo</option><option value="pdf">📄 PDF</option><option value="image">🖼️ Image(s)</option><option value="announcement">📣 Annonce</option></select></div>
             </div>
 
-            <!-- VIDEO -->
             <div id="pf-video" style="display:none">
-              <div class="fg"><label>URL de la vidéo *</label><input type="url" id="p-video" placeholder="https://youtube.com/watch?v=…  ou Vimeo, Drive…"><div class="hint">YouTube, Vimeo, Google Drive, Dailymotion</div></div>
-            </div>
-            <!-- PDF -->
-            <div id="pf-pdf" style="display:none">
-              <div class="fg"><label>Fichier PDF (glisser-déposer)</label>
-                <div class="file-zone" id="pdfzone"><input type="file" id="pdfFile" accept=".pdf" onchange="handleFile('pdfFile','pdfFn','pdf')"><i class="fas fa-file-pdf" style="color:#dc2626"></i><p>Glissez votre PDF ici</p><div class="fname" id="pdfFn"></div></div>
-                <div class="hint" style="margin-top:.4rem">Ou lien direct :</div>
-                <input type="url" id="p-pdfurl" placeholder="https://…" style="margin-top:.4rem">
+              <div class="fg"><label>URL vidéo *</label><input type="url" id="p-video" placeholder="https://youtube.com/watch?v=…"><div class="hint">YouTube, Vimeo, Google Drive, Dailymotion</div></div>
+              <!-- ATTACHMENTS for video -->
+              <div class="attach-zone">
+                <h5><i class="fas fa-paperclip"></i> Pièces jointes (PDF, fiches, exercices…)</h5>
+                <div id="p-attach-list"></div>
+                <div class="file-zone" style="margin-top:.5rem"><input type="file" id="p-attach-file" accept=".pdf,.doc,.docx,.png,.jpg" multiple onchange="handleAttachments('p-attach-file')"><i class="fas fa-paperclip"></i><p>Glissez vos fichiers ici (PDF, images, docs)</p></div>
+                <div class="fg" style="margin-top:.7rem;margin-bottom:0"><input type="url" id="p-attach-url" placeholder="Ou entrez un lien de ressource (Drive, Dropbox…)" onkeydown="if(event.key==='Enter'){addAttachLink();event.preventDefault();}"><div class="hint">Appuyez Entrée pour ajouter le lien</div></div>
               </div>
             </div>
-            <!-- IMAGES -->
+
+            <div id="pf-pdf" style="display:none">
+              <div class="fg"><label>Fichier PDF</label>
+                <div class="file-zone"><input type="file" id="pdfFile" accept=".pdf" onchange="handleFile('pdfFile','pdfFn','pdf')"><i class="fas fa-file-pdf" style="color:#dc2626"></i><p>Glissez votre PDF ici</p><div class="fname" id="pdfFn"></div></div>
+                <input type="url" id="p-pdfurl" placeholder="Ou URL directe du PDF" style="margin-top:.5rem">
+              </div>
+            </div>
+
             <div id="pf-image" style="display:none">
               <div class="fg"><label>Images (jusqu'à 3)</label>
-                <div class="fgrid" style="grid-template-columns:1fr 1fr 1fr;gap:.6rem">
+                <div class="fgrid3" style="gap:.6rem">
                   <div><input type="url" id="p-img1" placeholder="URL image 1" oninput="prev('p-img1','pi1')"><img id="pi1" class="img-preview"></div>
                   <div><input type="url" id="p-img2" placeholder="URL image 2" oninput="prev('p-img2','pi2')"><img id="pi2" class="img-preview"></div>
                   <div><input type="url" id="p-img3" placeholder="URL image 3" oninput="prev('p-img3','pi3')"><img id="pi3" class="img-preview"></div>
                 </div>
-                <div class="hint">Ou uploadez une image :</div>
-                <div class="file-zone" style="margin-top:.4rem"><input type="file" id="imgFile" accept="image/*" onchange="handleFile('imgFile','imgFn','img')"><i class="fas fa-image" style="color:#059669"></i><p>Glissez votre image</p><div class="fname" id="imgFn"></div></div>
+                <div class="file-zone" style="margin-top:.6rem"><input type="file" id="imgFile" accept="image/*" onchange="handleFile('imgFile','imgFn','img')"><i class="fas fa-image" style="color:#059669"></i><p>Glissez votre image</p><div class="fname" id="imgFn"></div></div>
               </div>
             </div>
 
-            <!-- BODY EDITOR -->
             <div class="fg"><label>Description / Contenu</label>
               <div class="editor-wrap">
                 <div class="etb">
@@ -351,7 +338,7 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
                   <button class="etb-btn" onclick="fmt('italic')" title="Italique"><i class="fas fa-italic"></i></button>
                   <span class="etb-sep"></span>
                   <button class="etb-btn" onclick="ins('\n- ')" title="Liste">•</button>
-                  <button class="etb-btn" onclick="ins('\n1. ')" title="Numérotée">1.</button>
+                  <button class="etb-btn" onclick="ins('\n1. ')" title="Num.">1.</button>
                   <span class="etb-sep"></span>
                   <button class="etb-btn" onclick="ins('📌 ')">📌</button>
                   <button class="etb-btn" onclick="ins('✅ ')">✅</button>
@@ -359,25 +346,26 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
                   <button class="etb-btn" onclick="ins('⚠️ ')">⚠️</button>
                   <button class="etb-btn" onclick="ins('🎯 ')">🎯</button>
                   <button class="etb-btn" onclick="ins('💡 ')">💡</button>
+                  <button class="etb-btn" onclick="ins('🔥 ')">🔥</button>
                 </div>
-                <textarea id="editor-body" placeholder="Rédigez votre publication…"></textarea>
+                <textarea id="editor-body" placeholder="Rédigez le contenu de votre publication…"></textarea>
               </div>
             </div>
 
+            <div class="fg"><label>Image de couverture (URL)</label><input type="url" id="p-cover" placeholder="https://…" oninput="prev('p-cover','pCoverPrev')"><img id="pCoverPrev" class="img-preview"></div>
             <div class="fg"><label>Lien externe (optionnel)</label><input type="url" id="p-link" placeholder="https://…"></div>
-            <div class="fg"><label>Image de couverture (URL, pour aperçu)</label><input type="url" id="p-cover" placeholder="https://…" oninput="prev('p-cover','pCoverPrev')"><img id="pCoverPrev" class="img-preview"></div>
 
             <div class="toggle-field">
-              <div class="toggle-info"><label>🔒 Contenu privé</label><small>Seuls les élèves que vous autorisez pourront y accéder.</small></div>
+              <div class="toggle-info"><label>🔒 Contenu payant / privé</label><small>Affiche « Contenu réservé – Contactez l'enseignant » aux non-inscrits.</small></div>
               <label class="switch"><input type="checkbox" id="p-locked" onchange="onLockToggle('p-allowed-row',this)"><span class="slider"></span></label>
             </div>
             <div id="p-allowed-row" style="display:none;margin-bottom:1rem;">
-              <div class="fg"><label>Emails autorisés pour CE post</label><input type="text" id="p-emails" placeholder="email1@ex.com, email2@ex.com"><div class="hint">Séparez par des virgules. Ou laissez vide et gérez via « Gérer les accès » pour un accès global.</div></div>
+              <div class="fg"><label>Emails spécifiques (optionnel – laissez vide pour accès global)</label><input type="text" id="p-emails" placeholder="email1@ex.com, email2@ex.com"><div class="hint">Si vide, tous les élèves inscrits globalement y auront accès.</div></div>
             </div>
 
             <div style="display:flex;justify-content:flex-end;gap:.7rem;margin-top:.5rem;">
               <button class="btn b-ghost" onclick="clearPost()"><i class="fas fa-trash"></i> Effacer</button>
-              <button class="btn b-primary btn-lg" onclick="publishPost()"><i class="fas fa-paper-plane"></i> &nbsp;Publier maintenant</button>
+              <button class="btn b-primary btn-lg" onclick="publishPost()"><i class="fas fa-paper-plane"></i> Publier maintenant</button>
             </div>
           </div>
         </div>
@@ -385,7 +373,7 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
 
       <!-- NEW RESOURCE -->
       <div class="panel" id="panel-newResource">
-        <div class="topbar"><div class="tb-left"><h2>Ajouter une ressource</h2><p>PDF, vidéo ou image publiée directement</p></div></div>
+        <div class="topbar"><div class="tb-left"><h2>Ajouter une ressource</h2><p>PDF, vidéo ou image</p></div></div>
         <div class="card">
           <div class="card-header"><h3><i class="fas fa-upload" style="color:var(--green)"></i> Détails</h3></div>
           <div class="card-body">
@@ -396,23 +384,53 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
               <div class="fg"><label>Niveau</label><select id="rlevel"><option>BAC (4ème année)</option><option>3ème année</option><option>2ème année</option><option>1ère année</option><option>Tous niveaux</option></select></div>
             </div>
             <div class="fg"><label>Description</label><textarea id="rdesc" placeholder="Décrivez cette ressource…" style="min-height:75px"></textarea></div>
-            <div id="rf-pdf"><div class="fg"><label>Fichier PDF</label><div class="file-zone"><input type="file" id="rPdfFile" accept=".pdf" onchange="handleFile('rPdfFile','rPdfFn','rpdf')"><i class="fas fa-file-pdf" style="color:#dc2626"></i><p>Glissez votre PDF ici</p><div class="fname" id="rPdfFn"></div></div><input type="url" id="r-pdfurl" placeholder="Ou entrez un URL direct" style="margin-top:.5rem"></div></div>
-            <div id="rf-video" style="display:none"><div class="fg"><label>URL vidéo</label><input type="url" id="r-video" placeholder="https://youtube.com/…"><div class="hint">YouTube, Vimeo, Google Drive, Dailymotion</div></div></div>
-            <div id="rf-image" style="display:none"><div class="fg"><label>Image</label><div class="file-zone"><input type="file" id="rImgFile" accept="image/*" onchange="handleFile('rImgFile','rImgFn','rimg')"><i class="fas fa-image" style="color:#059669"></i><p>Glissez votre image</p><div class="fname" id="rImgFn"></div></div><input type="url" id="r-imgurl" placeholder="Ou entrez une URL d'image" style="margin-top:.5rem" oninput="prev('r-imgurl','rImgPrev')"><img id="rImgPrev" class="img-preview"></div></div>
+            <div id="rf-pdf"><div class="fg"><label>Fichier PDF</label><div class="file-zone"><input type="file" id="rPdfFile" accept=".pdf" onchange="handleFile('rPdfFile','rPdfFn','rpdf')"><i class="fas fa-file-pdf" style="color:#dc2626"></i><p>Glissez votre PDF ici</p><div class="fname" id="rPdfFn"></div></div><input type="url" id="r-pdfurl" placeholder="Ou URL directe" style="margin-top:.5rem"></div></div>
+            <div id="rf-video" style="display:none"><div class="fg"><label>URL vidéo</label><input type="url" id="r-video" placeholder="https://youtube.com/…"></div></div>
+            <div id="rf-image" style="display:none"><div class="fg"><label>Image</label><div class="file-zone"><input type="file" id="rImgFile" accept="image/*" onchange="handleFile('rImgFile','rImgFn','rimg')"><i class="fas fa-image" style="color:#059669"></i><p>Glissez votre image</p><div class="fname" id="rImgFn"></div></div><input type="url" id="r-imgurl" placeholder="Ou URL image" style="margin-top:.5rem" oninput="prev('r-imgurl','rImgPrev')"><img id="rImgPrev" class="img-preview"></div></div>
 
             <div class="toggle-field">
-              <div class="toggle-info"><label>🔒 Accès restreint</label><small>Seuls les élèves autorisés pourront accéder à cette ressource.</small></div>
+              <div class="toggle-info"><label>🔒 Contenu payant / privé</label><small>Seuls les élèves autorisés peuvent télécharger cette ressource.</small></div>
               <label class="switch"><input type="checkbox" id="r-locked" onchange="onLockToggle('r-allowed-row',this)"><span class="slider"></span></label>
             </div>
             <div id="r-allowed-row" style="display:none;margin-bottom:1rem;">
-              <div class="fg"><label>Emails autorisés pour CETTE ressource</label><input type="text" id="r-emails" placeholder="email1@ex.com, email2@ex.com"><div class="hint">Laissez vide pour utiliser les accès globaux (dans « Gérer les accès »).</div></div>
+              <div class="fg"><label>Emails spécifiques</label><input type="text" id="r-emails" placeholder="email1@ex.com, email2@ex.com"></div>
             </div>
-            <div style="display:flex;justify-content:flex-end;gap:.7rem;margin-top:.5rem;">
+            <div style="display:flex;justify-content:flex-end;gap:.7rem;">
               <button class="btn b-ghost" onclick="clearResource()"><i class="fas fa-trash"></i> Effacer</button>
-              <button class="btn b-success btn-lg" onclick="publishResource()"><i class="fas fa-rocket"></i> &nbsp;Publier la ressource</button>
+              <button class="btn b-success btn-lg" onclick="publishResource()"><i class="fas fa-rocket"></i> Publier la ressource</button>
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- PACKS -->
+      <div class="panel" id="panel-packs">
+        <div class="topbar"><div class="tb-left"><h2>Packs de cours</h2><p>Regroupez des cours, exercices et ressources en un seul accès</p></div><button class="btn b-teal" onclick="showCreatePack()"><i class="fas fa-plus"></i> Créer un pack</button></div>
+        <div id="createPackForm" style="display:none">
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-box-open" style="color:var(--teal)"></i> Nouveau pack</h3></div>
+            <div class="card-body">
+              <div class="fgrid">
+                <div class="fg"><label>Nom du pack *</label><input type="text" id="pack-name" placeholder="Ex: Pack BAC Maths Complet"></div>
+                <div class="fg"><label>Prix affiché</label><input type="text" id="pack-price" placeholder="Ex: 29 DT / mois"></div>
+              </div>
+              <div class="fg"><label>Description</label><textarea id="pack-desc" placeholder="Ce que contient ce pack, les avantages…" style="min-height:70px"></textarea></div>
+              <div class="fg"><label>Contenu du pack (titres des cours/ressources inclus)</label>
+                <div id="pack-items-list" style="margin-bottom:.5rem"></div>
+                <div style="display:flex;gap:.5rem"><input type="text" id="pack-item-input" placeholder="Ex: Chapitre 1 – Les fonctions" style="flex:1;padding:.65rem .9rem;border-radius:9px;border:1.5px solid var(--border);font-family:inherit;font-size:.86rem;outline:none;" onkeydown="if(event.key==='Enter'){addPackItem();event.preventDefault();}"><button class="btn b-ghost" onclick="addPackItem()"><i class="fas fa-plus"></i></button></div>
+              </div>
+              <div class="toggle-field">
+                <div class="toggle-info"><label>🔒 Accès payant</label><small>Les élèves doivent payer pour accéder à ce pack.</small></div>
+                <label class="switch"><input type="checkbox" id="pack-locked" checked><span class="slider"></span></label>
+              </div>
+              <div style="display:flex;gap:.7rem;justify-content:flex-end;">
+                <button class="btn b-ghost" onclick="document.getElementById('createPackForm').style.display='none'">Annuler</button>
+                <button class="btn b-teal btn-lg" onclick="publishPack()"><i class="fas fa-box-open"></i> Créer le pack</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pack-grid" id="pack-grid"><p style="color:var(--gray);font-size:.83rem;"><i class="fas fa-spinner fa-spin"></i> Chargement…</p></div>
       </div>
 
       <!-- POSTS LIST -->
@@ -422,7 +440,7 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
           <div class="card-header"><h3><i class="fas fa-newspaper"></i> Toutes les publications</h3><span id="posts-count" style="font-size:.76rem;color:var(--gray)"></span></div>
           <div class="table-wrap">
             <table><thead><tr><th>Titre</th><th>Catégorie</th><th>Type</th><th>Date</th><th>Accès</th><th>Actions</th></tr></thead>
-            <tbody id="posts-tbody"><tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray)"><i class="fas fa-spinner fa-spin"></i> Chargement…</td></tr></tbody></table>
+            <tbody id="posts-tbody"><tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray)"><i class="fas fa-spinner fa-spin"></i></td></tr></tbody></table>
           </div>
         </div>
       </div>
@@ -434,86 +452,88 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
           <div class="card-header"><h3><i class="fas fa-folder-open"></i> Toutes les ressources</h3><span id="res-count" style="font-size:.76rem;color:var(--gray)"></span></div>
           <div class="table-wrap">
             <table><thead><tr><th>Titre</th><th>Type</th><th>Matière</th><th>Niveau</th><th>Accès</th><th>Actions</th></tr></thead>
-            <tbody id="res-tbody"><tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray)"><i class="fas fa-spinner fa-spin"></i> Chargement…</td></tr></tbody></table>
+            <tbody id="res-tbody"><tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray)"><i class="fas fa-spinner fa-spin"></i></td></tr></tbody></table>
           </div>
         </div>
       </div>
 
-      <!-- ACCESS MANAGEMENT -->
+      <!-- ACCESS -->
       <div class="panel" id="panel-access">
-        <div class="topbar"><div class="tb-left"><h2>Gérer les accès élèves</h2><p>Email + mot de passe unique par élève</p></div></div>
-
-        <!-- STUDENT PASSWORD ACCESS -->
+        <div class="topbar"><div class="tb-left"><h2>Gérer les accès élèves</h2><p>Email · Mot de passe · Durée d'accès</p></div></div>
         <div class="card">
-          <div class="card-header"><h3><i class="fas fa-user-shield" style="color:var(--purple)"></i> Élèves autorisés</h3><span style="font-size:.76rem;color:var(--gray)" id="student-count-lbl"></span></div>
+          <div class="card-header"><h3><i class="fas fa-user-shield" style="color:var(--purple)"></i> Élèves inscrits</h3><span style="font-size:.76rem;color:var(--gray)" id="student-count-lbl"></span></div>
           <div class="card-body">
             <div style="background:#ede9fe;border:1px solid #c4b5fd;border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.4rem;">
-              <h4 style="color:#5b21b6;font-size:.85rem;margin-bottom:.4rem;"><i class="fas fa-info-circle"></i> Comment ça marche</h4>
-              <p style="font-size:.8rem;color:#6d28d9;line-height:1.55;">1. Entrez l'email de l'élève → cliquez <strong>Ajouter</strong> → un mot de passe aléatoire est généré.<br>2. Envoyez-lui cet email + mot de passe par WhatsApp.<br>3. L'élève entre son email + mot de passe sur le site → il voit les contenus débloqués.</p>
+              <h4 style="color:#5b21b6;font-size:.85rem;margin-bottom:.35rem;"><i class="fas fa-info-circle"></i> Système d'accès temporisé</h4>
+              <p style="font-size:.8rem;color:#6d28d9;line-height:1.55;">Chaque élève reçoit un email + mot de passe + une durée d'accès définie. À l'expiration, l'accès est automatiquement révoqué et le site affiche « Accès expiré ».</p>
             </div>
-
-            <!-- ADD NEW STUDENT -->
             <div style="background:var(--bg);border-radius:12px;padding:1.2rem;margin-bottom:1.2rem;border:1.5px dashed var(--border);">
               <h4 style="font-size:.85rem;font-weight:700;color:var(--navy);margin-bottom:.9rem;"><i class="fas fa-user-plus" style="color:var(--green)"></i> Ajouter un élève</h4>
-              <div class="fgrid" style="gap:.7rem;">
-                <div class="fg" style="margin-bottom:0"><label>Email de l'élève *</label><input type="email" id="new-student-email" placeholder="eleve@email.com"></div>
-                <div class="fg" style="margin-bottom:0"><label>Nom (optionnel)</label><input type="text" id="new-student-name" placeholder="Ex: Ahmed Ben Ali"></div>
+              <div class="fgrid">
+                <div class="fg" style="margin-bottom:0"><label>Email *</label><input type="email" id="new-student-email" placeholder="eleve@email.com"></div>
+                <div class="fg" style="margin-bottom:0"><label>Nom</label><input type="text" id="new-student-name" placeholder="Prénom Nom"></div>
               </div>
-              <div style="display:flex;gap:.7rem;margin-top:.9rem;flex-wrap:wrap;align-items:center;">
+              <div class="fgrid" style="margin-top:.8rem">
+                <div class="fg" style="margin-bottom:0"><label>Durée d'accès</label>
+                  <select id="new-student-duration" style="width:100%;padding:.78rem 1rem;border-radius:10px;border:1.5px solid var(--border);font-family:inherit;font-size:.88rem;outline:none;">
+                    <option value="7">7 jours</option>
+                    <option value="14">14 jours</option>
+                    <option value="30" selected>1 mois (30 jours)</option>
+                    <option value="60">2 mois</option>
+                    <option value="90">3 mois</option>
+                    <option value="180">6 mois</option>
+                    <option value="365">1 an</option>
+                    <option value="9999">Accès illimité</option>
+                  </select>
+                </div>
+                <div class="fg" style="margin-bottom:0"><label>Pack / Contenu autorisé</label>
+                  <select id="new-student-pack" style="width:100%;padding:.78rem 1rem;border-radius:10px;border:1.5px solid var(--border);font-family:inherit;font-size:.88rem;outline:none;">
+                    <option value="all">Tout le contenu privé</option>
+                    <option value="custom">Personnalisé (emails spécifiques)</option>
+                  </select>
+                </div>
+              </div>
+              <div style="display:flex;gap:.7rem;margin-top:.9rem;flex-wrap:wrap;">
                 <button class="btn b-success btn-lg" onclick="addStudent()"><i class="fas fa-plus"></i> Ajouter & générer mot de passe</button>
-                <span style="font-size:.75rem;color:var(--gray);">Un mot de passe sécurisé sera généré automatiquement</span>
               </div>
             </div>
-
-            <!-- STUDENT LIST -->
             <div id="studentList"><p style="color:var(--gray);font-size:.83rem;"><i class="fas fa-spinner fa-spin"></i> Chargement…</p></div>
-
             <div style="display:flex;justify-content:flex-end;gap:.7rem;margin-top:1.2rem;">
               <button class="btn b-ghost" onclick="loadAccessPanel()"><i class="fas fa-sync"></i> Recharger</button>
-              <button class="btn b-primary btn-lg" onclick="saveAccessData()"><i class="fas fa-save"></i> Sauvegarder tous les accès</button>
+              <button class="btn b-primary btn-lg" onclick="saveAccessData()"><i class="fas fa-save"></i> Sauvegarder</button>
             </div>
           </div>
         </div>
-
-        <!-- PER-CONTENT ACCESS -->
-        <div class="card">
-          <div class="card-header"><h3><i class="fas fa-file-lock" style="color:var(--blue)"></i> Contenus privés & accès spécifiques</h3></div>
-          <div class="card-body">
-            <p style="font-size:.83rem;color:var(--gray);margin-bottom:1.1rem;line-height:1.6;">Les élèves ayant un accès global (ci-dessus) peuvent voir tous les contenus privés. Vous pouvez aussi définir des accès par contenu dans le formulaire de publication.</p>
-            <div id="perContentList"><p style="color:var(--gray);font-size:.83rem;font-style:italic;"><i class="fas fa-spinner fa-spin"></i> Chargement…</p></div>
-          </div>
-        </div>
-
         <div style="background:var(--navy);border-radius:16px;padding:1.5rem;">
-          <h4 style="color:var(--accent);font-size:.85rem;margin-bottom:.9rem;"><i class="fas fa-share-alt"></i> Message WhatsApp type à envoyer à l'élève</h4>
-          <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:1rem;font-size:.82rem;color:rgba(255,255,255,.8);line-height:1.7;font-family:monospace;" id="wa-template">
-            Bonjour ! 👋<br>Votre accès à Teach Line est activé :<br>🌐 Site : [URL de votre site]<br>📧 Email : [EMAIL]<br>🔑 Mot de passe : [MOT DE PASSE]<br><br>Cliquez sur "Accès élève" en haut du site et connectez-vous avec ces identifiants. ✅
+          <h4 style="color:var(--accent);font-size:.85rem;margin-bottom:.8rem;"><i class="fas fa-whatsapp"></i> Message WhatsApp à envoyer</h4>
+          <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:1rem;font-size:.8rem;color:rgba(255,255,255,.8);line-height:1.75;font-family:monospace;" id="wa-template">
+            Bonjour [NOM] 👋<br>Votre accès Teach Line est activé ✅<br>🌐 Site : [URL]<br>📧 Email : [EMAIL]<br>🔑 Mot de passe : [MOT DE PASSE]<br>📅 Accès valide jusqu'au : [DATE EXPIRATION]<br><br>Connectez-vous → cliquez "Accès élève" → entrez email + mot de passe 🎓
           </div>
         </div>
       </div>
 
       <!-- SETTINGS -->
       <div class="panel" id="panel-settings">
-        <div class="topbar"><div class="tb-left"><h2>Configuration GitHub</h2><p>Nécessaire pour la publication automatique</p></div></div>
+        <div class="topbar"><div class="tb-left"><h2>Configuration GitHub</h2><p>Vos identifiants restent sur votre appareil uniquement</p></div></div>
         <div class="card">
-          <div class="card-header"><h3><i class="fab fa-github"></i> Dépôt GitHub</h3></div>
+          <div class="card-header"><h3><i class="fab fa-github"></i> Connexion au dépôt</h3></div>
           <div class="card-body">
             <div style="background:#fef3c7;border:1px solid #fcd34d;border-radius:10px;padding:.9rem 1rem;margin-bottom:1.2rem;font-size:.82rem;color:#92400e;display:flex;gap:.6rem;align-items:flex-start;">
               <i class="fas fa-shield-halved" style="margin-top:.1rem;flex-shrink:0;"></i>
-              <span>Vos identifiants GitHub sont stockés <strong>uniquement sur votre appareil</strong> (localStorage). Ils ne sont jamais visibles sur le site public ni partagés.</span>
+              <span>Vos identifiants sont stockés <strong>uniquement sur votre appareil</strong>. Jamais visibles sur le site public.</span>
             </div>
             <div class="fgrid">
               <div class="fg"><label>Nom du dépôt *</label><input type="text" id="cfg-repo" placeholder="TeachLine-Site"></div>
-              <div class="fg"><label>Branche</label><input type="text" id="cfg-branch" placeholder="main" value="main"></div>
+              <div class="fg"><label>Branche</label><input type="text" id="cfg-branch" placeholder="main"></div>
             </div>
             <div class="fg"><label>Personal Access Token (PAT) *</label>
               <div class="masked-field">
                 <input type="password" id="cfg-token" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
                 <button class="toggle-vis" onclick="toggleVis('cfg-token',this)" tabindex="-1"><i class="fas fa-eye"></i></button>
               </div>
-              <div class="hint">Créez votre token : github.com → Settings → Developer settings → Personal access tokens (classic) → New → cochez <strong>repo</strong> → Generate. <strong>Ce token n'est affiché qu'une seule fois par GitHub.</strong></div>
+              <div class="hint">github.com → Settings → Developer settings → Tokens (classic) → New → cochez <strong>repo</strong> → Generate.</div>
             </div>
-            <div class="fg" style="display:none"><label>Username (masqué)</label><input type="password" id="cfg-owner" placeholder="votre-username" autocomplete="off"></div>
+            <div class="fg" style="display:none"><input type="password" id="cfg-owner" autocomplete="off"></div>
             <div style="display:flex;gap:.7rem;flex-wrap:wrap;">
               <button class="btn b-primary btn-lg" onclick="saveConfig()"><i class="fas fa-save"></i> Sauvegarder</button>
               <button class="btn b-ghost" onclick="testGH()"><i class="fas fa-flask"></i> Tester la connexion</button>
@@ -521,12 +541,11 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
           </div>
         </div>
         <div class="card">
-          <div class="card-header"><h3><i class="fas fa-rocket"></i> Guide de déploiement GitHub Pages</h3></div>
+          <div class="card-header"><h3><i class="fas fa-rocket"></i> Mise en ligne GitHub Pages (gratuit)</h3></div>
           <div class="card-body" style="display:grid;gap:.85rem;">
-            <div style="display:flex;gap:.9rem;background:var(--bg);border-radius:11px;padding:1rem;"><div style="width:26px;height:26px;border-radius:50%;background:var(--blue);color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div><div><strong style="font-size:.87rem;color:var(--navy);">Créez un compte GitHub</strong><p style="font-size:.8rem;color:var(--gray);margin-top:.2rem;">Allez sur github.com → Sign up. Gratuit.</p></div></div>
-            <div style="display:flex;gap:.9rem;background:var(--bg);border-radius:11px;padding:1rem;"><div style="width:26px;height:26px;border-radius:50%;background:var(--blue);color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div><div><strong style="font-size:.87rem;color:var(--navy);">Créez un dépôt public</strong><p style="font-size:.8rem;color:var(--gray);margin-top:.2rem;">New repository → Nom : <code style="background:rgba(26,86,219,.08);padding:.1rem .3rem;border-radius:4px;font-size:.78rem;">TeachLine-Site</code> → Public → Create. Créez les dossiers <code style="background:rgba(26,86,219,.08);padding:.1rem .3rem;border-radius:4px;font-size:.78rem;">content/posts/</code>, <code style="background:rgba(26,86,219,.08);padding:.1rem .3rem;border-radius:4px;font-size:.78rem;">content/resumes/</code>, <code style="background:rgba(26,86,219,.08);padding:.1rem .3rem;border-radius:4px;font-size:.78rem;">content/files/</code>, <code style="background:rgba(26,86,219,.08);padding:.1rem .3rem;border-radius:4px;font-size:.78rem;">access/</code>.</p></div></div>
-            <div style="display:flex;gap:.9rem;background:var(--bg);border-radius:11px;padding:1rem;"><div style="width:26px;height:26px;border-radius:50%;background:var(--blue);color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div><div><strong style="font-size:.87rem;color:var(--navy);">Uploadez les fichiers du site</strong><p style="font-size:.8rem;color:var(--gray);margin-top:.2rem;">Add file → Upload → Glissez <code style="background:rgba(26,86,219,.08);padding:.1rem .3rem;border-radius:4px;font-size:.78rem;">index.html</code> et le dossier <code style="background:rgba(26,86,219,.08);padding:.1rem .3rem;border-radius:4px;font-size:.78rem;">admin/</code>. Commit.</p></div></div>
-            <div style="display:flex;gap:.9rem;background:#d1fae5;border-radius:11px;padding:1rem;"><div style="width:26px;height:26px;border-radius:50%;background:var(--green);color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">4</div><div><strong style="font-size:.87rem;color:#065f46;">Activez GitHub Pages ✅</strong><p style="font-size:.8rem;color:#047857;margin-top:.2rem;">Settings → Pages → Source : main → root → Save. Votre site sera sur : <strong>votre-username.github.io/TeachLine-Site/</strong></p></div></div>
+            <div style="display:flex;gap:.9rem;background:var(--bg);border-radius:11px;padding:1rem;"><div style="width:26px;height:26px;border-radius:50%;background:var(--blue);color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div><div><strong style="font-size:.87rem;color:var(--navy);">Créez un dépôt public</strong><p style="font-size:.8rem;color:var(--gray);margin-top:.2rem;">github.com → New repository → Nom: <code style="background:rgba(26,86,219,.08);padding:.1rem .3rem;border-radius:4px;">TeachLine-Site</code> → Public → Create. Créez les dossiers: <code>content/posts/</code>, <code>content/resumes/</code>, <code>content/packs/</code>, <code>content/files/</code>, <code>access/</code></p></div></div>
+            <div style="display:flex;gap:.9rem;background:var(--bg);border-radius:11px;padding:1rem;"><div style="width:26px;height:26px;border-radius:50%;background:var(--blue);color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div><div><strong style="font-size:.87rem;color:var(--navy);">Uploadez les fichiers du site</strong><p style="font-size:.8rem;color:var(--gray);margin-top:.2rem;">Add file → Upload → Glissez <code>index.html</code> et le dossier <code>admin/</code>. Commit.</p></div></div>
+            <div style="display:flex;gap:.9rem;background:#d1fae5;border-radius:11px;padding:1rem;"><div style="width:26px;height:26px;border-radius:50%;background:var(--green);color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div><div><strong style="font-size:.87rem;color:#065f46;">Settings → Pages → main → Save ✅</strong><p style="font-size:.8rem;color:#047857;margin-top:.2rem;">Votre site sera live sur: <strong>username.github.io/TeachLine-Site/</strong></p></div></div>
           </div>
         </div>
       </div>
@@ -535,7 +554,7 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
       <div class="panel" id="panel-password">
         <div class="topbar"><div class="tb-left"><h2>Mot de passe</h2></div></div>
         <div class="card" style="max-width:460px">
-          <div class="card-header"><h3><i class="fas fa-key"></i> Changer le mot de passe</h3></div>
+          <div class="card-header"><h3><i class="fas fa-key"></i> Changer le mot de passe admin</h3></div>
           <div class="card-body">
             <div class="fg"><label>Mot de passe actuel</label><input id="cp1" type="password"></div>
             <div class="fg"><label>Nouveau mot de passe</label><input id="cp2" type="password"></div>
@@ -549,7 +568,7 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
   </div>
 </div>
 
-<!-- EDIT POST MODAL -->
+<!-- EDIT MODAL -->
 <div class="edit-overlay" id="editOverlay">
   <div class="edit-modal">
     <div class="edit-modal-header">
@@ -563,15 +582,15 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
         <div class="fg"><label>Type</label><select id="edit-type"><option value="post">📝 Article</option><option value="video">🎬 Vidéo</option><option value="pdf">📄 PDF</option><option value="image">🖼️ Image</option><option value="announcement">📣 Annonce</option></select></div>
       </div>
       <div class="fg"><label>URL vidéo</label><input type="url" id="edit-video" placeholder="https://youtube.com/…"></div>
-      <div class="fg"><label>Fichier PDF (chemin ou URL)</label><input type="text" id="edit-pdf" placeholder="content/files/… ou https://…"></div>
+      <div class="fg"><label>Fichier PDF (chemin GitHub ou URL)</label><input type="text" id="edit-pdf" placeholder="content/files/… ou https://…"></div>
       <div class="fg"><label>Image de couverture (URL)</label><input type="url" id="edit-cover" placeholder="https://…"></div>
       <div class="fg"><label>Contenu / Description</label><textarea id="edit-body" style="min-height:130px;"></textarea></div>
       <div class="fg"><label>Lien externe</label><input type="url" id="edit-link" placeholder="https://…"></div>
       <div class="toggle-field" style="margin-bottom:.9rem;">
-        <div class="toggle-info"><label>🔒 Contenu privé</label><small>Seuls les élèves autorisés peuvent y accéder.</small></div>
+        <div class="toggle-info"><label>🔒 Contenu payant / privé</label><small>Affiche « Contenu réservé » aux non-inscrits.</small></div>
         <label class="switch"><input type="checkbox" id="edit-locked"><span class="slider"></span></label>
       </div>
-      <div class="fg"><label>Emails autorisés (séparés par virgule)</label><input type="text" id="edit-emails" placeholder="email1@ex.com, email2@ex.com"></div>
+      <div class="fg"><label>Emails autorisés spécifiques</label><input type="text" id="edit-emails" placeholder="email1@ex.com, email2@ex.com"></div>
     </div>
     <div class="edit-modal-footer">
       <button class="btn b-ghost" onclick="closeEditModal()">Annuler</button>
@@ -595,14 +614,15 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast-wrap" id="toastWrap"></div>
 
-
 <script>
-/* ══════════ AUTH ══════════ */
-function getPW(){return localStorage.getItem('tl_pw')||'teachline2026';}
-function getUN(){return localStorage.getItem('tl_un')||'admin';}
+// ═══ POST CACHE — avoids JSON.stringify in onclick attributes ═══
+const PC = {}; // postsCache: rowKey → post object
+
+// ═══ AUTH ═══
+const getPW=()=>localStorage.getItem('tl_pw')||'teachline2026';
+const getUN=()=>localStorage.getItem('tl_un')||'admin';
 function login(){
   const u=document.getElementById('lu').value.trim(),p=document.getElementById('lp').value;
   if(u===getUN()&&p===getPW()){
@@ -611,37 +631,35 @@ function login(){
     init();
   }else{const e=document.getElementById('lerr');e.style.display='block';setTimeout(()=>e.style.display='none',3000);}
 }
-function logout(){document.getElementById('loginScreen').style.display='flex';document.getElementById('app').style.display='none';document.getElementById('lu').value='';document.getElementById('lp').value='';}
+function logout(){document.getElementById('loginScreen').style.display='flex';document.getElementById('app').style.display='none';}
 function changePass(){
   const o=document.getElementById('cp1').value,n=document.getElementById('cp2').value,n2=document.getElementById('cp3').value;
   if(o!==getPW()){toast('Mot de passe actuel incorrect','err');return;}
   if(!n||n!==n2){toast('Les mots de passe ne correspondent pas','err');return;}
-  localStorage.setItem('tl_pw',n);
-  document.getElementById('cp1').value='';document.getElementById('cp2').value='';document.getElementById('cp3').value='';
+  localStorage.setItem('tl_pw',n);['cp1','cp2','cp3'].forEach(id=>document.getElementById(id).value='');
   toast('Mot de passe mis à jour ✓','ok');
 }
 function toggleVis(id,btn){
-  const el=document.getElementById(id);
-  const show=el.type==='password';
-  el.type=show?'text':'password';
-  btn.innerHTML=show?'<i class="fas fa-eye-slash"></i>':'<i class="fas fa-eye"></i>';
+  const el=document.getElementById(id);const show=el.type==='password';
+  el.type=show?'text':'password';btn.innerHTML=show?'<i class="fas fa-eye-slash"></i>':'<i class="fas fa-eye"></i>';
 }
 
-/* ══════════ SIDEBAR ══════════ */
+// ═══ SIDEBAR ═══
 function toggleSb(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('sbOverlay').classList.toggle('show');}
 function closeSb(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sbOverlay').classList.remove('show');}
 function showPanel(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nb').forEach(n=>n.classList.remove('active'));
   const p=document.getElementById('panel-'+id);if(p)p.classList.add('active');
-  document.querySelectorAll('.nb').forEach(n=>{if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+id+"'"))n.classList.add('active');});
+  document.querySelectorAll('.nb').forEach(n=>{if(n.getAttribute('onclick')?.includes("'"+id+"'"))n.classList.add('active');});
   closeSb();
   if(id==='posts')loadPostsTable();
   if(id==='resources')loadResTable();
   if(id==='access')loadAccessPanel();
+  if(id==='packs')loadPacks();
 }
 
-/* ══════════ CONFIG ══════════ */
+// ═══ CONFIG ═══
 function loadConfig(){
   document.getElementById('cfg-repo').value=localStorage.getItem('tl_repo')||'TeachLine-Site';
   document.getElementById('cfg-branch').value=localStorage.getItem('tl_branch')||'main';
@@ -649,28 +667,22 @@ function loadConfig(){
   document.getElementById('cfg-owner').value=localStorage.getItem('tl_owner')||'';
 }
 function saveConfig(){
-  const r=document.getElementById('cfg-repo').value.trim();
-  const br=document.getElementById('cfg-branch').value.trim()||'main';
-  const t=document.getElementById('cfg-token').value.trim();
-  const o=document.getElementById('cfg-owner').value.trim();
+  const r=document.getElementById('cfg-repo').value.trim(),br=document.getElementById('cfg-branch').value.trim()||'main',t=document.getElementById('cfg-token').value.trim();
   if(!t){toast('Entrez votre token GitHub','err');return;}
-  localStorage.setItem('tl_repo',r);
-  localStorage.setItem('tl_branch',br);
-  localStorage.setItem('tl_token',t);
-  if(o)localStorage.setItem('tl_owner',o);
-  if(!localStorage.getItem('tl_owner'))fetchOwnerFromToken(t);
+  localStorage.setItem('tl_repo',r);localStorage.setItem('tl_branch',br);localStorage.setItem('tl_token',t);
+  if(!localStorage.getItem('tl_owner'))fetchOwner(t);
   toast('Configuration sauvegardée ✓','ok');checkGH();
 }
-async function fetchOwnerFromToken(token){
+async function fetchOwner(token){
   try{const r=await fetch('https://api.github.com/user',{headers:{Authorization:'Bearer '+token}});if(r.ok){const d=await r.json();localStorage.setItem('tl_owner',d.login);}}catch(e){}
 }
-function cfg(){return{owner:localStorage.getItem('tl_owner')||'',repo:localStorage.getItem('tl_repo')||'TeachLine-Site',token:localStorage.getItem('tl_token')||'',branch:localStorage.getItem('tl_branch')||'main'};}
+const cfg=()=>({owner:localStorage.getItem('tl_owner')||'',repo:localStorage.getItem('tl_repo')||'TeachLine-Site',token:localStorage.getItem('tl_token')||'',branch:localStorage.getItem('tl_branch')||'main'});
 
-/* ══════════ GITHUB API ══════════ */
+// ═══ GITHUB API ═══
 async function ghGet(path){
   const c=cfg();
-  const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}?ref=${c.branch}`,{headers:{Authorization:'Bearer '+c.token}});
-  if(!r.ok)throw new Error('GH '+r.status);
+  const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}?ref=${c.branch}&t=${Date.now()}`,{headers:{Authorization:'Bearer '+c.token,'Cache-Control':'no-cache'}});
+  if(!r.ok)throw new Error('GitHub '+r.status);
   return r.json();
 }
 async function ghPut(path,content,msg,sha=null){
@@ -678,12 +690,11 @@ async function ghPut(path,content,msg,sha=null){
   const body={message:msg,content:btoa(unescape(encodeURIComponent(content))),branch:c.branch};
   if(sha)body.sha=sha;
   const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}`,{method:'PUT',headers:{Authorization:'Bearer '+c.token,'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(!r.ok){const e=await r.json();throw new Error(e.message||'PUT failed');}
+  if(!r.ok){const e=await r.json();throw new Error(e.message||'PUT failed '+r.status);}
   return r.json();
 }
 async function ghPutB64(path,b64,msg,sha=null){
-  const c=cfg();
-  const body={message:msg,content:b64,branch:c.branch};if(sha)body.sha=sha;
+  const c=cfg();const body={message:msg,content:b64,branch:c.branch};if(sha)body.sha=sha;
   const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}`,{method:'PUT',headers:{Authorization:'Bearer '+c.token,'Content-Type':'application/json'},body:JSON.stringify(body)});
   if(!r.ok){const e=await r.json();throw new Error(e.message||'PUT binary failed');}
   return r.json();
@@ -691,117 +702,140 @@ async function ghPutB64(path,b64,msg,sha=null){
 async function ghDel(path,msg,sha){
   const c=cfg();
   const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}`,{method:'DELETE',headers:{Authorization:'Bearer '+c.token,'Content-Type':'application/json'},body:JSON.stringify({message:msg,sha,branch:c.branch})});
-  if(!r.ok)throw new Error('DEL failed');
+  if(!r.ok)throw new Error('Delete failed '+r.status);
 }
-async function getSha(path){try{const d=await ghGet(path);return d.sha||null;}catch(e){return null;}}
+async function getSha(path){
+  try{const c=cfg();const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}?ref=${c.branch}&t=${Date.now()}`,{headers:{Authorization:'Bearer '+c.token,'Cache-Control':'no-cache'}});if(r.ok){const d=await r.json();return d.sha||null;}return null;}catch(e){return null;}
+}
 
 async function checkGH(){
-  const el=document.getElementById('ghStatus');
+  const el=document.getElementById('ghStatus');const sw=document.getElementById('setup-warn');
   const c=cfg();
-  if(!c.token){el.innerHTML='<i class="fas fa-circle" style="color:var(--red)"></i> Non configuré';document.getElementById('setup-warn').style.display='flex';return;}
-  if(!c.owner)await fetchOwnerFromToken(c.token);
-  const c2=cfg();
-  try{
-    const r=await fetch(`https://api.github.com/repos/${c2.owner}/${c2.repo}`,{headers:{Authorization:'Bearer '+c2.token}});
-    if(r.ok){el.innerHTML='<i class="fas fa-circle" style="color:var(--green)"></i> GitHub connecté';document.getElementById('setup-warn').style.display='none';}
-    else{el.innerHTML='<i class="fas fa-circle" style="color:var(--red)"></i> Erreur token';document.getElementById('setup-warn').style.display='flex';}
-  }catch(e){el.innerHTML='<i class="fas fa-circle" style="color:var(--accent)"></i> Hors ligne';}
-}
-async function testGH(){
-  const c=cfg();if(!c.token){toast("Entrez votre token d'abord",'err');return;}
-  if(!c.owner)await fetchOwnerFromToken(c.token);
+  if(!c.token){el.innerHTML='<i class="fas fa-circle" style="color:var(--red)"></i> Non configuré';sw.style.display='flex';return;}
+  if(!c.owner)await fetchOwner(c.token);
   const c2=cfg();
   try{const r=await fetch(`https://api.github.com/repos/${c2.owner}/${c2.repo}`,{headers:{Authorization:'Bearer '+c2.token}});
-  if(r.ok){const d=await r.json();toast('OK : '+d.full_name,'ok');}else toast('Erreur – vérifiez token','err');}
-  catch(e){toast('Impossible de joindre GitHub','err');}
+  if(r.ok){el.innerHTML='<i class="fas fa-circle" style="color:var(--green)"></i> GitHub connecté';sw.style.display='none';}
+  else{el.innerHTML='<i class="fas fa-circle" style="color:var(--red)"></i> Erreur';sw.style.display='flex';}}
+  catch(e){el.innerHTML='<i class="fas fa-circle" style="color:var(--accent)"></i> Hors ligne';}
+}
+async function testGH(){
+  const c=cfg();if(!c.token){toast('Entrez le token d\'abord','err');return;}
+  if(!c.owner)await fetchOwner(c.token);const c2=cfg();
+  try{const r=await fetch(`https://api.github.com/repos/${c2.owner}/${c2.repo}`,{headers:{Authorization:'Bearer '+c2.token}});
+  if(r.ok){const d=await r.json();toast('✅ Connexion OK : '+d.full_name,'ok');}else toast('❌ Erreur token/dépôt','err');}
+  catch(e){toast('❌ GitHub inaccessible','err');}
 }
 
-/* ══════════ STATS ══════════ */
+// ═══ STATS ═══
 async function loadStats(){
+  const c=cfg();
   try{
-    const[p,r]=await Promise.all([ghGet('content/posts').catch(()=>[]),ghGet('content/resumes').catch(()=>[])]);
-    const pm=(p||[]).filter(f=>f.name?.endsWith('.md')),rm=(r||[]).filter(f=>f.name?.endsWith('.md'));
-    document.getElementById('s-p').textContent=pm.length;
-    document.getElementById('s-r').textContent=rm.length;
-    document.getElementById('nb-posts').textContent=pm.length;
-    document.getElementById('nb-res').textContent=rm.length;
-    let locked=0;
-    for(const f of [...pm,...rm]){try{const rr=await fetch(f.download_url);const t=await rr.text();if(t.includes('locked: "true"'))locked++;}catch(e){}}
-    document.getElementById('s-l').textContent=locked;
+    const[p,r,pk]=await Promise.all([ghGet('content/posts').catch(()=>[]),ghGet('content/resumes').catch(()=>[]),ghGet('content/packs').catch(()=>[])]);
+    const pm=(p||[]).filter(f=>f.name?.endsWith('.md')),rm=(r||[]).filter(f=>f.name?.endsWith('.md')),pkm=(pk||[]).filter(f=>f.name?.endsWith('.md'));
+    setEl('s-p',pm.length);setEl('s-r',rm.length);setEl('s-pk',pkm.length);
+    setEl('nb-posts',pm.length);setEl('nb-res',rm.length);setEl('nb-packs',pkm.length);
   }catch(e){}
   try{
-    const c=cfg();
     const r=await fetch(`https://raw.githubusercontent.com/${c.owner}/${c.repo}/${c.branch}/access/allowed.json?t=${Date.now()}`);
-    if(r.ok){const d=await r.json();const g=(d.students||d.global||[]).length;document.getElementById('s-a').textContent=g;document.getElementById('nb-access').textContent=g;}
-  }catch(e){document.getElementById('s-a').textContent='0';}
+    if(r.ok){const d=await r.json();const n=(d.students||[]).length;setEl('s-a',n);setEl('nb-access',n);}else setEl('s-a',0);
+  }catch(e){setEl('s-a',0);}
 }
+function setEl(id,val){const el=document.getElementById(id);if(el)el.textContent=val;}
 
-/* ══════════ UTILS ══════════ */
-function slug(s){return s.toLowerCase().replace(/[àáâãä]/g,'a').replace(/[éèêë]/g,'e').replace(/[îï]/g,'i').replace(/[ôö]/g,'o').replace(/[ùûü]/g,'u').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').substring(0,50)||'post';}
-function today(){return new Date().toISOString().split('T')[0];}
-function esc(s){if(s==null)return'';return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function randPass(len=10){const ch='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789@#!';let p='';for(let i=0;i<len;i++)p+=ch[Math.floor(Math.random()*ch.length)];return p;}
+// ═══ UTILS ═══
+const slug=s=>s.toLowerCase().replace(/[àáâãä]/g,'a').replace(/[éèêë]/g,'e').replace(/[îï]/g,'i').replace(/[ôö]/g,'o').replace(/[ùûü]/g,'u').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').substring(0,50)||'post';
+const today=()=>new Date().toISOString().split('T')[0];
+const addDays=(days)=>{const d=new Date();d.setDate(d.getDate()+parseInt(days));return d.toISOString().split('T')[0];};
+const randPass=(len=10)=>{const ch='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789@#!';let p='';for(let i=0;i<len;i++)p+=ch[Math.floor(Math.random()*ch.length)];return p;};
+const esc=s=>s==null?'':String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function copyText(txt){navigator.clipboard.writeText(txt).then(()=>toast('Copié !','ok'));}
+const parseFM=md=>{const fm={};const b=md.match(/^---\n([\s\S]*?)\n---/);if(b)b[1].split('\n').forEach(l=>{const[k,...v]=l.split(':');if(k&&k.trim())fm[k.trim()]=v.join(':').trim().replace(/^"|"$/g,'');});return{...fm,body:md.replace(/^---[\s\S]*?---\n?/,'').trim()};};
 
-/* ══════════ FORM HELPERS ══════════ */
-let fData={pdf:null,img:null,rpdf:null,rimg:null};
+// ═══ FILE HANDLING ═══
+const fData={pdf:null,img:null,rpdf:null,rimg:null};
 function handleFile(inputId,nameId,key){
   const f=document.getElementById(inputId).files[0];if(!f)return;
-  document.getElementById(nameId).textContent=f.name;
-  const rdr=new FileReader();
-  rdr.onload=e=>fData[key]={name:f.name,data:e.target.result.split(',')[1],mime:f.type};
-  rdr.readAsDataURL(f);
+  setEl(nameId,f.name);
+  const rdr=new FileReader();rdr.onload=e=>fData[key]={name:f.name,data:e.target.result.split(',')[1],mime:f.type};rdr.readAsDataURL(f);
 }
-function prev(inputId,imgId){const u=document.getElementById(inputId).value;const img=document.getElementById(imgId);if(u){img.src=u;img.style.display='block';}else img.style.display='none';}
+function prev(inputId,imgId){const u=document.getElementById(inputId).value;const img=document.getElementById(imgId);img.src=u;img.style.display=u?'block':'none';}
 function onLockToggle(rowId,chk){document.getElementById(rowId).style.display=chk.checked?'block':'none';}
 function onPostTypeChange(){const t=document.getElementById('ptype').value;['video','pdf','image'].forEach(k=>document.getElementById('pf-'+k).style.display=t===k?'block':'none');}
 function onResTypeChange(){const t=document.getElementById('rtype').value;['pdf','video','image'].forEach(k=>document.getElementById('rf-'+k).style.display=t===k?'block':'none');}
 function fmt(cmd){document.getElementById('editor-body').focus();document.execCommand(cmd);}
-function ins(txt){const el=document.getElementById('editor-body');const p=el.selectionStart;el.value=el.value.slice(0,p)+txt+el.value.slice(el.selectionEnd);el.selectionStart=el.selectionEnd=p+txt.length;el.focus();}
+function ins(txt){const el=document.getElementById('editor-body');const p=el.selectionStart;el.value=el.value.slice(0,p)+txt+el.value.slice(p);el.selectionStart=el.selectionEnd=p+txt.length;el.focus();}
 
-function parseFM(md){
-  const fm={};const b=md.match(/^---\n([\s\S]*?)\n---/);
-  if(b)b[1].split('\n').forEach(l=>{const[k,...v]=l.split(':');if(k&&k.trim())fm[k.trim()]=v.join(':').trim().replace(/^"|"$/g,'');});
-  const body=md.replace(/^---[\s\S]*?---\n?/,'').trim();
-  return{...fm,body};
+// ═══ ATTACHMENTS (for video posts) ═══
+const attachments=[];
+function handleAttachments(inputId){
+  const files=document.getElementById(inputId).files;
+  for(const f of files){
+    const rdr=new FileReader();
+    rdr.onload=e=>{attachments.push({name:f.name,data:e.target.result.split(',')[1],type:'file'});renderAttachments();}
+    rdr.readAsDataURL(f);
+  }
+}
+function addAttachLink(){
+  const inp=document.getElementById('p-attach-url');const url=inp.value.trim();
+  if(!url)return;attachments.push({name:url,url,type:'link'});inp.value='';renderAttachments();
+}
+function removeAttachment(i){attachments.splice(i,1);renderAttachments();}
+function renderAttachments(){
+  const list=document.getElementById('p-attach-list');
+  if(!list)return;
+  list.innerHTML=attachments.map((a,i)=>`<div class="attach-item"><i class="fas ${a.type==='link'?'fa-link':'fa-file'}"></i><span>${esc(a.name)}</span><button onclick="removeAttachment(${i})"><i class="fas fa-times"></i></button></div>`).join('');
 }
 
-/* ══════════ PUBLISH POST ══════════ */
+// ═══ PUBLISH POST ═══
 async function publishPost(){
-  const title=document.getElementById('pt').value.trim();
-  const body=document.getElementById('editor-body').value.trim();
+  const title=document.getElementById('pt').value.trim();const body=document.getElementById('editor-body').value.trim();
   if(!title){toast('Entrez un titre','err');return;}
-  const c=cfg();if(!c.token){toast('Configurez GitHub','err');showPanel('settings');return;}
-  if(!c.owner)await fetchOwnerFromToken(c.token);
+  const c=cfg();if(!c.token){toast('Configurez GitHub d\'abord','err');showPanel('settings');return;}
+  if(!c.owner)await fetchOwner(c.token);
   const type=document.getElementById('ptype').value,cat=document.getElementById('pc').value;
   const locked=document.getElementById('p-locked').checked,emails=document.getElementById('p-emails').value.trim();
   const link=document.getElementById('p-link').value.trim(),cover=document.getElementById('p-cover').value.trim();
   const vurl=document.getElementById('p-video').value.trim(),purl=document.getElementById('p-pdfurl').value.trim();
   const img1=document.getElementById('p-img1').value.trim(),img2=document.getElementById('p-img2').value.trim(),img3=document.getElementById('p-img3').value.trim();
   const date=today(),filename=slug(title)+'-'+date.replace(/-/g,'')+'.md';
-  showPub('Publication…','GitHub…');
+  showPub('Publication en cours…','Connexion à GitHub…');
   try{
-    let pdfPath='',imgUploadPath='';
+    let pdfPath='',imgPath='';
     if(type==='pdf'&&fData.pdf){setPubStep('Upload PDF…');const pp='content/files/'+fData.pdf.name;await ghPutB64(pp,fData.pdf.data,'PDF: '+fData.pdf.name);pdfPath=pp;}
     else if(type==='pdf'&&purl)pdfPath=purl;
-    if(type==='image'&&fData.img){setPubStep('Upload image…');const pp='content/files/'+fData.img.name;await ghPutB64(pp,fData.img.data,'Img: '+fData.img.name);imgUploadPath=pp;}
-    let fm='---\ntitle: "'+title+'"\ndate: "'+date+'"\ncategory: "'+cat+'"\ntype: "'+type+'"\nlocked: "'+locked+'"\n';
-    if(emails)fm+='allowed_emails: "'+emails+'"\n';if(cover)fm+='image: "'+cover+'"\n';if(vurl)fm+='video_url: "'+vurl+'"\n';
-    if(pdfPath)fm+='pdf_file: "'+pdfPath+'"\n';if(link)fm+='link: "'+link+'"\n';
-    if(imgUploadPath)fm+='image: "'+imgUploadPath+'"\n';else if(img1)fm+='image: "'+img1+'"\n';
-    if(img2)fm+='image2: "'+img2+'"\n';if(img3)fm+='image3: "'+img3+'"\n';
-    fm+='---\n\n'+body;
-    setPubStep('Écriture…');await ghPut('content/posts/'+filename,fm,'Post: '+title);
-    setPubDone('"'+title+'" publié !','Visible sur le site.');clearPost();loadStats();
+    if(type==='image'&&fData.img){setPubStep('Upload image…');const pp='content/files/'+fData.img.name;await ghPutB64(pp,fData.img.data,'Img: '+fData.img.name);imgPath=pp;}
+    // Upload attachments
+    let attachJSON='';
+    if(attachments.length){
+      setPubStep('Upload des pièces jointes…');
+      const uploaded=[];
+      for(const a of attachments){
+        if(a.type==='file'){const pp='content/files/'+a.name;await ghPutB64(pp,a.data,'Attach: '+a.name);uploaded.push({name:a.name,path:pp});}
+        else uploaded.push({name:a.name,url:a.url});
+      }
+      attachJSON=JSON.stringify(uploaded);
+    }
+    let fm=`---\ntitle: "${title.replace(/"/g,'\\"')}"\ndate: "${date}"\ncategory: "${cat}"\ntype: "${type}"\nlocked: "${locked}"\n`;
+    if(emails)fm+=`allowed_emails: "${emails}"\n`;if(cover)fm+=`image: "${cover}"\n`;
+    if(vurl)fm+=`video_url: "${vurl}"\n`;if(pdfPath)fm+=`pdf_file: "${pdfPath}"\n`;if(link)fm+=`link: "${link}"\n`;
+    if(imgPath)fm+=`image: "${imgPath}"\n`;else if(img1)fm+=`image: "${img1}"\n`;
+    if(img2)fm+=`image2: "${img2}"\n`;if(img3)fm+=`image3: "${img3}"\n`;
+    if(attachJSON)fm+=`attachments: '${attachJSON}'\n`;
+    fm+=`---\n\n${body}`;
+    setPubStep('Écriture sur GitHub…');
+    await ghPut('content/posts/'+filename,fm,'Post: '+title);
+    setPubDone('"'+title+'" publié !','Visible sur le site public.');
+    clearPost();attachments.length=0;renderAttachments();loadStats();
   }catch(e){closePub();toast('Erreur: '+e.message,'err');}
 }
-function clearPost(){['pt','editor-body','p-link','p-cover','p-video','p-pdfurl','p-img1','p-img2','p-img3','p-emails'].forEach(id=>document.getElementById(id).value='');document.getElementById('p-locked').checked=false;document.getElementById('p-allowed-row').style.display='none';['pCoverPrev','pi1','pi2','pi3'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});document.getElementById('pdfFn').textContent='';fData.pdf=null;fData.img=null;}
+function clearPost(){['pt','editor-body','p-link','p-cover','p-video','p-pdfurl','p-img1','p-img2','p-img3','p-emails'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('p-locked').checked=false;document.getElementById('p-allowed-row').style.display='none';['pCoverPrev','pi1','pi2','pi3'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});setEl('pdfFn','');fData.pdf=null;fData.img=null;}
 
-/* ══════════ PUBLISH RESOURCE ══════════ */
+// ═══ PUBLISH RESOURCE ═══
 async function publishResource(){
   const title=document.getElementById('rt').value.trim();if(!title){toast('Entrez un titre','err');return;}
   const c=cfg();if(!c.token){toast('Configurez GitHub','err');showPanel('settings');return;}
-  if(!c.owner)await fetchOwnerFromToken(c.token);
+  if(!c.owner)await fetchOwner(c.token);
   const type=document.getElementById('rtype').value,subj=document.getElementById('rsubj').value,level=document.getElementById('rlevel').value;
   const desc=document.getElementById('rdesc').value.trim(),locked=document.getElementById('r-locked').checked,emails=document.getElementById('r-emails').value.trim();
   const vurl=document.getElementById('r-video').value.trim(),purl=document.getElementById('r-pdfurl').value.trim(),iurl=document.getElementById('r-imgurl').value.trim();
@@ -811,288 +845,296 @@ async function publishResource(){
     let pdfPath='',imgPath='';
     if(type==='pdf'&&fData.rpdf){setPubStep('Upload PDF…');const pp='content/files/'+fData.rpdf.name;await ghPutB64(pp,fData.rpdf.data,'PDF: '+fData.rpdf.name);pdfPath=pp;}else if(type==='pdf'&&purl)pdfPath=purl;
     if(type==='image'&&fData.rimg){setPubStep('Upload image…');const pp='content/files/'+fData.rimg.name;await ghPutB64(pp,fData.rimg.data,'Img: '+fData.rimg.name);imgPath=pp;}else if(type==='image'&&iurl)imgPath=iurl;
-    let fm='---\ntitle: "'+title+'"\ntype: "'+type+'"\nsubject: "'+subj+'"\nlevel: "'+level+'"\nlocked: "'+locked+'"\ndate: "'+date+'"\n';
-    if(emails)fm+='allowed_emails: "'+emails+'"\n';if(pdfPath)fm+='pdf_file: "'+pdfPath+'"\n';if(vurl)fm+='video_url: "'+vurl+'"\n';if(imgPath)fm+='image_url: "'+imgPath+'"\n';
-    fm+='---\n\n'+desc;
+    let fm=`---\ntitle: "${title.replace(/"/g,'\\"')}"\ntype: "${type}"\nsubject: "${subj}"\nlevel: "${level}"\nlocked: "${locked}"\ndate: "${date}"\n`;
+    if(emails)fm+=`allowed_emails: "${emails}"\n`;if(pdfPath)fm+=`pdf_file: "${pdfPath}"\n`;if(vurl)fm+=`video_url: "${vurl}"\n`;if(imgPath)fm+=`image_url: "${imgPath}"\n`;
+    fm+=`---\n\n${desc}`;
     setPubStep('Écriture…');await ghPut('content/resumes/'+filename,fm,'Ressource: '+title);
-    setPubDone('"'+title+'" publié !','Visible sur le site.');clearResource();loadStats();
+    setPubDone('"'+title+'" publié !','Ressource visible sur le site.');clearResource();loadStats();
   }catch(e){closePub();toast('Erreur: '+e.message,'err');}
 }
-function clearResource(){['rt','rdesc','r-pdfurl','r-video','r-imgurl','r-emails'].forEach(id=>document.getElementById(id).value='');document.getElementById('r-locked').checked=false;document.getElementById('r-allowed-row').style.display='none';document.getElementById('rPdfFn').textContent='';document.getElementById('rImgFn').textContent='';document.getElementById('rImgPrev').style.display='none';fData.rpdf=null;fData.rimg=null;}
+function clearResource(){['rt','rdesc','r-pdfurl','r-video','r-imgurl','r-emails'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('r-locked').checked=false;document.getElementById('r-allowed-row').style.display='none';setEl('rPdfFn','');setEl('rImgFn','');const rip=document.getElementById('rImgPrev');if(rip)rip.style.display='none';fData.rpdf=null;fData.rimg=null;}
 
-/* ══════════ POSTS TABLE ══════════ */
-// Store posts in a map keyed by row-id so openEditModal can safely retrieve them
-// without embedding the full object in an onclick attribute (which breaks with quotes/newlines)
-const postsCache = {};
+// ═══ PACKS ═══
+const packItems=[];
+function showCreatePack(){document.getElementById('createPackForm').style.display='block';}
+function addPackItem(){const inp=document.getElementById('pack-item-input');const v=inp.value.trim();if(!v)return;packItems.push(v);inp.value='';renderPackItems();}
+function removePackItem(i){packItems.splice(i,1);renderPackItems();}
+function renderPackItems(){const list=document.getElementById('pack-items-list');list.innerHTML=packItems.map((item,i)=>`<div class="attach-item"><i class="fas fa-check" style="color:var(--green)"></i><span>${esc(item)}</span><button onclick="removePackItem(${i})"><i class="fas fa-times"></i></button></div>`).join('');}
+async function publishPack(){
+  const name=document.getElementById('pack-name').value.trim();if(!name){toast('Entrez un nom de pack','err');return;}
+  const c=cfg();if(!c.token){toast('Configurez GitHub','err');showPanel('settings');return;}
+  if(!c.owner)await fetchOwner(c.token);
+  const price=document.getElementById('pack-price').value.trim(),desc=document.getElementById('pack-desc').value.trim(),locked=document.getElementById('pack-locked').checked;
+  const date=today(),filename=slug(name)+'-'+date.replace(/-/g,'')+'.md';
+  let fm=`---\ntitle: "${name.replace(/"/g,'\\"')}"\ntype: "pack"\ndate: "${date}"\nprice: "${price}"\nlocked: "${locked}"\n---\n\n${desc}\n\n## Contenu du pack\n\n${packItems.map(i=>'- '+i).join('\n')}`;
+  showPub('Création du pack…','GitHub…');
+  try{
+    await ghPut('content/packs/'+filename,fm,'Pack: '+name);
+    setPubDone('"'+name+'" créé !','Pack visible sur le site.');
+    document.getElementById('createPackForm').style.display='none';
+    document.getElementById('pack-name').value='';document.getElementById('pack-price').value='';document.getElementById('pack-desc').value='';
+    packItems.length=0;renderPackItems();loadStats();loadPacks();
+  }catch(e){closePub();toast('Erreur: '+e.message,'err');}
+}
+async function loadPacks(){
+  const grid=document.getElementById('pack-grid');grid.innerHTML='<p style="color:var(--gray);font-size:.83rem;"><i class="fas fa-spinner fa-spin"></i></p>';
+  try{
+    const files=await ghGet('content/packs');const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
+    if(!mds.length){grid.innerHTML='<p style="color:var(--gray);font-size:.83rem;font-style:italic;">Aucun pack créé. Créez votre premier pack ci-dessus.</p>';return;}
+    const packs=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url+'?t='+Date.now());const t=await r.text();return{...parseFM(t),_n:f.name,_sha:f.sha};}));
+    setEl('s-pk',packs.length);setEl('nb-packs',packs.length);
+    grid.innerHTML=packs.map(p=>`
+      <div class="pack-card">
+        <div class="pack-card-header"><h4>${esc(p.title||'Pack sans titre')}</h4><small>${p.price?p.price+' · ':''} ${p.date||''}</small></div>
+        <div class="pack-card-body">
+          ${(p.body||'').split('\n').filter(l=>l.startsWith('- ')).slice(0,5).map(l=>`<div class="pack-item"><i class="fas fa-check"></i><span>${esc(l.slice(2))}</span></div>`).join('')}
+          <div style="margin-top:.8rem;display:flex;gap:.5rem;">
+            <span class="badge ${p.locked==='true'?'b-locked':'b-pub'}">${p.locked==='true'?'🔒 Payant':'✅ Gratuit'}</span>
+            <button class="btn b-danger btn-icon" style="margin-left:auto" onclick="delPack('${esc(p._n)}','${esc(p._sha)}','${esc(p.title)}')"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+      </div>`).join('');
+  }catch(e){grid.innerHTML='<p style="color:var(--red);font-size:.83rem;">Erreur de chargement.</p>';}
+}
+async function delPack(filename,sha,title){
+  if(!confirm('Supprimer le pack "'+title+'" ?'))return;
+  const row=document.querySelector(`[onclick*="${filename}"]`)?.closest('.pack-card');
+  if(row){row.style.opacity='0';row.style.transition='opacity .3s';setTimeout(()=>row.remove(),320);}
+  try{await ghDel('content/packs/'+filename,'Del pack: '+title,sha);toast('"'+title+'" supprimé','ok');loadStats();setTimeout(loadPacks,1800);}
+  catch(e){toast('Erreur: '+e.message,'err');}
+}
 
+// ═══ POSTS TABLE ═══
 async function loadPostsTable(){
   const tb=document.getElementById('posts-tbody');
   tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray)"><i class="fas fa-spinner fa-spin"></i></td></tr>';
+  // Clear old cache
+  Object.keys(PC).forEach(k=>delete PC[k]);
   try{
     const files=await ghGet('content/posts');
     const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
-    document.getElementById('posts-count').textContent=mds.length+' publication(s)';
+    setEl('posts-count',mds.length+' publication(s)');
     if(!mds.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray)">Aucune publication.</td></tr>';return;}
-    const items=await Promise.all(mds.map(async f=>{
-      const r=await fetch(f.download_url+'?t='+Date.now()); // bust cache on reload
-      const t=await r.text();
-      return{...parseFM(t),_n:f.name,_sha:f.sha,_url:f.html_url};
-    }));
+    const items=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url+'?t='+Date.now());const t=await r.text();return{...parseFM(t),_n:f.name,_sha:f.sha};}));
     items.sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
     const ti={post:'fa-newspaper',video:'fa-video',pdf:'fa-file-pdf',image:'fa-image',announcement:'fa-bullhorn'};
     const tc={post:'b-post',video:'b-video',pdf:'b-pdf',image:'b-image',announcement:'b-cat'};
-    // Clear old cache entries
-    Object.keys(postsCache).forEach(k=>delete postsCache[k]);
     tb.innerHTML=items.map((p,i)=>{
-      const rowKey='post_row_'+i;
-      postsCache[rowKey]=p; // safe storage — no HTML serialisation
+      const key='r'+i;PC[key]=p; // store in cache safely
       return `<tr id="tr-${esc(p._n)}">
         <td><div class="cell-main">${esc(p.title||'Sans titre')}</div><div class="cell-sub">${esc(p.date||'')}</div></td>
         <td><span class="badge b-cat">${esc(p.category||'—')}</span></td>
         <td><span class="badge ${tc[p.type]||'b-post'}"><i class="fas ${ti[p.type]||'fa-newspaper'}"></i> ${esc(p.type||'post')}</span></td>
         <td>${esc(p.date||'—')}</td>
-        <td><span class="badge ${p.locked==='true'?'b-locked':'b-pub'}">${p.locked==='true'?'🔒 Privé':'✅ Public'}</span></td>
+        <td><span class="badge ${p.locked==='true'?'b-locked':'b-pub'}">${p.locked==='true'?'🔒 Payant':'✅ Public'}</span></td>
         <td><div class="ab">
-          <button class="btn b-primary btn-icon" onclick="openEditModal('${rowKey}')" title="Modifier"><i class="fas fa-edit"></i></button>
-          <button class="btn b-danger btn-icon" onclick="delFile('content/posts/${esc(p._n)}','${esc(p._sha)}','post','${esc(p.title)}','${esc(p._n)}')" title="Supprimer"><i class="fas fa-trash"></i></button>
+          <button class="btn b-primary btn-icon" onclick="openEditModal('${key}')" title="Modifier"><i class="fas fa-edit"></i></button>
+          <button class="btn b-danger btn-icon" onclick="delPost('${esc(p._n)}','${esc(p._sha)}','${esc(p.title)}')" title="Supprimer"><i class="fas fa-trash"></i></button>
         </div></td>
       </tr>`;
     }).join('');
-  }catch(e){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">Erreur. Vérifiez config GitHub.</td></tr>';}
+  }catch(e){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">⚠️ Erreur. Vérifiez la configuration GitHub.</td></tr>';}
 }
 
-/* ══════════ EDIT POST ══════════ */
+// ═══ EDIT POST — FIX: use PC cache, fresh SHA ═══
 let editingPost=null;
-
-// Receives a cache key string (safe to pass in onclick), retrieves full object from postsCache
-function openEditModal(rowKey){
-  const p=postsCache[rowKey];
-  if(!p){toast('Impossible de charger ce post','err');return;}
+function openEditModal(key){
+  const p=PC[key];
+  if(!p){toast('Impossible de charger ce post. Rechargez la liste.','err');return;}
   editingPost=p;
   const sv=(id,val)=>{const el=document.getElementById(id);if(el)el.value=val||'';};
-  sv('edit-title',p.title);
-  sv('edit-body',p.body);
-  sv('edit-link',p.link);
-  sv('edit-cover',p.image);
-  sv('edit-video',p.video_url);
-  sv('edit-pdf',p.pdf_file);
-  sv('edit-emails',p.allowed_emails);
-  // Set category select
+  sv('edit-title',p.title);sv('edit-body',p.body);sv('edit-link',p.link||'');sv('edit-cover',p.image||'');
+  sv('edit-video',p.video_url||'');sv('edit-pdf',p.pdf_file||'');sv('edit-emails',p.allowed_emails||'');
   const catSel=document.getElementById('edit-cat');
-  for(let i=0;i<catSel.options.length;i++){
-    if(catSel.options[i].text===p.category){catSel.selectedIndex=i;break;}
-  }
-  // Set type select
+  for(let i=0;i<catSel.options.length;i++){if(catSel.options[i].text===p.category){catSel.selectedIndex=i;break;}}
   const typeSel=document.getElementById('edit-type');
-  for(let i=0;i<typeSel.options.length;i++){
-    if(typeSel.options[i].value===p.type){typeSel.selectedIndex=i;break;}
-  }
+  for(let i=0;i<typeSel.options.length;i++){if(typeSel.options[i].value===p.type){typeSel.selectedIndex=i;break;}}
   document.getElementById('edit-locked').checked=(p.locked==='true');
   document.getElementById('editOverlay').classList.add('open');
 }
-
 function closeEditModal(){document.getElementById('editOverlay').classList.remove('open');editingPost=null;}
 
 async function saveEditPost(){
   if(!editingPost){closeEditModal();return;}
   const title=document.getElementById('edit-title').value.trim();
-  if(!title){toast('Entrez un titre','err');return;}
-  const c=cfg();
-  if(!c.token){toast('Configurez GitHub','err');return;}
-  const type=document.getElementById('edit-type').value;
-  const cat=document.getElementById('edit-cat').value;
-  const body=document.getElementById('edit-body').value.trim();
-  const link=document.getElementById('edit-link').value.trim();
-  const cover=document.getElementById('edit-cover').value.trim();
-  const vurl=document.getElementById('edit-video').value.trim();
-  const pdf=document.getElementById('edit-pdf').value.trim();
-  const emails=document.getElementById('edit-emails').value.trim();
+  if(!title){toast('Le titre est obligatoire','err');return;}
+  const c=cfg();if(!c.token){toast('Configurez GitHub d\'abord','err');return;}
+  const type=document.getElementById('edit-type').value,cat=document.getElementById('edit-cat').value;
+  const body=document.getElementById('edit-body').value.trim(),link=document.getElementById('edit-link').value.trim();
+  const cover=document.getElementById('edit-cover').value.trim(),vurl=document.getElementById('edit-video').value.trim();
+  const pdf=document.getElementById('edit-pdf').value.trim(),emails=document.getElementById('edit-emails').value.trim();
   const locked=document.getElementById('edit-locked').checked;
-
-  // Build frontmatter
+  // Build frontmatter — escape quotes in title
   let fm='---\n';
-  fm+='title: "'+title.replace(/"/g,'\\"')+'"\n';
-  fm+='date: "'+(editingPost.date||today())+'"\n';
-  fm+='category: "'+cat+'"\n';
-  fm+='type: "'+type+'"\n';
-  fm+='locked: "'+locked+'"\n';
-  if(emails)fm+='allowed_emails: "'+emails+'"\n';
-  if(cover)fm+='image: "'+cover+'"\n';
-  if(vurl)fm+='video_url: "'+vurl+'"\n';
-  if(pdf)fm+='pdf_file: "'+pdf+'"\n';
-  if(link)fm+='link: "'+link+'"\n';
-  fm+='---\n\n'+body;
-
+  fm+=`title: "${title.replace(/"/g,'\\"')}"\n`;
+  fm+=`date: "${editingPost.date||today()}"\n`;
+  fm+=`category: "${cat}"\n`;
+  fm+=`type: "${type}"\n`;
+  fm+=`locked: "${locked}"\n`;
+  if(emails)fm+=`allowed_emails: "${emails}"\n`;
+  if(cover)fm+=`image: "${cover}"\n`;
+  if(vurl)fm+=`video_url: "${vurl}"\n`;
+  if(pdf)fm+=`pdf_file: "${pdf}"\n`;
+  if(link)fm+=`link: "${link}"\n`;
+  fm+=`---\n\n${body}`;
   closeEditModal();
-  showPub('Mise à jour…','Envoi vers GitHub…');
+  showPub('Mise à jour en cours…','Récupération du SHA actuel…');
   try{
-    // Always get fresh SHA before writing to avoid 409 conflicts
+    // Always fetch fresh SHA — this is the root cause of the 422 error
+    setPubStep('Récupération du SHA actuel…');
     const freshSHA=await getSha('content/posts/'+editingPost._n);
-    if(!freshSHA){throw new Error('Fichier introuvable sur GitHub (SHA manquant)');}
-    await ghPut('content/posts/'+editingPost._n, fm, 'Edit: '+title, freshSHA);
-    setPubDone('"'+title+'" mis à jour !','Modifications visibles sur le site.');
-    // Reload table with a short delay to let GitHub index the new content
-    setTimeout(()=>loadPostsTable(), 1200);
+    if(!freshSHA){throw new Error('Fichier introuvable. Il a peut-être été déplacé ou renommé.');}
+    setPubStep('Écriture des modifications…');
+    await ghPut('content/posts/'+editingPost._n,fm,'Modification: '+title,freshSHA);
+    setPubDone('"'+title+'" mis à jour !','Les modifications sont visibles sur le site.');
+    setTimeout(()=>loadPostsTable(),1500);
   }catch(e){
     closePub();
-    toast('Erreur: '+e.message,'err');
+    toast('Erreur de sauvegarde: '+e.message,'err');
   }
 }
 
-/* ══════════ RESOURCES TABLE ══════════ */
+// ═══ DELETE POST — FIX: immediate DOM removal ═══
+async function delPost(filename,sha,title){
+  if(!confirm('Supprimer "'+title+'" ?\nCette action est irréversible.'))return;
+  // Remove from DOM IMMEDIATELY — no waiting for GitHub
+  const row=document.getElementById('tr-'+filename);
+  if(row){row.style.transition='opacity .3s,transform .3s';row.style.opacity='0';row.style.transform='translateX(20px)';setTimeout(()=>row.remove(),320);}
+  // Update counters instantly
+  const countEl=document.getElementById('posts-count');
+  if(countEl){const n=parseInt(countEl.textContent)||1;countEl.textContent=(Math.max(0,n-1))+' publication(s)';}
+  const nbEl=document.getElementById('nb-posts');
+  if(nbEl){const n=parseInt(nbEl.textContent)||1;nbEl.textContent=Math.max(0,n-1);}
+  try{
+    await ghDel('content/posts/'+filename,'Suppression: '+title,sha);
+    toast('"'+title+'" supprimé.','ok');
+    loadStats();
+    // Silent reload after delay
+    setTimeout(()=>loadPostsTable(),2500);
+  }catch(e){
+    // Restore on failure
+    if(row){row.style.opacity='1';row.style.transform='translateX(0)';}
+    toast('Erreur suppression: '+e.message,'err');
+  }
+}
+
+// ═══ RESOURCES TABLE ═══
 async function loadResTable(){
   const tb=document.getElementById('res-tbody');
   tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray)"><i class="fas fa-spinner fa-spin"></i></td></tr>';
   try{
     const files=await ghGet('content/resumes');
     const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
-    document.getElementById('res-count').textContent=mds.length+' ressource(s)';
+    setEl('res-count',mds.length+' ressource(s)');
     if(!mds.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray)">Aucune ressource.</td></tr>';return;}
-    const items=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url+'?t='+Date.now());const t=await r.text();return{...parseFM(t),_n:f.name,_sha:f.sha,_url:f.html_url};}));
+    const items=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url+'?t='+Date.now());const t=await r.text();return{...parseFM(t),_n:f.name,_sha:f.sha};}));
     const tc={pdf:'b-pdf',video:'b-video',image:'b-image'};
     tb.innerHTML=items.map(r=>`<tr id="tr-${esc(r._n)}">
       <td><div class="cell-main">${esc(r.title||'Sans titre')}</div></td>
       <td><span class="badge ${tc[r.type]||'b-pdf'}">${(r.type||'pdf').toUpperCase()}</span></td>
       <td>${esc(r.subject||'—')}</td><td>${esc(r.level||'—')}</td>
-      <td><span class="badge ${r.locked==='true'?'b-locked':'b-pub'}">${r.locked==='true'?'🔒 Privé':'✅ Public'}</span></td>
-      <td><div class="ab"><button class="btn b-danger btn-icon" onclick="delFile('content/resumes/${esc(r._n)}','${esc(r._sha)}','resource','${esc(r.title)}','${esc(r._n)}')"><i class="fas fa-trash"></i></button></div></td>
+      <td><span class="badge ${r.locked==='true'?'b-locked':'b-pub'}">${r.locked==='true'?'🔒 Payant':'✅ Public'}</span></td>
+      <td><button class="btn b-danger btn-icon" onclick="delRes('${esc(r._n)}','${esc(r._sha)}','${esc(r.title)}')"><i class="fas fa-trash"></i></button></td>
     </tr>`).join('');
-  }catch(e){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">Erreur.</td></tr>';}
+  }catch(e){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">⚠️ Erreur.</td></tr>';}
+}
+async function delRes(filename,sha,title){
+  if(!confirm('Supprimer "'+title+'" ?'))return;
+  const row=document.getElementById('tr-'+filename);
+  if(row){row.style.transition='opacity .3s';row.style.opacity='0';setTimeout(()=>row.remove(),320);}
+  const ce=document.getElementById('res-count');if(ce){const n=parseInt(ce.textContent)||1;ce.textContent=Math.max(0,n-1)+' ressource(s)';}
+  try{await ghDel('content/resumes/'+filename,'Del: '+title,sha);toast('"'+title+'" supprimé.','ok');loadStats();setTimeout(()=>loadResTable(),2500);}
+  catch(e){if(row){row.style.opacity='1';}toast('Erreur: '+e.message,'err');}
 }
 
-/* ══════════ DELETE ══════════ */
-async function delFile(path,sha,type,title,filename){
-  if(!confirm('Supprimer "'+title+'" ?\nIrréversible.'))return;
-  // 1. Remove from DOM immediately — no waiting for API
-  if(filename){
-    const row=document.getElementById('tr-'+filename);
-    if(row){
-      row.style.transition='opacity .3s';
-      row.style.opacity='0';
-      setTimeout(()=>row.remove(), 320);
-    }
-  }
-  // 2. Update counter
-  const countEl=document.getElementById(type==='post'?'posts-count':'res-count');
-  if(countEl){
-    const n=parseInt(countEl.textContent)||1;
-    countEl.textContent=(n-1)+' '+(type==='post'?'publication(s)':'ressource(s)');
-  }
-  const nbEl=document.getElementById(type==='post'?'nb-posts':'nb-res');
-  if(nbEl){const n=parseInt(nbEl.textContent)||1;nbEl.textContent=n-1;}
-
-  // 3. Delete from GitHub
-  try{
-    await ghDel(path,'Suppression: '+title,sha);
-    toast('"'+title+'" supprimé.','ok');
-    loadStats();
-    // Reload table silently in background after a delay to let GitHub update
-    setTimeout(()=>{if(type==='post')loadPostsTable();else loadResTable();}, 2000);
-  }catch(e){
-    // If delete failed, restore row visibility
-    if(filename){
-      const row=document.getElementById('tr-'+filename);
-      if(row)row.style.opacity='1';
-    }
-    toast('Erreur suppression: '+e.message,'err');
-  }
-}
-
-/* ══════════ ACCESS — EMAIL + PASSWORD ══════════ */
-let accessData={students:[],posts:{}};
+// ═══ ACCESS MANAGEMENT — Email + Password + Expiry ═══
+let accessData={students:[]};
 async function loadAccessData(){
   const c=cfg();
   try{
-    const r=await fetch('https://raw.githubusercontent.com/'+c.owner+'/'+c.repo+'/'+c.branch+'/access/allowed.json?t='+Date.now());
-    if(r.ok){
-      const d=await r.json();
-      accessData={students:d.students||d.global?.map(e=>({email:e,password:'',name:'',date:''}))||[],posts:d.posts||{}};
-    }else accessData={students:[],posts:{}};
-  }catch(e){accessData={students:[],posts:{}};}
+    const r=await fetch(`https://raw.githubusercontent.com/${c.owner}/${c.repo}/${c.branch}/access/allowed.json?t=${Date.now()}`);
+    if(r.ok){const d=await r.json();accessData={students:d.students||d.global?.map(e=>({email:e,name:'',password:'',date:today(),expires:'',pack:'all'}))||[]};}
+    else accessData={students:[]};
+  }catch(e){accessData={students:[]};}
   renderStudentList();
 }
-async function loadAccessPanel(){await loadAccessData();await loadPerContentAccess();}
+async function loadAccessPanel(){await loadAccessData();}
 
 function renderStudentList(){
   const c=document.getElementById('studentList');
-  const cnt=document.getElementById('student-count-lbl');
   const students=accessData.students||[];
-  cnt.textContent=students.length+' élève(s) autorisé(s)';
-  document.getElementById('s-a').textContent=students.length;
-  document.getElementById('nb-access').textContent=students.length;
-  if(!students.length){c.innerHTML='<p style="color:var(--gray);font-size:.83rem;font-style:italic;padding:1rem 0;">Aucun élève. Ajoutez le premier ci-dessus.</p>';return;}
+  setEl('student-count-lbl',students.length+' élève(s)');setEl('s-a',students.length);setEl('nb-access',students.length);
+  if(!students.length){c.innerHTML='<p style="color:var(--gray);font-size:.83rem;font-style:italic;padding:.5rem 0;">Aucun élève inscrit.</p>';return;}
+  const now=new Date();
   c.innerHTML=students.map((s,i)=>{
     const ini=(s.name||s.email||'?').substring(0,2).toUpperCase();
-    const waTxt=encodeURIComponent('Bonjour '+(s.name||'')+'! 👋\nVotre accès Teach Line:\n📧 Email: '+s.email+'\n🔑 Mot de passe: '+s.password+'\nConnectez-vous avec "Accès élève" sur le site ✅');
-    return '<div class="access-student-row">'
-      +'<div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--blue));color:white;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;">'+ini+'</div>'
-      +'<div style="flex:1;min-width:0;"><div class="asr-email">'+esc(s.name||s.email)+'</div><div style="font-size:.72rem;color:var(--gray);">'+(s.name?esc(s.email):'')+' · '+esc(s.date||'')+'</div></div>'
-      +'<span class="asr-pass" title="Mot de passe">'+esc(s.password||'—')+'</span>'
-      +'<button class="copy-btn" onclick="copyText(\''+esc(s.email)+':'+esc(s.password)+'\')" title="Copier"><i class="fas fa-copy"></i></button>'
-      +'<a href="https://wa.me/21658338187?text='+waTxt+'" target="_blank" class="btn b-success btn-icon" style="font-size:.75rem;" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>'
-      +'<button class="btn b-danger btn-icon" onclick="removeStudent('+i+')" title="Supprimer"><i class="fas fa-trash"></i></button>'
-      +'</div>';
+    const expires=s.expires?new Date(s.expires):null;
+    let expClass='active',expLabel='Actif';
+    if(expires){
+      const diff=Math.ceil((expires-now)/86400000);
+      if(diff<0){expClass='expired';expLabel='Expiré';}
+      else if(diff<=7){expClass='soon';expLabel='Expire dans '+diff+'j';}
+      else expLabel='Jusqu\'au '+s.expires;
+    }else{expLabel='Accès illimité';}
+    const waTxt=encodeURIComponent(`Bonjour ${s.name||''}! 👋\nVotre accès Teach Line:\n📧 Email: ${s.email}\n🔑 Mot de passe: ${s.password}\n📅 Valide jusqu'au: ${s.expires||'Illimité'}\n\nConnectez-vous: Accès élève → email + mot de passe ✅`);
+    return `<div class="asr">
+      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--blue));color:white;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;">${ini}</div>
+      <div class="asr-info">
+        <div class="asr-name">${esc(s.name||s.email)}</div>
+        <div class="asr-email">${s.name?esc(s.email):''}</div>
+      </div>
+      <span class="asr-pass">${esc(s.password||'—')}</span>
+      <span class="asr-expire ${expClass}">${expLabel}</span>
+      <button class="copy-btn" onclick="copyText('${esc(s.email)}:${esc(s.password)}')" title="Copier email:pass"><i class="fas fa-copy"></i></button>
+      <a href="https://wa.me/21658338187?text=${waTxt}" target="_blank" class="btn b-success btn-icon" style="font-size:.75rem;" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <button class="btn b-danger btn-icon" onclick="removeStudent(${i})" title="Supprimer"><i class="fas fa-trash"></i></button>
+    </div>`;
   }).join('');
 }
 
 function addStudent(){
   const email=document.getElementById('new-student-email').value.trim().toLowerCase();
   const name=document.getElementById('new-student-name').value.trim();
+  const duration=document.getElementById('new-student-duration').value;
+  const pack=document.getElementById('new-student-pack').value;
   if(!email||!email.includes('@')){toast('Email invalide','err');return;}
-  if((accessData.students||[]).find(s=>s.email===email)){toast('Email déjà dans la liste','warn');return;}
+  if((accessData.students||[]).find(s=>s.email===email)){toast('Cet email existe déjà','warn');return;}
   const password=randPass();
-  if(!accessData.students)accessData.students=[];
-  accessData.students.push({email,name,password,date:today()});
-  document.getElementById('new-student-email').value='';
-  document.getElementById('new-student-name').value='';
+  const expires=duration==='9999'?'':addDays(duration);
+  accessData.students.push({email,name,password,date:today(),expires,pack});
+  document.getElementById('new-student-email').value='';document.getElementById('new-student-name').value='';
   renderStudentList();
-  toast('✅ '+email+' ajouté · Pass: '+password+' — Sauvegardez !','ok');
+  toast(`✅ ${name||email} ajouté · Expire: ${expires||'Jamais'} · Sauvegardez !`,'ok');
 }
-
 function removeStudent(i){
-  if(!confirm('Retirer cet élève ? Il perdra l\'accès.'))return;
-  accessData.students.splice(i,1);renderStudentList();toast('Élève retiré. Sauvegardez.','warn');
+  if(!confirm('Retirer cet élève ? Il perdra l\'accès immédiatement.'))return;
+  accessData.students.splice(i,1);renderStudentList();toast('Élève retiré. Sauvegardez pour appliquer.','warn');
 }
-
 async function saveAccessData(){
   const c=cfg();if(!c.token){toast('Configurez GitHub','err');showPanel('settings');return;}
+  showPub('Sauvegarde des accès…','GitHub…');
   try{
-    showPub('Sauvegarde accès…','GitHub…');
     const sha=await getSha('access/allowed.json');
-    await ghPut('access/allowed.json',JSON.stringify(accessData,null,2),'Accès élèves mis à jour',sha);
-    setPubDone('Accès sauvegardés !','Élèves autorisés peuvent voir les contenus privés.');loadStats();
+    await ghPut('access/allowed.json',JSON.stringify(accessData,null,2),'Accès élèves',sha);
+    setPubDone('Accès sauvegardés !','Les élèves peuvent maintenant se connecter.');loadStats();
   }catch(e){closePub();toast('Erreur: '+e.message,'err');}
 }
 
-async function loadPerContentAccess(){
-  const c=document.getElementById('perContentList');
-  c.innerHTML='<p style="color:var(--gray);font-size:.83rem;"><i class="fas fa-spinner fa-spin"></i> Chargement…</p>';
-  try{
-    const[pf,rf]=await Promise.all([ghGet('content/posts').catch(()=>[]),ghGet('content/resumes').catch(()=>[])]);
-    const pm=(pf||[]).filter(f=>f.name?.endsWith('.md')),rm=(rf||[]).filter(f=>f.name?.endsWith('.md'));
-    const all=await Promise.all([...pm,...rm].map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return{...parseFM(t),_n:f.name};}));
-    const locked=all.filter(x=>x.locked==='true');
-    if(!locked.length){c.innerHTML='<p style="color:var(--gray);font-size:.83rem;font-style:italic;">Aucun contenu privé.</p>';return;}
-    c.innerHTML=locked.map(x=>'<div class="access-card"><div class="access-header"><div><h4>'+esc(x.title||x._n)+'</h4><small>'+(x.date||'')+' · '+(x.type||'post')+'</small></div></div>'
-      +'<div class="access-list">'+(x.allowed_emails?x.allowed_emails.split(',').map(e=>'<span class="email-tag"><i class="fas fa-user-check" style="color:var(--green)"></i>'+esc(e.trim())+'</span>').join(''):'<span class="no-access">Utilise les accès globaux.</span>')+'</div></div>').join('');
-  }catch(e){c.innerHTML='<p style="color:var(--red);font-size:.83rem;">Erreur.</p>';}
-}
-
-/* ══════════ PUBLISH OVERLAY ══════════ */
+// ═══ PUBLISH OVERLAY ═══
 function showPub(title,msg){
-  document.getElementById('pubTitle').textContent=title;document.getElementById('pubMsg').textContent=msg;document.getElementById('pubStep').textContent='';
+  setEl('pubTitle',title);setEl('pubMsg',msg);setEl('pubStep','');
   document.getElementById('pubSpin').style.display='block';document.getElementById('pubCheck').style.display='none';
   document.getElementById('pubActions').classList.remove('show');document.getElementById('pubOverlay').classList.add('show');
 }
-function setPubStep(s){document.getElementById('pubStep').textContent=s;}
+function setPubStep(s){setEl('pubStep',s);}
 function setPubDone(title,msg){
   document.getElementById('pubSpin').style.display='none';document.getElementById('pubCheck').style.display='block';
-  document.getElementById('pubTitle').textContent=title;document.getElementById('pubMsg').textContent=msg;
-  document.getElementById('pubStep').textContent='';document.getElementById('pubActions').classList.add('show');toast(title,'ok');
+  setEl('pubTitle',title);setEl('pubMsg',msg);setEl('pubStep','');
+  document.getElementById('pubActions').classList.add('show');toast(title,'ok');
 }
 function closePub(){document.getElementById('pubOverlay').classList.remove('show');}
 
-/* ══════════ TOAST ══════════ */
+// ═══ TOAST ═══
 function toast(msg,type=''){
   const w=document.getElementById('toastWrap'),el=document.createElement('div');
   el.className='toast'+(type?' t-'+type:'');
@@ -1100,15 +1142,20 @@ function toast(msg,type=''){
   w.appendChild(el);setTimeout(()=>{el.style.opacity='0';el.style.transform='translateX(50px)';setTimeout(()=>el.remove(),400);},5000);
 }
 
-/* ══════════ INIT ══════════ */
+// ═══ INIT ═══
 async function init(){
   loadConfig();
-  if(!cfg().owner&&cfg().token)await fetchOwnerFromToken(cfg().token);
+  if(!cfg().owner&&cfg().token)await fetchOwner(cfg().token);
   checkGH();loadStats();
 }
+
 document.addEventListener('DOMContentLoaded',()=>{
   onPostTypeChange();onResTypeChange();
-  document.querySelectorAll('.file-zone').forEach(z=>{z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('drag');});z.addEventListener('dragleave',()=>z.classList.remove('drag'));z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('drag');});});
+  document.querySelectorAll('.file-zone').forEach(z=>{
+    z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('drag');});
+    z.addEventListener('dragleave',()=>z.classList.remove('drag'));
+    z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('drag');});
+  });
   document.getElementById('editOverlay').addEventListener('click',function(e){if(e.target===this)closeEditModal();});
 });
 </script>
