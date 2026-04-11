@@ -4,312 +4,256 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Teach Line | Plateforme Éducative Premium</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-:root {
-  --navy: #0a1628;
-  --blue: #1a56db;
-  --blue-mid: #2563eb;
-  --accent: #f59e0b;
-  --accent2: #10b981;
-  --light: #f0f4ff;
-  --white: #ffffff;
-  --gray: #64748b;
-  --border: #e2e8f0;
-  --card-bg: #ffffff;
-  --text: #0f172a;
-  --text-light: #475569;
-}
+:root{--navy:#0a1628;--blue:#1a56db;--accent:#f59e0b;--green:#10b981;--red:#ef4444;--border:#e2e8f0;--bg:#f0f4ff;--white:#fff;--gray:#64748b;--text:#0f172a;--light:#475569;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}body{font-family:'DM Sans',sans-serif;background:#f8fafd;color:var(--text);overflow-x:hidden;}
 
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{font-family:'DM Sans',sans-serif;background:#f8fafd;color:var(--text);overflow-x:hidden;}
-
-/* ---- HEADER ---- */
-header{
-  position:sticky;top:0;z-index:200;
-  background:rgba(255,255,255,0.95);
-  backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);
-}
-.navbar{
-  max-width:1320px;margin:0 auto;padding:0 28px;
-  display:flex;align-items:center;justify-content:space-between;height:70px;
-}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.logo-icon{
-  width:40px;height:40px;border-radius:12px;
-  background:linear-gradient(135deg,var(--navy),var(--blue));
-  display:flex;align-items:center;justify-content:center;
-  color:white;font-size:1.1rem;
-}
-.logo-text h1{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--navy);}
-.logo-text span{font-size:0.7rem;color:var(--gray);letter-spacing:1px;text-transform:uppercase;}
-.nav-links{display:flex;align-items:center;gap:2rem;}
-.nav-links a{text-decoration:none;font-weight:500;color:var(--text-light);font-size:0.92rem;transition:.2s;position:relative;}
+/* HEADER */
+header{position:sticky;top:0;z-index:300;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);box-shadow:0 2px 20px rgba(0,0,0,.04);}
+.navbar{max-width:1380px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:68px;gap:1rem;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;}
+.logo-icon{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--navy),var(--blue));display:flex;align-items:center;justify-content:center;color:white;font-size:1rem;}
+.logo-text h1{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:900;color:var(--navy);}
+.logo-text span{font-size:.62rem;color:var(--gray);letter-spacing:1px;text-transform:uppercase;display:block;}
+.nav-links{display:flex;align-items:center;gap:1.5rem;}
+.nav-links a{text-decoration:none;font-weight:500;color:var(--light);font-size:.88rem;transition:.2s;}
 .nav-links a:hover{color:var(--blue);}
-.nav-links a.active{color:var(--blue);}
-.nav-links a.active::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;background:var(--blue);border-radius:2px;}
-.nav-cta{background:var(--navy);color:white!important;padding:.5rem 1.2rem;border-radius:8px;font-weight:600!important;transition:all .2s!important;}
-.nav-cta:hover{background:var(--blue)!important;transform:translateY(-1px);}
-.menu-icon{display:none;font-size:1.5rem;cursor:pointer;color:var(--navy);}
+.nav-login{display:inline-flex;align-items:center;gap:6px;background:var(--bg);color:var(--navy)!important;border:1.5px solid var(--border);padding:.42rem .95rem;border-radius:8px;font-weight:600!important;font-size:.8rem!important;cursor:pointer;transition:.2s!important;text-decoration:none;}
+.nav-login:hover{border-color:var(--blue)!important;color:var(--blue)!important;}
+.nav-cta{background:var(--navy);color:white!important;padding:.45rem 1.1rem;border-radius:8px;font-weight:600!important;transition:all .2s!important;font-size:.83rem!important;}
+.nav-cta:hover{background:var(--blue)!important;}
+.menu-icon{display:none;font-size:1.4rem;cursor:pointer;color:var(--navy);flex-shrink:0;}
+.student-badge{display:none;align-items:center;gap:7px;background:#d1fae5;border:1.5px solid #6ee7b7;padding:.35rem .85rem;border-radius:20px;font-size:.75rem;font-weight:600;color:#065f46;}
+.student-badge.show{display:flex;}
+.student-badge button{background:none;border:none;color:#065f46;cursor:pointer;opacity:.5;margin-left:2px;}
+.student-badge button:hover{opacity:1;}
 
-/* ---- HERO ---- */
-.hero{
-  min-height:88vh;display:flex;align-items:center;
-  background:linear-gradient(135deg,var(--navy) 0%,#1e3a6e 50%,#1a56db 100%);
-  position:relative;overflow:hidden;
-  padding:5rem 28px;
-}
-.hero::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 80% 60% at 70% 40%,rgba(245,158,11,.12),transparent),
-              radial-gradient(ellipse 50% 80% at 10% 80%,rgba(26,86,219,.3),transparent);
-}
-.hero-grid{
-  max-width:1320px;margin:0 auto;width:100%;
-  display:grid;grid-template-columns:1.1fr 0.9fr;gap:5rem;align-items:center;
-  position:relative;z-index:1;
-}
-.hero-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);
-  color:var(--accent);padding:.4rem 1rem;border-radius:30px;font-size:.82rem;font-weight:600;
-  letter-spacing:.5px;margin-bottom:1.5rem;
-}
-.hero h1{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(2.2rem,4vw,3.8rem);font-weight:900;line-height:1.12;
-  color:white;margin-bottom:1.5rem;
-}
+/* HERO */
+.hero{min-height:88vh;display:flex;align-items:center;background:linear-gradient(135deg,var(--navy) 0%,#1e3a6e 55%,#1a56db 100%);position:relative;overflow:hidden;padding:5rem 24px;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 75% 35%,rgba(245,158,11,.1),transparent),radial-gradient(ellipse 50% 70% at 5% 85%,rgba(139,92,246,.08),transparent);}
+.hero-grid{max-width:1380px;margin:0 auto;width:100%;display:grid;grid-template-columns:1.15fr .85fr;gap:4rem;align-items:center;position:relative;z-index:1;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);color:var(--accent);padding:.38rem 1rem;border-radius:30px;font-size:.8rem;font-weight:600;letter-spacing:.5px;margin-bottom:1.4rem;}
+.live-dot{width:8px;height:8px;background:var(--accent);border-radius:50%;animation:pd 2s infinite;}
+@keyframes pd{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.5);}50%{box-shadow:0 0 0 6px rgba(245,158,11,0);}}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,3.8vw,3.8rem);font-weight:900;line-height:1.1;color:white;margin-bottom:1.3rem;}
 .hero h1 em{color:var(--accent);font-style:normal;}
-.hero p{color:rgba(255,255,255,.75);font-size:1.1rem;line-height:1.7;margin-bottom:2rem;max-width:480px;}
-.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;}
-.btn-hero{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:.85rem 1.8rem;border-radius:10px;font-weight:600;text-decoration:none;
-  font-size:.95rem;transition:all .25s;cursor:pointer;border:none;
-}
-.btn-hero-primary{background:var(--accent);color:var(--navy);}
-.btn-hero-primary:hover{background:#fbbf24;transform:translateY(-2px);box-shadow:0 8px 25px rgba(245,158,11,.35);}
-.btn-hero-secondary{background:rgba(255,255,255,.12);color:white;border:1.5px solid rgba(255,255,255,.25);}
-.btn-hero-secondary:hover{background:rgba(255,255,255,.2);transform:translateY(-2px);}
+.hero p{color:rgba(255,255,255,.72);font-size:1.05rem;line-height:1.75;margin-bottom:2rem;max-width:490px;}
+.hero-actions{display:flex;gap:.9rem;flex-wrap:wrap;}
+.btn-hero{display:inline-flex;align-items:center;gap:8px;padding:.82rem 1.7rem;border-radius:10px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .25s;cursor:pointer;border:none;font-family:inherit;}
+.btn-hp{background:var(--accent);color:var(--navy);}
+.btn-hp:hover{background:#fbbf24;transform:translateY(-2px);box-shadow:0 8px 25px rgba(245,158,11,.35);}
+.btn-hs{background:rgba(255,255,255,.1);color:white;border:1.5px solid rgba(255,255,255,.22);}
+.btn-hs:hover{background:rgba(255,255,255,.18);transform:translateY(-2px);}
+.hero-stats{display:flex;gap:2.5rem;margin-top:2.5rem;padding-top:2.5rem;border-top:1px solid rgba(255,255,255,.1);}
+.stat-n{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:900;color:var(--accent);}
+.stat-l{font-size:.7rem;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.5px;}
+.hero-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:1.8rem;backdrop-filter:blur(20px);}
+.hero-card-title{color:rgba(255,255,255,.4);font-size:.68rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:.9rem;}
+.pill{display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:11px;padding:.8rem 1rem;margin-bottom:.6rem;color:white;font-weight:500;font-size:.84rem;transition:.2s;}
+.pill:hover{background:rgba(255,255,255,.12);}
+.pill i{color:var(--accent);width:18px;}
+.pill-new{margin-left:auto;background:var(--green);color:white;font-size:.6rem;padding:.15rem .42rem;border-radius:20px;font-weight:700;}
 
-.hero-stats{display:flex;gap:2rem;margin-top:2.5rem;padding-top:2.5rem;border-top:1px solid rgba(255,255,255,.1);}
-.stat-item{text-align:left;}
-.stat-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--accent);}
-.stat-label{font-size:.78rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.5px;}
-
-/* Right card */
-.hero-card{
-  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
-  border-radius:24px;padding:2rem;backdrop-filter:blur(20px);
-}
-.hero-card-title{color:rgba(255,255,255,.5);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem;}
-.service-pill{
-  display:flex;align-items:center;gap:12px;
-  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
-  border-radius:12px;padding:.9rem 1.1rem;margin-bottom:.7rem;
-  color:white;font-weight:500;transition:.2s;
-}
-.service-pill:hover{background:rgba(255,255,255,.14);}
-.service-pill i{color:var(--accent);width:20px;}
-.pill-badge{margin-left:auto;background:var(--accent2);color:white;font-size:.65rem;padding:.2rem .5rem;border-radius:20px;font-weight:700;}
-.online-dot{width:9px;height:9px;background:#22c55e;border-radius:50%;display:inline-block;margin-right:6px;animation:pulse-dot 2s infinite;}
-@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.5);}50%{box-shadow:0 0 0 6px rgba(34,197,94,0);}}
-
-/* ---- SECTIONS ---- */
-.section{padding:5rem 28px;}
-.container{max-width:1320px;margin:0 auto;}
+/* SECTIONS */
+.section{padding:5rem 24px;}
+.container{max-width:1380px;margin:0 auto;}
 .section-header{text-align:center;margin-bottom:3.5rem;}
-.section-tag{
-  display:inline-block;background:var(--light);color:var(--blue);
-  font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;
-  padding:.35rem .9rem;border-radius:20px;margin-bottom:.8rem;
-}
+.section-tag{display:inline-block;background:var(--bg);color:var(--blue);font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.3rem .85rem;border-radius:20px;margin-bottom:.7rem;}
 .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:900;color:var(--navy);line-height:1.2;}
-.section-sub{color:var(--text-light);margin-top:.7rem;font-size:1rem;max-width:520px;margin-inline:auto;}
+.section-sub{color:var(--light);margin-top:.6rem;font-size:.95rem;max-width:520px;margin-inline:auto;}
 
-/* ---- SERVICES GRID ---- */
-.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;}
-.service-card{
-  background:white;border-radius:20px;padding:2rem;
-  border:1px solid var(--border);transition:all .3s;
-  position:relative;overflow:hidden;
-}
-.service-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,var(--blue),var(--accent));
-  transform:scaleX(0);transition:.3s;transform-origin:left;
-}
-.service-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.08);border-color:transparent;}
-.service-card:hover::before{transform:scaleX(1);}
-.service-icon-wrap{
-  width:52px;height:52px;border-radius:14px;
-  background:var(--light);display:flex;align-items:center;justify-content:center;
-  color:var(--blue);font-size:1.3rem;margin-bottom:1.2rem;
-}
-.service-card h3{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:.5rem;}
-.service-card p{font-size:.88rem;color:var(--text-light);line-height:1.6;}
+/* SERVICES */
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));gap:1.3rem;}
+.svc-card{background:white;border-radius:18px;padding:1.8rem;border:1px solid var(--border);transition:all .3s;position:relative;overflow:hidden;}
+.svc-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--accent));transform:scaleX(0);transition:.3s;transform-origin:left;}
+.svc-card:hover{transform:translateY(-5px);box-shadow:0 18px 50px rgba(0,0,0,.08);}
+.svc-card:hover::after{transform:scaleX(1);}
+.svc-icon{width:48px;height:48px;border-radius:13px;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--blue);font-size:1.2rem;margin-bottom:1rem;}
+.svc-card h3{font-size:.95rem;font-weight:700;color:var(--navy);margin-bottom:.45rem;}
+.svc-card p{font-size:.83rem;color:var(--light);line-height:1.65;}
 
-/* ---- POSTS ---- */
-.posts-wrapper{display:grid;gap:1.5rem;}
-.post-card{
-  background:white;border-radius:20px;border:1px solid var(--border);
-  padding:1.8rem;display:flex;gap:1.5rem;transition:all .25s;
-}
-.post-card:hover{box-shadow:0 12px 40px rgba(0,0,0,.07);border-color:var(--blue);}
-.post-thumb{
-  width:80px;height:80px;border-radius:14px;flex-shrink:0;
-  background:linear-gradient(135deg,var(--light),#dbeafe);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.8rem;color:var(--blue);
-}
-.post-thumb img{width:100%;height:100%;object-fit:cover;border-radius:14px;}
-.post-meta{display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem;flex-wrap:wrap;}
-.post-category{
-  background:var(--light);color:var(--blue);font-size:.7rem;
-  font-weight:700;padding:.2rem .6rem;border-radius:20px;text-transform:uppercase;
-}
-.post-date{color:var(--text-light);font-size:.75rem;}
-.post-card h3{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:.4rem;line-height:1.4;}
-.post-card p{font-size:.85rem;color:var(--text-light);line-height:1.6;}
-.post-footer{margin-top:.8rem;display:flex;gap:.8rem;align-items:center;flex-wrap:wrap;}
-.post-tag{
-  background:#fef3c7;color:#92400e;font-size:.7rem;font-weight:600;
-  padding:.2rem .6rem;border-radius:20px;display:flex;align-items:center;gap:4px;
-}
-.post-tag.locked{background:#fee2e2;color:#991b1b;}
-.read-more{
-  color:var(--blue);font-size:.82rem;font-weight:600;text-decoration:none;
-  display:flex;align-items:center;gap:4px;margin-left:auto;
-}
-.read-more:hover{color:var(--navy);}
+/* FEED TABS */
+.feed-tabs{display:flex;gap:.4rem;margin-bottom:2rem;background:white;padding:.35rem;border-radius:13px;border:1px solid var(--border);width:fit-content;margin-inline:auto;flex-wrap:wrap;}
+.feed-tab{padding:.45rem 1.1rem;border-radius:9px;border:none;background:none;font-family:inherit;font-size:.82rem;font-weight:600;color:var(--light);cursor:pointer;transition:.2s;display:flex;align-items:center;gap:5px;}
+.feed-tab.active{background:var(--navy);color:white;}
+.feed-tab:hover:not(.active){background:var(--bg);color:var(--navy);}
 
-/* ---- RESOURCES ---- */
-.resources-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem;}
-.resource-card{
-  background:white;border-radius:20px;border:1px solid var(--border);
-  padding:1.6rem;transition:all .3s;
-}
-.resource-card:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(0,0,0,.08);}
-.resource-type{display:flex;align-items:center;gap:8px;margin-bottom:1rem;}
-.type-badge{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:.3rem .8rem;border-radius:20px;font-size:.72rem;font-weight:700;
-  text-transform:uppercase;letter-spacing:.5px;
-}
-.type-pdf{background:#fee2e2;color:#dc2626;}
-.type-video{background:#fef3c7;color:#d97706;}
-.type-img{background:#d1fae5;color:#059669;}
-.resource-card h3{font-size:.95rem;font-weight:700;color:var(--navy);margin-bottom:.4rem;line-height:1.4;}
-.resource-card p{font-size:.83rem;color:var(--text-light);margin-bottom:1.2rem;}
-.resource-lock{
-  display:flex;align-items:center;gap:6px;font-size:.75rem;
-  color:#dc2626;background:#fee2e2;padding:.3rem .7rem;border-radius:8px;margin-bottom:.8rem;
-}
-.btn-download{
-  display:inline-flex;align-items:center;gap:6px;
-  background:var(--blue);color:white;font-size:.82rem;font-weight:600;
-  padding:.5rem 1.1rem;border-radius:8px;text-decoration:none;border:none;cursor:pointer;
-  transition:all .2s;
-}
-.btn-download:hover{background:var(--navy);transform:translateY(-1px);}
-.btn-download.locked{background:var(--gray);}
+/* POST CARD */
+.post-card{background:white;border-radius:22px;border:1px solid var(--border);overflow:hidden;transition:all .28s;margin-bottom:1.5rem;}
+.post-card:hover{box-shadow:0 14px 45px rgba(0,0,0,.08);transform:translateY(-3px);}
 
-/* ---- CONTACT ---- */
+/* MEDIA */
+.post-media{position:relative;background:#060d1f;overflow:hidden;}
+.post-media>img{width:100%;max-height:440px;object-fit:cover;display:block;transition:.3s;}
+.post-card:hover .post-media>img{transform:scale(1.02);}
+.video-wrap{position:relative;width:100%;padding-bottom:56.25%;background:#000;}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
+.pdf-thumb-click{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.8rem 2rem;background:linear-gradient(135deg,#fef2f2,#fee2e2);cursor:pointer;min-height:190px;transition:.2s;}
+.pdf-thumb-click:hover{background:linear-gradient(135deg,#fee2e2,#fecaca);}
+.pdf-thumb-click i{font-size:3.2rem;color:#dc2626;margin-bottom:.8rem;}
+.pdf-thumb-click span{font-weight:700;color:#dc2626;font-size:.92rem;}
+.pdf-thumb-click small{color:#991b1b;font-size:.75rem;margin-top:.3rem;}
+.img-gallery{display:grid;gap:3px;}
+.img-gallery.g1{grid-template-columns:1fr;}
+.img-gallery.g1 img{max-height:400px;}
+.img-gallery.g2{grid-template-columns:1fr 1fr;}
+.img-gallery.g2 img{height:220px;}
+.img-gallery.g3{grid-template-columns:1fr 1fr;grid-template-rows:200px 200px;}
+.img-gallery.g3 img:first-child{grid-row:span 2;height:100%;}
+.img-gallery.g3 img{height:200px;}
+.img-gallery img{width:100%;object-fit:cover;cursor:pointer;transition:.22s;display:block;}
+.img-gallery img:hover{opacity:.88;}
+
+/* LOCK OVERLAY */
+.lock-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,22,40,.88),rgba(26,86,219,.72));display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;text-align:center;padding:2rem;backdrop-filter:blur(6px);}
+.lock-overlay i{font-size:2.8rem;margin-bottom:.8rem;color:var(--accent);}
+.lock-overlay h4{font-size:1.08rem;font-weight:700;margin-bottom:.4rem;}
+.lock-overlay p{font-size:.82rem;opacity:.78;margin-bottom:1.1rem;line-height:1.55;max-width:320px;}
+
+/* POST BODY */
+.post-body{padding:1.5rem;}
+.post-meta-row{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;margin-bottom:.75rem;}
+.type-badge{display:inline-flex;align-items:center;gap:5px;padding:.22rem .62rem;border-radius:20px;font-size:.68rem;font-weight:700;text-transform:uppercase;}
+.tb-video{background:#fef3c7;color:#d97706;}
+.tb-pdf{background:#fee2e2;color:#dc2626;}
+.tb-image{background:#d1fae5;color:#059669;}
+.tb-post{background:#dbeafe;color:#1d4ed8;}
+.tb-announcement{background:#ede9fe;color:#7c3aed;}
+.post-date{font-size:.72rem;color:var(--gray);}
+.post-cat{font-size:.7rem;font-weight:600;color:var(--gray);background:var(--bg);padding:.18rem .5rem;border-radius:8px;}
+.post-card h3{font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:.55rem;line-height:1.4;}
+.post-text{font-size:.87rem;color:var(--light);line-height:1.7;white-space:pre-wrap;}
+.post-footer{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;padding-top:1rem;margin-top:1rem;border-top:1px solid var(--border);}
+.btn-sm{display:inline-flex;align-items:center;gap:5px;padding:.42rem .88rem;border-radius:8px;font-size:.77rem;font-weight:600;cursor:pointer;transition:.2s;border:none;font-family:inherit;text-decoration:none;white-space:nowrap;}
+.bs-blue{background:var(--blue);color:white;}
+.bs-blue:hover{background:var(--navy);}
+.bs-out{background:white;color:var(--navy);border:1.5px solid var(--border);}
+.bs-out:hover{border-color:var(--blue);color:var(--blue);}
+.bs-wa{background:#25D366;color:white;}
+.bs-wa:hover{background:#128C7E;}
+.bs-green{background:var(--green);color:white;}
+.lock-tag{display:inline-flex;align-items:center;gap:5px;font-size:.7rem;font-weight:600;color:#be185d;background:#fce7f3;padding:.2rem .58rem;border-radius:20px;margin-left:auto;}
+.access-tag{display:inline-flex;align-items:center;gap:5px;font-size:.7rem;font-weight:600;color:#065f46;background:#d1fae5;padding:.2rem .58rem;border-radius:20px;margin-left:auto;}
+
+/* RESOURCES */
+.res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:1.3rem;}
+.res-card{background:white;border-radius:20px;border:1px solid var(--border);overflow:hidden;transition:all .28s;}
+.res-card:hover{transform:translateY(-5px);box-shadow:0 14px 45px rgba(0,0,0,.09);}
+.res-thumb{height:148px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;font-size:2.8rem;}
+.res-thumb img{width:100%;height:100%;object-fit:cover;}
+.res-thumb.rt-pdf{background:linear-gradient(135deg,#fef2f2,#fee2e2);}
+.res-thumb.rt-video{background:linear-gradient(135deg,#1e3a6e,#0a1628);}
+.res-thumb.rt-image{background:linear-gradient(135deg,#ecfdf5,#d1fae5);}
+.res-lock-veil{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;}
+.res-body{padding:1.2rem;}
+.res-body h3{font-size:.9rem;font-weight:700;color:var(--navy);margin-bottom:.38rem;line-height:1.4;}
+.res-body p{font-size:.8rem;color:var(--light);margin-bottom:.9rem;line-height:1.5;}
+.res-meta-row{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.85rem;}
+.res-tag{font-size:.68rem;font-weight:700;padding:.18rem .5rem;border-radius:8px;}
+.rt-tag-pdf{background:#fee2e2;color:#dc2626;}
+.rt-tag-video{background:#fef3c7;color:#d97706;}
+.rt-tag-image{background:#d1fae5;color:#059669;}
+.rt-tag-sub{background:var(--bg);color:var(--gray);}
+
+/* CONTACT */
 .contact-section{background:var(--navy);}
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
-.contact-info h2{font-family:'Playfair Display',serif;color:white;font-size:2rem;margin-bottom:1rem;}
-.contact-info p{color:rgba(255,255,255,.65);margin-bottom:2rem;line-height:1.7;}
-.contact-item{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;}
-.contact-icon{
-  width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.08);
-  display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0;
-}
-.contact-item span{color:rgba(255,255,255,.8);font-size:.9rem;}
-.contact-item a{color:white;font-weight:600;text-decoration:none;}
-.contact-form-wrap{
-  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
-  border-radius:20px;padding:2rem;
-}
-.contact-form-wrap h3{color:white;font-size:1.1rem;margin-bottom:1.5rem;}
-.form-group{margin-bottom:1rem;}
-.form-group input,.form-group textarea,.form-group select{
-  width:100%;padding:.85rem 1rem;border-radius:12px;
-  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
-  color:white;font-family:inherit;font-size:.9rem;outline:none;transition:.2s;
-}
-.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(255,255,255,.4);}
-.form-group input:focus,.form-group textarea:focus{border-color:var(--accent);background:rgba(255,255,255,.1);}
-.form-group textarea{resize:vertical;min-height:100px;}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-.btn-submit{
-  width:100%;padding:.9rem;background:var(--accent);color:var(--navy);
-  border:none;border-radius:12px;font-weight:700;font-size:.95rem;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s;
-}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start;}
+.contact-info h2{font-family:'Playfair Display',serif;color:white;font-size:2rem;margin-bottom:.8rem;}
+.contact-info>p{color:rgba(255,255,255,.62);margin-bottom:2rem;line-height:1.75;}
+.ci{display:flex;align-items:center;gap:1rem;margin-bottom:.9rem;}
+.ci-icon{width:42px;height:42px;border-radius:11px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0;}
+.ci span{color:rgba(255,255,255,.78);font-size:.88rem;}
+.ci a{color:white;font-weight:600;text-decoration:none;}
+.cf-wrap{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:2rem;}
+.cf-wrap h3{color:white;font-size:1rem;margin-bottom:1.4rem;font-weight:700;}
+.cff{margin-bottom:.85rem;}
+.cff input,.cff textarea,.cff select{width:100%;padding:.78rem 1rem;border-radius:11px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.11);color:white;font-family:inherit;font-size:.87rem;outline:none;transition:.2s;}
+.cff input::placeholder,.cff textarea::placeholder{color:rgba(255,255,255,.38);}
+.cff input:focus,.cff textarea:focus{border-color:var(--accent);background:rgba(255,255,255,.1);}
+.cff textarea{min-height:90px;resize:vertical;}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}
+.btn-submit{width:100%;padding:.85rem;background:var(--accent);color:var(--navy);border:none;border-radius:11px;font-weight:700;font-size:.92rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s;font-family:inherit;}
 .btn-submit:hover{background:#fbbf24;transform:translateY(-1px);}
 
-/* ---- FOOTER ---- */
-footer{background:#060d1f;padding:2rem 28px;text-align:center;}
-footer p{color:rgba(255,255,255,.4);font-size:.8rem;}
-footer a{color:rgba(255,255,255,.25);text-decoration:none;font-size:.72rem;margin-top:.5rem;display:block;}
+/* FOOTER */
+footer{background:#060d1f;padding:2rem 24px;text-align:center;}
+footer p{color:rgba(255,255,255,.35);font-size:.76rem;}
+footer a{color:rgba(255,255,255,.2);text-decoration:none;font-size:.68rem;margin-top:.4rem;display:inline-block;}
 footer a:hover{color:rgba(255,255,255,.5);}
 
-/* ---- FLOATING ---- */
-.wa-float{
-  position:fixed;bottom:24px;right:24px;
-  width:58px;height:58px;border-radius:50%;
-  background:#25D366;color:white;font-size:1.6rem;
-  display:flex;align-items:center;justify-content:center;
-  text-decoration:none;box-shadow:0 6px 20px rgba(37,211,102,.4);
-  z-index:999;transition:all .25s;
-}
+/* WA FLOAT */
+.wa-float{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:#25D366;color:white;font-size:1.55rem;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 6px 20px rgba(37,211,102,.4);z-index:999;transition:all .25s;}
 .wa-float:hover{transform:scale(1.1);background:#128C7E;}
 
-/* ---- MODAL ---- */
-.modal-overlay{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);
-  backdrop-filter:blur(4px);z-index:500;align-items:center;justify-content:center;padding:1rem;
-}
+/* MODALS */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(5px);z-index:1000;align-items:center;justify-content:center;padding:1rem;}
 .modal-overlay.open{display:flex;}
-.modal{
-  background:white;border-radius:24px;padding:2rem;max-width:480px;width:100%;
-  position:relative;animation:modal-in .3s ease;
-}
-@keyframes modal-in{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
-.modal-close{
-  position:absolute;top:1rem;right:1rem;background:var(--light);border:none;
-  width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1rem;color:var(--gray);
-}
-.modal h3{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--navy);margin-bottom:.5rem;}
-.modal p{color:var(--text-light);font-size:.9rem;margin-bottom:1.2rem;line-height:1.6;}
-.modal .btn-wa{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  background:#25D366;color:white;padding:.85rem;border-radius:12px;
-  font-weight:700;text-decoration:none;transition:.2s;
-}
-.modal .btn-wa:hover{background:#128C7E;}
+.modal{background:white;border-radius:24px;padding:2.2rem;max-width:430px;width:100%;position:relative;animation:mi .3s ease;}
+@keyframes mi{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-close{position:absolute;top:1rem;right:1rem;background:var(--bg);border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:.92rem;color:var(--gray);display:flex;align-items:center;justify-content:center;}
+.modal h3{font-family:'Playfair Display',serif;font-size:1.38rem;color:var(--navy);margin-bottom:.5rem;}
+.modal>p{color:var(--light);font-size:.86rem;margin-bottom:1.3rem;line-height:1.6;}
+.mf{margin-bottom:.85rem;}
+.mf label{display:block;font-size:.73rem;font-weight:700;color:var(--light);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.4rem;}
+.mf input{width:100%;padding:.75rem 1rem;border-radius:10px;border:1.5px solid var(--border);font-family:inherit;font-size:.9rem;outline:none;transition:.2s;}
+.mf input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
+.modal-err{color:var(--red);font-size:.78rem;margin-bottom:.8rem;display:none;background:#fee2e2;padding:.5rem .8rem;border-radius:8px;}
+.btn-full{width:100%;padding:.82rem;border-radius:10px;font-weight:700;font-size:.9rem;cursor:pointer;border:none;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s;margin-top:.6rem;}
+.bfb{background:var(--blue);color:white;}
+.bfb:hover{background:var(--navy);}
+.bfwa{background:#25D366;color:white;}
+.bfwa:hover{background:#128C7E;}
 
-/* ---- LOADING STATE ---- */
-.skeleton{
-  background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);
-  background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px;
-}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:2000;align-items:center;justify-content:center;}
+.lightbox.open{display:flex;}
+.lightbox img{max-width:92vw;max-height:90vh;border-radius:8px;object-fit:contain;}
+.lb-close{position:absolute;top:1.2rem;right:1.5rem;color:white;font-size:2rem;cursor:pointer;opacity:.65;transition:.2s;line-height:1;}
+.lb-close:hover{opacity:1;}
 
-/* ---- RESPONSIVE ---- */
-@media(max-width:900px){
-  .hero-grid{grid-template-columns:1fr;}
+/* PDF MODAL */
+.pdf-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:2000;flex-direction:column;}
+.pdf-modal.open{display:flex;}
+.pdf-bar{background:#1e293b;padding:.65rem 1.2rem;display:flex;align-items:center;justify-content:space-between;color:white;font-size:.83rem;flex-shrink:0;}
+.pdf-bar span{font-weight:600;flex:1;margin-right:1rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.pdf-bar-btns{display:flex;gap:1rem;flex-shrink:0;}
+.pdf-bar-btns a,.pdf-bar-btns button{color:white;text-decoration:none;display:flex;align-items:center;gap:5px;opacity:.7;transition:.2s;background:none;border:none;cursor:pointer;font-family:inherit;font-size:.82rem;}
+.pdf-bar-btns a:hover,.pdf-bar-btns button:hover{opacity:1;}
+.pdf-modal iframe{flex:1;border:none;}
+
+/* TOAST */
+.toast-wrap{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:.5rem;align-items:center;pointer-events:none;}
+.toast{background:var(--navy);color:white;padding:.75rem 1.4rem;border-radius:30px;font-size:.82rem;font-weight:500;box-shadow:0 8px 30px rgba(0,0,0,.2);animation:ti .3s ease;display:flex;align-items:center;gap:.6rem;pointer-events:auto;}
+@keyframes ti{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+.t-ok{background:var(--green);}
+.t-err{background:var(--red);}
+
+/* SKELETON */
+.skel{background:linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%);background-size:200% 100%;animation:sh 1.5s infinite;border-radius:14px;}
+@keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* EMPTY */
+.empty-state{text-align:center;padding:4rem 2rem;color:var(--gray);}
+.empty-state i{font-size:2.8rem;margin-bottom:1rem;opacity:.35;display:block;}
+.empty-state p{font-size:.9rem;}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .hero-grid{grid-template-columns:1fr;gap:2rem;}
   .hero-card{display:none;}
-  .nav-links{display:none;flex-direction:column;position:absolute;top:70px;left:0;right:0;background:white;padding:1.5rem;border-bottom:1px solid var(--border);gap:1rem;}
+  .contact-grid{grid-template-columns:1fr;}
+  .cf-row{grid-template-columns:1fr;}
+  .nav-links{display:none;position:absolute;top:68px;left:0;right:0;background:white;flex-direction:column;padding:1.4rem;border-bottom:1px solid var(--border);z-index:299;gap:.7rem;box-shadow:0 8px 30px rgba(0,0,0,.08);}
   .nav-links.open{display:flex;}
   .menu-icon{display:block;}
-  .contact-grid{grid-template-columns:1fr;}
-  .form-row{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .section{padding:3.5rem 18px;}
+  .hero{padding:4rem 18px;}
+  .res-grid{grid-template-columns:1fr;}
+  .hero h1{font-size:2.1rem;}
 }
 </style>
 </head>
@@ -322,47 +266,50 @@ footer a:hover{color:rgba(255,255,255,.5);}
       <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
       <div class="logo-text"><h1>Teach Line</h1><span>Plateforme Éducative</span></div>
     </a>
-    <div class="menu-icon" id="menuToggle"><i class="fas fa-bars"></i></div>
+    <div class="menu-icon" onclick="document.getElementById('navLinks').classList.toggle('open')"><i class="fas fa-bars"></i></div>
     <div class="nav-links" id="navLinks">
-      <a href="#accueil">Accueil</a>
-      <a href="#services">Services</a>
-      <a href="#actualites">Actualités</a>
-      <a href="#ressources">Ressources</a>
-      <a href="#contact">Contact</a>
+      <a href="#accueil" onclick="closeNav()">Accueil</a>
+      <a href="#feed" onclick="closeNav()">Publications</a>
+      <a href="#ressources" onclick="closeNav()">Ressources</a>
+      <a href="#contact" onclick="closeNav()">Contact</a>
+      <div class="student-badge" id="studentBadge">
+        <i class="fas fa-user-graduate"></i>
+        <span id="studentEmailDisplay">—</span>
+        <button onclick="studentLogout()" title="Se déconnecter"><i class="fas fa-times"></i></button>
+      </div>
+      <a href="#" class="nav-login" id="studentLoginBtn" onclick="openStudentLogin();return false;"><i class="fas fa-unlock-alt"></i> Accès élève</a>
       <a href="admin/index.html" class="nav-cta"><i class="fas fa-shield-halved"></i> Admin</a>
     </div>
   </nav>
 </header>
 
-<!-- WHATSAPP FLOAT -->
-<a href="https://wa.me/21658338187?text=Bonjour%20Teach%20Line%20!%20Je%20souhaite%20prendre%20un%20cours%20privé." class="wa-float" target="_blank" title="Contacter sur WhatsApp">
-  <i class="fab fa-whatsapp"></i>
-</a>
+<!-- WA FLOAT -->
+<a href="https://wa.me/21658338187?text=Bonjour%20Teach%20Line%20!" class="wa-float" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
 
 <!-- HERO -->
 <section id="accueil" class="hero">
   <div class="hero-grid">
-    <div class="hero-content">
-      <div class="hero-badge"><span class="online-dot"></span> Cours en ligne · BAC 2026 · Tous niveaux</div>
-      <h1>Révisez avec <em>Teach Line</em>, dépassez vos limites</h1>
-      <p>Cours particuliers à distance, résumés clés, accompagnement personnalisé pour réussir vos examens avec confiance.</p>
+    <div>
+      <div class="hero-badge"><span class="live-dot"></span> Cours en ligne · BAC 2026 · Tous niveaux</div>
+      <h1>Révisez avec <em>Teach Line</em>,<br>dépassez vos limites</h1>
+      <p>Cours vidéo HD, résumés PDF, fiches illustrées et accompagnement personnalisé. Tout ce qu'il vous faut pour réussir vos examens.</p>
       <div class="hero-actions">
-        <a href="#contact" class="btn-hero btn-hero-primary"><i class="fas fa-headset"></i> Demander un cours</a>
-        <a href="#ressources" class="btn-hero btn-hero-secondary"><i class="fas fa-download"></i> Ressources gratuites</a>
+        <a href="#contact" class="btn-hero btn-hp"><i class="fas fa-headset"></i> Demander un cours</a>
+        <a href="#feed" class="btn-hero btn-hs"><i class="fas fa-play"></i> Voir les cours</a>
       </div>
       <div class="hero-stats">
-        <div class="stat-item"><div class="stat-num">22K+</div><div class="stat-label">Abonnés</div></div>
-        <div class="stat-item"><div class="stat-num">1200+</div><div class="stat-label">Élèves aidés</div></div>
-        <div class="stat-item"><div class="stat-num">18+</div><div class="stat-label">Publications</div></div>
+        <div><div class="stat-n">22K+</div><div class="stat-l">Abonnés</div></div>
+        <div><div class="stat-n">1200+</div><div class="stat-l">Élèves</div></div>
+        <div><div class="stat-n">100%</div><div class="stat-l">En ligne</div></div>
       </div>
     </div>
     <div class="hero-card">
       <div class="hero-card-title">Ce que vous trouvez ici</div>
-      <div class="service-pill"><i class="fas fa-video"></i> Cours vidéo en ligne <span class="pill-badge">Nouveau</span></div>
-      <div class="service-pill"><i class="fas fa-file-pdf"></i> Résumés & Fiches PDF</div>
-      <div class="service-pill"><i class="fas fa-chalkboard-teacher"></i> Cours particuliers vidéo</div>
-      <div class="service-pill"><i class="fas fa-users"></i> Groupes de révision</div>
-      <div class="service-pill"><i class="fas fa-calendar-check"></i> Suivi hebdomadaire</div>
+      <div class="pill"><i class="fas fa-video"></i> Cours vidéo HD <span class="pill-new">Nouveau</span></div>
+      <div class="pill"><i class="fas fa-file-pdf"></i> Résumés PDF téléchargeables</div>
+      <div class="pill"><i class="fas fa-images"></i> Fiches illustrées</div>
+      <div class="pill"><i class="fas fa-chalkboard-teacher"></i> Cours particuliers en direct</div>
+      <div class="pill"><i class="fas fa-lock"></i> Contenus privés sur demande</div>
     </div>
   </div>
 </section>
@@ -371,48 +318,55 @@ footer a:hover{color:rgba(255,255,255,.5);}
 <section id="services" class="section">
   <div class="container">
     <div class="section-header">
-      <div class="section-tag">Nos spécialités</div>
-      <h2 class="section-title">Tout ce dont vous avez besoin<br>pour réussir</h2>
-      <p class="section-sub">Des solutions complètes, adaptées à chaque niveau et chaque rythme d'apprentissage.</p>
+      <div class="section-tag">Spécialités</div>
+      <h2 class="section-title">Tout ce dont vous avez besoin</h2>
+      <p class="section-sub">Des solutions complètes pour chaque niveau et rythme d'apprentissage.</p>
     </div>
     <div class="services-grid">
-      <div class="service-card"><div class="service-icon-wrap"><i class="fas fa-chalkboard-teacher"></i></div><h3>Cours particuliers</h3><p>Séances individuelles en visioconférence, suivi personnalisé, exercices interactifs adaptés à votre niveau.</p></div>
-      <div class="service-card"><div class="service-icon-wrap"><i class="fas fa-file-alt"></i></div><h3>Résumés & Fiches</h3><p>Synthèses complètes, formules clés, schémas explicatifs et fiches mémo pour chaque matière du BAC.</p></div>
-      <div class="service-card"><div class="service-icon-wrap"><i class="fas fa-video"></i></div><h3>Cours vidéo</h3><p>Vidéos pédagogiques claires, structurées et accessibles à tout moment pour réviser à votre rythme.</p></div>
-      <div class="service-card"><div class="service-icon-wrap"><i class="fas fa-users"></i></div><h3>Groupes de révision</h3><p>Sessions collectives intensives, Q&R en direct, échanges entre élèves et accompagnement de groupe.</p></div>
-      <div class="service-card"><div class="service-icon-wrap"><i class="fas fa-calendar-check"></i></div><h3>Suivi hebdomadaire</h3><p>Devoirs corrigés, planning personnalisé, bilan de progrès hebdomadaire et objectifs clairs.</p></div>
-      <div class="service-card"><div class="service-icon-wrap"><i class="fas fa-award"></i></div><h3>Préparation aux examens</h3><p>Entraînement aux annales, simulation d'examens, stratégies anti-stress et gestion du temps.</p></div>
+      <div class="svc-card"><div class="svc-icon"><i class="fas fa-video"></i></div><h3>Cours vidéo HD</h3><p>Vidéos pédagogiques claires, visibles directement sur la plateforme, à tout moment.</p></div>
+      <div class="svc-card"><div class="svc-icon"><i class="fas fa-file-pdf"></i></div><h3>PDF & Résumés</h3><p>Fiches de révision consultables et téléchargeables directement depuis la plateforme.</p></div>
+      <div class="svc-card"><div class="svc-icon"><i class="fas fa-chalkboard-teacher"></i></div><h3>Cours particuliers</h3><p>Séances individuelles en visioconférence, suivi personnalisé en temps réel.</p></div>
+      <div class="svc-card"><div class="svc-icon"><i class="fas fa-users"></i></div><h3>Groupes de révision</h3><p>Sessions collectives, questions-réponses intensifs, entraînement aux annales.</p></div>
+      <div class="svc-card"><div class="svc-icon"><i class="fas fa-lock"></i></div><h3>Contenus exclusifs</h3><p>Accès réservé aux élèves inscrits. L'enseignant débloque votre accès personnellement.</p></div>
+      <div class="svc-card"><div class="svc-icon"><i class="fas fa-award"></i></div><h3>Préparation BAC</h3><p>Simulation d'examens, stratégies anti-stress et gestion du temps éprouvées.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ACTUALITES -->
-<section id="actualites" class="section" style="background:var(--light);">
+<!-- FEED (posts) -->
+<section id="feed" class="section" style="background:var(--bg);">
   <div class="container">
     <div class="section-header">
-      <div class="section-tag">Actualités</div>
-      <h2 class="section-title">Dernières publications</h2>
-      <p class="section-sub">Cours, annonces et ressources publiés par l'enseignant.</p>
+      <div class="section-tag">Publications</div>
+      <h2 class="section-title">Cours, Vidéos & Actualités</h2>
+      <p class="section-sub">Tout le contenu publié par l'enseignant, affiché directement ici.</p>
     </div>
-    <div class="posts-wrapper" id="posts-container">
-      <div class="post-card skeleton" style="height:120px;"></div>
-      <div class="post-card skeleton" style="height:120px;"></div>
+    <div class="feed-tabs">
+      <button class="feed-tab active" onclick="switchTab('all',this)"><i class="fas fa-th-large"></i> Tout</button>
+      <button class="feed-tab" onclick="switchTab('video',this)"><i class="fas fa-video"></i> Vidéos</button>
+      <button class="feed-tab" onclick="switchTab('pdf',this)"><i class="fas fa-file-pdf"></i> PDF</button>
+      <button class="feed-tab" onclick="switchTab('image',this)"><i class="fas fa-image"></i> Images</button>
+      <button class="feed-tab" onclick="switchTab('post',this)"><i class="fas fa-newspaper"></i> Articles</button>
+    </div>
+    <div id="feed-container">
+      <div class="skel" style="height:340px;margin-bottom:1.5rem;border-radius:22px;"></div>
+      <div class="skel" style="height:260px;margin-bottom:1.5rem;border-radius:22px;"></div>
     </div>
   </div>
 </section>
 
-<!-- RESSOURCES -->
+<!-- RESOURCES -->
 <section id="ressources" class="section">
   <div class="container">
     <div class="section-header">
       <div class="section-tag">Ressources</div>
-      <h2 class="section-title">Vidéos, PDF & Images</h2>
-      <p class="section-sub">Téléchargez ou regardez les ressources pédagogiques directement depuis la plateforme.</p>
+      <h2 class="section-title">Bibliothèque pédagogique</h2>
+      <p class="section-sub">PDF, vidéos et images classés par matière et niveau.</p>
     </div>
-    <div class="resources-grid" id="resumes-container">
-      <div class="resource-card skeleton" style="height:180px;"></div>
-      <div class="resource-card skeleton" style="height:180px;"></div>
-      <div class="resource-card skeleton" style="height:180px;"></div>
+    <div class="res-grid" id="res-container">
+      <div class="skel" style="height:255px;border-radius:20px;"></div>
+      <div class="skel" style="height:255px;border-radius:20px;"></div>
+      <div class="skel" style="height:255px;border-radius:20px;"></div>
     </div>
   </div>
 </section>
@@ -423,184 +377,445 @@ footer a:hover{color:rgba(255,255,255,.5);}
     <div class="contact-grid">
       <div class="contact-info">
         <h2>Prêt à commencer ?</h2>
-        <p>Contactez-nous directement ou remplissez le formulaire. Nous répondons sous 2h sur WhatsApp, tous les jours de 9h à 21h.</p>
-        <div class="contact-item"><div class="contact-icon"><i class="fas fa-phone"></i></div><span>Tél : <a href="tel:+21658338187">58 338 187</a></span></div>
-        <div class="contact-item"><div class="contact-icon"><i class="fab fa-whatsapp"></i></div><span><a href="https://wa.me/21658338187" target="_blank">WhatsApp direct</a></span></div>
-        <div class="contact-item"><div class="contact-icon"><i class="fab fa-facebook"></i></div><span><a href="#" id="fbLink">Teach Line Officiel (22K)</a></span></div>
-        <div class="contact-item"><div class="contact-icon"><i class="fas fa-clock"></i></div><span style="color:rgba(255,255,255,.8)">Disponible 7j/7, 9h–21h</span></div>
-        <br>
-        <a href="https://wa.me/21658338187?text=Bonjour%20Teach%20Line%20!" target="_blank" class="btn-hero btn-hero-primary" style="margin-top:1rem"><i class="fab fa-whatsapp"></i> Écrire sur WhatsApp</a>
+        <p>Contactez-nous pour un cours privé, l'accès à des ressources exclusives ou toute question. Réponse garantie sous 2h sur WhatsApp.</p>
+        <div class="ci"><div class="ci-icon"><i class="fas fa-phone"></i></div><span>Tél : <a href="tel:+21658338187">58 338 187</a></span></div>
+        <div class="ci"><div class="ci-icon"><i class="fab fa-whatsapp"></i></div><span><a href="https://wa.me/21658338187" target="_blank">WhatsApp direct</a></span></div>
+        <div class="ci"><div class="ci-icon"><i class="fab fa-facebook"></i></div><span><a href="#" onclick="alert('Teach Line – 22K abonnés. Contactez-nous via WhatsApp.');return false;">Teach Line Officiel (22K)</a></span></div>
+        <div class="ci"><div class="ci-icon"><i class="fas fa-clock"></i></div><span style="color:rgba(255,255,255,.72)">7j/7 · 9h – 21h</span></div>
+        <a href="https://wa.me/21658338187?text=Bonjour%20Teach%20Line%20!" target="_blank" class="btn-hero btn-hp" style="margin-top:1.5rem"><i class="fab fa-whatsapp"></i> Écrire sur WhatsApp</a>
       </div>
-      <div class="contact-form-wrap">
+      <div class="cf-wrap">
         <h3><i class="fas fa-paper-plane" style="color:var(--accent);margin-right:8px;"></i>Formulaire de contact</h3>
-        <div class="form-row">
-          <div class="form-group"><input type="text" id="fname" placeholder="Votre prénom" required></div>
-          <div class="form-group"><input type="text" id="lname" placeholder="Nom de famille"></div>
+        <div class="cf-row">
+          <div class="cff"><input type="text" id="cf-fname" placeholder="Prénom *"></div>
+          <div class="cff"><input type="text" id="cf-lname" placeholder="Nom"></div>
         </div>
-        <div class="form-group"><input type="tel" id="phone" placeholder="Numéro de téléphone"></div>
-        <div class="form-group">
-          <select id="niveau" style="width:100%;padding:.85rem 1rem;border-radius:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-family:inherit;font-size:.9rem;outline:none;">
-            <option value="" disabled selected>Votre niveau scolaire</option>
+        <div class="cff"><input type="tel" id="cf-phone" placeholder="Téléphone"></div>
+        <div class="cff"><input type="email" id="cf-email" placeholder="Email (pour accès aux cours privés)"></div>
+        <div class="cff">
+          <select id="cf-niveau" style="width:100%;padding:.78rem 1rem;border-radius:11px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.11);color:rgba(255,255,255,.65);font-family:inherit;font-size:.87rem;outline:none;">
+            <option value="" disabled selected>Niveau scolaire</option>
             <option>1ère année secondaire</option><option>2ème année secondaire</option>
-            <option>3ème année secondaire</option><option>4ème année secondaire (BAC)</option>
-            <option>Autre</option>
+            <option>3ème année secondaire</option><option>4ème année (BAC)</option><option>Autre</option>
           </select>
         </div>
-        <div class="form-group"><textarea id="message" placeholder="Votre demande : matière, disponibilité, questions..."></textarea></div>
-        <button class="btn-submit" id="submitBtn"><i class="fas fa-paper-plane"></i> Envoyer la demande</button>
-        <p style="color:rgba(255,255,255,.4);font-size:.72rem;margin-top:.8rem;text-align:center;">Nous répondons par WhatsApp sous 2h.</p>
+        <div class="cff"><textarea id="cf-msg" placeholder="Matière, disponibilité, demande d'accès à un cours privé…"></textarea></div>
+        <button class="btn-submit" onclick="sendContact()"><i class="fas fa-paper-plane"></i> Envoyer la demande</button>
+        <p style="color:rgba(255,255,255,.3);font-size:.68rem;margin-top:.7rem;text-align:center;">Précisez votre email pour recevoir l'accès aux cours privés</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
-  <p>© 2026 Teach Line – Plateforme de cours privés à distance · Tunisie</p>
-  <a href="admin/index.html">Accès administrateur (enseignant)</a>
+  <p>© 2026 Teach Line – Plateforme de cours à distance · Tunisie</p>
+  <a href="admin/index.html">Accès administrateur</a>
 </footer>
 
-<!-- MODAL LOCKED RESOURCE -->
-<div class="modal-overlay" id="lockModal">
+<!-- STUDENT LOGIN MODAL -->
+<div class="modal-overlay" id="studentLoginModal">
   <div class="modal">
-    <button class="modal-close" onclick="closeLockModal()"><i class="fas fa-times"></i></button>
-    <i class="fas fa-lock" style="font-size:2rem;color:var(--accent);margin-bottom:1rem;display:block;"></i>
-    <h3>Ressource réservée</h3>
-    <p id="lockModalText">Cette ressource est réservée aux élèves inscrits. Contactez l'enseignant sur WhatsApp pour y accéder.</p>
-    <a href="https://wa.me/21658338187?text=Bonjour%20!%20Je%20souhaite%20accéder%20à%20cette%20ressource." target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i> Contacter l'enseignant</a>
+    <button class="modal-close" onclick="closeModal('studentLoginModal')"><i class="fas fa-times"></i></button>
+    <i class="fas fa-user-graduate" style="font-size:2rem;color:var(--blue);display:block;margin-bottom:1rem;"></i>
+    <h3>Accès Élève</h3>
+    <p>Entrez l'email avec lequel l'enseignant vous a accordé l'accès aux contenus privés.</p>
+    <div class="mf"><label>Votre adresse email</label><input type="email" id="student-email-input" placeholder="votre@email.com" onkeydown="if(event.key==='Enter')studentLogin()"></div>
+    <div class="modal-err" id="student-err">Aucun accès trouvé pour cet email. Contactez l'enseignant pour obtenir votre accès.</div>
+    <button class="btn-full bfb" onclick="studentLogin()"><i class="fas fa-unlock-alt"></i> Accéder à mes cours</button>
+    <button class="btn-full bfwa" onclick="window.open('https://wa.me/21658338187?text=Bonjour%20!%20Je%20souhaite%20accéder%20aux%20cours%20privés.%20Mon%20email%20: ','_blank')"><i class="fab fa-whatsapp"></i> Demander l'accès à l'enseignant</button>
   </div>
 </div>
 
+<!-- LOCKED RESOURCE MODAL -->
+<div class="modal-overlay" id="lockModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('lockModal')"><i class="fas fa-times"></i></button>
+    <i class="fas fa-lock" style="font-size:2rem;color:var(--accent);display:block;margin-bottom:1rem;"></i>
+    <h3>Contenu réservé</h3>
+    <p id="lockModalMsg">Ce contenu est réservé aux élèves autorisés. Connectez-vous avec votre email ou contactez l'enseignant.</p>
+    <button class="btn-full bfb" onclick="closeModal('lockModal');openStudentLogin()"><i class="fas fa-unlock-alt"></i> Me connecter avec mon email</button>
+    <button class="btn-full bfwa" onclick="window.open('https://wa.me/21658338187?text=Bonjour%20!%20Je%20souhaite%20accéder%20à%20ce%20contenu%20privé.','_blank')"><i class="fab fa-whatsapp"></i> Contacter l'enseignant</button>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <span class="lb-close" onclick="closeLightbox()"><i class="fas fa-times"></i></span>
+  <img id="lb-img" src="" alt="">
+</div>
+
+<!-- PDF MODAL -->
+<div class="pdf-modal" id="pdfModal">
+  <div class="pdf-bar">
+    <span id="pdfModalTitle">Document</span>
+    <div class="pdf-bar-btns">
+      <a id="pdfDlBtn" href="#" download><i class="fas fa-download"></i> Télécharger</a>
+      <a href="#" onclick="openPdfInTab();return false;"><i class="fas fa-external-link-alt"></i> Ouvrir</a>
+      <button onclick="closePdfModal()"><i class="fas fa-times"></i> Fermer</button>
+    </div>
+  </div>
+  <iframe id="pdfFrame" src=""></iframe>
+</div>
+
+<!-- TOAST -->
+<div class="toast-wrap" id="toastWrap"></div>
+
 <script>
-// ---- CONFIG GitHub ----
-const REPO_OWNER = "badreddinemansouri-eng";
-const REPO_NAME  = "TeachLine-Site";
-const BRANCH     = "main";
+/* ══ CONFIG ══ */
+const REPO_OWNER="badreddinemansouri-eng",REPO_NAME="TeachLine-Site",BRANCH="main";
+const RAW=`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}`;
 
-// ---- MENU ----
-document.getElementById('menuToggle').addEventListener('click',()=>{
-  document.getElementById('navLinks').classList.toggle('open');
-});
+/* ══ NAV ══ */
+function closeNav(){document.getElementById('navLinks').classList.remove('open');}
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+  const t=document.querySelector(a.getAttribute('href'));
+  if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});closeNav();}
+}));
 
-// ---- SMOOTH SCROLL + CLOSE MENU ----
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{
-    const t=document.querySelector(a.getAttribute('href'));
-    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});document.getElementById('navLinks').classList.remove('open');}
-  });
-});
-
-// ---- CONTACT FORM ----
-document.getElementById('submitBtn').addEventListener('click',()=>{
-  const fn=document.getElementById('fname').value.trim();
-  const ln=document.getElementById('lname').value.trim();
-  const ph=document.getElementById('phone').value.trim();
-  const nv=document.getElementById('niveau').value;
-  const mg=document.getElementById('message').value.trim();
-  if(!fn){alert("Veuillez entrer votre prénom.");return;}
-  const txt=`Nom: ${fn} ${ln}%0ATél: ${ph}%0ANiveau: ${nv}%0AMessage: ${mg}`;
-  window.open(`https://wa.me/21658338187?text=${txt}`,'_blank');
-  document.getElementById('fname').value='';document.getElementById('lname').value='';
-  document.getElementById('phone').value='';document.getElementById('message').value='';
-  alert('✅ Demande envoyée ! Nous vous répondrons sur WhatsApp.');
-});
-
-document.getElementById('fbLink').addEventListener('click',e=>{e.preventDefault();alert('Page Facebook : Teach Line – 22K abonnés. Contactez-nous par WhatsApp pour un accès direct.');});
-
-// ---- GITHUB DATA ----
-async function ghFetch(path){
-  const r=await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}?ref=${BRANCH}`);
-  if(!r.ok)throw new Error('GitHub fetch failed');
-  return r.json();
+/* ══ GITHUB ══ */
+async function ghList(path){
+  try{const r=await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}?ref=${BRANCH}`);if(!r.ok)return[];return r.json();}catch(e){return[];}
 }
-
-function parseFrontmatter(md){
-  const fm={};
-  const block=md.match(/^---\n([\s\S]*?)\n---/);
-  if(block){
-    block[1].split('\n').forEach(l=>{
-      const [k,...v]=l.split(':');
-      if(k)fm[k.trim()]=v.join(':').trim().replace(/^"|"$/g,'');
-    });
-  }
+function parseFM(md){
+  const fm={};const b=md.match(/^---\n([\s\S]*?)\n---/);
+  if(b)b[1].split('\n').forEach(l=>{const[k,...v]=l.split(':');if(k&&k.trim())fm[k.trim()]=v.join(':').trim().replace(/^"|"$/g,'');});
   const body=md.replace(/^---[\s\S]*?---\n?/,'').trim();
   return{...fm,body};
 }
+function esc(s){if(s==null)return'';return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]||c));}
 
-function escH(s){if(!s)return'';return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]||c));}
+/* ══ STUDENT ACCESS ══ */
+let currentStudent=localStorage.getItem('tl_student')||null;
+let allowedEmails=[];
+let perPostAccess={};// {filename:[emails]}
 
-// ---- RENDER POSTS ----
-async function loadPosts(){
-  const c=document.getElementById('posts-container');
+async function loadAccessData(){
   try{
-    const files=await ghFetch('content/posts');
-    const mdFiles=files.filter(f=>f.name.endsWith('.md'));
-    if(!mdFiles.length){c.innerHTML='<p style="text-align:center;color:var(--text-light)">Aucune actualité pour le moment.</p>';return;}
-    const posts=await Promise.all(mdFiles.map(async f=>{
-      const r=await fetch(f.download_url);const raw=await r.text();return parseFrontmatter(raw);
+    const r=await fetch(`${RAW}/access/allowed.json?t=${Date.now()}`);
+    if(r.ok){const d=await r.json();allowedEmails=(d.global||[]).map(e=>e.toLowerCase());perPostAccess=d.posts||{};}
+  }catch(e){allowedEmails=[];perPostAccess={};}
+  refreshStudentUI();
+}
+
+function refreshStudentUI(){
+  const badge=document.getElementById('studentBadge');
+  const loginBtn=document.getElementById('studentLoginBtn');
+  if(currentStudent){
+    document.getElementById('studentEmailDisplay').textContent=currentStudent;
+    badge.classList.add('show');
+    loginBtn.style.display='none';
+  }else{
+    badge.classList.remove('show');
+    loginBtn.style.display='';
+  }
+  renderFeed();
+  renderResources();
+}
+
+function openStudentLogin(){document.getElementById('studentLoginModal').classList.add('open');}
+
+function studentLogin(){
+  const email=document.getElementById('student-email-input').value.trim().toLowerCase();
+  if(!email){showModalErr('student-err','Entrez votre email.');return;}
+  // Optimistically set — access verification happens per-post
+  currentStudent=email;
+  localStorage.setItem('tl_student',email);
+  document.getElementById('student-err').style.display='none';
+  closeModal('studentLoginModal');
+  refreshStudentUI();
+  toast('✅ Connecté : '+email,'ok');
+}
+
+function studentLogout(){
+  currentStudent=null;
+  localStorage.removeItem('tl_student');
+  refreshStudentUI();
+  toast('Déconnecté.');
+}
+
+function hasAccess(item){
+  if(!item||item.locked!=='true')return true;
+  if(!currentStudent)return false;
+  const email=currentStudent.toLowerCase();
+  if(allowedEmails.includes(email))return true;
+  // Per-post allowed emails field (set by teacher)
+  if(item.allowed_emails){
+    const list=item.allowed_emails.split(',').map(e=>e.trim().toLowerCase());
+    if(list.includes(email))return true;
+  }
+  return false;
+}
+
+/* ══ FEED ══ */
+let allPosts=[];let activeTab='all';
+
+async function loadFeed(){
+  try{
+    const files=await ghList('content/posts');
+    const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
+    const posts=await Promise.all(mds.map(async f=>{
+      const r=await fetch(f.download_url);const t=await r.text();return{...parseFM(t),_name:f.name};
     }));
-    posts.sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
-    c.innerHTML=posts.map(p=>{
-      const locked=p.locked==='true';
-      const preview=p.body.substring(0,220)+(p.body.length>220?'…':'');
-      const thumb=p.image?`<img src="${escH(p.image)}" alt="" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-newspaper\\'></i>'">`
-                        :`<i class="fas fa-newspaper"></i>`;
-      const catIcon=p.type==='video'?'fa-video':p.type==='pdf'?'fa-file-pdf':'fa-newspaper';
-      return `<div class="post-card">
-        <div class="post-thumb">${thumb}</div>
-        <div style="flex:1">
-          <div class="post-meta">
-            <span class="post-category"><i class="fas ${catIcon}"></i> ${escH(p.category||p.type||'Actualité')}</span>
-            <span class="post-date">${escH(p.date||'')}</span>
-          </div>
-          <h3>${escH(p.title||'')}</h3>
-          <p>${escH(preview)}</p>
-          <div class="post-footer">
-            ${locked?`<span class="post-tag locked"><i class="fas fa-lock"></i> Accès restreint</span><a class="read-more" href="#" onclick="openLockModal('${escH(p.title)}');return false;">Accéder <i class='fas fa-arrow-right'></i></a>`
-                    :p.link?`<a class="read-more" href="${escH(p.link)}" target="_blank">Lire la suite <i class='fas fa-arrow-right'></i></a>`:''}
-          </div>
+    allPosts=posts.sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
+  }catch(e){allPosts=[];}
+  renderFeed();
+}
+
+function switchTab(filter,btn){
+  activeTab=filter;
+  document.querySelectorAll('.feed-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderFeed();
+}
+
+function renderFeed(){
+  const c=document.getElementById('feed-container');
+  let posts=allPosts;
+  if(activeTab!=='all')posts=posts.filter(p=>(p.type||'post')===activeTab);
+  if(!posts.length){
+    c.innerHTML='<div class="empty-state"><i class="fas fa-inbox"></i><p>Aucune publication dans cette catégorie pour le moment.</p></div>';return;
+  }
+  c.innerHTML=posts.map(p=>buildPostCard(p)).join('');
+}
+
+function buildPostCard(p){
+  const locked=p.locked==='true';
+  const access=hasAccess(p);
+  const type=p.type||'post';
+  const typeMap={post:['tb-post','fa-newspaper','Publication'],video:['tb-video','fa-video','Vidéo'],pdf:['tb-pdf','fa-file-pdf','PDF'],image:['tb-image','fa-image','Image'],announcement:['tb-announcement','fa-bullhorn','Annonce']};
+  const [tbCls,icon,label]=typeMap[type]||typeMap.post;
+
+  // ── MEDIA BLOCK ──
+  let media='';
+  if(locked&&!access){
+    let bg=p.image?`<img src="${esc(p.image)}" alt="" style="filter:blur(10px);transform:scale(1.08);width:100%;height:220px;object-fit:cover;display:block;">`:`<div style="height:200px;background:linear-gradient(135deg,#0a1628,#1a56db);"></div>`;
+    media=`<div class="post-media" style="position:relative;">${bg}
+      <div class="lock-overlay">
+        <i class="fas fa-lock"></i>
+        <h4>Contenu réservé aux élèves autorisés</h4>
+        <p>L'enseignant a restreint l'accès à ce contenu. Connectez-vous ou contactez-le pour l'obtenir.</p>
+        <div style="display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;">
+          <button class="btn-sm bs-blue" onclick="openStudentLogin()"><i class="fas fa-unlock-alt"></i> Me connecter</button>
+          <a class="btn-sm bs-wa" href="https://wa.me/21658338187?text=Je%20souhaite%20accéder%20à%20: ${esc(p.title)}" target="_blank"><i class="fab fa-whatsapp"></i> Contacter</a>
         </div>
-      </div>`;
-    }).join('');
-  }catch(e){c.innerHTML='<p style="text-align:center;color:var(--text-light)">Actualités non disponibles pour l\'instant.</p>';}
+      </div>
+    </div>`;
+  } else if(type==='video'&&p.video_url){
+    const embed=toEmbed(p.video_url);
+    if(embed){
+      media=`<div class="post-media"><div class="video-wrap"><iframe src="${esc(embed)}" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share" allowfullscreen loading="lazy"></iframe></div></div>`;
+    } else if(p.image){
+      media=`<div class="post-media"><img src="${esc(p.image)}" alt="" onclick="openLightbox('${esc(p.image)}')" style="cursor:zoom-in;width:100%;max-height:380px;object-fit:cover;"></div>`;
+    }
+  } else if(type==='pdf'&&(p.pdf_file||p.link)){
+    const url=resolvePdf(p.pdf_file||p.link);
+    media=`<div class="post-media"><div class="pdf-thumb-click" onclick="openPdfModal('${esc(url)}','${esc(p.title)}')">
+      <i class="fas fa-file-pdf"></i>
+      <span>Cliquer pour ouvrir le PDF</span>
+      <small>${esc(p.title||'')}</small>
+    </div></div>`;
+  } else if(type==='image'){
+    const imgs=[];
+    if(p.image)imgs.push(p.image);if(p.image2)imgs.push(p.image2);if(p.image3)imgs.push(p.image3);
+    if(imgs.length){
+      const gc=imgs.length===1?'g1':imgs.length===2?'g2':'g3';
+      media=`<div class="post-media"><div class="img-gallery ${gc}">${imgs.map(u=>`<img src="${esc(u)}" alt="" onclick="openLightbox('${esc(u)}')" loading="lazy">`).join('')}</div></div>`;
+    }else if(p.image){
+      media=`<div class="post-media"><img src="${esc(p.image)}" onclick="openLightbox('${esc(p.image)}')" style="width:100%;max-height:400px;object-fit:cover;cursor:zoom-in;" loading="lazy"></div>`;
+    }
+  } else if(p.image){
+    media=`<div class="post-media"><img src="${esc(p.image)}" alt="" onclick="openLightbox('${esc(p.image)}')" style="width:100%;max-height:380px;object-fit:cover;cursor:zoom-in;" loading="lazy"></div>`;
+  }
+
+  // ── FOOTER BUTTONS ──
+  let btns='';
+  if(access||!locked){
+    if(type==='video'&&p.video_url) btns+=`<a class="btn-sm bs-out" href="${esc(p.video_url)}" target="_blank"><i class="fas fa-external-link-alt"></i> Ouvrir vidéo</a>`;
+    if(type==='pdf'&&(p.pdf_file||p.link)){
+      const url=resolvePdf(p.pdf_file||p.link);
+      btns+=`<button class="btn-sm bs-blue" onclick="openPdfModal('${esc(url)}','${esc(p.title)}')"><i class="fas fa-eye"></i> Voir PDF</button>`;
+      btns+=`<a class="btn-sm bs-out" href="${esc(url)}" download><i class="fas fa-download"></i> Télécharger</a>`;
+    }
+    if(p.link&&type!=='pdf'&&type!=='video') btns+=`<a class="btn-sm bs-out" href="${esc(p.link)}" target="_blank"><i class="fas fa-link"></i> Lien</a>`;
+  }
+  if(locked){
+    if(access) btns+=`<span class="access-tag"><i class="fas fa-check-circle"></i> Accès autorisé</span>`;
+    else btns+=`<span class="lock-tag"><i class="fas fa-lock"></i> Accès restreint</span>`;
+  }
+
+  return `<div class="post-card">
+    ${media}
+    <div class="post-body">
+      <div class="post-meta-row">
+        <span class="type-badge ${tbCls}"><i class="fas ${icon}"></i> ${label}</span>
+        ${p.category?`<span class="post-cat">${esc(p.category)}</span>`:''}
+        <span class="post-date"><i class="far fa-calendar-alt"></i> ${esc(p.date||'')}</span>
+      </div>
+      <h3>${esc(p.title||'')}</h3>
+      ${locked&&!access
+        ?`<p style="color:var(--gray);font-size:.84rem;font-style:italic;margin-bottom:.5rem">Contenu réservé. Connectez-vous ou contactez l'enseignant.</p>`
+        :p.body?`<div class="post-text">${esc(p.body.substring(0,520))}${p.body.length>520?'…':''}</div>`:''
+      }
+      ${btns?`<div class="post-footer">${btns}</div>`:''}
+    </div>
+  </div>`;
 }
 
-// ---- RENDER RESOURCES ----
+/* ══ RESOURCES ══ */
+let allRes=[];
 async function loadResources(){
-  const c=document.getElementById('resumes-container');
   try{
-    const files=await ghFetch('content/resumes');
-    const mdFiles=files.filter(f=>f.name.endsWith('.md'));
-    if(!mdFiles.length){c.innerHTML='<p style="text-align:center;color:var(--text-light)">Aucune ressource disponible.</p>';return;}
-    const items=await Promise.all(mdFiles.map(async f=>{const r=await fetch(f.download_url);const raw=await r.text();return parseFrontmatter(raw);}));
-    c.innerHTML=items.map(r=>{
-      const locked=r.locked==='true';
-      const type=r.type||'pdf';
-      const typeClass=type==='video'?'type-video':type==='image'?'type-img':'type-pdf';
-      const typeIcon=type==='video'?'fa-video':type==='image'?'fa-image':'fa-file-pdf';
-      const typeLabel=type==='video'?'Vidéo':type==='image'?'Image':'PDF';
-      return `<div class="resource-card">
-        <div class="resource-type"><span class="type-badge ${typeClass}"><i class="fas ${typeIcon}"></i> ${typeLabel}</span></div>
-        <h3>${escH(r.title||'')}</h3>
-        <p>${escH((r.body||'').substring(0,90))}</p>
-        ${locked?`<div class="resource-lock"><i class="fas fa-lock"></i> Réservé aux inscrits</div>
-          <button class="btn-download locked" onclick="openLockModal('${escH(r.title)}')"><i class="fas fa-lock"></i> Accès restreint</button>`
-               :r.pdf_file||r.video_url||r.image_url
-                 ?`<a class="btn-download" href="https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${escH(r.pdf_file||r.video_url||r.image_url)}" download="${escH(r.title)}" target="_blank"><i class="fas fa-download"></i> Télécharger</a>`
-                 :''}
-      </div>`;
-    }).join('');
-  }catch(e){c.innerHTML='<p style="text-align:center;color:var(--text-light)">Ressources non disponibles pour l\'instant.</p>';}
+    const files=await ghList('content/resumes');
+    const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
+    allRes=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return parseFM(t);}));
+  }catch(e){allRes=[];}
+  renderResources();
 }
 
+function renderResources(){
+  const c=document.getElementById('res-container');
+  if(!allRes.length){c.innerHTML='<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-folder-open"></i><p>Aucune ressource disponible.</p></div>';return;}
+  const thumbCls={pdf:'rt-pdf',video:'rt-video',image:'rt-image'};
+  const thumbIcon={pdf:'<span style="color:#dc2626;font-size:2.8rem;">📄</span>',video:'<span style="color:#60a5fa;font-size:2.8rem;">🎬</span>',image:'<span style="color:#059669;font-size:2.8rem;">🖼️</span>'};
+  const tagCls={pdf:'rt-tag-pdf',video:'rt-tag-video',image:'rt-tag-image'};
+  const tagLabel={pdf:'PDF',video:'Vidéo',image:'Image'};
+
+  c.innerHTML=allRes.map(r=>{
+    const access=hasAccess(r);
+    const type=r.type||'pdf';
+    let thumbContent=thumbIcon[type]||thumbIcon.pdf;
+    if(type==='image'&&(r.image||r.image_url)){
+      const u=(r.image||r.image_url).startsWith('http')?(r.image||r.image_url):`${RAW}/${r.image||r.image_url}`;
+      thumbContent=`<img src="${esc(u)}" alt="" style="width:100%;height:100%;object-fit:cover;">`;
+    }
+    if(type==='video'&&r.video_url){
+      const th=ytThumb(r.video_url);
+      if(th)thumbContent=`<img src="${esc(th)}" alt="" style="width:100%;height:100%;object-fit:cover;">`;
+    }
+
+    let btn='';
+    if(r.locked==='true'&&!access){
+      btn=`<button class="btn-sm bs-blue" onclick="openLockModal('${esc(r.title)}')"><i class="fas fa-lock"></i> Accès restreint</button>`;
+    }else{
+      if(type==='pdf'){
+        const url=resolvePdf(r.pdf_file||r.link||'');
+        if(url){btn=`<button class="btn-sm bs-blue" onclick="openPdfModal('${esc(url)}','${esc(r.title)}')"><i class="fas fa-eye"></i> Voir</button><a class="btn-sm bs-out" href="${esc(url)}" download><i class="fas fa-download"></i></a>`;}
+      }else if(type==='video'&&r.video_url){
+        btn=`<a class="btn-sm bs-blue" href="${esc(r.video_url)}" target="_blank"><i class="fas fa-play"></i> Regarder</a>`;
+        const embed=toEmbed(r.video_url);
+        if(embed)btn+=`<button class="btn-sm bs-out" onclick="openVideoModal('${esc(embed)}','${esc(r.title)}')"><i class="fas fa-expand"></i></button>`;
+      }else if(type==='image'){
+        const url=(r.image_url||r.image||'').startsWith('http')?(r.image_url||r.image):`${RAW}/${r.image_url||r.image}`;
+        if(url){btn=`<button class="btn-sm bs-blue" onclick="openLightbox('${esc(url)}')"><i class="fas fa-expand"></i> Voir</button><a class="btn-sm bs-out" href="${esc(url)}" download><i class="fas fa-download"></i></a>`;}
+      }
+    }
+
+    return `<div class="res-card">
+      <div class="res-thumb ${thumbCls[type]||'rt-pdf'}" style="position:relative;">
+        ${thumbContent}
+        ${r.locked==='true'&&!access?`<div class="res-lock-veil"><i class="fas fa-lock" style="color:white;font-size:1.7rem;"></i></div>`:r.locked==='true'&&access?`<div style="position:absolute;bottom:.4rem;right:.4rem;background:var(--green);color:white;font-size:.6rem;font-weight:700;padding:.18rem .45rem;border-radius:10px;">✓ Autorisé</div>`:''}
+      </div>
+      <div class="res-body">
+        <div class="res-meta-row">
+          <span class="res-tag ${tagCls[type]||'rt-tag-pdf'}">${tagLabel[type]||'PDF'}</span>
+          ${r.subject?`<span class="res-tag rt-tag-sub">${esc(r.subject)}</span>`:''}
+          ${r.level?`<span class="res-tag rt-tag-sub">${esc(r.level)}</span>`:''}
+        </div>
+        <h3>${esc(r.title||'')}</h3>
+        <p>${esc((r.body||'').substring(0,85))}${(r.body||'').length>85?'…':''}</p>
+        <div style="display:flex;gap:.45rem;flex-wrap:wrap;">${btn}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ══ VIDEO MODAL (inline for resources) ══ */
+let videoModalEl=null;
+function openVideoModal(embed,title){
+  if(!videoModalEl){
+    videoModalEl=document.createElement('div');
+    videoModalEl.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:2000;display:flex;flex-direction:column;';
+    videoModalEl.innerHTML=`<div style="background:#1e293b;padding:.6rem 1rem;display:flex;align-items:center;justify-content:space-between;color:white;font-size:.82rem;flex-shrink:0;"><span id="vm-title"></span><button onclick="document.getElementById('vm-frame').src='';this.closest('div').parentElement.remove();videoModalEl=null;" style="background:none;border:none;color:white;cursor:pointer;opacity:.7;font-size:.82rem;"><i class="fas fa-times"></i> Fermer</button></div><iframe id="vm-frame" style="flex:1;border:none;" allowfullscreen></iframe>`;
+    document.body.appendChild(videoModalEl);
+  }
+  videoModalEl.querySelector('#vm-title').textContent=title||'Vidéo';
+  videoModalEl.querySelector('#vm-frame').src=embed;
+}
+
+/* ══ EMBED HELPERS ══ */
+function toEmbed(url){
+  if(!url)return null;
+  let m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
+  if(m)return`https://www.youtube.com/embed/${m[1]}?rel=0&modestbranding=1`;
+  m=url.match(/vimeo\.com\/(\d+)/);
+  if(m)return`https://player.vimeo.com/video/${m[1]}`;
+  m=url.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
+  if(m)return`https://www.dailymotion.com/embed/video/${m[1]}`;
+  m=url.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+  if(m)return`https://drive.google.com/file/d/${m[1]}/preview`;
+  return null;
+}
+function ytThumb(url){
+  const m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  return m?`https://img.youtube.com/vi/${m[1]}/hqdefault.jpg`:null;
+}
+function resolvePdf(p){
+  if(!p)return'';
+  return p.startsWith('http')?p:`${RAW}/${p}`;
+}
+
+/* ══ LIGHTBOX ══ */
+function openLightbox(src){document.getElementById('lb-img').src=src;document.getElementById('lightbox').classList.add('open');}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
+document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this||e.target===document.getElementById('lb-img'))closeLightbox();});
+
+/* ══ PDF MODAL ══ */
+let currentPdfUrl='';
+function openPdfModal(url,title){
+  currentPdfUrl=url;
+  document.getElementById('pdfFrame').src=url;
+  document.getElementById('pdfModalTitle').textContent=title||'Document';
+  document.getElementById('pdfDlBtn').href=url;
+  document.getElementById('pdfDlBtn').download=title||'document';
+  document.getElementById('pdfModal').classList.add('open');
+}
+function closePdfModal(){document.getElementById('pdfModal').classList.remove('open');document.getElementById('pdfFrame').src='';}
+function openPdfInTab(){if(currentPdfUrl)window.open(currentPdfUrl,'_blank');}
+
+/* ══ LOCK MODAL ══ */
 function openLockModal(title){
-  document.getElementById('lockModalText',).innerText=`"${title}" est réservé aux élèves inscrits. Contactez l'enseignant pour y accéder.`;
+  document.getElementById('lockModalMsg').textContent=`"${title}" est réservé aux élèves autorisés. Connectez-vous avec votre email ou contactez l'enseignant sur WhatsApp.`;
   document.getElementById('lockModal').classList.add('open');
 }
-function closeLockModal(){document.getElementById('lockModal').classList.remove('open');}
-document.getElementById('lockModal').addEventListener('click',function(e){if(e.target===this)closeLockModal();});
 
-loadPosts();
+/* ══ MODALS ══ */
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function showModalErr(id,msg){const el=document.getElementById(id);el.textContent=msg;el.style.display='block';}
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');}));
+
+/* ══ CONTACT ══ */
+function sendContact(){
+  const fn=document.getElementById('cf-fname').value.trim();
+  if(!fn){toast('Entrez votre prénom','err');return;}
+  const parts=[`Nom: ${fn} ${document.getElementById('cf-lname').value.trim()}`,`Tél: ${document.getElementById('cf-phone').value.trim()}`,`Email: ${document.getElementById('cf-email').value.trim()}`,`Niveau: ${document.getElementById('cf-niveau').value}`,`Message: ${document.getElementById('cf-msg').value.trim()}`];
+  window.open(`https://wa.me/21658338187?text=${encodeURIComponent(parts.join('\n'))}`,'_blank');
+  ['cf-fname','cf-lname','cf-phone','cf-email','cf-msg'].forEach(id=>document.getElementById(id).value='');
+  toast('✅ Demande envoyée !','ok');
+}
+
+/* ══ TOAST ══ */
+function toast(msg,type=''){
+  const w=document.getElementById('toastWrap');
+  const el=document.createElement('div');
+  el.className='toast'+(type?' t-'+type:'');
+  el.textContent=msg;
+  w.appendChild(el);
+  setTimeout(()=>{el.style.opacity='0';el.style.transform='translateY(10px)';setTimeout(()=>el.remove(),400);},4500);
+}
+
+/* ══ INIT ══ */
+loadAccessData();
+loadFeed();
 loadResources();
 </script>
 </body>
