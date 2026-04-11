@@ -234,6 +234,10 @@ footer a:hover{color:rgba(255,255,255,.5);}
 .skel{background:linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%);background-size:200% 100%;animation:sh 1.5s infinite;border-radius:14px;}
 @keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
+/* READ MORE */
+.read-more-btn{display:inline-flex;align-items:center;gap:5px;background:none;border:none;color:var(--blue);font-size:.8rem;font-weight:600;cursor:pointer;margin-top:.5rem;padding:.3rem 0;font-family:inherit;transition:.2s;}
+.read-more-btn:hover{color:var(--navy);}
+
 /* EMPTY */
 .empty-state{text-align:center;padding:4rem 2rem;color:var(--gray);}
 .empty-state i{font-size:2.8rem;margin-bottom:1rem;opacity:.35;display:block;}
@@ -418,9 +422,10 @@ footer a:hover{color:rgba(255,255,255,.5);}
     <button class="modal-close" onclick="closeModal('studentLoginModal')"><i class="fas fa-times"></i></button>
     <i class="fas fa-user-graduate" style="font-size:2rem;color:var(--blue);display:block;margin-bottom:1rem;"></i>
     <h3>Accès Élève</h3>
-    <p>Entrez l'email avec lequel l'enseignant vous a accordé l'accès aux contenus privés.</p>
-    <div class="mf"><label>Votre adresse email</label><input type="email" id="student-email-input" placeholder="votre@email.com" onkeydown="if(event.key==='Enter')studentLogin()"></div>
-    <div class="modal-err" id="student-err">Aucun accès trouvé pour cet email. Contactez l'enseignant pour obtenir votre accès.</div>
+    <p>Entrez l'email et le mot de passe que votre enseignant vous a envoyés.</p>
+    <div class="mf"><label>Adresse email</label><input type="email" id="student-email-input" placeholder="votre@email.com"></div>
+    <div class="mf"><label>Mot de passe</label><input type="password" id="student-pass-input" placeholder="Mot de passe reçu" onkeydown="if(event.key==='Enter')studentLogin()"></div>
+    <div class="modal-err" id="student-err">Email ou mot de passe incorrect. Contactez l'enseignant.</div>
     <button class="btn-full bfb" onclick="studentLogin()"><i class="fas fa-unlock-alt"></i> Accéder à mes cours</button>
     <button class="btn-full bfwa" onclick="window.open('https://wa.me/21658338187?text=Bonjour%20!%20Je%20souhaite%20accéder%20aux%20cours%20privés.%20Mon%20email%20: ','_blank')"><i class="fab fa-whatsapp"></i> Demander l'accès à l'enseignant</button>
   </div>
@@ -485,15 +490,14 @@ function parseFM(md){
 function esc(s){if(s==null)return'';return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]||c));}
 
 /* ══ STUDENT ACCESS ══ */
-let currentStudent=localStorage.getItem('tl_student')||null;
-let allowedEmails=[];
-let perPostAccess={};// {filename:[emails]}
+let currentStudent=JSON.parse(localStorage.getItem('tl_student_session')||'null');
+let accessData={students:[],posts:{}};
 
 async function loadAccessData(){
   try{
-    const r=await fetch(`${RAW}/access/allowed.json?t=${Date.now()}`);
-    if(r.ok){const d=await r.json();allowedEmails=(d.global||[]).map(e=>e.toLowerCase());perPostAccess=d.posts||{};}
-  }catch(e){allowedEmails=[];perPostAccess={};}
+    const r=await fetch(RAW+'/access/allowed.json?t='+Date.now());
+    if(r.ok){const d=await r.json();accessData={students:d.students||d.global?.map(e=>({email:e,password:'',name:''}))||[],posts:d.posts||{}};}
+  }catch(e){accessData={students:[],posts:{}};}
   refreshStudentUI();
 }
 
@@ -501,44 +505,41 @@ function refreshStudentUI(){
   const badge=document.getElementById('studentBadge');
   const loginBtn=document.getElementById('studentLoginBtn');
   if(currentStudent){
-    document.getElementById('studentEmailDisplay').textContent=currentStudent;
-    badge.classList.add('show');
-    loginBtn.style.display='none';
-  }else{
-    badge.classList.remove('show');
-    loginBtn.style.display='';
-  }
-  renderFeed();
-  renderResources();
+    document.getElementById('studentEmailDisplay').textContent=currentStudent.name||currentStudent.email;
+    badge.classList.add('show');loginBtn.style.display='none';
+  }else{badge.classList.remove('show');loginBtn.style.display='';}
+  renderFeed();renderResources();
 }
 
 function openStudentLogin(){document.getElementById('studentLoginModal').classList.add('open');}
 
 function studentLogin(){
   const email=document.getElementById('student-email-input').value.trim().toLowerCase();
+  const pass=document.getElementById('student-pass-input').value.trim();
   if(!email){showModalErr('student-err','Entrez votre email.');return;}
-  // Optimistically set — access verification happens per-post
-  currentStudent=email;
-  localStorage.setItem('tl_student',email);
+  const found=accessData.students.find(s=>s.email.toLowerCase()===email&&(s.password===pass||!s.password));
+  if(!found){showModalErr('student-err','Email ou mot de passe incorrect. Contactez l\'enseignant.');return;}
+  currentStudent={email:found.email,name:found.name||'',password:found.password};
+  localStorage.setItem('tl_student_session',JSON.stringify(currentStudent));
   document.getElementById('student-err').style.display='none';
   closeModal('studentLoginModal');
+  document.getElementById('student-email-input').value='';
+  document.getElementById('student-pass-input').value='';
   refreshStudentUI();
-  toast('✅ Connecté : '+email,'ok');
+  toast('✅ Bienvenue '+(found.name||found.email)+' !','ok');
 }
 
 function studentLogout(){
-  currentStudent=null;
-  localStorage.removeItem('tl_student');
-  refreshStudentUI();
-  toast('Déconnecté.');
+  currentStudent=null;localStorage.removeItem('tl_student_session');
+  refreshStudentUI();toast('Déconnecté.');
 }
 
 function hasAccess(item){
   if(!item||item.locked!=='true')return true;
   if(!currentStudent)return false;
-  const email=currentStudent.toLowerCase();
-  if(allowedEmails.includes(email))return true;
-  // Per-post allowed emails field (set by teacher)
+  const email=currentStudent.email.toLowerCase();
+  const inGlobal=accessData.students.find(s=>s.email.toLowerCase()===email);
+  if(inGlobal)return true;
   if(item.allowed_emails){
     const list=item.allowed_emails.split(',').map(e=>e.trim().toLowerCase());
     if(list.includes(email))return true;
@@ -564,19 +565,18 @@ async function loadFeed(){
 function switchTab(filter,btn){
   activeTab=filter;
   document.querySelectorAll('.feed-tab').forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');
-  renderFeed();
+  btn.classList.add('active');renderFeed();
 }
 
 function renderFeed(){
   const c=document.getElementById('feed-container');
   let posts=allPosts;
   if(activeTab!=='all')posts=posts.filter(p=>(p.type||'post')===activeTab);
-  if(!posts.length){
-    c.innerHTML='<div class="empty-state"><i class="fas fa-inbox"></i><p>Aucune publication dans cette catégorie pour le moment.</p></div>';return;
-  }
+  if(!posts.length){c.innerHTML='<div class="empty-state"><i class="fas fa-inbox"></i><p>Aucune publication dans cette catégorie.</p></div>';return;}
   c.innerHTML=posts.map(p=>buildPostCard(p)).join('');
 }
+
+const PREVIEW_LEN=280;
 
 function buildPostCard(p){
   const locked=p.locked==='true';
@@ -584,81 +584,70 @@ function buildPostCard(p){
   const type=p.type||'post';
   const typeMap={post:['tb-post','fa-newspaper','Publication'],video:['tb-video','fa-video','Vidéo'],pdf:['tb-pdf','fa-file-pdf','PDF'],image:['tb-image','fa-image','Image'],announcement:['tb-announcement','fa-bullhorn','Annonce']};
   const [tbCls,icon,label]=typeMap[type]||typeMap.post;
+  const cardId='c'+Math.random().toString(36).substr(2,7);
+  const bodyText=p.body||'';
+  const isLong=bodyText.length>PREVIEW_LEN;
 
-  // ── MEDIA BLOCK ──
   let media='';
   if(locked&&!access){
-    let bg=p.image?`<img src="${esc(p.image)}" alt="" style="filter:blur(10px);transform:scale(1.08);width:100%;height:220px;object-fit:cover;display:block;">`:`<div style="height:200px;background:linear-gradient(135deg,#0a1628,#1a56db);"></div>`;
-    media=`<div class="post-media" style="position:relative;">${bg}
-      <div class="lock-overlay">
-        <i class="fas fa-lock"></i>
-        <h4>Contenu réservé aux élèves autorisés</h4>
-        <p>L'enseignant a restreint l'accès à ce contenu. Connectez-vous ou contactez-le pour l'obtenir.</p>
-        <div style="display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;">
-          <button class="btn-sm bs-blue" onclick="openStudentLogin()"><i class="fas fa-unlock-alt"></i> Me connecter</button>
-          <a class="btn-sm bs-wa" href="https://wa.me/21658338187?text=Je%20souhaite%20accéder%20à%20: ${esc(p.title)}" target="_blank"><i class="fab fa-whatsapp"></i> Contacter</a>
-        </div>
-      </div>
-    </div>`;
+    let bg=p.image?'<img src="'+esc(p.image)+'" alt="" style="filter:blur(10px);transform:scale(1.08);width:100%;height:220px;object-fit:cover;display:block;">':'<div style="height:200px;background:linear-gradient(135deg,#0a1628,#1a56db);"></div>';
+    media='<div class="post-media" style="position:relative;">'+bg+'<div class="lock-overlay"><i class="fas fa-lock"></i><h4>Contenu réservé</h4><p>Connectez-vous avec votre email et mot de passe pour débloquer.</p><div style="display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;"><button class="btn-sm bs-blue" onclick="openStudentLogin()"><i class="fas fa-unlock-alt"></i> Me connecter</button><a class="btn-sm bs-wa" href="https://wa.me/21658338187?text=Bonjour%20je%20veux%20acceder" target="_blank"><i class="fab fa-whatsapp"></i> Contacter</a></div></div></div>';
   } else if(type==='video'&&p.video_url){
     const embed=toEmbed(p.video_url);
-    if(embed){
-      media=`<div class="post-media"><div class="video-wrap"><iframe src="${esc(embed)}" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share" allowfullscreen loading="lazy"></iframe></div></div>`;
-    } else if(p.image){
-      media=`<div class="post-media"><img src="${esc(p.image)}" alt="" onclick="openLightbox('${esc(p.image)}')" style="cursor:zoom-in;width:100%;max-height:380px;object-fit:cover;"></div>`;
-    }
+    if(embed){media='<div class="post-media"><div class="video-wrap"><iframe src="'+esc(embed)+'" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share" allowfullscreen loading="lazy"></iframe></div></div>';}
+    else if(p.image){media='<div class="post-media" style="cursor:pointer;position:relative;" onclick="window.open(\''+esc(p.video_url)+'\',\'_blank\')"><img src="'+esc(p.image)+'" alt="" style="width:100%;max-height:380px;object-fit:cover;"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.28)"><i class="fas fa-play-circle" style="font-size:4rem;color:white;"></i></div></div>';}
   } else if(type==='pdf'&&(p.pdf_file||p.link)){
     const url=resolvePdf(p.pdf_file||p.link);
-    media=`<div class="post-media"><div class="pdf-thumb-click" onclick="openPdfModal('${esc(url)}','${esc(p.title)}')">
-      <i class="fas fa-file-pdf"></i>
-      <span>Cliquer pour ouvrir le PDF</span>
-      <small>${esc(p.title||'')}</small>
-    </div></div>`;
+    media='<div class="post-media"><div class="pdf-thumb-click" onclick="openPdfModal(\''+esc(url)+'\',\''+esc(p.title)+'\')"><i class="fas fa-file-pdf"></i><span>Cliquer pour ouvrir le PDF</span><small>'+esc(p.title||'')+'</small></div></div>';
   } else if(type==='image'){
-    const imgs=[];
-    if(p.image)imgs.push(p.image);if(p.image2)imgs.push(p.image2);if(p.image3)imgs.push(p.image3);
-    if(imgs.length){
-      const gc=imgs.length===1?'g1':imgs.length===2?'g2':'g3';
-      media=`<div class="post-media"><div class="img-gallery ${gc}">${imgs.map(u=>`<img src="${esc(u)}" alt="" onclick="openLightbox('${esc(u)}')" loading="lazy">`).join('')}</div></div>`;
-    }else if(p.image){
-      media=`<div class="post-media"><img src="${esc(p.image)}" onclick="openLightbox('${esc(p.image)}')" style="width:100%;max-height:400px;object-fit:cover;cursor:zoom-in;" loading="lazy"></div>`;
-    }
+    const imgs=[];if(p.image)imgs.push(p.image);if(p.image2)imgs.push(p.image2);if(p.image3)imgs.push(p.image3);
+    if(imgs.length){const gc=imgs.length===1?'g1':imgs.length===2?'g2':'g3';media='<div class="post-media"><div class="img-gallery '+gc+'">'+imgs.map(u=>'<img src="'+esc(u)+'" alt="" onclick="openLightbox(\''+esc(u)+'\')">').join('')+'</div></div>';}
+    else if(p.image){media='<div class="post-media"><img src="'+esc(p.image)+'" alt="" onclick="openLightbox(\''+esc(p.image)+'\');" style="width:100%;max-height:400px;object-fit:cover;cursor:zoom-in;" loading="lazy"></div>';}
   } else if(p.image){
-    media=`<div class="post-media"><img src="${esc(p.image)}" alt="" onclick="openLightbox('${esc(p.image)}')" style="width:100%;max-height:380px;object-fit:cover;cursor:zoom-in;" loading="lazy"></div>`;
+    media='<div class="post-media"><img src="'+esc(p.image)+'" alt="" onclick="openLightbox(\''+esc(p.image)+'\');" style="width:100%;max-height:380px;object-fit:cover;cursor:zoom-in;" loading="lazy"></div>';
   }
 
-  // ── FOOTER BUTTONS ──
   let btns='';
   if(access||!locked){
-    if(type==='video'&&p.video_url) btns+=`<a class="btn-sm bs-out" href="${esc(p.video_url)}" target="_blank"><i class="fas fa-external-link-alt"></i> Ouvrir vidéo</a>`;
-    if(type==='pdf'&&(p.pdf_file||p.link)){
-      const url=resolvePdf(p.pdf_file||p.link);
-      btns+=`<button class="btn-sm bs-blue" onclick="openPdfModal('${esc(url)}','${esc(p.title)}')"><i class="fas fa-eye"></i> Voir PDF</button>`;
-      btns+=`<a class="btn-sm bs-out" href="${esc(url)}" download><i class="fas fa-download"></i> Télécharger</a>`;
-    }
-    if(p.link&&type!=='pdf'&&type!=='video') btns+=`<a class="btn-sm bs-out" href="${esc(p.link)}" target="_blank"><i class="fas fa-link"></i> Lien</a>`;
+    if(type==='video'&&p.video_url) btns+='<a class="btn-sm bs-out" href="'+esc(p.video_url)+'" target="_blank"><i class="fas fa-external-link-alt"></i> Ouvrir vidéo</a>';
+    if(type==='pdf'&&(p.pdf_file||p.link)){const url=resolvePdf(p.pdf_file||p.link);btns+='<button class="btn-sm bs-blue" onclick="openPdfModal(\''+esc(url)+'\',\''+esc(p.title)+'\')"><i class="fas fa-eye"></i> Voir PDF</button><a class="btn-sm bs-out" href="'+esc(url)+'" download><i class="fas fa-download"></i> Télécharger</a>';}
+    if(p.link&&type!=='pdf'&&type!=='video') btns+='<a class="btn-sm bs-out" href="'+esc(p.link)+'" target="_blank"><i class="fas fa-link"></i> Lien</a>';
   }
   if(locked){
-    if(access) btns+=`<span class="access-tag"><i class="fas fa-check-circle"></i> Accès autorisé</span>`;
-    else btns+=`<span class="lock-tag"><i class="fas fa-lock"></i> Accès restreint</span>`;
+    if(access) btns+='<span class="access-tag" style="margin-left:auto"><i class="fas fa-check-circle"></i> Accès autorisé</span>';
+    else btns+='<span class="lock-tag" style="margin-left:auto"><i class="fas fa-lock"></i> Accès restreint</span>';
   }
 
-  return `<div class="post-card">
-    ${media}
-    <div class="post-body">
-      <div class="post-meta-row">
-        <span class="type-badge ${tbCls}"><i class="fas ${icon}"></i> ${label}</span>
-        ${p.category?`<span class="post-cat">${esc(p.category)}</span>`:''}
-        <span class="post-date"><i class="far fa-calendar-alt"></i> ${esc(p.date||'')}</span>
-      </div>
-      <h3>${esc(p.title||'')}</h3>
-      ${locked&&!access
-        ?`<p style="color:var(--gray);font-size:.84rem;font-style:italic;margin-bottom:.5rem">Contenu réservé. Connectez-vous ou contactez l'enseignant.</p>`
-        :p.body?`<div class="post-text">${esc(p.body.substring(0,520))}${p.body.length>520?'…':''}</div>`:''
-      }
-      ${btns?`<div class="post-footer">${btns}</div>`:''}
-    </div>
-  </div>`;
+  let textHtml='';
+  if(locked&&!access){
+    textHtml='<p style="color:var(--gray);font-size:.84rem;font-style:italic;margin-bottom:.5rem">Connectez-vous pour lire ce contenu.</p>';
+  } else if(bodyText){
+    if(isLong){
+      textHtml='<div class="post-text"><span id="prev-'+cardId+'">'+esc(bodyText.substring(0,PREVIEW_LEN))+'<span style="color:var(--gray)">…</span></span>'
+        +'<span id="full-'+cardId+'" style="display:none">'+esc(bodyText)+'</span>'
+        +'<br><button class="read-more-btn" id="rmb-'+cardId+'" onclick="expandPost(\''+cardId+'\')"><i class="fas fa-chevron-down"></i> Lire la suite</button></div>';
+    } else {
+      textHtml='<div class="post-text">'+esc(bodyText)+'</div>';
+    }
+  }
+
+  return '<div class="post-card" id="'+cardId+'">'+media+'<div class="post-body"><div class="post-meta-row"><span class="type-badge '+tbCls+'"><i class="fas '+icon+'"></i> '+label+'</span>'+(p.category?'<span class="post-cat">'+esc(p.category)+'</span>':'')+'<span class="post-date"><i class="far fa-calendar-alt"></i> '+esc(p.date||'')+'</span></div><h3>'+esc(p.title||'')+'</h3>'+textHtml+(btns?'<div class="post-footer">'+btns+'</div>':'')+'</div></div>';
+}
+
+function expandPost(id){
+  document.getElementById('prev-'+id).style.display='none';
+  document.getElementById('full-'+id).style.display='inline';
+  const btn=document.getElementById('rmb-'+id);
+  btn.innerHTML='<i class="fas fa-chevron-up"></i> Réduire';
+  btn.onclick=function(){collapsePost(id);};
+}
+function collapsePost(id){
+  document.getElementById('prev-'+id).style.display='inline';
+  document.getElementById('full-'+id).style.display='none';
+  const btn=document.getElementById('rmb-'+id);
+  btn.innerHTML='<i class="fas fa-chevron-down"></i> Lire la suite';
+  btn.onclick=function(){expandPost(id);};
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
 /* ══ RESOURCES ══ */
