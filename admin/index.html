@@ -405,27 +405,34 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
 
       <!-- PACKS -->
       <div class="panel" id="panel-packs">
-        <div class="topbar"><div class="tb-left"><h2>Packs de cours</h2><p>Regroupez des cours, exercices et ressources en un seul accès</p></div><button class="btn b-teal" onclick="showCreatePack()"><i class="fas fa-plus"></i> Créer un pack</button></div>
+        <div class="topbar"><div class="tb-left"><h2>Packs de cours</h2><p>Regroupez librement cours, exercices, PDF et ressources</p></div><button class="btn b-teal" onclick="showCreatePack()"><i class="fas fa-plus"></i> Créer un pack</button></div>
         <div id="createPackForm" style="display:none">
           <div class="card">
             <div class="card-header"><h3><i class="fas fa-box-open" style="color:var(--teal)"></i> Nouveau pack</h3></div>
             <div class="card-body">
               <div class="fgrid">
-                <div class="fg"><label>Nom du pack *</label><input type="text" id="pack-name" placeholder="Ex: Pack BAC Maths Complet"></div>
-                <div class="fg"><label>Prix affiché</label><input type="text" id="pack-price" placeholder="Ex: 29 DT / mois"></div>
+                <div class="fg"><label>Nom du pack *</label><input type="text" id="pack-name" placeholder="Ex: Pack BAC Maths Complet 2026"></div>
+                <div class="fg"><label>Prix affiché (optionnel)</label><input type="text" id="pack-price" placeholder="Ex: 29 DT / mois — laisser vide si gratuit"></div>
               </div>
-              <div class="fg"><label>Description</label><textarea id="pack-desc" placeholder="Ce que contient ce pack, les avantages…" style="min-height:70px"></textarea></div>
-              <div class="fg"><label>Contenu du pack (titres des cours/ressources inclus)</label>
-                <div id="pack-items-list" style="margin-bottom:.5rem"></div>
-                <div style="display:flex;gap:.5rem"><input type="text" id="pack-item-input" placeholder="Ex: Chapitre 1 – Les fonctions" style="flex:1;padding:.65rem .9rem;border-radius:9px;border:1.5px solid var(--border);font-family:inherit;font-size:.86rem;outline:none;" onkeydown="if(event.key==='Enter'){addPackItem();event.preventDefault();}"><button class="btn b-ghost" onclick="addPackItem()"><i class="fas fa-plus"></i></button></div>
+              <div class="fg"><label>Description du pack</label><textarea id="pack-desc" placeholder="Décrivez ce que contient ce pack, ses avantages, à qui il s'adresse…" style="min-height:80px"></textarea></div>
+              <div class="fg">
+                <label>Contenu du pack — ajoutez librement tout ce que vous voulez</label>
+                <div style="background:var(--bg);border-radius:10px;padding:.9rem;border:1.5px dashed var(--border);margin-bottom:.5rem;">
+                  <div id="pack-items-list" style="margin-bottom:.6rem;"></div>
+                  <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+                    <input type="text" id="pack-item-input" placeholder="Ex: Cours Chapitre 1 – Cinématique, Exercices corrigés, Résumé PDF…" style="flex:1;min-width:180px;padding:.65rem .9rem;border-radius:9px;border:1.5px solid var(--border);font-family:inherit;font-size:.85rem;outline:none;" onkeydown="if(event.key==='Enter'){addPackItem();event.preventDefault();}">
+                    <button class="btn b-ghost" onclick="addPackItem()" title="Ajouter"><i class="fas fa-plus"></i> Ajouter</button>
+                  </div>
+                  <p style="font-size:.72rem;color:var(--gray);margin-top:.5rem;"><i class="fas fa-info-circle"></i> Appuyez Entrée ou cliquez Ajouter. Vous pouvez mettre autant d'éléments que vous voulez.</p>
+                </div>
               </div>
               <div class="toggle-field">
-                <div class="toggle-info"><label>🔒 Accès payant</label><small>Les élèves doivent payer pour accéder à ce pack.</small></div>
+                <div class="toggle-info"><label>🔒 Accès payant</label><small>Si activé, affiche « Contenu payant » sur le site public.</small></div>
                 <label class="switch"><input type="checkbox" id="pack-locked" checked><span class="slider"></span></label>
               </div>
-              <div style="display:flex;gap:.7rem;justify-content:flex-end;">
-                <button class="btn b-ghost" onclick="document.getElementById('createPackForm').style.display='none'">Annuler</button>
-                <button class="btn b-teal btn-lg" onclick="publishPack()"><i class="fas fa-box-open"></i> Créer le pack</button>
+              <div style="display:flex;gap:.7rem;justify-content:flex-end;flex-wrap:wrap;">
+                <button class="btn b-ghost" onclick="document.getElementById('createPackForm').style.display='none';packItems.length=0;renderPackItems();">Annuler</button>
+                <button class="btn b-teal btn-lg" onclick="publishPack()"><i class="fas fa-box-open"></i> Créer et publier le pack</button>
               </div>
             </div>
           </div>
@@ -974,19 +981,26 @@ function openEditModal(key){
 function closeEditModal(){document.getElementById('editOverlay').classList.remove('open');editingPost=null;}
 
 async function saveEditPost(){
-  if(!editingPost){closeEditModal();return;}
+  if(!editingPost){toast('Erreur: aucun post sélectionné. Rechargez la liste.','err');return;}
   const title=document.getElementById('edit-title').value.trim();
   if(!title){toast('Le titre est obligatoire','err');return;}
   const c=cfg();if(!c.token){toast('Configurez GitHub d\'abord','err');return;}
+
+  // ⚠️ CRITICAL: capture ALL data from editingPost BEFORE closing modal
+  // closeEditModal() sets editingPost=null — so we must save filename/date first
+  const postFilename = editingPost._n;
+  const postDate = editingPost.date || today();
+
   const type=document.getElementById('edit-type').value,cat=document.getElementById('edit-cat').value;
   const body=document.getElementById('edit-body').value.trim(),link=document.getElementById('edit-link').value.trim();
   const cover=document.getElementById('edit-cover').value.trim(),vurl=document.getElementById('edit-video').value.trim();
   const pdf=document.getElementById('edit-pdf').value.trim(),emails=document.getElementById('edit-emails').value.trim();
   const locked=document.getElementById('edit-locked').checked;
-  // Build frontmatter — escape quotes in title
+
+  // Build frontmatter
   let fm='---\n';
   fm+=`title: "${title.replace(/"/g,'\\"')}"\n`;
-  fm+=`date: "${editingPost.date||today()}"\n`;
+  fm+=`date: "${postDate}"\n`;
   fm+=`category: "${cat}"\n`;
   fm+=`type: "${type}"\n`;
   fm+=`locked: "${locked}"\n`;
@@ -996,17 +1010,18 @@ async function saveEditPost(){
   if(pdf)fm+=`pdf_file: "${pdf}"\n`;
   if(link)fm+=`link: "${link}"\n`;
   fm+=`---\n\n${body}`;
+
+  // Close modal AFTER capturing all data
   closeEditModal();
-  showPub('Mise à jour en cours…','Récupération du SHA actuel…');
+  showPub('Mise à jour en cours…','Connexion à GitHub…');
   try{
-    // Always fetch fresh SHA — this is the root cause of the 422 error
     setPubStep('Récupération du SHA actuel…');
-    const freshSHA=await getSha('content/posts/'+editingPost._n);
-    if(!freshSHA){throw new Error('Fichier introuvable. Il a peut-être été déplacé ou renommé.');}
+    const freshSHA = await getSha('content/posts/'+postFilename);
+    if(!freshSHA){throw new Error('Fichier introuvable sur GitHub. Vérifiez que "'+postFilename+'" existe bien.');}
     setPubStep('Écriture des modifications…');
-    await ghPut('content/posts/'+editingPost._n,fm,'Modification: '+title,freshSHA);
-    setPubDone('"'+title+'" mis à jour !','Les modifications sont visibles sur le site.');
-    setTimeout(()=>loadPostsTable(),1500);
+    await ghPut('content/posts/'+postFilename, fm, 'Modification: '+title, freshSHA);
+    setPubDone('"'+title+'" mis à jour !','Visible sur le site.');
+    setTimeout(()=>loadPostsTable(), 1500);
   }catch(e){
     closePub();
     toast('Erreur de sauvegarde: '+e.message,'err');
