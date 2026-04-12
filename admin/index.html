@@ -419,12 +419,20 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
                 <label>Contenu du pack — ajoutez librement tout ce que vous voulez</label>
                 <div style="background:var(--bg);border-radius:10px;padding:.9rem;border:1.5px dashed var(--border);margin-bottom:.5rem;">
                   <div id="pack-items-list" style="margin-bottom:.6rem;"></div>
-                  <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
-                    <input type="text" id="pack-item-input" placeholder="Ex: Cours Chapitre 1 – Cinématique, Exercices corrigés, Résumé PDF…" style="flex:1;min-width:180px;padding:.65rem .9rem;border-radius:9px;border:1.5px solid var(--border);font-family:inherit;font-size:.85rem;outline:none;" onkeydown="if(event.key==='Enter'){addPackItem();event.preventDefault();}">
-                    <button class="btn b-ghost" onclick="addPackItem()" title="Ajouter"><i class="fas fa-plus"></i> Ajouter</button>
+                  <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.6rem;">
+                    <input type="text" id="pack-item-input" placeholder="Tapez un élément ou choisissez ci-dessous…" style="flex:1;min-width:180px;padding:.65rem .9rem;border-radius:9px;border:1.5px solid var(--border);font-family:inherit;font-size:.85rem;outline:none;" onkeydown="if(event.key==='Enter'){addPackItem();event.preventDefault();}">
+                    <button class="btn b-ghost" onclick="addPackItem()"><i class="fas fa-plus"></i>Ajouter</button>
                   </div>
-                  <p style="font-size:.72rem;color:var(--gray);margin-top:.5rem;"><i class="fas fa-info-circle"></i> Appuyez Entrée ou cliquez Ajouter. Vous pouvez mettre autant d'éléments que vous voulez.</p>
+                  <!-- Pick from existing content -->
+                  <div style="border-top:1px solid var(--border);padding-top:.7rem;">
+                    <p style="font-size:.73rem;font-weight:600;color:var(--light);text-transform:uppercase;letter-spacing:.4px;margin-bottom:.5rem;"><i class="fas fa-folder-open"></i> Choisir parmi vos publications existantes</p>
+                    <div id="pack-content-picker" style="max-height:200px;overflow-y:auto;display:grid;gap:.3rem;">
+                      <p style="color:var(--gray);font-size:.8rem;"><i class="fas fa-spinner fa-spin"></i> Chargement…</p>
+                    </div>
+                    <button class="btn b-ghost" style="margin-top:.5rem;font-size:.75rem;" onclick="loadPackPicker()"><i class="fas fa-sync"></i> Actualiser la liste</button>
+                  </div>
                 </div>
+                <p style="font-size:.72rem;color:var(--gray);"><i class="fas fa-info-circle"></i> Vous pouvez mélanger : titres libres, publications existantes, exercices, PDF… tout est accepté.</p>
               </div>
               <div class="toggle-field">
                 <div class="toggle-info"><label>🔒 Accès payant</label><small>Si activé, affiche « Contenu payant » sur le site public.</small></div>
@@ -877,17 +885,52 @@ function clearResource(){['rt','rdesc','r-pdfurl','r-video','r-imgurl','r-emails
 
 // ═══ PACKS ═══
 const packItems=[];
-function showCreatePack(){document.getElementById('createPackForm').style.display='block';}
+function showCreatePack(){document.getElementById('createPackForm').style.display='block';loadPackPicker();}
 function addPackItem(){const inp=document.getElementById('pack-item-input');const v=inp.value.trim();if(!v)return;packItems.push(v);inp.value='';renderPackItems();}
+function addPackItemText(text){packItems.push(text);renderPackItems();toast('"'+text+'" ajouté au pack','ok');}
 function removePackItem(i){packItems.splice(i,1);renderPackItems();}
-function renderPackItems(){const list=document.getElementById('pack-items-list');list.innerHTML=packItems.map((item,i)=>`<div class="attach-item"><i class="fas fa-check" style="color:var(--green)"></i><span>${esc(item)}</span><button onclick="removePackItem(${i})"><i class="fas fa-times"></i></button></div>`).join('');}
+function renderPackItems(){
+  const list=document.getElementById('pack-items-list');
+  if(!packItems.length){list.innerHTML='';return;}
+  list.innerHTML=packItems.map((item,i)=>`<div class="attach-item"><i class="fas fa-check" style="color:var(--green)"></i><span style="flex:1;font-size:.83rem;">${esc(item)}</span><button onclick="removePackItem(${i})" title="Retirer"><i class="fas fa-times"></i></button></div>`).join('');
+}
+async function loadPackPicker(){
+  const picker=document.getElementById('pack-content-picker');
+  picker.innerHTML='<p style="color:var(--gray);font-size:.8rem;"><i class="fas fa-spinner fa-spin"></i> Chargement…</p>';
+  try{
+    const[pf,rf]=await Promise.all([ghGet('content/posts').catch(()=>[]),ghGet('content/resumes').catch(()=>[])]);
+    const pm=(pf||[]).filter(f=>f.name?.endsWith('.md'));
+    const rm=(rf||[]).filter(f=>f.name?.endsWith('.md'));
+    // Load titles only — fast, no full content needed
+    const allItems=await Promise.all([...pm.map(async f=>{
+      const r=await fetch(f.download_url);const t=await r.text();const p=parseFM(t);
+      return{title:p.title||f.name,type:p.type||'post',kind:'post'};
+    }),...rm.map(async f=>{
+      const r=await fetch(f.download_url);const t=await r.text();const p=parseFM(t);
+      return{title:p.title||f.name,type:p.type||'pdf',kind:'resource'};
+    })]);
+    if(!allItems.length){picker.innerHTML='<p style="color:var(--gray);font-size:.8rem;font-style:italic;">Aucun contenu publié trouvé.</p>';return;}
+    const typeIco={post:'📰',video:'🎬',pdf:'📄',image:'🖼️',announcement:'📣',resource:'📁'};
+    picker.innerHTML=allItems.map(item=>`
+      <div style="display:flex;align-items:center;gap:.5rem;background:white;border:1px solid var(--border);border-radius:8px;padding:.45rem .7rem;cursor:pointer;transition:.15s;" onclick="addPackItemText('${esc(item.title)}')" onmouseover="this.style.borderColor='var(--blue)';this.style.background='rgba(37,99,235,.04)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='white'">
+        <span style="font-size:.88rem;">${typeIco[item.type]||'📁'}</span>
+        <span style="font-size:.8rem;font-weight:500;color:var(--navy);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(item.title)}</span>
+        <span style="font-size:.65rem;color:var(--gray);background:var(--bg);padding:.12rem .4rem;border-radius:6px;flex-shrink:0;">${item.kind==='resource'?'Ressource':'Publication'}</span>
+        <i class="fas fa-plus" style="color:var(--blue);font-size:.7rem;flex-shrink:0;"></i>
+      </div>`).join('');
+  }catch(e){picker.innerHTML='<p style="color:var(--red);font-size:.8rem;">⚠️ Erreur – vérifiez la configuration GitHub.</p>';}
+}
 async function publishPack(){
   const name=document.getElementById('pack-name').value.trim();if(!name){toast('Entrez un nom de pack','err');return;}
   const c=cfg();if(!c.token){toast('Configurez GitHub','err');showPanel('settings');return;}
   if(!c.owner)await fetchOwner(c.token);
-  const price=document.getElementById('pack-price').value.trim(),desc=document.getElementById('pack-desc').value.trim(),locked=document.getElementById('pack-locked').checked;
+  const price=document.getElementById('pack-price').value.trim();
+  const desc=document.getElementById('pack-desc').value.trim();
+  const locked=document.getElementById('pack-locked').checked;
   const date=today(),filename=slug(name)+'-'+date.replace(/-/g,'')+'.md';
-  let fm=`---\ntitle: "${name.replace(/"/g,'\\"')}"\ntype: "pack"\ndate: "${date}"\nprice: "${price}"\nlocked: "${locked}"\n---\n\n${desc}\n\n## Contenu du pack\n\n${packItems.map(i=>'- '+i).join('\n')}`;
+  // Build content list from packItems (each item can be a title, a filename ref, or any text)
+  const itemLines=packItems.map(i=>'- '+i).join('\n');
+  let fm=`---\ntitle: "${name.replace(/"/g,'\\"')}"\ntype: "pack"\ndate: "${date}"\nprice: "${price}"\nlocked: "${locked}"\n---\n\n${desc?desc+'\n\n':''}${itemLines}`;
   showPub('Création du pack…','GitHub…');
   try{
     await ghPut('content/packs/'+filename,fm,'Pack: '+name);
