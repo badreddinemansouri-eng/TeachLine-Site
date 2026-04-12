@@ -499,7 +499,7 @@ function closeNav(){document.getElementById('navLinks').classList.remove('open')
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});closeNav();}}));
 
 /* ══ GITHUB ══ */
-async function ghList(path){try{const r=await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}?ref=${BRANCH}&t=${Date.now()}`);if(!r.ok)return[];return r.json();}catch(e){return[];}}
+async function ghList(path){try{const r=await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}?ref=${BRANCH}`);if(!r.ok)return[];return r.json();}catch(e){return[];}}
 const parseFM=md=>{const fm={};const b=md.match(/^---\n([\s\S]*?)\n---/);if(b)b[1].split('\n').forEach(l=>{const[k,...v]=l.split(':');if(k&&k.trim())fm[k.trim()]=v.join(':').trim().replace(/^"|"$/g,'');});return{...fm,body:md.replace(/^---[\s\S]*?---\n?/,'').trim()};};
 const esc=s=>s==null?'':String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const resolvePdf=p=>!p?'':p.startsWith('http')?p:`${RAW}/${p}`;
@@ -573,7 +573,7 @@ async function loadFeed(){
   try{
     const files=await ghList('content/posts');
     const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
-    const posts=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url+'?t='+Date.now());const t=await r.text();return{...parseFM(t),_name:f.name};}));
+    const posts=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return{...parseFM(t),_name:f.name};}));
     allPosts=posts.sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
   }catch(e){allPosts=[];}
   renderFeed();
@@ -632,19 +632,34 @@ function buildPostCard(p){
 
   // ATTACHMENTS (shown when access granted)
   let attachHtml='';
-  if(access&&!locked||!locked){
-    if(p.attachments){
+  if(!locked||access){
+    // Support both new base64 format and old JSON format
+    const rawAtts=p.attachments_b64||p.attachments||'';
+    if(rawAtts){
       try{
-        const atts=JSON.parse(p.attachments.replace(/^'|'$/g,''));
-        if(atts.length){attachHtml=`<div class="post-attachments">${atts.map(a=>a.url?`<a class="attach-item-pub" href="${esc(a.url)}" target="_blank"><i class="fas fa-link"></i>${esc(a.name)}</a>`:`<a class="attach-item-pub" href="${RAW}/${esc(a.path)}" download><i class="fas fa-file-pdf"></i>${esc(a.name)}</a>`).join('')}</div>`;}
-      }catch(e){}
+        let atts;
+        if(p.attachments_b64){
+          // New format: base64-encoded JSON
+          atts=JSON.parse(decodeURIComponent(escape(atob(rawAtts))));
+        }else{
+          // Old format: raw JSON (may have been stored with single quotes)
+          atts=JSON.parse(rawAtts.replace(/^'|'$/g,''));
+        }
+        if(atts&&atts.length){
+          attachHtml=`<div class="post-attachments">${atts.map(a=>
+            a.url
+              ?`<a class="attach-item-pub" href="${esc(a.url)}" target="_blank"><i class="fas fa-link"></i> ${esc(a.name)}</a>`
+              :`<a class="attach-item-pub" href="${RAW}/${esc(a.path)}" target="_blank" download="${esc(a.name)}"><i class="fas fa-file-pdf"></i> ${esc(a.name)}</a>`
+          ).join('')}</div>`;
+        }
+      }catch(e){/* silently skip malformed attachments */}
     }
   }
 
   // FOOTER BUTTONS
   let btns='';
   if(access||!locked){
-    if(type==='video'&&p.video_url) btns+=`<a class="btn-sm bs-out" href="${esc(p.video_url)}" target="_blank" style="display:none"></a>`; // video shown inline, no external button
+    // Videos play inline — no external button needed
     if(type==='pdf'&&(p.pdf_file||p.link)){const url=resolvePdf(p.pdf_file||p.link);btns+=`<button class="btn-sm bs-blue" onclick="openPdfModal('${esc(url)}','${esc(p.title)}')"><i class="fas fa-eye"></i> Voir PDF</button><a class="btn-sm bs-out" href="${esc(url)}" download><i class="fas fa-download"></i> Télécharger</a>`;}
     if(p.link&&type!=='pdf'&&type!=='video') btns+=`<a class="btn-sm bs-out" href="${esc(p.link)}" target="_blank"><i class="fas fa-link"></i> Lien</a>`;
   }
@@ -685,7 +700,7 @@ async function loadPacks(){
   try{
     const files=await ghList('content/packs');const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
     if(!mds.length){c.innerHTML='<p style="color:rgba(255,255,255,.5);font-size:.9rem;font-style:italic;grid-column:1/-1;">Aucun pack disponible pour le moment.</p>';return;}
-    const packs=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url+'?t='+Date.now());const t=await r.text();return parseFM(t);}));
+    const packs=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return parseFM(t);}));
     c.innerHTML=packs.map(p=>{
       const {ok:access}=hasAccess({...p,locked:p.locked||'false'});
       const items=(p.body||'').split('\n').filter(l=>l.startsWith('- ')).map(l=>l.slice(2));
@@ -712,7 +727,7 @@ function openPackModal(title){
 /* ══ RESOURCES ══ */
 let allRes=[];
 async function loadResources(){
-  try{const files=await ghList('content/resumes');const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));allRes=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url+'?t='+Date.now());const t=await r.text();return parseFM(t);}));}catch(e){allRes=[];}
+  try{const files=await ghList('content/resumes');const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));allRes=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return parseFM(t);}));}catch(e){allRes=[];}
   renderResources();
 }
 function renderResources(){
@@ -748,9 +763,11 @@ function openVideoModal(embed,title){
 /* ══ EMBED & HELPERS ══ */
 function toEmbed(url){
   if(!url)return null;
-  let m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);if(m)return`https://www.youtube.com/embed/${m[1]}?rel=0&modestbranding=1`;
-  m=url.match(/vimeo\.com\/(\d+)/);if(m)return`https://player.vimeo.com/video/${m[1]}`;
-  m=url.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);if(m)return`https://www.dailymotion.com/embed/video/${m[1]}`;
+  // youtube-nocookie.com = no cookies, no branding, no "Watch on YouTube" overlay
+  let m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
+  if(m)return`https://www.youtube-nocookie.com/embed/${m[1]}?rel=0&modestbranding=1&playsinline=1&iv_load_policy=3`;
+  m=url.match(/vimeo\.com\/(\d+)/);if(m)return`https://player.vimeo.com/video/${m[1]}?title=0&byline=0&portrait=0`;
+  m=url.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);if(m)return`https://www.dailymotion.com/embed/video/${m[1]}?ui-logo=0`;
   m=url.match(/drive\.google\.com\/file\/d\/([^/]+)/);if(m)return`https://drive.google.com/file/d/${m[1]}/preview`;
   return null;
 }
