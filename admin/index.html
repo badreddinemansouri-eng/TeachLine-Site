@@ -681,8 +681,9 @@ const cfg=()=>({owner:localStorage.getItem('tl_owner')||'',repo:localStorage.get
 // ═══ GITHUB API ═══
 async function ghGet(path){
   const c=cfg();
-  const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}?ref=${c.branch}&t=${Date.now()}`,{headers:{Authorization:'Bearer '+c.token,'Cache-Control':'no-cache'}});
-  if(!r.ok)throw new Error('GitHub '+r.status);
+  // Note: no Cache-Control header — causes CORS preflight failures with GitHub API
+  const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}?ref=${c.branch}`,{headers:{Authorization:'Bearer '+c.token}});
+  if(!r.ok)throw new Error('GitHub '+r.status+' – '+path);
   return r.json();
 }
 async function ghPut(path,content,msg,sha=null){
@@ -705,7 +706,12 @@ async function ghDel(path,msg,sha){
   if(!r.ok)throw new Error('Delete failed '+r.status);
 }
 async function getSha(path){
-  try{const c=cfg();const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}?ref=${c.branch}&t=${Date.now()}`,{headers:{Authorization:'Bearer '+c.token,'Cache-Control':'no-cache'}});if(r.ok){const d=await r.json();return d.sha||null;}return null;}catch(e){return null;}
+  try{
+    const c=cfg();
+    const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}?ref=${c.branch}`,{headers:{Authorization:'Bearer '+c.token}});
+    if(r.ok){const d=await r.json();return d.sha||null;}
+    return null;
+  }catch(e){return null;}
 }
 
 async function checkGH(){
@@ -805,23 +811,31 @@ async function publishPost(){
     if(type==='pdf'&&fData.pdf){setPubStep('Upload PDF…');const pp='content/files/'+fData.pdf.name;await ghPutB64(pp,fData.pdf.data,'PDF: '+fData.pdf.name);pdfPath=pp;}
     else if(type==='pdf'&&purl)pdfPath=purl;
     if(type==='image'&&fData.img){setPubStep('Upload image…');const pp='content/files/'+fData.img.name;await ghPutB64(pp,fData.img.data,'Img: '+fData.img.name);imgPath=pp;}
-    // Upload attachments
-    let attachJSON='';
+    // Upload attachments safely
+    let attachB64='';
     if(attachments.length){
       setPubStep('Upload des pièces jointes…');
       const uploaded=[];
       for(const a of attachments){
-        if(a.type==='file'){const pp='content/files/'+a.name;await ghPutB64(pp,a.data,'Attach: '+a.name);uploaded.push({name:a.name,path:pp});}
-        else uploaded.push({name:a.name,url:a.url});
+        if(a.type==='file'){
+          const pp='content/files/'+a.name;
+          // Check if file already exists to get SHA
+          const existSha=await getSha(pp);
+          await ghPutB64(pp,a.data,'Attach: '+a.name,existSha);
+          uploaded.push({name:a.name,path:pp});
+        }else{
+          uploaded.push({name:a.name,url:a.url});
+        }
       }
-      attachJSON=JSON.stringify(uploaded);
+      // Store as base64 to avoid any YAML quote issues
+      attachB64=btoa(unescape(encodeURIComponent(JSON.stringify(uploaded))));
     }
     let fm=`---\ntitle: "${title.replace(/"/g,'\\"')}"\ndate: "${date}"\ncategory: "${cat}"\ntype: "${type}"\nlocked: "${locked}"\n`;
     if(emails)fm+=`allowed_emails: "${emails}"\n`;if(cover)fm+=`image: "${cover}"\n`;
     if(vurl)fm+=`video_url: "${vurl}"\n`;if(pdfPath)fm+=`pdf_file: "${pdfPath}"\n`;if(link)fm+=`link: "${link}"\n`;
     if(imgPath)fm+=`image: "${imgPath}"\n`;else if(img1)fm+=`image: "${img1}"\n`;
     if(img2)fm+=`image2: "${img2}"\n`;if(img3)fm+=`image3: "${img3}"\n`;
-    if(attachJSON)fm+=`attachments: '${attachJSON}'\n`;
+    if(attachB64)fm+=`attachments_b64: "${attachB64}"\n`;
     fm+=`---\n\n${body}`;
     setPubStep('Écriture sur GitHub…');
     await ghPut('content/posts/'+filename,fm,'Post: '+title);
@@ -881,7 +895,7 @@ async function loadPacks(){
   try{
     const files=await ghGet('content/packs');const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
     if(!mds.length){grid.innerHTML='<p style="color:var(--gray);font-size:.83rem;font-style:italic;">Aucun pack créé. Créez votre premier pack ci-dessus.</p>';return;}
-    const packs=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url+'?t='+Date.now());const t=await r.text();return{...parseFM(t),_n:f.name,_sha:f.sha};}));
+    const packs=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return{...parseFM(t),_n:f.name,_sha:f.sha};}));
     setEl('s-pk',packs.length);setEl('nb-packs',packs.length);
     grid.innerHTML=packs.map(p=>`
       <div class="pack-card">
@@ -915,7 +929,12 @@ async function loadPostsTable(){
     const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
     setEl('posts-count',mds.length+' publication(s)');
     if(!mds.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray)">Aucune publication.</td></tr>';return;}
-    const items=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url+'?t='+Date.now());const t=await r.text();return{...parseFM(t),_n:f.name,_sha:f.sha};}));
+    // Use GitHub API to get fresh content for each file (bypasses CDN cache)
+    const items=await Promise.all(mds.map(async f=>{
+      const r=await fetch(f.download_url);
+      const t=await r.text();
+      return{...parseFM(t),_n:f.name,_sha:f.sha};
+    }));
     items.sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
     const ti={post:'fa-newspaper',video:'fa-video',pdf:'fa-file-pdf',image:'fa-image',announcement:'fa-bullhorn'};
     const tc={post:'b-post',video:'b-video',pdf:'b-pdf',image:'b-image',announcement:'b-cat'};
@@ -1027,7 +1046,7 @@ async function loadResTable(){
     const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
     setEl('res-count',mds.length+' ressource(s)');
     if(!mds.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray)">Aucune ressource.</td></tr>';return;}
-    const items=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url+'?t='+Date.now());const t=await r.text();return{...parseFM(t),_n:f.name,_sha:f.sha};}));
+    const items=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return{...parseFM(t),_n:f.name,_sha:f.sha};}));
     const tc={pdf:'b-pdf',video:'b-video',image:'b-image'};
     tb.innerHTML=items.map(r=>`<tr id="tr-${esc(r._n)}">
       <td><div class="cell-main">${esc(r.title||'Sans titre')}</div></td>
@@ -1066,6 +1085,7 @@ function renderStudentList(){
   setEl('student-count-lbl',students.length+' élève(s)');setEl('s-a',students.length);setEl('nb-access',students.length);
   if(!students.length){c.innerHTML='<p style="color:var(--gray);font-size:.83rem;font-style:italic;padding:.5rem 0;">Aucun élève inscrit.</p>';return;}
   const now=new Date();
+  const siteUrl=window.location.href.replace('/admin/index.html','').replace('/admin/','');
   c.innerHTML=students.map((s,i)=>{
     const ini=(s.name||s.email||'?').substring(0,2).toUpperCase();
     const expires=s.expires?new Date(s.expires):null;
@@ -1076,18 +1096,25 @@ function renderStudentList(){
       else if(diff<=7){expClass='soon';expLabel='Expire dans '+diff+'j';}
       else expLabel='Jusqu\'au '+s.expires;
     }else{expLabel='Accès illimité';}
-    const waTxt=encodeURIComponent(`Bonjour ${s.name||''}! 👋\nVotre accès Teach Line:\n📧 Email: ${s.email}\n🔑 Mot de passe: ${s.password}\n📅 Valide jusqu'au: ${s.expires||'Illimité'}\n\nConnectez-vous: Accès élève → email + mot de passe ✅`);
+
+    const msgText=`Bonjour ${s.name||''} 👋\n\nVotre accès Teach Line est activé ✅\n\n🌐 Site: ${siteUrl}\n📧 Email: ${s.email}\n🔑 Mot de passe: ${s.password}\n📅 Valide jusqu'au: ${s.expires||'Illimité'}\n\n➡️ Cliquez sur "Accès élève" en haut du site\n→ Entrez votre email + mot de passe\n→ Accédez à tous vos cours 🎓`;
+
+    const waTxt=encodeURIComponent(msgText);
+    const mailSubject=encodeURIComponent('Votre accès Teach Line');
+    const mailBody=encodeURIComponent(msgText);
+
     return `<div class="asr">
-      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--blue));color:white;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;">${ini}</div>
+      <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--blue));color:white;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;">${ini}</div>
       <div class="asr-info">
         <div class="asr-name">${esc(s.name||s.email)}</div>
-        <div class="asr-email">${s.name?esc(s.email):''}</div>
+        <div class="asr-email">${s.name?esc(s.email):''} ${s.pack&&s.pack!=='all'?'· '+esc(s.pack):''}</div>
       </div>
-      <span class="asr-pass">${esc(s.password||'—')}</span>
+      <span class="asr-pass" title="Mot de passe">${esc(s.password||'—')}</span>
       <span class="asr-expire ${expClass}">${expLabel}</span>
-      <button class="copy-btn" onclick="copyText('${esc(s.email)}:${esc(s.password)}')" title="Copier email:pass"><i class="fas fa-copy"></i></button>
-      <a href="https://wa.me/21658338187?text=${waTxt}" target="_blank" class="btn b-success btn-icon" style="font-size:.75rem;" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-      <button class="btn b-danger btn-icon" onclick="removeStudent(${i})" title="Supprimer"><i class="fas fa-trash"></i></button>
+      <button class="copy-btn" onclick="copyText('Email: ${esc(s.email)}\\nMot de passe: ${esc(s.password)}')" title="Copier identifiants"><i class="fas fa-copy"></i></button>
+      <a href="https://wa.me/21658338187?text=${waTxt}" target="_blank" class="btn b-success btn-icon" style="font-size:.75rem;" title="Envoyer par WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="mailto:${esc(s.email)}?subject=${mailSubject}&body=${mailBody}" class="btn b-primary btn-icon" style="font-size:.75rem;" title="Envoyer par Email"><i class="fas fa-envelope"></i></a>
+      <button class="btn b-danger btn-icon" onclick="removeStudent(${i})" title="Supprimer l'accès"><i class="fas fa-trash"></i></button>
     </div>`;
   }).join('');
 }
