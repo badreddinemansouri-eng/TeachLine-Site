@@ -110,6 +110,7 @@ input:checked+.slider::before{transform:translateX(20px);}
 .file-zone .fname{font-size:.8rem;font-weight:600;color:var(--blue);margin-top:.4rem;}
 .img-preview{width:100%;max-height:165px;object-fit:cover;border-radius:10px;margin-top:.5rem;display:none;}
 
+/* Attachments zone (for video + attachments) */
 .attach-zone{background:var(--bg);border:1.5px dashed var(--border);border-radius:12px;padding:1.2rem;margin-top:.8rem;}
 .attach-zone h5{font-size:.78rem;font-weight:700;color:var(--light);text-transform:uppercase;letter-spacing:.4px;margin-bottom:.8rem;}
 .attach-item{display:flex;align-items:center;gap:.7rem;background:white;border:1px solid var(--border);border-radius:10px;padding:.6rem .9rem;margin-bottom:.5rem;}
@@ -132,6 +133,7 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
 .b-pack{background:linear-gradient(135deg,#f59e0b,#d97706);color:white;}
 .ab{display:flex;gap:.32rem;align-items:center;}
 
+/* Access rows */
 .asr{display:flex;align-items:center;gap:.7rem;background:white;border:1px solid var(--border);border-radius:12px;padding:.85rem 1rem;margin-bottom:.5rem;flex-wrap:wrap;}
 .asr-info{flex:1;min-width:120px;}
 .asr-name{font-weight:700;font-size:.85rem;color:var(--navy);}
@@ -144,6 +146,7 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
 .copy-btn{background:none;border:none;cursor:pointer;color:var(--blue);font-size:.8rem;opacity:.6;transition:.2s;}
 .copy-btn:hover{opacity:1;}
 
+/* Pack cards */
 .pack-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem;}
 .pack-card{background:white;border-radius:16px;border:1px solid var(--border);overflow:hidden;transition:.25s;}
 .pack-card:hover{box-shadow:0 8px 30px rgba(0,0,0,.08);}
@@ -155,10 +158,12 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
 .pack-item:last-child{border-bottom:none;}
 .pack-item i{color:var(--blue);width:14px;}
 
+/* Masked field */
 .masked-field{position:relative;}
 .masked-field input{padding-right:2.5rem;}
 .masked-field .toggle-vis{position:absolute;right:.7rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--gray);font-size:.85rem;}
 
+/* Edit overlay */
 .edit-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);z-index:5000;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto;}
 .edit-overlay.open{display:flex;}
 .edit-modal{background:white;border-radius:22px;width:100%;max-width:740px;overflow:hidden;animation:pop .3s ease;margin:auto;}
@@ -168,6 +173,7 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
 .edit-modal-body{padding:1.6rem;max-height:78vh;overflow-y:auto;}
 .edit-modal-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:.7rem;background:#fafbff;}
 
+/* Publish overlay */
 .pub-overlay{display:none;position:fixed;inset:0;background:rgba(10,22,40,.72);backdrop-filter:blur(6px);z-index:8888;align-items:center;justify-content:center;}
 .pub-overlay.show{display:flex;}
 .pub-card{background:white;border-radius:22px;padding:2.4rem;max-width:360px;width:90%;text-align:center;animation:pop .3s ease;}
@@ -181,11 +187,13 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
 .pub-actions{margin-top:1.4rem;display:none;gap:.7rem;justify-content:center;}
 .pub-actions.show{display:flex;}
 
+/* Toast */
 .toast-wrap{position:fixed;bottom:22px;right:22px;display:flex;flex-direction:column;gap:.5rem;z-index:9990;}
 .toast{background:var(--navy);color:white;padding:.8rem 1.2rem;border-radius:11px;font-size:.82rem;font-weight:500;box-shadow:0 8px 30px rgba(0,0,0,.22);display:flex;align-items:center;gap:.6rem;min-width:220px;animation:tin .3s ease;}
 @keyframes tin{from{transform:translateX(50px);opacity:0}to{transform:translateX(0);opacity:1}}
 .toast.t-ok{background:var(--green);}.toast.t-err{background:var(--red);}.toast.t-warn{background:var(--accent);color:var(--navy);}
 
+/* Mobile */
 .mob-top{display:none;position:fixed;top:0;left:0;right:0;background:var(--navy);padding:.75rem 1rem;z-index:300;align-items:center;gap:.7rem;}
 .mob-top span{color:white;font-weight:700;font-size:.9rem;}
 .hamburger{background:none;border:none;color:white;font-size:1.25rem;cursor:pointer;}
@@ -231,7 +239,7 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
       <button class="nb" onclick="showPanel('newPost')"><i class="fas fa-plus-circle"></i> Nouvelle publication</button>
       <button class="nb" onclick="showPanel('newResource')"><i class="fas fa-upload"></i> Ajouter ressource</button>
       <button class="nb" onclick="showPanel('packs')"><i class="fas fa-box-open"></i> Packs de cours <span class="cnt" id="nb-packs" style="background:var(--teal)">—</span></button>
-      <button class="nb" onclick="showPanel('playlists')"><i class="fas fa-list"></i> Playlists <span class="cnt" id="nb-playlists" style="background:var(--purple)">—</span></button>
+      <button class="nb" onclick="showPanel('playlists')"><i class="fas fa-list-ol"></i> Playlists <span class="cnt" id="nb-playlists" style="background:var(--purple)">—</span></button>
       <button class="nb" onclick="showPanel('posts')"><i class="fas fa-newspaper"></i> Publications <span class="cnt" id="nb-posts">—</span></button>
       <button class="nb" onclick="showPanel('resources')"><i class="fas fa-folder-open"></i> Ressources <span class="cnt" id="nb-res">—</span></button>
       <div class="sb-sec">Élèves</div>
@@ -269,7 +277,6 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
             <button class="btn b-primary btn-lg" onclick="showPanel('newPost')"><i class="fas fa-plus"></i> Nouvelle publication</button>
             <button class="btn b-success btn-lg" onclick="showPanel('newResource')"><i class="fas fa-upload"></i> Ajouter ressource</button>
             <button class="btn b-teal btn-lg" onclick="showPanel('packs')"><i class="fas fa-box-open"></i> Créer un pack</button>
-            <button class="btn b-purple btn-lg" onclick="showPanel('playlists')"><i class="fas fa-list"></i> Gérer playlists</button>
             <button class="btn b-purple btn-lg" onclick="showPanel('access')"><i class="fas fa-user-shield"></i> Gérer les accès</button>
           </div>
         </div>
@@ -298,6 +305,7 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
 
             <div id="pf-video" style="display:none">
               <div class="fg"><label>URL vidéo *</label><input type="url" id="p-video" placeholder="https://youtube.com/watch?v=…"><div class="hint">YouTube, Vimeo, Google Drive, Dailymotion</div></div>
+              <!-- ATTACHMENTS for video -->
               <div class="attach-zone">
                 <h5><i class="fas fa-paperclip"></i> Pièces jointes (PDF, fiches, exercices…)</h5>
                 <div id="p-attach-list"></div>
@@ -396,92 +404,130 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
         </div>
       </div>
 
-      <!-- PACKS (ENHANCED) -->
+      <!-- PACKS -->
       <div class="panel" id="panel-packs">
-        <div class="topbar"><div class="tb-left"><h2>Packs de cours</h2><p>Regroupez librement cours, exercices, PDF et ressources</p></div><button class="btn b-teal" onclick="showCreatePack()"><i class="fas fa-plus"></i> Créer un pack</button></div>
+        <div class="topbar"><div class="tb-left"><h2>Packs de cours</h2><p>Ajoutez du vrai contenu dans chaque pack — vidéos, PDF, images, cours existants</p></div><button class="btn b-teal" onclick="showCreatePack()"><i class="fas fa-plus"></i> Créer un pack</button></div>
         <div id="createPackForm" style="display:none">
           <div class="card">
-            <div class="card-header"><h3><i class="fas fa-box-open" style="color:var(--teal)"></i> Nouveau pack (contenu réel)</h3></div>
+            <div class="card-header"><h3><i class="fas fa-box-open" style="color:var(--teal)"></i> Nouveau pack</h3></div>
             <div class="card-body">
               <div class="fgrid">
-                <div class="fg"><label>Nom du pack *</label><input type="text" id="pack-name" placeholder="Ex: Pack BAC Maths Complet 2026"></div>
-                <div class="fg"><label>Prix affiché (optionnel)</label><input type="text" id="pack-price" placeholder="Ex: 29 DT / mois — laisser vide si gratuit"></div>
+                <div class="fg"><label>Nom du pack *</label><input type="text" id="pack-name" placeholder="Ex: Pack BAC Physique Complet 2026"></div>
+                <div class="fg"><label>Prix affiché</label><input type="text" id="pack-price" placeholder="Ex: 29 DT / mois"></div>
               </div>
-              <div class="fg"><label>Description du pack</label><textarea id="pack-desc" placeholder="Décrivez ce que contient ce pack, ses avantages, à qui il s'adresse…" style="min-height:80px"></textarea></div>
+              <div class="fg"><label>Description</label><textarea id="pack-desc" placeholder="Décrivez ce pack…" style="min-height:70px"></textarea></div>
+
+              <!-- REAL CONTENT ITEMS -->
               <div class="fg">
-                <label>Contenu du pack (vrais éléments : publications, ressources, vidéos, PDF, images)</label>
-                <div style="background:var(--bg);border-radius:10px;padding:.9rem;border:1.5px dashed var(--border);margin-bottom:.5rem;">
-                  <div id="pack-structured-list" style="margin-bottom:.6rem;"></div>
-                  <div style="display:flex;gap:.5rem;margin-bottom:.6rem;">
-                    <select id="pack-item-type" style="flex:0 0 auto;padding:.65rem .9rem;border-radius:9px;border:1.5px solid var(--border);font-family:inherit;font-size:.85rem;">
-                      <option value="post">📄 Publication existante</option>
-                      <option value="resource">📁 Ressource existante</option>
-                      <option value="video">🎬 Vidéo (URL directe)</option>
-                      <option value="pdf">📑 PDF (URL/fichier)</option>
-                      <option value="image">🖼️ Image (URL/fichier)</option>
-                      <option value="text">📝 Texte libre</option>
-                    </select>
-                    <input type="text" id="pack-item-title" placeholder="Titre de l'élément" style="flex:1;min-width:180px;padding:.65rem .9rem;border-radius:9px;border:1.5px solid var(--border);font-family:inherit;font-size:.85rem;">
-                    <button class="btn b-ghost" onclick="addStructuredPackItem()"><i class="fas fa-plus"></i>Ajouter</button>
+                <label>Contenu réel du pack</label>
+                <div style="background:var(--bg);border-radius:12px;padding:1rem;border:1.5px dashed var(--border);">
+                  <div id="pack-real-items"></div>
+
+                  <!-- ADD NEW ITEM TABS -->
+                  <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.8rem;margin-top:.5rem;">
+                    <button class="btn b-ghost" onclick="showAddItem('video')" id="pib-video"><i class="fas fa-video"></i> Vidéo</button>
+                    <button class="btn b-ghost" onclick="showAddItem('pdf')" id="pib-pdf"><i class="fas fa-file-pdf"></i> PDF</button>
+                    <button class="btn b-ghost" onclick="showAddItem('image')" id="pib-image"><i class="fas fa-image"></i> Image</button>
+                    <button class="btn b-ghost" onclick="showAddItem('text')" id="pib-text"><i class="fas fa-font"></i> Texte / Titre</button>
+                    <button class="btn b-ghost" onclick="showAddItem('existing')" id="pib-existing"><i class="fas fa-folder-open"></i> Cours publié</button>
                   </div>
-                  <div id="pack-item-extra" style="margin-top:.5rem;display:none;">
-                    <div class="fg"><input type="text" id="pack-item-url" placeholder="URL du fichier/vidéo/image (si externe)"></div>
-                    <div class="file-zone" style="margin-top:.5rem"><input type="file" id="pack-item-file" accept=".pdf,.jpg,.jpeg,.png,.mp4,.webm"><i class="fas fa-upload"></i><p>Ou téléchargez un fichier (PDF, image, vidéo)</p><div class="fname" id="pack-item-fname"></div></div>
+
+                  <!-- ITEM INPUT ZONES -->
+                  <div id="pack-add-video" style="display:none;background:white;border-radius:10px;padding:.9rem;border:1px solid var(--border);margin-bottom:.5rem;">
+                    <p style="font-size:.75rem;font-weight:700;color:var(--navy);margin-bottom:.6rem;"><i class="fas fa-video" style="color:var(--blue)"></i> Ajouter une vidéo</p>
+                    <div class="fg" style="margin-bottom:.5rem;"><label>Titre de la leçon *</label><input type="text" id="pi-video-title" placeholder="Ex: Leçon 1 – Introduction aux forces"></div>
+                    <div class="fg" style="margin-bottom:.5rem;"><label>URL vidéo (YouTube, Drive, .mp4…)</label><input type="url" id="pi-video-url" placeholder="https://youtube.com/watch?v=… ou https://…/video.mp4"></div>
+                    <div class="fg" style="margin-bottom:.7rem;"><label>Description (optionnel)</label><input type="text" id="pi-video-desc" placeholder="Résumé de la leçon…"></div>
+                    <button class="btn b-primary" onclick="addRealItem('video')"><i class="fas fa-plus"></i> Ajouter cette vidéo</button>
                   </div>
-                  <div style="border-top:1px solid var(--border);padding-top:.7rem;margin-top:.7rem;">
-                    <p style="font-size:.73rem;font-weight:600;color:var(--light);text-transform:uppercase;letter-spacing:.4px;margin-bottom:.5rem;"><i class="fas fa-folder-open"></i> Choisir parmi vos publications/ressources existantes</p>
-                    <div id="pack-content-picker" style="max-height:200px;overflow-y:auto;display:grid;gap:.3rem;">
-                      <p style="color:var(--gray);font-size:.8rem;"><i class="fas fa-spinner fa-spin"></i> Chargement…</p>
+
+                  <div id="pack-add-pdf" style="display:none;background:white;border-radius:10px;padding:.9rem;border:1px solid var(--border);margin-bottom:.5rem;">
+                    <p style="font-size:.75rem;font-weight:700;color:var(--navy);margin-bottom:.6rem;"><i class="fas fa-file-pdf" style="color:#dc2626"></i> Ajouter un PDF</p>
+                    <div class="fg" style="margin-bottom:.5rem;"><label>Titre du document *</label><input type="text" id="pi-pdf-title" placeholder="Ex: Résumé Mécanique Newtonienne"></div>
+                    <div class="fg" style="margin-bottom:.5rem;"><label>Uploader un fichier PDF</label>
+                      <div class="file-zone"><input type="file" id="pi-pdf-file" accept=".pdf" onchange="handlePackFile('pi-pdf-file','pi-pdf-fn','pack-pdf')"><i class="fas fa-file-pdf" style="color:#dc2626"></i><p>Glissez votre PDF ici</p><div class="fname" id="pi-pdf-fn"></div></div>
                     </div>
-                    <button class="btn b-ghost" style="margin-top:.5rem;font-size:.75rem;" onclick="loadPackPicker()"><i class="fas fa-sync"></i> Actualiser la liste</button>
+                    <div class="fg" style="margin-bottom:.7rem;"><label>Ou URL directe du PDF</label><input type="url" id="pi-pdf-url" placeholder="https://… (si déjà en ligne)"></div>
+                    <button class="btn b-primary" onclick="addRealItem('pdf')"><i class="fas fa-plus"></i> Ajouter ce PDF</button>
+                  </div>
+
+                  <div id="pack-add-image" style="display:none;background:white;border-radius:10px;padding:.9rem;border:1px solid var(--border);margin-bottom:.5rem;">
+                    <p style="font-size:.75rem;font-weight:700;color:var(--navy);margin-bottom:.6rem;"><i class="fas fa-image" style="color:#059669"></i> Ajouter une image</p>
+                    <div class="fg" style="margin-bottom:.5rem;"><label>Titre *</label><input type="text" id="pi-img-title" placeholder="Ex: Schéma du circuit RLC"></div>
+                    <div class="fg" style="margin-bottom:.5rem;"><label>Uploader une image</label>
+                      <div class="file-zone"><input type="file" id="pi-img-file" accept="image/*" onchange="handlePackFile('pi-img-file','pi-img-fn','pack-img')"><i class="fas fa-image" style="color:#059669"></i><p>Glissez votre image</p><div class="fname" id="pi-img-fn"></div></div>
+                    </div>
+                    <div class="fg" style="margin-bottom:.7rem;"><label>Ou URL de l'image</label><input type="url" id="pi-img-url" placeholder="https://…"></div>
+                    <button class="btn b-primary" onclick="addRealItem('image')"><i class="fas fa-plus"></i> Ajouter cette image</button>
+                  </div>
+
+                  <div id="pack-add-text" style="display:none;background:white;border-radius:10px;padding:.9rem;border:1px solid var(--border);margin-bottom:.5rem;">
+                    <p style="font-size:.75rem;font-weight:700;color:var(--navy);margin-bottom:.6rem;"><i class="fas fa-font" style="color:var(--purple)"></i> Ajouter un titre de section ou texte</p>
+                    <div class="fg" style="margin-bottom:.7rem;"><label>Texte *</label><input type="text" id="pi-text-val" placeholder="Ex: ── Section 1 : Mécanique ──"></div>
+                    <button class="btn b-primary" onclick="addRealItem('text')"><i class="fas fa-plus"></i> Ajouter</button>
+                  </div>
+
+                  <div id="pack-add-existing" style="display:none;background:white;border-radius:10px;padding:.9rem;border:1px solid var(--border);margin-bottom:.5rem;">
+                    <p style="font-size:.75rem;font-weight:700;color:var(--navy);margin-bottom:.6rem;"><i class="fas fa-folder-open" style="color:var(--accent)"></i> Choisir parmi vos publications</p>
+                    <div id="pack-existing-list" style="max-height:220px;overflow-y:auto;display:grid;gap:.3rem;">
+                      <p style="color:var(--gray);font-size:.8rem;"><i class="fas fa-spinner fa-spin"></i></p>
+                    </div>
                   </div>
                 </div>
-                <p style="font-size:.72rem;color:var(--gray);"><i class="fas fa-info-circle"></i> Les éléments ajoutés seront accessibles directement par l'élève qui a souscrit au pack.</p>
+                <p style="font-size:.71rem;color:var(--gray);margin-top:.4rem;"><i class="fas fa-info-circle"></i> Chaque élément ajouté sera réellement visible et ouvert par l'élève qui accède au pack.</p>
               </div>
+
               <div class="toggle-field">
-                <div class="toggle-info"><label>🔒 Accès payant</label><small>Si activé, affiche « Contenu payant » sur le site public.</small></div>
+                <div class="toggle-info"><label>🔒 Accès payant</label><small>Affiche « Contenu payant » sur le site aux non-inscrits.</small></div>
                 <label class="switch"><input type="checkbox" id="pack-locked" checked><span class="slider"></span></label>
               </div>
               <div style="display:flex;gap:.7rem;justify-content:flex-end;flex-wrap:wrap;">
-                <button class="btn b-ghost" onclick="document.getElementById('createPackForm').style.display='none';packStructuredItems=[];renderStructuredPackItems();">Annuler</button>
-                <button class="btn b-teal btn-lg" onclick="publishEnhancedPack()"><i class="fas fa-box-open"></i> Créer et publier le pack</button>
+                <button class="btn b-ghost" onclick="cancelCreatePack()">Annuler</button>
+                <button class="btn b-teal btn-lg" onclick="publishPack()"><i class="fas fa-rocket"></i> Créer et publier le pack</button>
               </div>
             </div>
           </div>
         </div>
-        <div class="pack-grid" id="pack-grid"><p style="color:var(--gray);font-size:.83rem;"><i class="fas fa-spinner fa-spin"></i> Chargement…</p></div>
+        <div class="pack-grid" id="pack-grid"><p style="color:var(--gray);font-size:.83rem;"><i class="fas fa-spinner fa-spin"></i></p></div>
       </div>
 
-      <!-- PLAYLISTS (NEW) -->
+      <!-- PLAYLISTS -->
       <div class="panel" id="panel-playlists">
-        <div class="topbar"><div class="tb-left"><h2>Playlists</h2><p>Organisez vos cours et publications dans des listes ordonnées</p></div><button class="btn b-purple" onclick="showCreatePlaylist()"><i class="fas fa-plus"></i> Créer une playlist</button></div>
+        <div class="topbar"><div class="tb-left"><h2>Playlists</h2><p>Organisez vos cours en séries ordonnées visibles sur la plateforme</p></div><button class="btn b-purple" onclick="showCreatePlaylist()"><i class="fas fa-plus"></i> Créer une playlist</button></div>
         <div id="createPlaylistForm" style="display:none">
           <div class="card">
-            <div class="card-header"><h3><i class="fas fa-list" style="color:var(--purple)"></i> Nouvelle playlist</h3></div>
+            <div class="card-header"><h3><i class="fas fa-list-ol" style="color:var(--purple)"></i> Nouvelle playlist</h3></div>
             <div class="card-body">
-              <div class="fg"><label>Nom de la playlist *</label><input type="text" id="playlist-name" placeholder="Ex: Révisions BAC - Mathématiques"></div>
-              <div class="fg"><label>Description (optionnelle)</label><textarea id="playlist-desc" style="min-height:60px;"></textarea></div>
+              <div class="fgrid">
+                <div class="fg"><label>Nom de la playlist *</label><input type="text" id="pl-name" placeholder="Ex: Série Mécanique BAC 2026"></div>
+                <div class="fg"><label>Matière / Catégorie</label><input type="text" id="pl-cat" placeholder="Ex: Physique · BAC"></div>
+              </div>
+              <div class="fg"><label>Description</label><textarea id="pl-desc" placeholder="Décrivez cette série de cours…" style="min-height:65px"></textarea></div>
               <div class="fg">
-                <label>Éléments de la playlist (dans l'ordre)</label>
-                <div id="playlist-items-list" style="margin-bottom:.6rem;"></div>
-                <div style="display:flex;gap:.5rem;margin-bottom:.6rem;">
-                  <select id="playlist-item-type" style="padding:.65rem .9rem;border-radius:9px;border:1.5px solid var(--border);">
-                    <option value="post">Publication existante</option>
-                    <option value="resource">Ressource existante</option>
-                  </select>
-                  <div id="playlist-picker" style="flex:1;"></div>
-                  <button class="btn b-ghost" onclick="addPlaylistItem()"><i class="fas fa-plus"></i>Ajouter</button>
+                <label>Publications incluses (dans l'ordre)</label>
+                <div style="background:var(--bg);border-radius:12px;padding:1rem;border:1.5px dashed var(--border);">
+                  <div id="pl-items" style="margin-bottom:.6rem;"></div>
+                  <p style="font-size:.73rem;font-weight:600;color:var(--light);text-transform:uppercase;letter-spacing:.4px;margin-bottom:.5rem;"><i class="fas fa-folder-open"></i> Cliquez pour ajouter à la playlist</p>
+                  <div id="pl-picker" style="max-height:220px;overflow-y:auto;display:grid;gap:.3rem;">
+                    <p style="color:var(--gray);font-size:.8rem;"><i class="fas fa-spinner fa-spin"></i></p>
+                  </div>
                 </div>
-                <div style="font-size:.72rem;color:var(--gray);">Cliquez sur la corbeille pour supprimer un élément.</div>
+                <p style="font-size:.71rem;color:var(--gray);margin-top:.4rem;"><i class="fas fa-info-circle"></i> Glissez-déposez pour réordonner. Les publications apparaissent dans cet ordre sur le site.</p>
+              </div>
+              <div class="toggle-field">
+                <div class="toggle-info"><label>🔒 Playlist privée</label><small>Seuls les élèves inscrits peuvent voir cette playlist.</small></div>
+                <label class="switch"><input type="checkbox" id="pl-locked"><span class="slider"></span></label>
               </div>
               <div style="display:flex;gap:.7rem;justify-content:flex-end;">
-                <button class="btn b-ghost" onclick="document.getElementById('createPlaylistForm').style.display='none';playlistItemsArr=[];renderPlaylistItems();">Annuler</button>
-                <button class="btn b-purple btn-lg" onclick="publishPlaylist()"><i class="fas fa-save"></i> Créer la playlist</button>
+                <button class="btn b-ghost" onclick="document.getElementById('createPlaylistForm').style.display='none';plItems=[];">Annuler</button>
+                <button class="btn b-purple btn-lg" onclick="publishPlaylist()"><i class="fas fa-list-ol"></i> Créer la playlist</button>
               </div>
             </div>
           </div>
         </div>
-        <div id="playlists-grid" class="pack-grid"><p style="color:var(--gray);font-size:.83rem;"><i class="fas fa-spinner fa-spin"></i> Chargement…</p></div>
+        <div id="playlists-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.2rem;">
+          <p style="color:var(--gray);font-size:.83rem;"><i class="fas fa-spinner fa-spin"></i></p>
+        </div>
       </div>
 
       <!-- POSTS LIST -->
@@ -594,7 +640,7 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
         <div class="card">
           <div class="card-header"><h3><i class="fas fa-rocket"></i> Mise en ligne GitHub Pages (gratuit)</h3></div>
           <div class="card-body" style="display:grid;gap:.85rem;">
-            <div style="display:flex;gap:.9rem;background:var(--bg);border-radius:11px;padding:1rem;"><div style="width:26px;height:26px;border-radius:50%;background:var(--blue);color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div><div><strong style="font-size:.87rem;color:var(--navy);">Créez un dépôt public</strong><p style="font-size:.8rem;color:var(--gray);margin-top:.2rem;">github.com → New repository → Nom: <code style="background:rgba(26,86,219,.08);padding:.1rem .3rem;border-radius:4px;">TeachLine-Site</code> → Public → Create. Créez les dossiers: <code>content/posts/</code>, <code>content/resumes/</code>, <code>content/packs/</code>, <code>content/playlists/</code>, <code>content/files/</code>, <code>access/</code></p></div></div>
+            <div style="display:flex;gap:.9rem;background:var(--bg);border-radius:11px;padding:1rem;"><div style="width:26px;height:26px;border-radius:50%;background:var(--blue);color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div><div><strong style="font-size:.87rem;color:var(--navy);">Créez un dépôt public</strong><p style="font-size:.8rem;color:var(--gray);margin-top:.2rem;">github.com → New repository → Nom: <code style="background:rgba(26,86,219,.08);padding:.1rem .3rem;border-radius:4px;">TeachLine-Site</code> → Public → Create. Créez les dossiers: <code>content/posts/</code>, <code>content/resumes/</code>, <code>content/packs/</code>, <code>content/files/</code>, <code>access/</code></p></div></div>
             <div style="display:flex;gap:.9rem;background:var(--bg);border-radius:11px;padding:1rem;"><div style="width:26px;height:26px;border-radius:50%;background:var(--blue);color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div><div><strong style="font-size:.87rem;color:var(--navy);">Uploadez les fichiers du site</strong><p style="font-size:.8rem;color:var(--gray);margin-top:.2rem;">Add file → Upload → Glissez <code>index.html</code> et le dossier <code>admin/</code>. Commit.</p></div></div>
             <div style="display:flex;gap:.9rem;background:#d1fae5;border-radius:11px;padding:1rem;"><div style="width:26px;height:26px;border-radius:50%;background:var(--green);color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div><div><strong style="font-size:.87rem;color:#065f46;">Settings → Pages → main → Save ✅</strong><p style="font-size:.8rem;color:#047857;margin-top:.2rem;">Votre site sera live sur: <strong>username.github.io/TeachLine-Site/</strong></p></div></div>
           </div>
@@ -668,419 +714,876 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
 <div class="toast-wrap" id="toastWrap"></div>
 
 <script>
-// ========== CORE VARIABLES & HELPERS ==========
-const RAW = `https://raw.githubusercontent.com/${localStorage.getItem('tl_owner')||'badreddinemansouri-eng'}/${localStorage.getItem('tl_repo')||'TeachLine-Site'}/${localStorage.getItem('tl_branch')||'main'}`;
-const PC = {};
-let packStructuredItems = [];
-let playlistItemsArr = [];
+// ═══ POST CACHE — avoids JSON.stringify in onclick attributes ═══
+const PC = {}; // postsCache: rowKey → post object
 
-function esc(s){ return s==null?'':String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-function slug(s){ return s.toLowerCase().replace(/[àáâãä]/g,'a').replace(/[éèêë]/g,'e').replace(/[îï]/g,'i').replace(/[ôö]/g,'o').replace(/[ùûü]/g,'u').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').substring(0,50)||'post'; }
-function today(){ return new Date().toISOString().split('T')[0]; }
-function addDays(d){ let d2=new Date(); d2.setDate(d2.getDate()+parseInt(d)); return d2.toISOString().split('T')[0]; }
-function randPass(l=10){ let c='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789@#!',p=''; for(let i=0;i<l;i++) p+=c[Math.floor(Math.random()*c.length)]; return p; }
-function setEl(id,val){ let el=document.getElementById(id); if(el) el.textContent=val; }
-function toast(msg,type=''){ let w=document.getElementById('toastWrap'),el=document.createElement('div'); el.className='toast'+(type?' t-'+type:''); el.innerHTML='<i class="fas '+(type==='ok'?'fa-check-circle':type==='err'?'fa-times-circle':'fa-exclamation-triangle')+'"></i> '+msg; w.appendChild(el); setTimeout(()=>{el.style.opacity='0';el.style.transform='translateX(50px)';setTimeout(()=>el.remove(),400);},5000); }
-function copyText(txt){ navigator.clipboard.writeText(txt).then(()=>toast('Copié !','ok')); }
+// ═══ AUTH ═══
+const getPW=()=>localStorage.getItem('tl_pw')||'teachline2026';
+const getUN=()=>localStorage.getItem('tl_un')||'admin';
+function login(){
+  const u=document.getElementById('lu').value.trim(),p=document.getElementById('lp').value;
+  if(u===getUN()&&p===getPW()){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('app').style.display='block';
+    init();
+  }else{const e=document.getElementById('lerr');e.style.display='block';setTimeout(()=>e.style.display='none',3000);}
+}
+function logout(){document.getElementById('loginScreen').style.display='flex';document.getElementById('app').style.display='none';}
+function changePass(){
+  const o=document.getElementById('cp1').value,n=document.getElementById('cp2').value,n2=document.getElementById('cp3').value;
+  if(o!==getPW()){toast('Mot de passe actuel incorrect','err');return;}
+  if(!n||n!==n2){toast('Les mots de passe ne correspondent pas','err');return;}
+  localStorage.setItem('tl_pw',n);['cp1','cp2','cp3'].forEach(id=>document.getElementById(id).value='');
+  toast('Mot de passe mis à jour ✓','ok');
+}
+function toggleVis(id,btn){
+  const el=document.getElementById(id);const show=el.type==='password';
+  el.type=show?'text':'password';btn.innerHTML=show?'<i class="fas fa-eye-slash"></i>':'<i class="fas fa-eye"></i>';
+}
 
-// ========== AUTH ==========
-function getPW(){ return localStorage.getItem('tl_pw')||'teachline2026'; }
-function getUN(){ return localStorage.getItem('tl_un')||'admin'; }
-function login(){ let u=document.getElementById('lu').value.trim(),p=document.getElementById('lp').value; if(u===getUN()&&p===getPW()){ document.getElementById('loginScreen').style.display='none'; document.getElementById('app').style.display='block'; init(); } else { let e=document.getElementById('lerr'); e.style.display='block'; setTimeout(()=>e.style.display='none',3000); } }
-function logout(){ document.getElementById('loginScreen').style.display='flex'; document.getElementById('app').style.display='none'; }
-function changePass(){ let o=document.getElementById('cp1').value,n=document.getElementById('cp2').value,n2=document.getElementById('cp3').value; if(o!==getPW()){ toast('Mot de passe actuel incorrect','err'); return; } if(!n||n!==n2){ toast('Les mots de passe ne correspondent pas','err'); return; } localStorage.setItem('tl_pw',n); ['cp1','cp2','cp3'].forEach(id=>document.getElementById(id).value=''); toast('Mot de passe mis à jour ✓','ok'); }
-function toggleVis(id,btn){ let el=document.getElementById(id); let show=el.type==='password'; el.type=show?'text':'password'; btn.innerHTML=show?'<i class="fas fa-eye-slash"></i>':'<i class="fas fa-eye"></i>'; }
-
-// ========== SIDEBAR & PANELS ==========
-function toggleSb(){ document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sbOverlay').classList.toggle('show'); }
-function closeSb(){ document.getElementById('sidebar').classList.remove('open'); document.getElementById('sbOverlay').classList.remove('show'); }
+// ═══ SIDEBAR ═══
+function toggleSb(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('sbOverlay').classList.toggle('show');}
+function closeSb(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sbOverlay').classList.remove('show');}
 function showPanel(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nb').forEach(n=>n.classList.remove('active'));
-  let p=document.getElementById('panel-'+id); if(p) p.classList.add('active');
-  document.querySelectorAll('.nb').forEach(n=>{ if(n.getAttribute('onclick')?.includes("'"+id+"'")) n.classList.add('active'); });
+  const p=document.getElementById('panel-'+id);if(p)p.classList.add('active');
+  document.querySelectorAll('.nb').forEach(n=>{if(n.getAttribute('onclick')?.includes("'"+id+"'"))n.classList.add('active');});
   closeSb();
-  if(id==='posts') loadPostsTable();
-  if(id==='resources') loadResTable();
-  if(id==='access') loadAccessPanel();
-  if(id==='packs') loadPacks();
-  if(id==='playlists') loadPlaylists();
+  if(id==='posts')loadPostsTable();
+  if(id==='resources')loadResTable();
+  if(id==='access')loadAccessPanel();
+  if(id==='packs')loadPacks();
+  if(id==='playlists')loadPlaylists();
 }
 
-// ========== GITHUB HELPERS ==========
-const cfg=()=>({ owner:localStorage.getItem('tl_owner')||'', repo:localStorage.getItem('tl_repo')||'TeachLine-Site', token:localStorage.getItem('tl_token')||'', branch:localStorage.getItem('tl_branch')||'main' });
-async function ghGet(path){
-  let c=cfg();
-  let r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}?ref=${c.branch}`,{headers:{Authorization:'Bearer '+c.token}});
-  if(!r.ok) throw new Error('GitHub '+r.status+' – '+path);
-  return r.json();
-}
-async function ghPut(path,content,msg,sha=null){
-  let c=cfg(); let body={message:msg,content:btoa(unescape(encodeURIComponent(content))),branch:c.branch}; if(sha) body.sha=sha;
-  let r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}`,{method:'PUT',headers:{Authorization:'Bearer '+c.token,'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(!r.ok){ let e=await r.json(); throw new Error(e.message||'PUT failed '+r.status); }
-  return r.json();
-}
-async function ghPutB64(path,b64,msg,sha=null){
-  let c=cfg(); let body={message:msg,content:b64,branch:c.branch}; if(sha) body.sha=sha;
-  let r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}`,{method:'PUT',headers:{Authorization:'Bearer '+c.token,'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(!r.ok){ let e=await r.json(); throw new Error(e.message||'PUT binary failed'); }
-  return r.json();
-}
-async function ghDel(path,msg,sha){
-  let c=cfg();
-  let r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}`,{method:'DELETE',headers:{Authorization:'Bearer '+c.token,'Content-Type':'application/json'},body:JSON.stringify({message:msg,sha,branch:c.branch})});
-  if(!r.ok) throw new Error('Delete failed '+r.status);
-}
-async function getSha(path){
-  try{ let c=cfg(); let r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}?ref=${c.branch}`,{headers:{Authorization:'Bearer '+c.token}}); if(r.ok){ let d=await r.json(); return d.sha||null; } return null; }catch(e){ return null; }
-}
-async function fetchOwner(token){
-  try{ let r=await fetch('https://api.github.com/user',{headers:{Authorization:'Bearer '+token}}); if(r.ok){ let d=await r.json(); localStorage.setItem('tl_owner',d.login); } }catch(e){}
-}
+// ═══ CONFIG ═══
 function loadConfig(){
   document.getElementById('cfg-repo').value=localStorage.getItem('tl_repo')||'TeachLine-Site';
   document.getElementById('cfg-branch').value=localStorage.getItem('tl_branch')||'main';
   document.getElementById('cfg-token').value=localStorage.getItem('tl_token')||'';
+  document.getElementById('cfg-owner').value=localStorage.getItem('tl_owner')||'';
 }
-async function saveConfig(){
-  let r=document.getElementById('cfg-repo').value.trim(), br=document.getElementById('cfg-branch').value.trim()||'main', t=document.getElementById('cfg-token').value.trim();
-  if(!t){ toast('Entrez votre token GitHub','err'); return; }
-  localStorage.setItem('tl_repo',r); localStorage.setItem('tl_branch',br); localStorage.setItem('tl_token',t);
-  if(!localStorage.getItem('tl_owner')) await fetchOwner(t);
-  toast('Configuration sauvegardée ✓','ok'); checkGH();
+function saveConfig(){
+  const r=document.getElementById('cfg-repo').value.trim(),br=document.getElementById('cfg-branch').value.trim()||'main',t=document.getElementById('cfg-token').value.trim();
+  if(!t){toast('Entrez votre token GitHub','err');return;}
+  localStorage.setItem('tl_repo',r);localStorage.setItem('tl_branch',br);localStorage.setItem('tl_token',t);
+  if(!localStorage.getItem('tl_owner'))fetchOwner(t);
+  toast('Configuration sauvegardée ✓','ok');checkGH();
 }
+async function fetchOwner(token){
+  try{const r=await fetch('https://api.github.com/user',{headers:{Authorization:'Bearer '+token}});if(r.ok){const d=await r.json();localStorage.setItem('tl_owner',d.login);}}catch(e){}
+}
+const cfg=()=>({owner:localStorage.getItem('tl_owner')||'',repo:localStorage.getItem('tl_repo')||'TeachLine-Site',token:localStorage.getItem('tl_token')||'',branch:localStorage.getItem('tl_branch')||'main'});
+
+// ═══ GITHUB API ═══
+async function ghGet(path){
+  const c=cfg();
+  // Note: no Cache-Control header — causes CORS preflight failures with GitHub API
+  const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}?ref=${c.branch}`,{headers:{Authorization:'Bearer '+c.token}});
+  if(!r.ok)throw new Error('GitHub '+r.status+' – '+path);
+  return r.json();
+}
+async function ghPut(path,content,msg,sha=null){
+  const c=cfg();
+  const body={message:msg,content:btoa(unescape(encodeURIComponent(content))),branch:c.branch};
+  if(sha)body.sha=sha;
+  const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}`,{method:'PUT',headers:{Authorization:'Bearer '+c.token,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!r.ok){const e=await r.json();throw new Error(e.message||'PUT failed '+r.status);}
+  return r.json();
+}
+async function ghPutB64(path,b64,msg,sha=null){
+  const c=cfg();const body={message:msg,content:b64,branch:c.branch};if(sha)body.sha=sha;
+  const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}`,{method:'PUT',headers:{Authorization:'Bearer '+c.token,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!r.ok){const e=await r.json();throw new Error(e.message||'PUT binary failed');}
+  return r.json();
+}
+async function ghDel(path,msg,sha){
+  const c=cfg();
+  const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}`,{method:'DELETE',headers:{Authorization:'Bearer '+c.token,'Content-Type':'application/json'},body:JSON.stringify({message:msg,sha,branch:c.branch})});
+  if(!r.ok)throw new Error('Delete failed '+r.status);
+}
+async function getSha(path){
+  try{
+    const c=cfg();
+    const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}?ref=${c.branch}`,{headers:{Authorization:'Bearer '+c.token}});
+    if(r.ok){const d=await r.json();return d.sha||null;}
+    return null;
+  }catch(e){return null;}
+}
+
 async function checkGH(){
-  let el=document.getElementById('ghStatus'), sw=document.getElementById('setup-warn'); let c=cfg();
-  if(!c.token){ el.innerHTML='<i class="fas fa-circle" style="color:var(--red)"></i> Non configuré'; sw.style.display='flex'; return; }
-  if(!c.owner) await fetchOwner(c.token); let c2=cfg();
-  try{ let r=await fetch(`https://api.github.com/repos/${c2.owner}/${c2.repo}`,{headers:{Authorization:'Bearer '+c2.token}});
-  if(r.ok){ el.innerHTML='<i class="fas fa-circle" style="color:var(--green)"></i> GitHub connecté'; sw.style.display='none'; } else { el.innerHTML='<i class="fas fa-circle" style="color:var(--red)"></i> Erreur'; sw.style.display='flex'; } } catch(e){ el.innerHTML='<i class="fas fa-circle" style="color:var(--accent)"></i> Hors ligne'; }
+  const el=document.getElementById('ghStatus');const sw=document.getElementById('setup-warn');
+  const c=cfg();
+  if(!c.token){el.innerHTML='<i class="fas fa-circle" style="color:var(--red)"></i> Non configuré';sw.style.display='flex';return;}
+  if(!c.owner)await fetchOwner(c.token);
+  const c2=cfg();
+  try{const r=await fetch(`https://api.github.com/repos/${c2.owner}/${c2.repo}`,{headers:{Authorization:'Bearer '+c2.token}});
+  if(r.ok){el.innerHTML='<i class="fas fa-circle" style="color:var(--green)"></i> GitHub connecté';sw.style.display='none';}
+  else{el.innerHTML='<i class="fas fa-circle" style="color:var(--red)"></i> Erreur';sw.style.display='flex';}}
+  catch(e){el.innerHTML='<i class="fas fa-circle" style="color:var(--accent)"></i> Hors ligne';}
 }
-async function testGH(){ let c=cfg(); if(!c.token){ toast('Entrez le token d\'abord','err'); return; } if(!c.owner) await fetchOwner(c.token); let c2=cfg(); try{ let r=await fetch(`https://api.github.com/repos/${c2.owner}/${c2.repo}`,{headers:{Authorization:'Bearer '+c2.token}}); if(r.ok){ let d=await r.json(); toast('✅ Connexion OK : '+d.full_name,'ok'); } else toast('❌ Erreur token/dépôt','err'); } catch(e){ toast('❌ GitHub inaccessible','err'); } }
+async function testGH(){
+  const c=cfg();if(!c.token){toast('Entrez le token d\'abord','err');return;}
+  if(!c.owner)await fetchOwner(c.token);const c2=cfg();
+  try{const r=await fetch(`https://api.github.com/repos/${c2.owner}/${c2.repo}`,{headers:{Authorization:'Bearer '+c2.token}});
+  if(r.ok){const d=await r.json();toast('✅ Connexion OK : '+d.full_name,'ok');}else toast('❌ Erreur token/dépôt','err');}
+  catch(e){toast('❌ GitHub inaccessible','err');}
+}
 
-// ========== STATS ==========
+// ═══ STATS ═══
 async function loadStats(){
-  let c=cfg();
-  try{ let [p,r,pk]=await Promise.all([ghGet('content/posts').catch(()=>[]), ghGet('content/resumes').catch(()=>[]), ghGet('content/packs').catch(()=>[])]); let pm=(p||[]).filter(f=>f.name?.endsWith('.md')), rm=(r||[]).filter(f=>f.name?.endsWith('.md')), pkm=(pk||[]).filter(f=>f.name?.endsWith('.md')); setEl('s-p',pm.length); setEl('s-r',rm.length); setEl('s-pk',pkm.length); setEl('nb-posts',pm.length); setEl('nb-res',rm.length); setEl('nb-packs',pkm.length); }catch(e){}
-  try{ let r=await fetch(`https://raw.githubusercontent.com/${c.owner}/${c.repo}/${c.branch}/access/allowed.json?t=${Date.now()}`); if(r.ok){ let d=await r.json(); let n=(d.students||[]).length; setEl('s-a',n); setEl('nb-access',n); } else setEl('s-a',0); }catch(e){ setEl('s-a',0); }
+  const c=cfg();
+  try{
+    const[p,r,pk]=await Promise.all([ghGet('content/posts').catch(()=>[]),ghGet('content/resumes').catch(()=>[]),ghGet('content/packs').catch(()=>[])]);
+    const pm=(p||[]).filter(f=>f.name?.endsWith('.md')),rm=(r||[]).filter(f=>f.name?.endsWith('.md')),pkm=(pk||[]).filter(f=>f.name?.endsWith('.md'));
+    setEl('s-p',pm.length);setEl('s-r',rm.length);setEl('s-pk',pkm.length);
+    setEl('nb-posts',pm.length);setEl('nb-res',rm.length);setEl('nb-packs',pkm.length);
+  }catch(e){}
+  try{
+    const r=await fetch(`https://raw.githubusercontent.com/${c.owner}/${c.repo}/${c.branch}/access/allowed.json?t=${Date.now()}`);
+    if(r.ok){const d=await r.json();const n=(d.students||[]).length;setEl('s-a',n);setEl('nb-access',n);}else setEl('s-a',0);
+  }catch(e){setEl('s-a',0);}
 }
+function setEl(id,val){const el=document.getElementById(id);if(el)el.textContent=val;}
 
-// ========== FILE & POST UTILS ==========
+// ═══ UTILS ═══
+const slug=s=>s.toLowerCase().replace(/[àáâãä]/g,'a').replace(/[éèêë]/g,'e').replace(/[îï]/g,'i').replace(/[ôö]/g,'o').replace(/[ùûü]/g,'u').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').substring(0,50)||'post';
+const today=()=>new Date().toISOString().split('T')[0];
+const addDays=(days)=>{const d=new Date();d.setDate(d.getDate()+parseInt(days));return d.toISOString().split('T')[0];};
+const randPass=(len=10)=>{const ch='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789@#!';let p='';for(let i=0;i<len;i++)p+=ch[Math.floor(Math.random()*ch.length)];return p;};
+const esc=s=>s==null?'':String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function copyText(txt){navigator.clipboard.writeText(txt).then(()=>toast('Copié !','ok'));}
+const parseFM=md=>{const fm={};const b=md.match(/^---\n([\s\S]*?)\n---/);if(b)b[1].split('\n').forEach(l=>{const[k,...v]=l.split(':');if(k&&k.trim())fm[k.trim()]=v.join(':').trim().replace(/^"|"$/g,'');});return{...fm,body:md.replace(/^---[\s\S]*?---\n?/,'').trim()};};
+
+// ═══ FILE HANDLING ═══
 const fData={pdf:null,img:null,rpdf:null,rimg:null};
 function handleFile(inputId,nameId,key){
-  let f=document.getElementById(inputId).files[0]; if(!f) return;
+  const f=document.getElementById(inputId).files[0];if(!f)return;
   setEl(nameId,f.name);
-  let rdr=new FileReader(); rdr.onload=e=>fData[key]={name:f.name,data:e.target.result.split(',')[1],mime:f.type}; rdr.readAsDataURL(f);
+  const rdr=new FileReader();rdr.onload=e=>fData[key]={name:f.name,data:e.target.result.split(',')[1],mime:f.type};rdr.readAsDataURL(f);
 }
-function prev(inputId,imgId){ let u=document.getElementById(inputId).value; let img=document.getElementById(imgId); img.src=u; img.style.display=u?'block':'none'; }
-function onLockToggle(rowId,chk){ document.getElementById(rowId).style.display=chk.checked?'block':'none'; }
-function onPostTypeChange(){ let t=document.getElementById('ptype').value; ['video','pdf','image'].forEach(k=>document.getElementById('pf-'+k).style.display=t===k?'block':'none'); }
-function onResTypeChange(){ let t=document.getElementById('rtype').value; ['pdf','video','image'].forEach(k=>document.getElementById('rf-'+k).style.display=t===k?'block':'none'); }
-function fmt(cmd){ document.getElementById('editor-body').focus(); document.execCommand(cmd); }
-function ins(txt){ let el=document.getElementById('editor-body'); let p=el.selectionStart; el.value=el.value.slice(0,p)+txt+el.value.slice(p); el.selectionStart=el.selectionEnd=p+txt.length; el.focus(); }
+function prev(inputId,imgId){const u=document.getElementById(inputId).value;const img=document.getElementById(imgId);img.src=u;img.style.display=u?'block':'none';}
+function onLockToggle(rowId,chk){document.getElementById(rowId).style.display=chk.checked?'block':'none';}
+function onPostTypeChange(){const t=document.getElementById('ptype').value;['video','pdf','image'].forEach(k=>document.getElementById('pf-'+k).style.display=t===k?'block':'none');}
+function onResTypeChange(){const t=document.getElementById('rtype').value;['pdf','video','image'].forEach(k=>document.getElementById('rf-'+k).style.display=t===k?'block':'none');}
+function fmt(cmd){document.getElementById('editor-body').focus();document.execCommand(cmd);}
+function ins(txt){const el=document.getElementById('editor-body');const p=el.selectionStart;el.value=el.value.slice(0,p)+txt+el.value.slice(p);el.selectionStart=el.selectionEnd=p+txt.length;el.focus();}
+
+// ═══ ATTACHMENTS (for video posts) ═══
 const attachments=[];
 function handleAttachments(inputId){
-  let files=document.getElementById(inputId).files;
-  for(let f of files){
-    let rdr=new FileReader();
-    rdr.onload=e=>{ attachments.push({name:f.name,data:e.target.result.split(',')[1],type:'file'}); renderAttachments(); };
+  const files=document.getElementById(inputId).files;
+  for(const f of files){
+    const rdr=new FileReader();
+    rdr.onload=e=>{attachments.push({name:f.name,data:e.target.result.split(',')[1],type:'file'});renderAttachments();}
     rdr.readAsDataURL(f);
   }
 }
-function addAttachLink(){ let inp=document.getElementById('p-attach-url'); let url=inp.value.trim(); if(!url) return; attachments.push({name:url,url,type:'link'}); inp.value=''; renderAttachments(); }
-function removeAttachment(i){ attachments.splice(i,1); renderAttachments(); }
-function renderAttachments(){ let list=document.getElementById('p-attach-list'); if(!list) return; list.innerHTML=attachments.map((a,i)=>`<div class="attach-item"><i class="fas ${a.type==='link'?'fa-link':'fa-file'}"></i><span>${esc(a.name)}</span><button onclick="removeAttachment(${i})"><i class="fas fa-times"></i></button></div>`).join(''); }
-function clearPost(){ ['pt','editor-body','p-link','p-cover','p-video','p-pdfurl','p-img1','p-img2','p-img3','p-emails'].forEach(id=>{ let el=document.getElementById(id); if(el) el.value=''; }); document.getElementById('p-locked').checked=false; document.getElementById('p-allowed-row').style.display='none'; ['pCoverPrev','pi1','pi2','pi3'].forEach(id=>{ let el=document.getElementById(id); if(el) el.style.display='none'; }); setEl('pdfFn',''); fData.pdf=null; fData.img=null; attachments.length=0; renderAttachments(); }
+function addAttachLink(){
+  const inp=document.getElementById('p-attach-url');const url=inp.value.trim();
+  if(!url)return;attachments.push({name:url,url,type:'link'});inp.value='';renderAttachments();
+}
+function removeAttachment(i){attachments.splice(i,1);renderAttachments();}
+function renderAttachments(){
+  const list=document.getElementById('p-attach-list');
+  if(!list)return;
+  list.innerHTML=attachments.map((a,i)=>`<div class="attach-item"><i class="fas ${a.type==='link'?'fa-link':'fa-file'}"></i><span>${esc(a.name)}</span><button onclick="removeAttachment(${i})"><i class="fas fa-times"></i></button></div>`).join('');
+}
+
+// ═══ PUBLISH POST ═══
 async function publishPost(){
-  let title=document.getElementById('pt').value.trim(); let body=document.getElementById('editor-body').value.trim();
-  if(!title){ toast('Entrez un titre','err'); return; }
-  let c=cfg(); if(!c.token){ toast('Configurez GitHub d\'abord','err'); showPanel('settings'); return; }
-  if(!c.owner) await fetchOwner(c.token);
-  let type=document.getElementById('ptype').value, cat=document.getElementById('pc').value;
-  let locked=document.getElementById('p-locked').checked, emails=document.getElementById('p-emails').value.trim();
-  let link=document.getElementById('p-link').value.trim(), cover=document.getElementById('p-cover').value.trim();
-  let vurl=document.getElementById('p-video').value.trim(), purl=document.getElementById('p-pdfurl').value.trim();
-  let img1=document.getElementById('p-img1').value.trim(), img2=document.getElementById('p-img2').value.trim(), img3=document.getElementById('p-img3').value.trim();
-  let date=today(), filename=slug(title)+'-'+date.replace(/-/g,'')+'.md';
+  const title=document.getElementById('pt').value.trim();const body=document.getElementById('editor-body').value.trim();
+  if(!title){toast('Entrez un titre','err');return;}
+  const c=cfg();if(!c.token){toast('Configurez GitHub d\'abord','err');showPanel('settings');return;}
+  if(!c.owner)await fetchOwner(c.token);
+  const type=document.getElementById('ptype').value,cat=document.getElementById('pc').value;
+  const locked=document.getElementById('p-locked').checked,emails=document.getElementById('p-emails').value.trim();
+  const link=document.getElementById('p-link').value.trim(),cover=document.getElementById('p-cover').value.trim();
+  const vurl=document.getElementById('p-video').value.trim(),purl=document.getElementById('p-pdfurl').value.trim();
+  const img1=document.getElementById('p-img1').value.trim(),img2=document.getElementById('p-img2').value.trim(),img3=document.getElementById('p-img3').value.trim();
+  const date=today(),filename=slug(title)+'-'+date.replace(/-/g,'')+'.md';
   showPub('Publication en cours…','Connexion à GitHub…');
   try{
-    let pdfPath='', imgPath='';
-    if(type==='pdf'&&fData.pdf){ setPubStep('Upload PDF…'); let pp='content/files/'+fData.pdf.name; await ghPutB64(pp,fData.pdf.data,'PDF: '+fData.pdf.name); pdfPath=pp; } else if(type==='pdf'&&purl) pdfPath=purl;
-    if(type==='image'&&fData.img){ setPubStep('Upload image…'); let pp='content/files/'+fData.img.name; await ghPutB64(pp,fData.img.data,'Img: '+fData.img.name); imgPath=pp; }
+    let pdfPath='',imgPath='';
+    if(type==='pdf'&&fData.pdf){setPubStep('Upload PDF…');const pp='content/files/'+fData.pdf.name;await ghPutB64(pp,fData.pdf.data,'PDF: '+fData.pdf.name);pdfPath=pp;}
+    else if(type==='pdf'&&purl)pdfPath=purl;
+    if(type==='image'&&fData.img){setPubStep('Upload image…');const pp='content/files/'+fData.img.name;await ghPutB64(pp,fData.img.data,'Img: '+fData.img.name);imgPath=pp;}
+    // Upload attachments safely
     let attachB64='';
     if(attachments.length){
       setPubStep('Upload des pièces jointes…');
-      let uploaded=[];
-      for(let a of attachments){
-        if(a.type==='file'){ let pp='content/files/'+a.name; let existSha=await getSha(pp); await ghPutB64(pp,a.data,'Attach: '+a.name,existSha); uploaded.push({name:a.name,path:pp}); } else { uploaded.push({name:a.name,url:a.url}); }
+      const uploaded=[];
+      for(const a of attachments){
+        if(a.type==='file'){
+          const pp='content/files/'+a.name;
+          // Check if file already exists to get SHA
+          const existSha=await getSha(pp);
+          await ghPutB64(pp,a.data,'Attach: '+a.name,existSha);
+          uploaded.push({name:a.name,path:pp});
+        }else{
+          uploaded.push({name:a.name,url:a.url});
+        }
       }
+      // Store as base64 to avoid any YAML quote issues
       attachB64=btoa(unescape(encodeURIComponent(JSON.stringify(uploaded))));
     }
     let fm=`---\ntitle: "${title.replace(/"/g,'\\"')}"\ndate: "${date}"\ncategory: "${cat}"\ntype: "${type}"\nlocked: "${locked}"\n`;
-    if(emails) fm+=`allowed_emails: "${emails}"\n`; if(cover) fm+=`image: "${cover}"\n`;
-    if(vurl) fm+=`video_url: "${vurl}"\n`; if(pdfPath) fm+=`pdf_file: "${pdfPath}"\n`; if(link) fm+=`link: "${link}"\n`;
-    if(imgPath) fm+=`image: "${imgPath}"\n`; else if(img1) fm+=`image: "${img1}"\n`;
-    if(img2) fm+=`image2: "${img2}"\n`; if(img3) fm+=`image3: "${img3}"\n`;
-    if(attachB64) fm+=`attachments_b64: "${attachB64}"\n`;
+    if(emails)fm+=`allowed_emails: "${emails}"\n`;if(cover)fm+=`image: "${cover}"\n`;
+    if(vurl)fm+=`video_url: "${vurl}"\n`;if(pdfPath)fm+=`pdf_file: "${pdfPath}"\n`;if(link)fm+=`link: "${link}"\n`;
+    if(imgPath)fm+=`image: "${imgPath}"\n`;else if(img1)fm+=`image: "${img1}"\n`;
+    if(img2)fm+=`image2: "${img2}"\n`;if(img3)fm+=`image3: "${img3}"\n`;
+    if(attachB64)fm+=`attachments_b64: "${attachB64}"\n`;
     fm+=`---\n\n${body}`;
     setPubStep('Écriture sur GitHub…');
     await ghPut('content/posts/'+filename,fm,'Post: '+title);
     setPubDone('"'+title+'" publié !','Visible sur le site public.');
-    clearPost(); loadStats();
-  } catch(e){ closePub(); toast('Erreur: '+e.message,'err'); }
+    clearPost();attachments.length=0;renderAttachments();loadStats();
+  }catch(e){closePub();toast('Erreur: '+e.message,'err');}
 }
-function clearResource(){ ['rt','rdesc','r-pdfurl','r-video','r-imgurl','r-emails'].forEach(id=>{ let el=document.getElementById(id); if(el) el.value=''; }); document.getElementById('r-locked').checked=false; document.getElementById('r-allowed-row').style.display='none'; setEl('rPdfFn',''); setEl('rImgFn',''); let rip=document.getElementById('rImgPrev'); if(rip) rip.style.display='none'; fData.rpdf=null; fData.rimg=null; }
+function clearPost(){['pt','editor-body','p-link','p-cover','p-video','p-pdfurl','p-img1','p-img2','p-img3','p-emails'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('p-locked').checked=false;document.getElementById('p-allowed-row').style.display='none';['pCoverPrev','pi1','pi2','pi3'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});setEl('pdfFn','');fData.pdf=null;fData.img=null;}
+
+// ═══ PUBLISH RESOURCE ═══
 async function publishResource(){
-  let title=document.getElementById('rt').value.trim(); if(!title){ toast('Entrez un titre','err'); return; }
-  let c=cfg(); if(!c.token){ toast('Configurez GitHub','err'); showPanel('settings'); return; }
-  if(!c.owner) await fetchOwner(c.token);
-  let type=document.getElementById('rtype').value, subj=document.getElementById('rsubj').value, level=document.getElementById('rlevel').value;
-  let desc=document.getElementById('rdesc').value.trim(), locked=document.getElementById('r-locked').checked, emails=document.getElementById('r-emails').value.trim();
-  let vurl=document.getElementById('r-video').value.trim(), purl=document.getElementById('r-pdfurl').value.trim(), iurl=document.getElementById('r-imgurl').value.trim();
-  let date=today(), filename=slug(title)+'-'+date.replace(/-/g,'')+'.md';
+  const title=document.getElementById('rt').value.trim();if(!title){toast('Entrez un titre','err');return;}
+  const c=cfg();if(!c.token){toast('Configurez GitHub','err');showPanel('settings');return;}
+  if(!c.owner)await fetchOwner(c.token);
+  const type=document.getElementById('rtype').value,subj=document.getElementById('rsubj').value,level=document.getElementById('rlevel').value;
+  const desc=document.getElementById('rdesc').value.trim(),locked=document.getElementById('r-locked').checked,emails=document.getElementById('r-emails').value.trim();
+  const vurl=document.getElementById('r-video').value.trim(),purl=document.getElementById('r-pdfurl').value.trim(),iurl=document.getElementById('r-imgurl').value.trim();
+  const date=today(),filename=slug(title)+'-'+date.replace(/-/g,'')+'.md';
   showPub('Publication ressource…','GitHub…');
   try{
-    let pdfPath='', imgPath='';
-    if(type==='pdf'&&fData.rpdf){ setPubStep('Upload PDF…'); let pp='content/files/'+fData.rpdf.name; await ghPutB64(pp,fData.rpdf.data,'PDF: '+fData.rpdf.name); pdfPath=pp; } else if(type==='pdf'&&purl) pdfPath=purl;
-    if(type==='image'&&fData.rimg){ setPubStep('Upload image…'); let pp='content/files/'+fData.rimg.name; await ghPutB64(pp,fData.rimg.data,'Img: '+fData.rimg.name); imgPath=pp; } else if(type==='image'&&iurl) imgPath=iurl;
+    let pdfPath='',imgPath='';
+    if(type==='pdf'&&fData.rpdf){setPubStep('Upload PDF…');const pp='content/files/'+fData.rpdf.name;await ghPutB64(pp,fData.rpdf.data,'PDF: '+fData.rpdf.name);pdfPath=pp;}else if(type==='pdf'&&purl)pdfPath=purl;
+    if(type==='image'&&fData.rimg){setPubStep('Upload image…');const pp='content/files/'+fData.rimg.name;await ghPutB64(pp,fData.rimg.data,'Img: '+fData.rimg.name);imgPath=pp;}else if(type==='image'&&iurl)imgPath=iurl;
     let fm=`---\ntitle: "${title.replace(/"/g,'\\"')}"\ntype: "${type}"\nsubject: "${subj}"\nlevel: "${level}"\nlocked: "${locked}"\ndate: "${date}"\n`;
-    if(emails) fm+=`allowed_emails: "${emails}"\n`; if(pdfPath) fm+=`pdf_file: "${pdfPath}"\n`; if(vurl) fm+=`video_url: "${vurl}"\n`; if(imgPath) fm+=`image_url: "${imgPath}"\n`;
+    if(emails)fm+=`allowed_emails: "${emails}"\n`;if(pdfPath)fm+=`pdf_file: "${pdfPath}"\n`;if(vurl)fm+=`video_url: "${vurl}"\n`;if(imgPath)fm+=`image_url: "${imgPath}"\n`;
     fm+=`---\n\n${desc}`;
-    setPubStep('Écriture…'); await ghPut('content/resumes/'+filename,fm,'Ressource: '+title);
-    setPubDone('"'+title+'" publié !','Ressource visible sur le site.'); clearResource(); loadStats();
-  } catch(e){ closePub(); toast('Erreur: '+e.message,'err'); }
+    setPubStep('Écriture…');await ghPut('content/resumes/'+filename,fm,'Ressource: '+title);
+    setPubDone('"'+title+'" publié !','Ressource visible sur le site.');clearResource();loadStats();
+  }catch(e){closePub();toast('Erreur: '+e.message,'err');}
+}
+function clearResource(){['rt','rdesc','r-pdfurl','r-video','r-imgurl','r-emails'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('r-locked').checked=false;document.getElementById('r-allowed-row').style.display='none';setEl('rPdfFn','');setEl('rImgFn','');const rip=document.getElementById('rImgPrev');if(rip)rip.style.display='none';fData.rpdf=null;fData.rimg=null;}
+
+// ═══════════════════════════════════════════
+// PACKS — Real content items (video/pdf/image/existing/text)
+// Items stored as base64-encoded JSON in frontmatter
+// ═══════════════════════════════════════════
+let packRealItems = []; // [{type,title,url,desc,path,postRef}]
+const packFileData = {}; // {pdf: {name,data}, img: {name,data}}
+
+function showCreatePack(){
+  document.getElementById('createPackForm').style.display='block';
+  packRealItems=[];
+  renderRealItems();
+  hideAllAddZones();
+  loadExistingPicker();
+}
+function cancelCreatePack(){
+  document.getElementById('createPackForm').style.display='none';
+  packRealItems=[];
+  packFileData.pdf=null;packFileData.img=null;
 }
 
-// ========== PACKS (ENHANCED) ==========
-function showCreatePack(){ document.getElementById('createPackForm').style.display='block'; loadPackPicker(); onPackItemTypeChange(); }
-function onPackItemTypeChange(){ let type=document.getElementById('pack-item-type').value; let extra=document.getElementById('pack-item-extra'); extra.style.display=(type==='video'||type==='pdf'||type==='image')?'block':'none'; }
-document.getElementById('pack-item-type')?.addEventListener('change',onPackItemTypeChange);
-async function addStructuredPackItem(){
-  let type=document.getElementById('pack-item-type').value;
-  let title=document.getElementById('pack-item-title').value.trim();
-  if(!title){ toast('Entrez un titre pour cet élément','err'); return; }
-  let ref='', url='', fileData=null, filePath='';
-  if(type==='post'||type==='resource'){ toast('Veuillez choisir depuis la liste des publications/ressources ci-dessous','warn'); return; }
-  if(type==='video'||type==='pdf'||type==='image'){
-    url=document.getElementById('pack-item-url').value.trim();
-    let fileInput=document.getElementById('pack-item-file');
-    if(fileInput.files.length){
-      let f=fileInput.files[0];
-      let reader=new FileReader();
-      reader.onload=async (e)=>{
-        fileData=e.target.result.split(',')[1];
-        filePath=`content/files/${Date.now()}_${f.name}`;
-        packStructuredItems.push({type,title,ref,url,fileData,filePath,fileName:f.name});
-        renderStructuredPackItems();
-        document.getElementById('pack-item-title').value='';
-        document.getElementById('pack-item-url').value='';
-        document.getElementById('pack-item-file').value='';
-        document.getElementById('pack-item-fname').innerText='';
-      };
-      reader.readAsDataURL(f);
-      return;
-    }
-    if(!url){ toast('Ajoutez une URL ou un fichier','err'); return; }
+function showAddItem(type){
+  hideAllAddZones();
+  document.getElementById('pack-add-'+type).style.display='block';
+  if(type==='existing') loadExistingPicker();
+}
+function hideAllAddZones(){
+  ['video','pdf','image','text','existing'].forEach(t=>{
+    const el=document.getElementById('pack-add-'+t);if(el)el.style.display='none';
+  });
+}
+
+function handlePackFile(inputId,nameId,key){
+  const f=document.getElementById(inputId).files[0];if(!f)return;
+  setEl(nameId,f.name);
+  const rdr=new FileReader();
+  rdr.onload=e=>{packFileData[key]={name:f.name,data:e.target.result.split(',')[1],mime:f.type};};
+  rdr.readAsDataURL(f);
+}
+
+function addRealItem(type){
+  let item={type};
+  if(type==='video'){
+    const title=document.getElementById('pi-video-title').value.trim();
+    const url=document.getElementById('pi-video-url').value.trim();
+    const desc=document.getElementById('pi-video-desc').value.trim();
+    if(!title){toast('Entrez un titre pour la vidéo','err');return;}
+    if(!url){toast('Entrez l\'URL de la vidéo','err');return;}
+    item={type,title,url,desc};
+    document.getElementById('pi-video-title').value='';
+    document.getElementById('pi-video-url').value='';
+    document.getElementById('pi-video-desc').value='';
+  } else if(type==='pdf'){
+    const title=document.getElementById('pi-pdf-title').value.trim();
+    const urlInput=document.getElementById('pi-pdf-url').value.trim();
+    if(!title){toast('Entrez un titre pour le PDF','err');return;}
+    if(!packFileData.pdf&&!urlInput){toast('Uploadez un PDF ou entrez une URL','err');return;}
+    item={type,title,url:urlInput,fileData:packFileData.pdf||null};
+    packFileData.pdf=null;
+    document.getElementById('pi-pdf-title').value='';
+    document.getElementById('pi-pdf-url').value='';
+    setEl('pi-pdf-fn','');
+    document.getElementById('pi-pdf-file').value='';
+  } else if(type==='image'){
+    const title=document.getElementById('pi-img-title').value.trim();
+    const urlInput=document.getElementById('pi-img-url').value.trim();
+    if(!title){toast('Entrez un titre pour l\'image','err');return;}
+    if(!packFileData.img&&!urlInput){toast('Uploadez une image ou entrez une URL','err');return;}
+    item={type,title,url:urlInput,fileData:packFileData.img||null};
+    packFileData.img=null;
+    document.getElementById('pi-img-title').value='';
+    document.getElementById('pi-img-url').value='';
+    setEl('pi-img-fn','');
+    document.getElementById('pi-img-file').value='';
+  } else if(type==='text'){
+    const val=document.getElementById('pi-text-val').value.trim();
+    if(!val){toast('Entrez un texte','err');return;}
+    item={type,title:val};
+    document.getElementById('pi-text-val').value='';
   }
-  packStructuredItems.push({type,title,ref,url,fileData,filePath});
-  renderStructuredPackItems();
-  document.getElementById('pack-item-title').value='';
-  document.getElementById('pack-item-url').value='';
-  document.getElementById('pack-item-file').value='';
-  document.getElementById('pack-item-fname').innerText='';
+  packRealItems.push(item);
+  renderRealItems();
+  hideAllAddZones();
+  toast('✅ Élément ajouté au pack','ok');
 }
-function removeStructuredItem(idx){ packStructuredItems.splice(idx,1); renderStructuredPackItems(); }
-function renderStructuredPackItems(){
-  let container=document.getElementById('pack-structured-list');
-  if(!container) return;
-  if(!packStructuredItems.length){ container.innerHTML='<p style="color:var(--gray);font-size:.8rem;font-style:italic;">Aucun élément. Ajoutez des cours, vidéos, PDF…</p>'; return; }
-  container.innerHTML=packStructuredItems.map((item,i)=>`<div class="attach-item"><i class="fas ${item.type==='post'?'fa-newspaper':item.type==='resource'?'fa-folder-open':item.type==='video'?'fa-video':item.type==='pdf'?'fa-file-pdf':'fa-image'}"></i><span style="flex:1;">${esc(item.title)} (${item.type})</span><button onclick="removeStructuredItem(${i})"><i class="fas fa-trash"></i></button></div>`).join('');
+
+function addExistingToPackItems(postRef,title,type){
+  packRealItems.push({type:'existing',title,postRef,subtype:type});
+  renderRealItems();
+  toast('"'+title+'" ajouté au pack','ok');
 }
-async function loadPackPicker(){
-  let picker=document.getElementById('pack-content-picker');
-  picker.innerHTML='<p style="color:var(--gray);font-size:.8rem;"><i class="fas fa-spinner fa-spin"></i> Chargement…</p>';
-  try{
-    let [pf,rf]=await Promise.all([ghGet('content/posts').catch(()=>[]), ghGet('content/resumes').catch(()=>[])]);
-    let pm=(pf||[]).filter(f=>f.name?.endsWith('.md')), rm=(rf||[]).filter(f=>f.name?.endsWith('.md'));
-    let allItems=await Promise.all([...pm.map(async f=>{ let r=await fetch(f.download_url); let t=await r.text(); let p=parseFM(t); return {title:p.title||f.name, type:p.type||'post', kind:'post', ref:f.path}; }), ...rm.map(async f=>{ let r=await fetch(f.download_url); let t=await r.text(); let p=parseFM(t); return {title:p.title||f.name, type:p.type||'pdf', kind:'resource', ref:f.path}; })]);
-    if(!allItems.length){ picker.innerHTML='<p style="color:var(--gray);font-size:.8rem;">Aucun contenu.</p>'; return; }
-    picker.innerHTML=allItems.map(item=>`<div style="display:flex;align-items:center;gap:.5rem;background:white;border:1px solid var(--border);border-radius:8px;padding:.45rem .7rem;cursor:pointer;margin-bottom:.3rem;" onclick="addExistingToPack('${esc(item.ref)}','${esc(item.title)}','${item.kind}')"><i class="fas ${item.kind==='post'?'fa-newspaper':'fa-folder-open'}"></i><span style="flex:1;">${esc(item.title)}</span><span style="font-size:.65rem;background:var(--bg);padding:.12rem .4rem;border-radius:6px;">${item.kind}</span><i class="fas fa-plus" style="color:var(--blue);"></i></div>`).join('');
-  } catch(e){ picker.innerHTML='<p style="color:var(--red);">Erreur chargement.</p>'; }
+
+function removeRealItem(i){packRealItems.splice(i,1);renderRealItems();}
+
+function moveRealItem(i,dir){
+  const j=i+dir;
+  if(j<0||j>=packRealItems.length)return;
+  [packRealItems[i],packRealItems[j]]=[packRealItems[j],packRealItems[i]];
+  renderRealItems();
 }
-function addExistingToPack(ref,title,kind){
-  packStructuredItems.push({type:kind, title, ref, url:'', fileData:null, filePath:''});
-  renderStructuredPackItems();
-  toast(`Ajouté : ${title}`, 'ok');
-}
-async function publishEnhancedPack(){
-  let name=document.getElementById('pack-name').value.trim();
-  if(!name){ toast('Entrez un nom de pack','err'); return; }
-  let c=cfg(); if(!c.token){ toast('Configurez GitHub','err'); showPanel('settings'); return; }
-  if(!c.owner) await fetchOwner(c.token);
-  let price=document.getElementById('pack-price').value.trim();
-  let desc=document.getElementById('pack-desc').value.trim();
-  let locked=document.getElementById('pack-locked').checked;
-  let date=today();
-  let filename=slug(name)+'-'+date.replace(/-/g,'')+'.md';
-  let itemsForPack=[];
-  for(let it of packStructuredItems){
-    if(it.fileData){
-      try{ await ghPutB64(it.filePath, it.fileData, `Pack file: ${it.fileName}`); it.url=it.filePath; it.fileData=null; } catch(e){ toast(`Erreur upload ${it.fileName}`, 'err'); return; }
-    }
-    itemsForPack.push({type:it.type, title:it.title, ref:it.ref, url:it.url});
+
+function renderRealItems(){
+  const list=document.getElementById('pack-real-items');
+  if(!packRealItems.length){
+    list.innerHTML='<p style="color:var(--gray);font-size:.82rem;font-style:italic;padding:.3rem 0;">Aucun élément ajouté. Utilisez les boutons ci-dessous pour ajouter du contenu.</p>';
+    return;
   }
-  let fm=`---\ntitle: "${name.replace(/"/g,'\\"')}"\ntype: "pack"\ndate: "${date}"\nprice: "${price}"\nlocked: "${locked}"\npack_items: ${JSON.stringify(itemsForPack)}\n---\n\n${desc}`;
-  showPub('Création du pack…','GitHub…');
-  try{
-    await ghPut('content/packs/'+filename, fm, 'Pack: '+name);
-    setPubDone(`"${name}" créé !`, 'Pack disponible sur le site.');
-    document.getElementById('createPackForm').style.display='none';
-    packStructuredItems=[]; renderStructuredPackItems();
-    loadStats(); loadPacks();
-  } catch(e){ closePub(); toast('Erreur: '+e.message,'err'); }
+  const typeIcon={video:'🎬',pdf:'📄',image:'🖼️',text:'📌',existing:'🔗'};
+  const typeColor={video:'b-video',pdf:'b-pdf',image:'b-image',text:'b-cat',existing:'b-post'};
+  list.innerHTML=packRealItems.map((item,i)=>`
+    <div style="display:flex;align-items:center;gap:.6rem;background:white;border:1px solid var(--border);border-radius:10px;padding:.6rem .9rem;margin-bottom:.35rem;">
+      <span style="font-size:1rem;">${typeIcon[item.type]||'📁'}</span>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:.83rem;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(item.title)}</div>
+        ${item.url?`<div style="font-size:.7rem;color:var(--gray);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(item.url)}</div>`:''}
+        ${item.fileData?`<div style="font-size:.7rem;color:var(--green);">📎 ${esc(item.fileData.name)}</div>`:''}
+        ${item.postRef?`<div style="font-size:.7rem;color:var(--blue);">→ Publication: ${esc(item.postRef)}</div>`:''}
+      </div>
+      <span class="badge ${typeColor[item.type]||'b-cat'}" style="font-size:.62rem;flex-shrink:0;">${item.type.toUpperCase()}</span>
+      <div style="display:flex;gap:.2rem;flex-shrink:0;">
+        <button class="btn b-ghost btn-icon" onclick="moveRealItem(${i},-1)" title="Monter" style="padding:.3rem .45rem;"><i class="fas fa-arrow-up"></i></button>
+        <button class="btn b-ghost btn-icon" onclick="moveRealItem(${i},1)" title="Descendre" style="padding:.3rem .45rem;"><i class="fas fa-arrow-down"></i></button>
+        <button class="btn b-danger btn-icon" onclick="removeRealItem(${i})" title="Retirer" style="padding:.3rem .45rem;"><i class="fas fa-times"></i></button>
+      </div>
+    </div>`).join('');
 }
+
+async function loadExistingPicker(){
+  const picker=document.getElementById('pack-existing-list')||document.getElementById('pl-picker');
+  if(!picker)return;
+  picker.innerHTML='<p style="color:var(--gray);font-size:.8rem;"><i class="fas fa-spinner fa-spin"></i></p>';
+  try{
+    const[pf,rf]=await Promise.all([ghGet('content/posts').catch(()=>[]),ghGet('content/resumes').catch(()=>[])]);
+    const pm=(pf||[]).filter(f=>f.name?.endsWith('.md'));
+    const rm=(rf||[]).filter(f=>f.name?.endsWith('.md'));
+    const allItems=await Promise.all([
+      ...pm.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();const p=parseFM(t);return{title:p.title||f.name,type:p.type||'post',name:f.name,kind:'post'};}),
+      ...rm.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();const p=parseFM(t);return{title:p.title||f.name,type:p.type||'pdf',name:f.name,kind:'resource'};})
+    ]);
+    if(!allItems.length){picker.innerHTML='<p style="color:var(--gray);font-size:.8rem;font-style:italic;">Aucun contenu publié.</p>';return;}
+    const ico={post:'📰',video:'🎬',pdf:'📄',image:'🖼️',announcement:'📣'};
+    const isPl=picker.id==='pl-picker';
+    picker.innerHTML=allItems.map(item=>`
+      <div style="display:flex;align-items:center;gap:.5rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.45rem .75rem;cursor:pointer;transition:.14s;"
+        onclick="${isPl?`addToPlaylist('${esc(item.name)}','${esc(item.title)}','${esc(item.type)}')`:`addExistingToPackItems('${esc(item.name)}','${esc(item.title)}','${esc(item.type)}')`}"
+        onmouseover="this.style.borderColor='var(--blue)';this.style.background='rgba(37,99,235,.05)'"
+        onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--bg)'">
+        <span style="font-size:.88rem;">${ico[item.type]||'📁'}</span>
+        <span style="flex:1;font-size:.8rem;font-weight:500;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(item.title)}</span>
+        <span style="font-size:.63rem;color:var(--gray);background:white;border:1px solid var(--border);padding:.1rem .38rem;border-radius:5px;flex-shrink:0;">${item.kind==='resource'?'Ressource':'Publication'}</span>
+        <i class="fas fa-plus" style="color:var(--blue);font-size:.7rem;flex-shrink:0;"></i>
+      </div>`).join('');
+  }catch(e){
+    const el=document.getElementById('pack-existing-list')||document.getElementById('pl-picker');
+    if(el)el.innerHTML='<p style="color:var(--red);font-size:.8rem;">⚠️ Erreur. Vérifiez la config GitHub.</p>';
+  }
+}
+
+async function publishPack(){
+  const name=document.getElementById('pack-name').value.trim();
+  if(!name){toast('Entrez un nom de pack','err');return;}
+  const c=cfg();if(!c.token){toast('Configurez GitHub','err');showPanel('settings');return;}
+  if(!c.owner)await fetchOwner(c.token);
+  const price=document.getElementById('pack-price').value.trim();
+  const desc=document.getElementById('pack-desc').value.trim();
+  const locked=document.getElementById('pack-locked').checked;
+  const date=today(),filename=slug(name)+'-'+date.replace(/-/g,'')+'.md';
+
+  showPub('Création du pack…','Traitement du contenu…');
+
+  try{
+    // Upload any file attachments in items
+    const processedItems=[];
+    for(let i=0;i<packRealItems.length;i++){
+      const item={...packRealItems[i]};
+      if(item.fileData){
+        setPubStep(`Upload: ${item.fileData.name}…`);
+        const p='content/files/'+item.fileData.name;
+        const existSha=await getSha(p);
+        await ghPutB64(p,item.fileData.data,'Pack file: '+item.fileData.name,existSha);
+        item.url='content/files/'+item.fileData.name;
+        delete item.fileData;
+      }
+      processedItems.push(item);
+    }
+
+    // Encode items as base64 JSON — avoids ALL YAML quoting issues
+    const itemsB64=btoa(unescape(encodeURIComponent(JSON.stringify(processedItems))));
+
+    let fm=`---\ntitle: "${name.replace(/"/g,'\\"')}"\ntype: "pack"\ndate: "${date}"\nprice: "${price}"\nlocked: "${locked}"\nitems_b64: "${itemsB64}"\n---\n\n${desc}`;
+
+    setPubStep('Écriture sur GitHub…');
+    await ghPut('content/packs/'+filename,fm,'Pack: '+name);
+    setPubDone('"'+name+'" créé !','Pack visible sur le site avec son contenu réel.');
+    cancelCreatePack();
+    loadStats();loadPacks();
+  }catch(e){closePub();toast('Erreur: '+e.message,'err');}
+}
+
 async function loadPacks(){
-  let grid=document.getElementById('pack-grid'); grid.innerHTML='<p style="color:var(--gray);font-size:.83rem;"><i class="fas fa-spinner fa-spin"></i></p>';
+  const grid=document.getElementById('pack-grid');
+  grid.innerHTML='<p style="color:var(--gray);font-size:.83rem;"><i class="fas fa-spinner fa-spin"></i></p>';
   try{
-    let files=await ghGet('content/packs'); let mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
-    if(!mds.length){ grid.innerHTML='<p style="color:var(--gray);font-size:.83rem;font-style:italic;">Aucun pack créé.</p>'; return; }
-    let packs=await Promise.all(mds.map(async f=>{ let r=await fetch(f.download_url); let t=await r.text(); return {...parseFM(t), _n:f.name, _sha:f.sha}; }));
-    setEl('s-pk',packs.length); setEl('nb-packs',packs.length);
-    grid.innerHTML=packs.map(p=>`<div class="pack-card"><div class="pack-card-header"><h4>${esc(p.title||'Pack sans titre')}</h4><small>${p.price?p.price+' · ':''} ${p.date||''}</small></div><div class="pack-card-body">${((p.pack_items||[]).slice(0,4)).map(it=>`<div class="pack-item"><i class="fas ${it.type==='post'?'fa-newspaper':it.type==='resource'?'fa-folder-open':it.type==='video'?'fa-video':it.type==='pdf'?'fa-file-pdf':'fa-image'}"></i><span>${esc(it.title)}</span></div>`).join('')}<div style="margin-top:.8rem;display:flex;gap:.5rem;"><span class="badge ${p.locked==='true'?'b-locked':'b-pub'}">${p.locked==='true'?'🔒 Payant':'✅ Gratuit'}</span><button class="btn b-danger btn-icon" style="margin-left:auto" onclick="delPack('${esc(p._n)}','${esc(p._sha)}','${esc(p.title)}')"><i class="fas fa-trash"></i></button></div></div></div>`).join('');
-  } catch(e){ grid.innerHTML='<p style="color:var(--red);font-size:.83rem;">Erreur de chargement.</p>'; }
+    const files=await ghGet('content/packs');
+    const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
+    if(!mds.length){grid.innerHTML='<p style="color:var(--gray);font-size:.83rem;font-style:italic;">Aucun pack créé.</p>';return;}
+    const packs=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return{...parseFM(t),_n:f.name,_sha:f.sha};}));
+    setEl('s-pk',packs.length);setEl('nb-packs',packs.length);
+    grid.innerHTML=packs.map(p=>{
+      // Parse real items from items_b64 field
+      let items=[];
+      if(p.items_b64){try{items=JSON.parse(decodeURIComponent(escape(atob(p.items_b64))));}catch(e){}}
+      const ico={video:'🎬',pdf:'📄',image:'🖼️',text:'📌',existing:'🔗'};
+      return `<div class="pack-card">
+        <div class="pack-card-header">
+          <h4>${esc(p.title||'Pack')}</h4>
+          <small>${p.price?esc(p.price)+' · ':''} ${p.date||''} · ${items.length} élément(s)</small>
+        </div>
+        <div class="pack-card-body">
+          ${items.slice(0,5).map(item=>`<div class="pack-item"><span>${ico[item.type]||'📁'}</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(item.title)}</span></div>`).join('')}
+          ${items.length>5?`<div class="pack-item" style="color:var(--gray);font-style:italic;">+${items.length-5} autres…</div>`:''}
+          <div style="margin-top:.8rem;display:flex;gap:.5rem;align-items:center;">
+            <span class="badge ${p.locked==='true'?'b-locked':'b-pub'}">${p.locked==='true'?'🔒 Payant':'✅ Gratuit'}</span>
+            <button class="btn b-danger btn-icon" style="margin-left:auto" onclick="delPack('${esc(p._n)}','${esc(p._sha)}','${esc(p.title)}')"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }catch(e){grid.innerHTML='<p style="color:var(--red);font-size:.83rem;">Erreur de chargement.</p>';}
 }
+
 async function delPack(filename,sha,title){
-  if(!confirm('Supprimer le pack "'+title+'" ?')) return;
-  try{ await ghDel('content/packs/'+filename,'Del pack: '+title,sha); toast('"'+title+'" supprimé','ok'); loadStats(); setTimeout(loadPacks,1800); } catch(e){ toast('Erreur: '+e.message,'err'); }
+  if(!confirm('Supprimer le pack "'+title+'" ?'))return;
+  const cards=document.querySelectorAll('.pack-card');
+  cards.forEach(c=>{if(c.innerHTML.includes(title)){c.style.opacity='0';c.style.transition='.3s';setTimeout(()=>c.remove(),320);}});
+  try{await ghDel('content/packs/'+filename,'Del pack: '+title,sha);toast('"'+title+'" supprimé','ok');loadStats();setTimeout(loadPacks,1800);}
+  catch(e){toast('Erreur: '+e.message,'err');}
 }
 
-// ========== PLAYLISTS ==========
-async function showCreatePlaylist(){ document.getElementById('createPlaylistForm').style.display='block'; await loadPlaylistPicker(); }
-async function loadPlaylistPicker(){
-  let container=document.getElementById('playlist-picker');
-  if(!container) return;
-  try{
-    let [pf,rf]=await Promise.all([ghGet('content/posts').catch(()=>[]), ghGet('content/resumes').catch(()=>[])]);
-    let pm=(pf||[]).filter(f=>f.name?.endsWith('.md')), rm=(rf||[]).filter(f=>f.name?.endsWith('.md'));
-    let all=await Promise.all([...pm.map(async f=>{ let r=await fetch(f.download_url); let t=await r.text(); let p=parseFM(t); return {title:p.title||f.name, ref:f.path, kind:'post'}; }), ...rm.map(async f=>{ let r=await fetch(f.download_url); let t=await r.text(); let p=parseFM(t); return {title:p.title||f.name, ref:f.path, kind:'resource'}; })]);
-    container.innerHTML=`<select id="playlist-select-item" style="width:100%;padding:.6rem .8rem;border-radius:8px;border:1.5px solid var(--border);">${all.map(i=>`<option value="${esc(i.ref)}|${esc(i.title)}|${i.kind}">${esc(i.title)} (${i.kind})</option>`).join('')}</select>`;
-  } catch(e){ container.innerHTML='<p style="color:red;">Erreur</p>'; }
+// ═══════════════════════════════════════════
+// PLAYLISTS — Ordered series of published posts
+// ═══════════════════════════════════════════
+let plItems=[]; // [{name, title, type}] — references to existing posts
+
+function showCreatePlaylist(){
+  document.getElementById('createPlaylistForm').style.display='block';
+  plItems=[];renderPlItems();
+  loadExistingPicker();
 }
-function addPlaylistItem(){
-  let sel=document.getElementById('playlist-select-item');
-  if(!sel) return;
-  let [ref,title,kind]=sel.value.split('|');
-  playlistItemsArr.push({type:kind, ref, title});
-  renderPlaylistItems();
+
+function addToPlaylist(name,title,type){
+  if(plItems.find(p=>p.name===name)){toast('Déjà dans la playlist','warn');return;}
+  plItems.push({name,title,type});
+  renderPlItems();
+  toast('"'+title+'" ajouté à la playlist','ok');
 }
-function removePlaylistItem(idx){ playlistItemsArr.splice(idx,1); renderPlaylistItems(); }
-function renderPlaylistItems(){
-  let cont=document.getElementById('playlist-items-list');
-  if(!cont) return;
-  if(!playlistItemsArr.length){ cont.innerHTML='<p style="color:var(--gray);">Aucun élément.</p>'; return; }
-  cont.innerHTML=playlistItemsArr.map((it,i)=>`<div class="attach-item"><i class="fas ${it.type==='post'?'fa-newspaper':'fa-folder-open'}"></i><span>${esc(it.title)}</span><button onclick="removePlaylistItem(${i})"><i class="fas fa-trash"></i></button></div>`).join('');
+
+function removePlItem(i){plItems.splice(i,1);renderPlItems();}
+function movePlItem(i,dir){
+  const j=i+dir;if(j<0||j>=plItems.length)return;
+  [plItems[i],plItems[j]]=[plItems[j],plItems[i]];
+  renderPlItems();
 }
+
+function renderPlItems(){
+  const el=document.getElementById('pl-items');
+  if(!plItems.length){el.innerHTML='<p style="color:var(--gray);font-size:.82rem;font-style:italic;padding:.3rem 0;">Aucun cours ajouté. Cliquez ci-dessous pour ajouter.</p>';return;}
+  const ico={post:'📰',video:'🎬',pdf:'📄',image:'🖼️',announcement:'📣'};
+  el.innerHTML=plItems.map((item,i)=>`
+    <div style="display:flex;align-items:center;gap:.6rem;background:white;border:1px solid var(--border);border-radius:10px;padding:.55rem .9rem;margin-bottom:.3rem;">
+      <span style="color:var(--gray);font-size:.75rem;font-weight:700;min-width:22px;">${i+1}</span>
+      <span style="font-size:.9rem;">${ico[item.type]||'📁'}</span>
+      <span style="flex:1;font-size:.82rem;font-weight:600;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(item.title)}</span>
+      <div style="display:flex;gap:.2rem;flex-shrink:0;">
+        <button class="btn b-ghost btn-icon" onclick="movePlItem(${i},-1)" style="padding:.3rem .42rem;"><i class="fas fa-arrow-up"></i></button>
+        <button class="btn b-ghost btn-icon" onclick="movePlItem(${i},1)" style="padding:.3rem .42rem;"><i class="fas fa-arrow-down"></i></button>
+        <button class="btn b-danger btn-icon" onclick="removePlItem(${i})" style="padding:.3rem .42rem;"><i class="fas fa-times"></i></button>
+      </div>
+    </div>`).join('');
+}
+
 async function publishPlaylist(){
-  let name=document.getElementById('playlist-name').value.trim();
-  if(!name){ toast('Nom de playlist requis','err'); return; }
-  let desc=document.getElementById('playlist-desc').value.trim();
-  let c=cfg(); if(!c.token){ toast('Configurez GitHub','err'); return; }
-  let date=today();
-  let filename=slug(name)+'-playlist-'+date.replace(/-/g,'')+'.md';
-  let fm=`---\ntitle: "${name.replace(/"/g,'\\"')}"\ntype: "playlist"\ndate: "${date}"\nitems: ${JSON.stringify(playlistItemsArr)}\n---\n\n${desc}`;
-  showPub('Création playlist…','GitHub…');
+  const name=document.getElementById('pl-name').value.trim();
+  if(!name){toast('Entrez un nom de playlist','err');return;}
+  if(!plItems.length){toast('Ajoutez au moins un cours','err');return;}
+  const c=cfg();if(!c.token){toast('Configurez GitHub','err');showPanel('settings');return;}
+  if(!c.owner)await fetchOwner(c.token);
+  const cat=document.getElementById('pl-cat').value.trim();
+  const desc=document.getElementById('pl-desc').value.trim();
+  const locked=document.getElementById('pl-locked').checked;
+  const date=today(),filename='pl-'+slug(name)+'-'+date.replace(/-/g,'')+'.md';
+  const refsB64=btoa(unescape(encodeURIComponent(JSON.stringify(plItems))));
+  let fm=`---\ntitle: "${name.replace(/"/g,'\\"')}"\ntype: "playlist"\ndate: "${date}"\ncategory: "${cat}"\nlocked: "${locked}"\nrefs_b64: "${refsB64}"\n---\n\n${desc}`;
+  showPub('Création de la playlist…','GitHub…');
   try{
-    await ghPut('content/playlists/'+filename, fm, 'Playlist: '+name);
-    setPubDone(`Playlist "${name}" créée !`, 'Visible sur le site.');
+    await ghPut('content/posts/'+filename,fm,'Playlist: '+name);
+    setPubDone('"'+name+'" créée !','Playlist visible sur la plateforme.');
     document.getElementById('createPlaylistForm').style.display='none';
-    playlistItemsArr=[]; renderPlaylistItems();
-    loadPlaylists();
-  } catch(e){ closePub(); toast('Erreur: '+e.message,'err'); }
-}
-async function loadPlaylists(){
-  let grid=document.getElementById('playlists-grid');
-  if(!grid) return;
-  grid.innerHTML='<p style="color:var(--gray);"><i class="fas fa-spinner fa-spin"></i></p>';
-  try{
-    let files=await ghGet('content/playlists');
-    let mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
-    setEl('nb-playlists', mds.length);
-    if(!mds.length){ grid.innerHTML='<p style="color:var(--gray);">Aucune playlist.</p>'; return; }
-    let items=await Promise.all(mds.map(async f=>{ let r=await fetch(f.download_url); let t=await r.text(); return {...parseFM(t), _n:f.name, _sha:f.sha}; }));
-    grid.innerHTML=items.map(p=>`<div class="pack-card"><div class="pack-card-header"><h4>${esc(p.title)}</h4><small>Playlist</small></div><div class="pack-card-body"><p style="font-size:.8rem;color:var(--gray);">${esc((p.body||'').substring(0,80))}</p><span class="badge b-cat">${(p.items||[]).length} éléments</span><div style="margin-top:.8rem;"><button class="btn b-danger btn-icon" onclick="delPlaylist('${esc(p._n)}','${esc(p._sha)}','${esc(p.title)}')"><i class="fas fa-trash"></i></button></div></div></div>`).join('');
-  } catch(e){ grid.innerHTML='<p style="color:var(--gray);">Erreur chargement.</p>'; }
-}
-async function delPlaylist(filename,sha,title){
-  if(!confirm(`Supprimer la playlist "${title}" ?`)) return;
-  try{ await ghDel('content/playlists/'+filename, 'Del playlist', sha); toast('Supprimée','ok'); loadPlaylists(); } catch(e){ toast('Erreur','err'); }
+    plItems=[];
+    document.getElementById('pl-name').value='';document.getElementById('pl-cat').value='';document.getElementById('pl-desc').value='';
+    loadStats();loadPlaylists();
+  }catch(e){closePub();toast('Erreur: '+e.message,'err');}
 }
 
-// ========== POSTS & RESOURCES TABLES ==========
-function parseFM(md){ let fm={}; let b=md.match(/^---\n([\s\S]*?)\n---/); if(b) b[1].split('\n').forEach(l=>{ let[k,...v]=l.split(':'); if(k&&k.trim()) fm[k.trim()]=v.join(':').trim().replace(/^"|"$/g,''); }); return {...fm, body:md.replace(/^---[\s\S]*?---\n?/,'').trim()}; }
+async function loadPlaylists(){
+  const grid=document.getElementById('playlists-grid');
+  if(!grid)return;
+  grid.innerHTML='<p style="color:var(--gray);font-size:.83rem;"><i class="fas fa-spinner fa-spin"></i></p>';
+  try{
+    const files=await ghGet('content/posts');
+    const pls=(files||[]).filter(f=>f.name?.startsWith('pl-')&&f.name?.endsWith('.md'));
+    setEl('nb-playlists',pls.length||0);
+    if(!pls.length){grid.innerHTML='<p style="color:var(--gray);font-size:.83rem;font-style:italic;">Aucune playlist. Créez votre première playlist ci-dessus.</p>';return;}
+    const data=await Promise.all(pls.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return{...parseFM(t),_n:f.name,_sha:f.sha};}));
+    grid.innerHTML=data.map(p=>{
+      let refs=[];
+      if(p.refs_b64){try{refs=JSON.parse(decodeURIComponent(escape(atob(p.refs_b64))));}catch(e){}}
+      return `<div style="background:white;border-radius:16px;border:1px solid var(--border);overflow:hidden;">
+        <div style="background:linear-gradient(135deg,var(--purple),#7c3aed);padding:1rem 1.2rem;">
+          <div style="display:flex;align-items:center;gap:.5rem;">
+            <i class="fas fa-list-ol" style="color:white;opacity:.8;"></i>
+            <h4 style="color:white;font-size:.9rem;font-weight:700;flex:1;">${esc(p.title||'Playlist')}</h4>
+            <button class="btn b-danger btn-icon" onclick="delPlaylist('${esc(p._n)}','${esc(p._sha)}','${esc(p.title)}')" style="background:rgba(255,255,255,.1);border:none;"><i class="fas fa-trash"></i></button>
+          </div>
+          <small style="color:rgba(255,255,255,.6);font-size:.72rem;">${p.category||''} · ${refs.length} cours · ${p.date||''}</small>
+        </div>
+        <div style="padding:.8rem 1.1rem;">
+          ${refs.slice(0,5).map((r,i)=>`<div style="display:flex;align-items:center;gap:.5rem;padding:.28rem 0;border-bottom:1px solid var(--border);">
+            <span style="width:18px;height:18px;border-radius:50%;background:var(--purple);color:white;font-size:.6rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${i+1}</span>
+            <span style="font-size:.8rem;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(r.title)}</span>
+          </div>`).join('')}
+          ${refs.length>5?`<p style="font-size:.73rem;color:var(--gray);font-style:italic;padding:.3rem 0;">+${refs.length-5} autres cours…</p>`:''}
+        </div>
+      </div>`;
+    }).join('');
+  }catch(e){grid.innerHTML='<p style="color:var(--red);font-size:.83rem;">Erreur de chargement.</p>';}
+}
+
+async function delPlaylist(filename,sha,title){
+  if(!confirm('Supprimer la playlist "'+title+'" ?'))return;
+  try{await ghDel('content/posts/'+filename,'Del playlist: '+title,sha);toast('"'+title+'" supprimée','ok');loadPlaylists();}
+  catch(e){toast('Erreur: '+e.message,'err');}
+}
+
+// ═══ POSTS TABLE ═══
 async function loadPostsTable(){
-  let tb=document.getElementById('posts-tbody'); tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;"><i class="fas fa-spinner fa-spin"></i></td></tr>';
+  const tb=document.getElementById('posts-tbody');
+  tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray)"><i class="fas fa-spinner fa-spin"></i></td></tr>';
+  // Clear old cache
   Object.keys(PC).forEach(k=>delete PC[k]);
   try{
-    let files=await ghGet('content/posts'); let mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
+    const files=await ghGet('content/posts');
+    const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
     setEl('posts-count',mds.length+' publication(s)');
-    if(!mds.length){ tb.innerHTML='<tr><td colspan="6" style="text-align:center;">Aucune publication.</td></tr>'; return; }
-    let items=await Promise.all(mds.map(async f=>{ let r=await fetch(f.download_url); let t=await r.text(); return {...parseFM(t), _n:f.name, _sha:f.sha}; }));
+    if(!mds.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray)">Aucune publication.</td></tr>';return;}
+    // Use GitHub API to get fresh content for each file (bypasses CDN cache)
+    const items=await Promise.all(mds.map(async f=>{
+      const r=await fetch(f.download_url);
+      const t=await r.text();
+      return{...parseFM(t),_n:f.name,_sha:f.sha};
+    }));
     items.sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
-    let ti={post:'fa-newspaper',video:'fa-video',pdf:'fa-file-pdf',image:'fa-image',announcement:'fa-bullhorn'}, tc={post:'b-post',video:'b-video',pdf:'b-pdf',image:'b-image',announcement:'b-cat'};
-    tb.innerHTML=items.map((p,i)=>{ let key='r'+i; PC[key]=p; return `<tr id="tr-${esc(p._n)}"><td><div class="cell-main">${esc(p.title||'Sans titre')}</div><div class="cell-sub">${esc(p.date||'')}</div></td><td><span class="badge b-cat">${esc(p.category||'—')}</span></td><td><span class="badge ${tc[p.type]||'b-post'}"><i class="fas ${ti[p.type]||'fa-newspaper'}"></i> ${esc(p.type||'post')}</span></td><td>${esc(p.date||'—')}</td><td><span class="badge ${p.locked==='true'?'b-locked':'b-pub'}">${p.locked==='true'?'🔒 Payant':'✅ Public'}</span></td><td><div class="ab"><button class="btn b-primary btn-icon" onclick="openEditModal('${key}')"><i class="fas fa-edit"></i></button><button class="btn b-danger btn-icon" onclick="delPost('${esc(p._n)}','${esc(p._sha)}','${esc(p.title)}')"><i class="fas fa-trash"></i></button></div></td></tr>`; }).join('');
-  } catch(e){ tb.innerHTML='<tr><td colspan="6" style="text-align:center;color:red;">⚠️ Erreur. Vérifiez GitHub.</td></tr>'; }
+    const ti={post:'fa-newspaper',video:'fa-video',pdf:'fa-file-pdf',image:'fa-image',announcement:'fa-bullhorn'};
+    const tc={post:'b-post',video:'b-video',pdf:'b-pdf',image:'b-image',announcement:'b-cat'};
+    tb.innerHTML=items.map((p,i)=>{
+      const key='r'+i;PC[key]=p; // store in cache safely
+      return `<tr id="tr-${esc(p._n)}">
+        <td><div class="cell-main">${esc(p.title||'Sans titre')}</div><div class="cell-sub">${esc(p.date||'')}</div></td>
+        <td><span class="badge b-cat">${esc(p.category||'—')}</span></td>
+        <td><span class="badge ${tc[p.type]||'b-post'}"><i class="fas ${ti[p.type]||'fa-newspaper'}"></i> ${esc(p.type||'post')}</span></td>
+        <td>${esc(p.date||'—')}</td>
+        <td><span class="badge ${p.locked==='true'?'b-locked':'b-pub'}">${p.locked==='true'?'🔒 Payant':'✅ Public'}</span></td>
+        <td><div class="ab">
+          <button class="btn b-primary btn-icon" onclick="openEditModal('${key}')" title="Modifier"><i class="fas fa-edit"></i></button>
+          <button class="btn b-danger btn-icon" onclick="delPost('${esc(p._n)}','${esc(p._sha)}','${esc(p.title)}')" title="Supprimer"><i class="fas fa-trash"></i></button>
+        </div></td>
+      </tr>`;
+    }).join('');
+  }catch(e){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">⚠️ Erreur. Vérifiez la configuration GitHub.</td></tr>';}
 }
+
+// ═══ EDIT POST — FIX: use PC cache, fresh SHA ═══
 let editingPost=null;
-function openEditModal(key){ let p=PC[key]; if(!p){ toast('Impossible de charger ce post. Rechargez la liste.','err'); return; } editingPost=p; let sv=(id,val)=>{ let el=document.getElementById(id); if(el) el.value=val||''; }; sv('edit-title',p.title); sv('edit-body',p.body); sv('edit-link',p.link||''); sv('edit-cover',p.image||''); sv('edit-video',p.video_url||''); sv('edit-pdf',p.pdf_file||''); sv('edit-emails',p.allowed_emails||''); let catSel=document.getElementById('edit-cat'); for(let i=0;i<catSel.options.length;i++){ if(catSel.options[i].text===p.category){ catSel.selectedIndex=i; break; } } let typeSel=document.getElementById('edit-type'); for(let i=0;i<typeSel.options.length;i++){ if(typeSel.options[i].value===p.type){ typeSel.selectedIndex=i; break; } } document.getElementById('edit-locked').checked=(p.locked==='true'); document.getElementById('editOverlay').classList.add('open'); }
-function closeEditModal(){ document.getElementById('editOverlay').classList.remove('open'); editingPost=null; }
-async function saveEditPost(){ if(!editingPost){ toast('Erreur: aucun post sélectionné. Rechargez la liste.','err'); return; } let title=document.getElementById('edit-title').value.trim(); if(!title){ toast('Le titre est obligatoire','err'); return; } let c=cfg(); if(!c.token){ toast('Configurez GitHub d\'abord','err'); return; } let postFilename=editingPost._n; let postDate=editingPost.date||today(); let type=document.getElementById('edit-type').value,cat=document.getElementById('edit-cat').value; let body=document.getElementById('edit-body').value.trim(),link=document.getElementById('edit-link').value.trim(); let cover=document.getElementById('edit-cover').value.trim(),vurl=document.getElementById('edit-video').value.trim(); let pdf=document.getElementById('edit-pdf').value.trim(),emails=document.getElementById('edit-emails').value.trim(); let locked=document.getElementById('edit-locked').checked; let fm='---\n'; fm+=`title: "${title.replace(/"/g,'\\"')}"\n`; fm+=`date: "${postDate}"\n`; fm+=`category: "${cat}"\n`; fm+=`type: "${type}"\n`; fm+=`locked: "${locked}"\n`; if(emails) fm+=`allowed_emails: "${emails}"\n`; if(cover) fm+=`image: "${cover}"\n`; if(vurl) fm+=`video_url: "${vurl}"\n`; if(pdf) fm+=`pdf_file: "${pdf}"\n`; if(link) fm+=`link: "${link}"\n`; fm+=`---\n\n${body}`; closeEditModal(); showPub('Mise à jour en cours…','Connexion à GitHub…'); try{ setPubStep('Récupération du SHA actuel…'); let freshSHA=await getSha('content/posts/'+postFilename); if(!freshSHA) throw new Error('Fichier introuvable sur GitHub. Vérifiez que "'+postFilename+'" existe bien.'); setPubStep('Écriture des modifications…'); await ghPut('content/posts/'+postFilename, fm, 'Modification: '+title, freshSHA); setPubDone('"'+title+'" mis à jour !','Visible sur le site.'); setTimeout(()=>loadPostsTable(),1500); } catch(e){ closePub(); toast('Erreur de sauvegarde: '+e.message,'err'); } }
-async function delPost(filename,sha,title){ if(!confirm('Supprimer "'+title+'" ?\nCette action est irréversible.')) return; let row=document.getElementById('tr-'+filename); if(row){ row.style.transition='opacity .3s,transform .3s'; row.style.opacity='0'; row.style.transform='translateX(20px)'; setTimeout(()=>row.remove(),320); } let countEl=document.getElementById('posts-count'); if(countEl){ let n=parseInt(countEl.textContent)||1; countEl.textContent=(Math.max(0,n-1))+' publication(s)'; } let nbEl=document.getElementById('nb-posts'); if(nbEl){ let n=parseInt(nbEl.textContent)||1; nbEl.textContent=Math.max(0,n-1); } try{ await ghDel('content/posts/'+filename,'Suppression: '+title,sha); toast('"'+title+'" supprimé.','ok'); loadStats(); setTimeout(()=>loadPostsTable(),2500); } catch(e){ if(row){ row.style.opacity='1'; row.style.transform='translateX(0)'; } toast('Erreur suppression: '+e.message,'err'); } }
-async function loadResTable(){
-  let tb=document.getElementById('res-tbody'); tb.innerHTML='<tr><td colspan="6" style="text-align:center;"><i class="fas fa-spinner fa-spin"></i></td></tr>';
+function openEditModal(key){
+  const p=PC[key];
+  if(!p){toast('Impossible de charger ce post. Rechargez la liste.','err');return;}
+  editingPost=p;
+  const sv=(id,val)=>{const el=document.getElementById(id);if(el)el.value=val||'';};
+  sv('edit-title',p.title);sv('edit-body',p.body);sv('edit-link',p.link||'');sv('edit-cover',p.image||'');
+  sv('edit-video',p.video_url||'');sv('edit-pdf',p.pdf_file||'');sv('edit-emails',p.allowed_emails||'');
+  const catSel=document.getElementById('edit-cat');
+  for(let i=0;i<catSel.options.length;i++){if(catSel.options[i].text===p.category){catSel.selectedIndex=i;break;}}
+  const typeSel=document.getElementById('edit-type');
+  for(let i=0;i<typeSel.options.length;i++){if(typeSel.options[i].value===p.type){typeSel.selectedIndex=i;break;}}
+  document.getElementById('edit-locked').checked=(p.locked==='true');
+  document.getElementById('editOverlay').classList.add('open');
+}
+function closeEditModal(){document.getElementById('editOverlay').classList.remove('open');editingPost=null;}
+
+async function saveEditPost(){
+  if(!editingPost){toast('Erreur: aucun post sélectionné. Rechargez la liste.','err');return;}
+  const title=document.getElementById('edit-title').value.trim();
+  if(!title){toast('Le titre est obligatoire','err');return;}
+  const c=cfg();if(!c.token){toast('Configurez GitHub d\'abord','err');return;}
+
+  // ⚠️ CRITICAL: capture ALL data from editingPost BEFORE closing modal
+  // closeEditModal() sets editingPost=null — so we must save filename/date first
+  const postFilename = editingPost._n;
+  const postDate = editingPost.date || today();
+
+  const type=document.getElementById('edit-type').value,cat=document.getElementById('edit-cat').value;
+  const body=document.getElementById('edit-body').value.trim(),link=document.getElementById('edit-link').value.trim();
+  const cover=document.getElementById('edit-cover').value.trim(),vurl=document.getElementById('edit-video').value.trim();
+  const pdf=document.getElementById('edit-pdf').value.trim(),emails=document.getElementById('edit-emails').value.trim();
+  const locked=document.getElementById('edit-locked').checked;
+
+  // Build frontmatter
+  let fm='---\n';
+  fm+=`title: "${title.replace(/"/g,'\\"')}"\n`;
+  fm+=`date: "${postDate}"\n`;
+  fm+=`category: "${cat}"\n`;
+  fm+=`type: "${type}"\n`;
+  fm+=`locked: "${locked}"\n`;
+  if(emails)fm+=`allowed_emails: "${emails}"\n`;
+  if(cover)fm+=`image: "${cover}"\n`;
+  if(vurl)fm+=`video_url: "${vurl}"\n`;
+  if(pdf)fm+=`pdf_file: "${pdf}"\n`;
+  if(link)fm+=`link: "${link}"\n`;
+  fm+=`---\n\n${body}`;
+
+  // Close modal AFTER capturing all data
+  closeEditModal();
+  showPub('Mise à jour en cours…','Connexion à GitHub…');
   try{
-    let files=await ghGet('content/resumes'); let mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
+    setPubStep('Récupération du SHA actuel…');
+    const freshSHA = await getSha('content/posts/'+postFilename);
+    if(!freshSHA){throw new Error('Fichier introuvable sur GitHub. Vérifiez que "'+postFilename+'" existe bien.');}
+    setPubStep('Écriture des modifications…');
+    await ghPut('content/posts/'+postFilename, fm, 'Modification: '+title, freshSHA);
+    setPubDone('"'+title+'" mis à jour !','Visible sur le site.');
+    setTimeout(()=>loadPostsTable(), 1500);
+  }catch(e){
+    closePub();
+    toast('Erreur de sauvegarde: '+e.message,'err');
+  }
+}
+
+// ═══ DELETE POST — FIX: immediate DOM removal ═══
+async function delPost(filename,sha,title){
+  if(!confirm('Supprimer "'+title+'" ?\nCette action est irréversible.'))return;
+  // Remove from DOM IMMEDIATELY — no waiting for GitHub
+  const row=document.getElementById('tr-'+filename);
+  if(row){row.style.transition='opacity .3s,transform .3s';row.style.opacity='0';row.style.transform='translateX(20px)';setTimeout(()=>row.remove(),320);}
+  // Update counters instantly
+  const countEl=document.getElementById('posts-count');
+  if(countEl){const n=parseInt(countEl.textContent)||1;countEl.textContent=(Math.max(0,n-1))+' publication(s)';}
+  const nbEl=document.getElementById('nb-posts');
+  if(nbEl){const n=parseInt(nbEl.textContent)||1;nbEl.textContent=Math.max(0,n-1);}
+  try{
+    await ghDel('content/posts/'+filename,'Suppression: '+title,sha);
+    toast('"'+title+'" supprimé.','ok');
+    loadStats();
+    // Silent reload after delay
+    setTimeout(()=>loadPostsTable(),2500);
+  }catch(e){
+    // Restore on failure
+    if(row){row.style.opacity='1';row.style.transform='translateX(0)';}
+    toast('Erreur suppression: '+e.message,'err');
+  }
+}
+
+// ═══ RESOURCES TABLE ═══
+async function loadResTable(){
+  const tb=document.getElementById('res-tbody');
+  tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray)"><i class="fas fa-spinner fa-spin"></i></td></tr>';
+  try{
+    const files=await ghGet('content/resumes');
+    const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
     setEl('res-count',mds.length+' ressource(s)');
-    if(!mds.length){ tb.innerHTML='<tr><td colspan="6" style="text-align:center;">Aucune ressource.</td></tr>'; return; }
-    let items=await Promise.all(mds.map(async f=>{ let r=await fetch(f.download_url); let t=await r.text(); return {...parseFM(t), _n:f.name, _sha:f.sha}; }));
-    let tc={pdf:'b-pdf',video:'b-video',image:'b-image'};
-    tb.innerHTML=items.map(r=>`<tr id="tr-${esc(r._n)}"><td><div class="cell-main">${esc(r.title||'Sans titre')}</div></td><td><span class="badge ${tc[r.type]||'b-pdf'}">${(r.type||'pdf').toUpperCase()}</span></td><td>${esc(r.subject||'—')}</td><td>${esc(r.level||'—')}</td><td><span class="badge ${r.locked==='true'?'b-locked':'b-pub'}">${r.locked==='true'?'🔒 Payant':'✅ Public'}</span></td><td><button class="btn b-danger btn-icon" onclick="delRes('${esc(r._n)}','${esc(r._sha)}','${esc(r.title)}')"><i class="fas fa-trash"></i></button></td></tr>`).join('');
-  } catch(e){ tb.innerHTML='<tr><td colspan="6" style="text-align:center;color:red;">⚠️ Erreur.</td></tr>'; }
+    if(!mds.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray)">Aucune ressource.</td></tr>';return;}
+    const items=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return{...parseFM(t),_n:f.name,_sha:f.sha};}));
+    const tc={pdf:'b-pdf',video:'b-video',image:'b-image'};
+    tb.innerHTML=items.map(r=>`<tr id="tr-${esc(r._n)}">
+      <td><div class="cell-main">${esc(r.title||'Sans titre')}</div></td>
+      <td><span class="badge ${tc[r.type]||'b-pdf'}">${(r.type||'pdf').toUpperCase()}</span></td>
+      <td>${esc(r.subject||'—')}</td><td>${esc(r.level||'—')}</td>
+      <td><span class="badge ${r.locked==='true'?'b-locked':'b-pub'}">${r.locked==='true'?'🔒 Payant':'✅ Public'}</span></td>
+      <td><button class="btn b-danger btn-icon" onclick="delRes('${esc(r._n)}','${esc(r._sha)}','${esc(r.title)}')"><i class="fas fa-trash"></i></button></td>
+    </tr>`).join('');
+  }catch(e){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">⚠️ Erreur.</td></tr>';}
 }
-async function delRes(filename,sha,title){ if(!confirm('Supprimer "'+title+'" ?')) return; let row=document.getElementById('tr-'+filename); if(row){ row.style.transition='opacity .3s'; row.style.opacity='0'; setTimeout(()=>row.remove(),320); } let ce=document.getElementById('res-count'); if(ce){ let n=parseInt(ce.textContent)||1; ce.textContent=Math.max(0,n-1)+' ressource(s)'; } try{ await ghDel('content/resumes/'+filename,'Del: '+title,sha); toast('"'+title+'" supprimé.','ok'); loadStats(); setTimeout(()=>loadResTable(),2500); } catch(e){ if(row) row.style.opacity='1'; toast('Erreur: '+e.message,'err'); } }
+async function delRes(filename,sha,title){
+  if(!confirm('Supprimer "'+title+'" ?'))return;
+  const row=document.getElementById('tr-'+filename);
+  if(row){row.style.transition='opacity .3s';row.style.opacity='0';setTimeout(()=>row.remove(),320);}
+  const ce=document.getElementById('res-count');if(ce){const n=parseInt(ce.textContent)||1;ce.textContent=Math.max(0,n-1)+' ressource(s)';}
+  try{await ghDel('content/resumes/'+filename,'Del: '+title,sha);toast('"'+title+'" supprimé.','ok');loadStats();setTimeout(()=>loadResTable(),2500);}
+  catch(e){if(row){row.style.opacity='1';}toast('Erreur: '+e.message,'err');}
+}
 
-// ========== ACCESS MANAGEMENT ==========
+// ═══ ACCESS MANAGEMENT — Email + Password + Expiry ═══
 let accessData={students:[]};
-async function loadAccessData(){ let c=cfg(); try{ let r=await fetch(`https://raw.githubusercontent.com/${c.owner}/${c.repo}/${c.branch}/access/allowed.json?t=${Date.now()}`); if(r.ok){ let d=await r.json(); accessData={students:d.students||d.global?.map(e=>({email:e,name:'',password:'',date:today(),expires:'',pack:'all'}))||[]}; } else accessData={students:[]}; } catch(e){ accessData={students:[]}; } renderStudentList(); }
-async function loadAccessPanel(){ await loadAccessData(); }
+async function loadAccessData(){
+  const c=cfg();
+  try{
+    const r=await fetch(`https://raw.githubusercontent.com/${c.owner}/${c.repo}/${c.branch}/access/allowed.json?t=${Date.now()}`);
+    if(r.ok){const d=await r.json();accessData={students:d.students||d.global?.map(e=>({email:e,name:'',password:'',date:today(),expires:'',pack:'all'}))||[]};}
+    else accessData={students:[]};
+  }catch(e){accessData={students:[]};}
+  renderStudentList();
+}
+async function loadAccessPanel(){await loadAccessData();}
+
 function renderStudentList(){
-  let c=document.getElementById('studentList'); let students=accessData.students||[];
-  setEl('student-count-lbl',students.length+' élève(s)'); setEl('s-a',students.length); setEl('nb-access',students.length);
-  if(!students.length){ c.innerHTML='<p style="color:var(--gray);font-size:.83rem;font-style:italic;">Aucun élève inscrit.</p>'; return; }
-  let now=new Date(), siteUrl=window.location.href.replace('/admin/index.html','').replace('/admin/','');
-  c.innerHTML=students.map((s,i)=>{ let ini=(s.name||s.email||'?').substring(0,2).toUpperCase(); let expires=s.expires?new Date(s.expires):null; let expClass='active',expLabel='Actif'; if(expires){ let diff=Math.ceil((expires-now)/86400000); if(diff<0){ expClass='expired'; expLabel='Expiré'; } else if(diff<=7){ expClass='soon'; expLabel='Expire dans '+diff+'j'; } else expLabel='Jusqu\'au '+s.expires; } else { expLabel='Accès illimité'; } let msgText=`Bonjour ${s.name||''} 👋\n\nVotre accès Teach Line est activé ✅\n\n🌐 Site: ${siteUrl}\n📧 Email: ${s.email}\n🔑 Mot de passe: ${s.password}\n📅 Valide jusqu'au: ${s.expires||'Illimité'}\n\n➡️ Cliquez sur "Accès élève" en haut du site\n→ Entrez votre email + mot de passe\n→ Accédez à tous vos cours 🎓`; let waTxt=encodeURIComponent(msgText); let mailSubject=encodeURIComponent('Votre accès Teach Line'); let mailBody=encodeURIComponent(msgText); return `<div class="asr"><div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--blue));color:white;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;">${ini}</div><div class="asr-info"><div class="asr-name">${esc(s.name||s.email)}</div><div class="asr-email">${s.name?esc(s.email):''} ${s.pack&&s.pack!=='all'?'· '+esc(s.pack):''}</div></div><span class="asr-pass" title="Mot de passe">${esc(s.password||'—')}</span><span class="asr-expire ${expClass}">${expLabel}</span><button class="copy-btn" onclick="copyText('Email: ${esc(s.email)}\\nMot de passe: ${esc(s.password)}')" title="Copier identifiants"><i class="fas fa-copy"></i></button><a href="https://wa.me/21658338187?text=${waTxt}" target="_blank" class="btn b-success btn-icon" style="font-size:.75rem;" title="Envoyer par WhatsApp"><i class="fab fa-whatsapp"></i></a><a href="mailto:${esc(s.email)}?subject=${mailSubject}&body=${mailBody}" class="btn b-primary btn-icon" style="font-size:.75rem;" title="Envoyer par Email"><i class="fas fa-envelope"></i></a><button class="btn b-danger btn-icon" onclick="removeStudent(${i})" title="Supprimer l'accès"><i class="fas fa-trash"></i></button></div>`; }).join('');
+  const c=document.getElementById('studentList');
+  const students=accessData.students||[];
+  setEl('student-count-lbl',students.length+' élève(s)');setEl('s-a',students.length);setEl('nb-access',students.length);
+  if(!students.length){c.innerHTML='<p style="color:var(--gray);font-size:.83rem;font-style:italic;padding:.5rem 0;">Aucun élève inscrit.</p>';return;}
+  const now=new Date();
+  const siteUrl=window.location.href.replace('/admin/index.html','').replace('/admin/','');
+  c.innerHTML=students.map((s,i)=>{
+    const ini=(s.name||s.email||'?').substring(0,2).toUpperCase();
+    const expires=s.expires?new Date(s.expires):null;
+    let expClass='active',expLabel='Actif';
+    if(expires){
+      const diff=Math.ceil((expires-now)/86400000);
+      if(diff<0){expClass='expired';expLabel='Expiré';}
+      else if(diff<=7){expClass='soon';expLabel='Expire dans '+diff+'j';}
+      else expLabel='Jusqu\'au '+s.expires;
+    }else{expLabel='Accès illimité';}
+
+    const msgText=`Bonjour ${s.name||''} 👋\n\nVotre accès Teach Line est activé ✅\n\n🌐 Site: ${siteUrl}\n📧 Email: ${s.email}\n🔑 Mot de passe: ${s.password}\n📅 Valide jusqu'au: ${s.expires||'Illimité'}\n\n➡️ Cliquez sur "Accès élève" en haut du site\n→ Entrez votre email + mot de passe\n→ Accédez à tous vos cours 🎓`;
+
+    const waTxt=encodeURIComponent(msgText);
+    const mailSubject=encodeURIComponent('Votre accès Teach Line');
+    const mailBody=encodeURIComponent(msgText);
+
+    return `<div class="asr">
+      <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--blue));color:white;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;">${ini}</div>
+      <div class="asr-info">
+        <div class="asr-name">${esc(s.name||s.email)}</div>
+        <div class="asr-email">${s.name?esc(s.email):''} ${s.pack&&s.pack!=='all'?'· '+esc(s.pack):''}</div>
+      </div>
+      <span class="asr-pass" title="Mot de passe">${esc(s.password||'—')}</span>
+      <span class="asr-expire ${expClass}">${expLabel}</span>
+      <button class="copy-btn" onclick="copyText('Email: ${esc(s.email)}\\nMot de passe: ${esc(s.password)}')" title="Copier identifiants"><i class="fas fa-copy"></i></button>
+      <a href="https://wa.me/21658338187?text=${waTxt}" target="_blank" class="btn b-success btn-icon" style="font-size:.75rem;" title="Envoyer par WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="mailto:${esc(s.email)}?subject=${mailSubject}&body=${mailBody}" class="btn b-primary btn-icon" style="font-size:.75rem;" title="Envoyer par Email"><i class="fas fa-envelope"></i></a>
+      <button class="btn b-danger btn-icon" onclick="removeStudent(${i})" title="Supprimer l'accès"><i class="fas fa-trash"></i></button>
+    </div>`;
+  }).join('');
 }
+
 function addStudent(){
-  let email=document.getElementById('new-student-email').value.trim().toLowerCase(); let name=document.getElementById('new-student-name').value.trim(); let duration=document.getElementById('new-student-duration').value; let pack=document.getElementById('new-student-pack').value;
-  if(!email||!email.includes('@')){ toast('Email invalide','err'); return; }
-  if((accessData.students||[]).find(s=>s.email===email)){ toast('Cet email existe déjà','warn'); return; }
-  let password=randPass(); let expires=duration==='9999'?'':addDays(duration);
+  const email=document.getElementById('new-student-email').value.trim().toLowerCase();
+  const name=document.getElementById('new-student-name').value.trim();
+  const duration=document.getElementById('new-student-duration').value;
+  const pack=document.getElementById('new-student-pack').value;
+  if(!email||!email.includes('@')){toast('Email invalide','err');return;}
+  if((accessData.students||[]).find(s=>s.email===email)){toast('Cet email existe déjà','warn');return;}
+  const password=randPass();
+  const expires=duration==='9999'?'':addDays(duration);
   accessData.students.push({email,name,password,date:today(),expires,pack});
-  document.getElementById('new-student-email').value=''; document.getElementById('new-student-name').value='';
-  renderStudentList(); toast(`✅ ${name||email} ajouté · Expire: ${expires||'Jamais'} · Sauvegardez !`,'ok');
+  document.getElementById('new-student-email').value='';document.getElementById('new-student-name').value='';
+  renderStudentList();
+  toast(`✅ ${name||email} ajouté · Expire: ${expires||'Jamais'} · Sauvegardez !`,'ok');
 }
-function removeStudent(i){ if(!confirm('Retirer cet élève ? Il perdra l\'accès immédiatement.')) return; accessData.students.splice(i,1); renderStudentList(); toast('Élève retiré. Sauvegardez pour appliquer.','warn'); }
-async function saveAccessData(){ let c=cfg(); if(!c.token){ toast('Configurez GitHub','err'); showPanel('settings'); return; } showPub('Sauvegarde des accès…','GitHub…'); try{ let sha=await getSha('access/allowed.json'); await ghPut('access/allowed.json',JSON.stringify(accessData,null,2),'Accès élèves',sha); setPubDone('Accès sauvegardés !','Les élèves peuvent maintenant se connecter.'); loadStats(); } catch(e){ closePub(); toast('Erreur: '+e.message,'err'); } }
+function removeStudent(i){
+  if(!confirm('Retirer cet élève ? Il perdra l\'accès immédiatement.'))return;
+  accessData.students.splice(i,1);renderStudentList();toast('Élève retiré. Sauvegardez pour appliquer.','warn');
+}
+async function saveAccessData(){
+  const c=cfg();if(!c.token){toast('Configurez GitHub','err');showPanel('settings');return;}
+  showPub('Sauvegarde des accès…','GitHub…');
+  try{
+    const sha=await getSha('access/allowed.json');
+    await ghPut('access/allowed.json',JSON.stringify(accessData,null,2),'Accès élèves',sha);
+    setPubDone('Accès sauvegardés !','Les élèves peuvent maintenant se connecter.');loadStats();
+  }catch(e){closePub();toast('Erreur: '+e.message,'err');}
+}
 
-// ========== PUBLISH OVERLAY ==========
-function showPub(title,msg){ setEl('pubTitle',title); setEl('pubMsg',msg); setEl('pubStep',''); document.getElementById('pubSpin').style.display='block'; document.getElementById('pubCheck').style.display='none'; document.getElementById('pubActions').classList.remove('show'); document.getElementById('pubOverlay').classList.add('show'); }
-function setPubStep(s){ setEl('pubStep',s); }
-function setPubDone(title,msg){ document.getElementById('pubSpin').style.display='none'; document.getElementById('pubCheck').style.display='block'; setEl('pubTitle',title); setEl('pubMsg',msg); setEl('pubStep',''); document.getElementById('pubActions').classList.add('show'); toast(title,'ok'); }
-function closePub(){ document.getElementById('pubOverlay').classList.remove('show'); }
+// ═══ PUBLISH OVERLAY ═══
+function showPub(title,msg){
+  setEl('pubTitle',title);setEl('pubMsg',msg);setEl('pubStep','');
+  document.getElementById('pubSpin').style.display='block';document.getElementById('pubCheck').style.display='none';
+  document.getElementById('pubActions').classList.remove('show');document.getElementById('pubOverlay').classList.add('show');
+}
+function setPubStep(s){setEl('pubStep',s);}
+function setPubDone(title,msg){
+  document.getElementById('pubSpin').style.display='none';document.getElementById('pubCheck').style.display='block';
+  setEl('pubTitle',title);setEl('pubMsg',msg);setEl('pubStep','');
+  document.getElementById('pubActions').classList.add('show');toast(title,'ok');
+}
+function closePub(){document.getElementById('pubOverlay').classList.remove('show');}
 
-// ========== INIT ==========
-async function init(){ loadConfig(); if(!cfg().owner&&cfg().token) await fetchOwner(cfg().token); checkGH(); loadStats(); }
-document.addEventListener('DOMContentLoaded',()=>{ onPostTypeChange(); onResTypeChange(); document.querySelectorAll('.file-zone').forEach(z=>{ z.addEventListener('dragover',e=>{ e.preventDefault(); z.classList.add('drag'); }); z.addEventListener('dragleave',()=>z.classList.remove('drag')); z.addEventListener('drop',e=>{ e.preventDefault(); z.classList.remove('drag'); }); }); document.getElementById('editOverlay').addEventListener('click',function(e){ if(e.target===this) closeEditModal(); }); });
+// ═══ TOAST ═══
+function toast(msg,type=''){
+  const w=document.getElementById('toastWrap'),el=document.createElement('div');
+  el.className='toast'+(type?' t-'+type:'');
+  el.innerHTML='<i class="fas '+(type==='ok'?'fa-check-circle':type==='err'?'fa-times-circle':'fa-exclamation-triangle')+'"></i> '+msg;
+  w.appendChild(el);setTimeout(()=>{el.style.opacity='0';el.style.transform='translateX(50px)';setTimeout(()=>el.remove(),400);},5000);
+}
+
+// ═══ INIT ═══
+async function init(){
+  loadConfig();
+  if(!cfg().owner&&cfg().token)await fetchOwner(cfg().token);
+  checkGH();loadStats();
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  onPostTypeChange();onResTypeChange();
+  document.querySelectorAll('.file-zone').forEach(z=>{
+    z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('drag');});
+    z.addEventListener('dragleave',()=>z.classList.remove('drag'));
+    z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('drag');});
+  });
+  document.getElementById('editOverlay').addEventListener('click',function(e){if(e.target===this)closeEditModal();});
+});
 </script>
 </body>
 </html>
