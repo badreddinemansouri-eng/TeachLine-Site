@@ -748,7 +748,7 @@ function showPanel(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nb').forEach(n=>n.classList.remove('active'));
   const p=document.getElementById('panel-'+id);if(p)p.classList.add('active');
-  document.querySelectorAll('.nb').forEach(n=>{if(n.getAttribute('onclick')?.includes("'"+id+"'"))n.classList.add('active');});
+  document.querySelectorAll('.nb').forEach(n=>{if((n.getAttribute('onclick') && n.getAttribute('onclick').includes("'"+id+"'")))n.classList.add('active');});
   closeSb();
   if(id==='posts')loadPostsTable();
   if(id==='resources')loadResTable();
@@ -836,7 +836,7 @@ async function loadStats(){
   const c=cfg();
   try{
     const[p,r,pk]=await Promise.all([ghGet('content/posts').catch(()=>[]),ghGet('content/resumes').catch(()=>[]),ghGet('content/packs').catch(()=>[])]);
-    const pm=(p||[]).filter(f=>f.name?.endsWith('.md')),rm=(r||[]).filter(f=>f.name?.endsWith('.md')),pkm=(pk||[]).filter(f=>f.name?.endsWith('.md'));
+    const pm=(p||[]).filter(f=>(f.name && f.name.endsWith('.md'))),rm=(r||[]).filter(f=>(f.name && f.name.endsWith('.md'))),pkm=(pk||[]).filter(f=>(f.name && f.name.endsWith('.md')));
     setEl('s-p',pm.length);setEl('s-r',rm.length);setEl('s-pk',pkm.length);
     setEl('nb-posts',pm.length);setEl('nb-res',rm.length);setEl('nb-packs',pkm.length);
   }catch(e){}
@@ -1098,8 +1098,8 @@ async function loadExistingPicker(){
   picker.innerHTML='<p style="color:var(--gray);font-size:.8rem;"><i class="fas fa-spinner fa-spin"></i></p>';
   try{
     const[pf,rf]=await Promise.all([ghGet('content/posts').catch(()=>[]),ghGet('content/resumes').catch(()=>[])]);
-    const pm=(pf||[]).filter(f=>f.name?.endsWith('.md'));
-    const rm=(rf||[]).filter(f=>f.name?.endsWith('.md'));
+    const pm=(pf||[]).filter(f=>(f.name && f.name.endsWith('.md')));
+    const rm=(rf||[]).filter(f=>(f.name && f.name.endsWith('.md')));
     const allItems=await Promise.all([
       ...pm.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();const p=parseFM(t);return{title:p.title||f.name,type:p.type||'post',name:f.name,kind:'post'};}),
       ...rm.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();const p=parseFM(t);return{title:p.title||f.name,type:p.type||'pdf',name:f.name,kind:'resource'};})
@@ -1169,7 +1169,7 @@ async function loadPacks(){
   grid.innerHTML='<p style="color:var(--gray);font-size:.83rem;"><i class="fas fa-spinner fa-spin"></i></p>';
   try{
     const files=await ghGet('content/packs');
-    const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
+    const mds=(files||[]).filter(f=>(f.name && f.name.endsWith('.md')));
     if(!mds.length){grid.innerHTML='<p style="color:var(--gray);font-size:.83rem;font-style:italic;">Aucun pack créé.</p>';return;}
     const packs=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return{...parseFM(t),_n:f.name,_sha:f.sha};}));
     setEl('s-pk',packs.length);setEl('nb-packs',packs.length);
@@ -1275,7 +1275,7 @@ async function loadPlaylists(){
   grid.innerHTML='<p style="color:var(--gray);font-size:.83rem;"><i class="fas fa-spinner fa-spin"></i></p>';
   try{
     const files=await ghGet('content/posts');
-    const pls=(files||[]).filter(f=>f.name?.startsWith('pl-')&&f.name?.endsWith('.md'));
+    const pls=(files||[]).filter(f=>(f.name && f.name.startsWith('pl-'))&&(f.name && f.name.endsWith('.md')));
     setEl('nb-playlists',pls.length||0);
     if(!pls.length){grid.innerHTML='<p style="color:var(--gray);font-size:.83rem;font-style:italic;">Aucune playlist. Créez votre première playlist ci-dessus.</p>';return;}
     const data=await Promise.all(pls.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return{...parseFM(t),_n:f.name,_sha:f.sha};}));
@@ -1317,7 +1317,7 @@ async function loadPostsTable(){
   Object.keys(PC).forEach(k=>delete PC[k]);
   try{
     const files=await ghGet('content/posts');
-    const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
+    const mds=(files||[]).filter(f=>(f.name && f.name.endsWith('.md')));
     setEl('posts-count',mds.length+' publication(s)');
     if(!mds.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray)">Aucune publication.</td></tr>';return;}
     // Use GitHub API to get fresh content for each file (bypasses CDN cache)
@@ -1442,7 +1442,7 @@ async function loadResTable(){
   tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray)"><i class="fas fa-spinner fa-spin"></i></td></tr>';
   try{
     const files=await ghGet('content/resumes');
-    const mds=(files||[]).filter(f=>f.name?.endsWith('.md'));
+    const mds=(files||[]).filter(f=>(f.name && f.name.endsWith('.md')));
     setEl('res-count',mds.length+' ressource(s)');
     if(!mds.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray)">Aucune ressource.</td></tr>';return;}
     const items=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return{...parseFM(t),_n:f.name,_sha:f.sha};}));
@@ -1471,7 +1471,7 @@ async function loadAccessData(){
   const c=cfg();
   try{
     const r=await fetch(`https://raw.githubusercontent.com/${c.owner}/${c.repo}/${c.branch}/access/allowed.json?t=${Date.now()}`);
-    if(r.ok){const d=await r.json();accessData={students:d.students||d.global?.map(e=>({email:e,name:'',password:'',date:today(),expires:'',pack:'all'}))||[]};}
+    if(r.ok){const d=await r.json();accessData={students:d.students||(d.global ? d.global.map(e=>({email:e,name:'',password:'',date:today(),expires:'',pack:'all'})) : [])};}
     else accessData={students:[]};
   }catch(e){accessData={students:[]};}
   renderStudentList();
