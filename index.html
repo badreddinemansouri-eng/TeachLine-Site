@@ -726,7 +726,7 @@ const RAW=`https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}`;
 const PREV=280;
 
 /* nav */
-function closeNav(){document.getElementById('nl').classList.remove('on');}
+function closeNav(){closeDrawer();}
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});closeNav();}}));
 
 /* gh */
@@ -789,7 +789,7 @@ async function loadFeed(){
   }catch(e){allPosts=[];}
   renderFeed();
 }
-function switchTab(f,btn){activeTab=f;document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('on'));btn.classList.add('on');renderFeed();}
+function switchTab(f,btn){activeTab=f;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));btn.classList.add('on');renderFeed();}
 function renderFeed(){
   const c=document.getElementById('feed-container');
   let posts=allPosts;if(activeTab!=='all')posts=posts.filter(p=>(p.type||'post')===activeTab);
@@ -1097,7 +1097,7 @@ async function loadPlaylists(){
       let refs=[];
       if(pl.refs_b64){try{refs=JSON.parse(decodeURIComponent(escape(atob(pl.refs_b64))));}catch(e){}}
       const{ok:access}=hasAcc({...pl,locked:pl.locked||'false'});
-      return ``<div class="pl-card">
+      return `<div class="pl-card">
         <div class="pl-head">
           <div class="pl-chip"><i class="fas fa-list-ol"></i>Playlist · ${refs.length} cours</div>
           <h3>${esc(pl.title||'Playlist')}</h3>
@@ -1111,7 +1111,7 @@ async function loadPlaylists(){
             :`<button class="pl-btn" onclick="openPlaylistViewer(${JSON.stringify(refs).replace(/'/g,'&#39;').replace(/"/g,'&quot;')},'${esc(pl.title)}')"><i class="fas fa-play"></i>Démarrer la playlist</button>`
           }
         </div>
-      </div>``;
+      </div>`;
     }).join('');
   }catch(e){console.error(e);}
 }
