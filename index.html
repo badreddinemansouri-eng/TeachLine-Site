@@ -696,105 +696,134 @@ function renderFeed(){
 }
 
 function buildCard(p){
-  const type=p.type||'post';
-  const{ok,exp}=hasAcc(p);const locked=p.locked==='true';
-  const typeMap={post:['chip-a','fa-newspaper','Article'],video:['chip-v','fa-video','Vidéo'],pdf:['chip-p','fa-file-pdf','PDF'],image:['chip-i','fa-image','Image'],announcement:['chip-n','fa-bullhorn','Annonce']};
-  const[chipCls,icon,label]=typeMap[type]||typeMap.post;
-  const cid='c'+Math.random().toString(36).substr(2,7);
-  const body=p.body||'';const isLong=body.length>PREV;
+  var type=p.type||'post';
+  var acc=hasAcc(p);var ok=acc.ok;var exp=acc.exp;
+  var locked=p.locked==='true';
+  var accents={video:'#f59e0b',pdf:'#ef4444',image:'#10b981',announcement:'#8b5cf6',post:'#2563eb'};
+  var accent=accents[type]||'#2563eb';
+  var tagMap={
+    post:['tt-a','fa-newspaper','Article'],
+    video:['tt-v','fa-video','Vidéo'],
+    pdf:['tt-p','fa-file-pdf','PDF'],
+    image:['tt-i','fa-image','Image'],
+    announcement:['tt-n','fa-bullhorn','Annonce']
+  };
+  var tm=tagMap[type]||tagMap.post;
+  var cid='c'+Math.random().toString(36).substr(2,7);
+  var body=p.body||'';var isLong=body.length>280;
 
-  let media='';
+  /* ── MEDIA ── */
+  var media='';
   if(locked&&!ok){
-    let bg=p.image?`<img src="${esc(p.image)}" alt="" style="filter:blur(14px);transform:scale(1.1);width:100%;height:200px;object-fit:cover;display:block;">`:`<div style="height:180px;background:linear-gradient(135deg,#050d1f,#162c60);"></div>`;
-    media=`<div style="position:relative;">${bg}<div class="${exp?'exp-veil':'lock-veil'}">
-    ${exp?`<i class="fas fa-clock" style="font-size:2.3rem;color:#fca5a5;margin-bottom:.6rem;"></i><h4>Accès expiré</h4><p>Renouvelez votre abonnement.</p><a href="https://wa.me/21658338187?text=Renouveler%20accès" target="_blank" class="bxs bxs-wa" style="margin-top:.6rem"><i class="fab fa-whatsapp"></i>Renouveler</a>`:
-    `<span class="lock-crown-badge"><i class="fas fa-crown"></i>Contenu payant</span><i class="lock-ico fas fa-lock"></i><h4>Réservé aux élèves inscrits</h4><p>Inscrivez-vous et recevez vos accès par WhatsApp pour débloquer.</p><div class="lock-btns"><button class="bxs bxs-blue" onclick="openLogin()"><i class="fas fa-unlock-alt"></i>J'ai mes accès</button><a class="bxs bxs-wa" href="https://wa.me/21658338187?text=Je%20veux%20m%27inscrire" target="_blank"><i class="fab fa-whatsapp"></i>S'inscrire</a></div>`}
-    </div></div>`;
-  } else if(type==='video'){
-    /* CUSTOM VIDEO PLAYER — direct video file hosted anywhere */
-    const vurl=p.video_url||'';
-    // Check if it's a direct video file (mp4, webm, mov, etc.)
-    const isDirectVideo=/\.(mp4|webm|ogg|mov|m4v|mkv)(\?.*)?$/i.test(vurl)||vurl.includes('drive.google.com');
-    if(isDirectVideo&&vurl){
-      const vid_id=cid+'v';
-      const isGDrive=vurl.includes('drive.google.com');
-      if(isGDrive){
-        const m=vurl.match(/[-\w]{25,}/);const fileId=m?m[0]:'';
-        const embedUrl=`https://drive.google.com/file/d/${fileId}/preview`;
-        media=`<div class="tl-player"><div class="embed-wrap"><iframe src="${esc(embedUrl)}" allow="autoplay" allowfullscreen loading="lazy"></iframe></div><div class="embed-shield"></div></div>`;
-      }else{
-        media=`<div class="tl-player paused" id="tp-${vid_id}">
-          <video id="${vid_id}" preload="metadata" onclick="togglePlay('${vid_id}')" style="cursor:pointer;">
-            <source src="${esc(vurl)}" type="${vurl.endsWith('.webm')?'video/webm':vurl.endsWith('.ogg')?'video/ogg':'video/mp4'}">
-          </video>
-          <div class="player-ctrl" id="pc-${vid_id}">
-            <input type="range" class="player-progress" id="pp-${vid_id}" value="0" min="0" max="100" step=".1" oninput="seekVideo('${vid_id}',this.value)" style="width:100%;">
-            <div class="player-bottom">
-              <button class="player-btn" onclick="togglePlay('${vid_id}')" id="pb-${vid_id}"><i class="fas fa-play"></i></button>
-              <span class="player-time" id="pt-${vid_id}">0:00 / 0:00</span>
-              <button class="player-btn" onclick="toggleMute('${vid_id}')"><i class="fas fa-volume-up" id="pm-${vid_id}"></i></button>
-              <input type="range" class="player-vol" id="pv-${vid_id}" value="100" min="0" max="100" oninput="setVol('${vid_id}',this.value)">
-              <div class="player-spacer"></div>
-              <select onchange="setSpeed('${vid_id}',this.value)" style="background:rgba(255,255,255,.15);border:none;color:#fff;font-size:.72rem;border-radius:4px;padding:.15rem .3rem;cursor:pointer;font-family:inherit;">
-                <option value="0.5">0.5x</option><option value="0.75">0.75x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="2">2x</option>
-              </select>
-              <button class="player-btn player-fullscreen" onclick="goFull('${vid_id}')"><i class="fas fa-expand"></i></button>
-            </div>
-          </div>
-        </div>`;
-      }
-    } else if(vurl){
-      // YouTube / Vimeo / Dailymotion — use nocookie embed
-      const embed=toEmbed(vurl);
-      if(embed){media=`<div class="tl-player"><div class="embed-wrap"><iframe src="${esc(embed)}" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="embed-shield"></div></div>`;}
+    var bg=p.image?('<img src="'+esc(p.image)+'" alt="" style="filter:blur(14px);transform:scale(1.1);width:100%;height:190px;object-fit:cover;display:block;">'):('<div style="height:170px;background:linear-gradient(135deg,#050d1f,#162c60);"></div>');
+    var veil=exp?(
+      '<div class="exp-v">'+
+      '<i class="fas fa-clock" style="font-size:2.1rem;color:#fca5a5;margin-bottom:.6rem;"></i>'+
+      '<h4>Accès expiré</h4><p>Renouvelez votre abonnement.</p>'+
+      '<a href="https://wa.me/21658338187?text=Renouveler" target="_blank" class="bx bx-w" style="margin-top:.6rem;"><i class="fab fa-whatsapp"></i>Renouveler</a>'+
+      '</div>'
+    ):(
+      '<div class="lock-v">'+
+      '<span class="lock-badge"><i class="fas fa-crown"></i>Contenu payant</span>'+
+      '<i class="lv-ico fas fa-lock"></i>'+
+      '<h4>Réservé aux élèves inscrits</h4>'+
+      '<p>Inscrivez-vous et recevez vos accès pour débloquer.</p>'+
+      '<div class="lv-btns">'+
+      '<button class="bx bx-b" onclick="openLogin()"><i class="fas fa-unlock-alt"></i>J\'ai mes accès</button>'+
+      '<a class="bx bx-w" href="https://wa.me/21658338187?text=Je%20veux%20m%27inscrire" target="_blank"><i class="fab fa-whatsapp"></i>S\'inscrire</a>'+
+      '</div></div>'
+    );
+    media='<div style="position:relative;">'+bg+veil+'</div>';
+  } else if(type==='video'&&p.video_url){
+    var embed=toEmbed(p.video_url);
+    var isDir=/\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(p.video_url)||p.video_url.indexOf('drive.google.com')>-1;
+    if(isDir&&!p.video_url.indexOf('drive.google.com')>-1){
+      var vid_id=cid+'v';
+      media='<div class="tl-player paused" id="tp-'+vid_id+'">'+
+        '<video id="'+vid_id+'" preload="metadata" onclick="togglePlay(\''+vid_id+'\')" style="cursor:pointer;">'+
+        '<source src="'+esc(p.video_url)+'" type="video/mp4"></video>'+
+        '<div class="ply-ui" id="pc-'+vid_id+'">'+
+        '<input type="range" class="ply-prog" id="pp-'+vid_id+'" value="0" min="0" max="100" step=".1" oninput="seekVideo(\''+vid_id+'\',this.value)" style="display:block;">'+
+        '<div class="ply-row">'+
+        '<button class="pb" onclick="togglePlay(\''+vid_id+'\')" id="pb-'+vid_id+'"><i class="fas fa-play"></i></button>'+
+        '<span class="p-t" id="pt-'+vid_id+'">0:00 / 0:00</span>'+
+        '<button class="pb" onclick="toggleMute(\''+vid_id+'\')"><i class="fas fa-volume-up" id="pm-'+vid_id+'"></i></button>'+
+        '<input type="range" class="p-v" id="pv-'+vid_id+'" value="100" min="0" max="100" oninput="setVol(\''+vid_id+'\',this.value)">'+
+        '<div class="p-sp"></div>'+
+        '<select onchange="setSpeed(\''+vid_id+'\',this.value)" class="p-spd"><option value="0.5">0.5x</option><option value="0.75">0.75x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="2">2x</option></select>'+
+        '<button class="pb" onclick="goFull(\''+vid_id+'\')"><i class="fas fa-expand"></i></button>'+
+        '</div></div></div>';
+    } else if(embed){
+      media='<div class="tl-player"><div class="emb"><iframe src="'+esc(embed)+'" allowfullscreen loading="lazy"></iframe></div><div class="emb-sh"></div></div>';
     }
   } else if(type==='pdf'&&(p.pdf_file||p.link)){
-    const url=rPdf(p.pdf_file||p.link);
-    media=`<div class="pdf-tap" onclick="openPdf('${esc(url)}','${esc(p.title)}')"><div class="pico"><i class="fas fa-file-pdf"></i></div><div><h4>Ouvrir le document</h4><p>${esc(p.title||'PDF')}</p></div></div>`;
+    var url=rPdf(p.pdf_file||p.link);
+    media='<div class="pdf-click" onclick="openPdf(\''+esc(url)+'\',\''+esc(p.title)+'\')">'+
+      '<div class="pdf-ico-wrap"><i class="fas fa-file-pdf"></i></div>'+
+      '<div><h4>Ouvrir le document</h4><p>'+esc(p.title||'PDF')+'</p></div></div>';
   } else if(type==='image'){
-    const imgs=[];if(p.image)imgs.push(p.image);if(p.image2)imgs.push(p.image2);if(p.image3)imgs.push(p.image3);
-    if(imgs.length){const gc=imgs.length===1?'g1':imgs.length===2?'g2':'g3';media=`<div class="img-gallery ${gc}">${imgs.map(u=>`<img src="${esc(u)}" alt="" onclick="openLb('${esc(u)}')">`).join('')}</div>`;}
-    else if(p.image){media=`<img src="${esc(p.image)}" alt="" onclick="openLb('${esc(p.image)}')" style="width:100%;max-height:420px;object-fit:cover;cursor:zoom-in;display:block;">`;}
+    var imgs=[];if(p.image)imgs.push(p.image);if(p.image2)imgs.push(p.image2);if(p.image3)imgs.push(p.image3);
+    if(imgs.length){
+      var gc=imgs.length===1?'g1':imgs.length===2?'g2':'g3';
+      media='<div class="gal '+gc+'">'+imgs.map(function(u){return '<img src="'+esc(u)+'" alt="" onclick="openLb(\''+esc(u)+'\')">';}).join('')+'</div>';
+    } else if(p.image){
+      media='<img src="'+esc(p.image)+'" alt="" onclick="openLb(\''+esc(p.image)+'\')" style="width:100%;max-height:420px;object-fit:cover;cursor:zoom-in;display:block;">';
+    }
   } else if(p.image){
-    media=`<img src="${esc(p.image)}" alt="" onclick="openLb('${esc(p.image)}')" style="width:100%;max-height:380px;object-fit:cover;cursor:zoom-in;display:block;">`;}
-
-  /* ATTACHMENTS */
-  let attachHtml='';
-  if(!locked||ok){
-    const raw=p.attachments_b64||p.attachments||'';
-    if(raw){try{
-      let atts=p.attachments_b64?JSON.parse(decodeURIComponent(escape(atob(p.attachments_b64)))):JSON.parse(raw.replace(/^'|'$/g,''));
-      if(atts&&atts.length)attachHtml=`<div class="attach-list">${atts.map(a=>a.url?`<a class="attach-chip" href="${esc(a.url)}" target="_blank"><i class="fas fa-link"></i>${esc(a.name)}</a>`:`<a class="attach-chip" href="${RAW}/${esc(a.path)}" target="_blank" download="${esc(a.name)}"><i class="fas fa-file-pdf"></i>${esc(a.name)}</a>`).join('')}</div>`;
-    }catch(e){}}
+    media='<img src="'+esc(p.image)+'" alt="" onclick="openLb(\''+esc(p.image)+'\')" style="width:100%;max-height:380px;object-fit:cover;cursor:zoom-in;display:block;">';
   }
 
-  /* BTNS */
-  let btns='';
+  /* ── ATTACHMENTS ── */
+  var attHtml='';
+  if(!locked||ok){
+    var raw=p.attachments_b64||p.attachments||'';
+    if(raw){try{
+      var atts=p.attachments_b64?JSON.parse(decodeURIComponent(escape(atob(p.attachments_b64)))):JSON.parse(raw.replace(/^'|'$/g,''));
+      if(atts&&atts.length){
+        attHtml='<div class="att-list">'+atts.map(function(a){
+          return a.url?('<a class="att" href="'+esc(a.url)+'" target="_blank"><i class="fas fa-link"></i>'+esc(a.name)+'</a>'):('<a class="att" href="'+RAW+'/'+esc(a.path)+'" target="_blank" download="'+esc(a.name)+'"><i class="fas fa-file-pdf"></i>'+esc(a.name)+'</a>');
+        }).join('')+'</div>';
+      }
+    }catch(err){}}
+  }
+
+  /* ── FOOTER BTNS ── */
+  var btns='';
   if(ok||!locked){
-    if(type==='pdf'&&(p.pdf_file||p.link)){const u=rPdf(p.pdf_file||p.link);btns+=`<button class="bxs bxs-blue" onclick="openPdf('${esc(u)}','${esc(p.title)}')"><i class="fas fa-eye"></i>Voir PDF</button><a class="bxs bxs-out" href="${esc(u)}" download><i class="fas fa-download"></i>Télécharger</a>`;}
-    if(p.link&&type!=='pdf'&&type!=='video')btns+=`<a class="bxs bxs-out" href="${esc(p.link)}" target="_blank"><i class="fas fa-link"></i>Lien</a>`;
+    if(type==='pdf'&&(p.pdf_file||p.link)){var u=rPdf(p.pdf_file||p.link);btns+='<button class="bx bx-b" onclick="openPdf(\''+esc(u)+'\',\''+esc(p.title)+'\')"><i class="fas fa-eye"></i>Voir PDF</button><a class="bx bx-o" href="'+esc(u)+'" download><i class="fas fa-download"></i>Télécharger</a>';}
+    if(p.link&&type!=='pdf'&&type!=='video')btns+='<a class="bx bx-o" href="'+esc(p.link)+'" target="_blank"><i class="fas fa-link"></i>Lien</a>';
   }
   if(locked){
-    if(ok&&!exp)btns+=`<span class="chip-access" style="margin-left:auto"><i class="fas fa-check-circle"></i>Accès actif</span>`;
-    else if(exp)btns+=`<span class="chip-exp" style="margin-left:auto"><i class="fas fa-clock"></i>Expiré</span>`;
-    else btns+=`<span class="chip-pay" style="margin-left:auto"><i class="fas fa-crown"></i>Payant</span>`;
+    if(ok&&!exp)btns+='<span class="c-acc" style="margin-left:auto"><i class="fas fa-check-circle"></i>Accès actif</span>';
+    else if(exp)btns+='<span class="c-exp" style="margin-left:auto"><i class="fas fa-clock"></i>Expiré</span>';
+    else btns+='<span class="c-pay" style="margin-left:auto"><i class="fas fa-crown"></i>Payant</span>';
   }
 
-  /* TEXT */
-  let textHtml='';
-  if(locked&&!ok)textHtml=`<p style="color:#9ca3af;font-size:.81rem;font-style:italic;font-weight:400;">Inscrivez-vous pour accéder à ce contenu.</p>`;
-  else if(body){
-    if(isLong)textHtml=`<div class="post-text"><span id="pv-${cid}">${esc(body.substring(0,PREV))}<span style="color:#9ca3af"> …</span></span><span id="pf-${cid}" style="display:none">${esc(body)}</span><br><button class="read-more" id="rm-${cid}" onclick="expand('${cid}')"><i class="fas fa-chevron-down"></i>Lire la suite</button></div>`;
-    else textHtml=`<div class="post-text">${esc(body)}</div>`;
+  /* ── TEXT ── */
+  var textHtml='';
+  if(locked&&!ok){
+    textHtml='<p style="color:var(--lt);font-size:.8rem;font-style:italic;">Inscrivez-vous pour accéder à ce contenu.</p>';
+  } else if(body){
+    if(isLong){
+      textHtml='<div class="post-tx"><span id="pv-'+cid+'">'+esc(body.substring(0,280))+'<span style="color:var(--lt)"> …</span></span><span id="pf-'+cid+'" style="display:none">'+esc(body)+'</span><br><button class="read-btn" id="rm-'+cid+'" onclick="expand(\''+cid+'\')"><i class="fas fa-chevron-down"></i>Lire la suite</button></div>';
+    } else {
+      textHtml='<div class="post-tx">'+esc(body)+'</div>';
+    }
   }
 
-  return `<div class="post-card">${media}<div class="post-body">
-    <div class="post-meta"><span class="type-chip ${chipCls}"><i class="fas ${icon}"></i>${label}</span>${p.category?`<span class="post-cat">${esc(p.category)}</span>`:''}<span class="post-date"><i class="far fa-calendar-alt"></i>${esc(p.date||'')}</span></div>
-    <h3>${esc(p.title||'')}</h3>${textHtml}${attachHtml}${btns?`<div class="post-foot">${btns}</div>`:''}
-  </div></div>`;
+  return '<div class="post" style="--post-accent:'+accent+'">'+media+
+    '<div class="post-body">'+
+    '<div class="post-meta">'+
+    '<span class="type-tag '+tm[0]+'"><i class="fas '+tm[1]+'"></i>'+tm[2]+'</span>'+
+    (p.category?'<span class="post-cat">'+esc(p.category)+'</span>':'')+
+    '<span class="post-dt"><i class="far fa-calendar-alt"></i> '+esc(p.date||'')+'</span>'+
+    '</div>'+
+    '<h3>'+esc(p.title||'')+'</h3>'+
+    textHtml+attHtml+
+    (btns?'<div class="post-ft">'+btns+'</div>':'')+
+    '</div></div>';
 }
 
-/* expand / collapse */
 function expand(id){document.getElementById('pv-'+id).style.display='none';document.getElementById('pf-'+id).style.display='inline';const b=document.getElementById('rm-'+id);b.innerHTML='<i class="fas fa-chevron-up"></i>Réduire';b.onclick=()=>collapse(id);}
 function collapse(id){document.getElementById('pv-'+id).style.display='inline';document.getElementById('pf-'+id).style.display='none';const b=document.getElementById('rm-'+id);b.innerHTML='<i class="fas fa-chevron-down"></i>Lire la suite';b.onclick=()=>expand(id);var _el=document.getElementById(id);if(_el)_el.scrollIntoView({behavior:'smooth',block:'nearest'});}
 
@@ -823,45 +852,43 @@ document.addEventListener('click',function(){
 
 /* PACKS */
 async function loadPacks(){
-  const c=document.getElementById('packs-container');
+  var c=document.getElementById('packs-container');
   try{
-    const files=await ghList('content/packs');const mds=(files||[]).filter(f=>(f.name && f.name.endsWith('.md')));
-    if(!mds.length){c.innerHTML='<p style="color:rgba(255,255,255,.4);font-size:.9rem;font-style:italic;grid-column:1/-1;text-align:center;">Aucun pack disponible pour le moment.</p>';return;}
-    const packs=await Promise.all(mds.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return pFM(t);}));
-    c.innerHTML=packs.map(p=>{
-      // Decode real items from items_b64, fallback to old text format
-      let items=[];
+    var files=await ghList('content/packs');
+    var mds=(files||[]).filter(function(f){return f.name&&f.name.endsWith('.md');});
+    if(!mds.length){c.innerHTML='<p style="color:rgba(255,255,255,.4);font-size:.9rem;grid-column:1/-1;text-align:center;font-style:italic;">Aucun pack disponible pour le moment.</p>';return;}
+    var packs=await Promise.all(mds.map(async function(f){var r=await fetch(f.download_url);var t=await r.text();return pFM(t);}));
+    c.innerHTML=packs.map(function(p){
+      var items=[];
       if(p.items_b64){try{items=JSON.parse(decodeURIComponent(escape(atob(p.items_b64))));}catch(e){}}
-      else{items=(p.body||'').split('\n').filter(l=>l.startsWith('- ')).map(l=>({type:'text',title:l.slice(2)}));}
-      const{ok:access}=hasAcc({...p,locked:p.locked||'false'});
-      const isLocked=p.locked==='true';
-      const realCount=items.filter(i=>i.type!=='text').length||items.length;
-      // safe pack id
-      const packId='pk-'+Math.random().toString(36).substr(2,6);
-      // store pack data safely
+      else{items=(p.body||'').split('\n').filter(function(l){return l.startsWith('- ');}).map(function(l){return {type:'text',title:l.slice(2)};});}
+      var acc=hasAcc({locked:p.locked||'false'});
+      var isLocked=p.locked==='true';
+      var realCount=items.filter(function(i){return i.type!=='text';}).length||items.length;
+      var packId='pk-'+Math.random().toString(36).substr(2,6);
       window._packData=window._packData||{};
-      window._packData[packId]={title:p.title,items};
-      return `<div class="pack-card">
-        <div class="pack-top">
-          <div class="pack-badge"><i class="fas fa-box-open"></i>Pack · ${realCount} cours</div>
-          <h3>${esc(p.title||'Pack')}</h3>
-          <p>${esc(p.body||'')}</p>
-          ${p.price?`<div class="pack-price-line"><span class="pack-price">${esc(p.price)}</span><span class="pack-period">/ accès</span></div>`:''}
-        </div>
-        <div class="pack-div"></div>
-        <div class="pack-feats">
-          ${items.map(item=>item.type==='text'
-            ?`<div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,.38);text-transform:uppercase;letter-spacing:.6px;padding:.4rem 0 .15rem;">${esc(item.title)}</div>`
-            :`<div class="pack-feat"><i class="fas fa-${item.type==='video'?'play-circle':item.type==='pdf'?'file-pdf':item.type==='image'?'image':'link'}" style="color:#f59e0b;"></i>${esc(item.title)}</div>`
-          ).join('')}
-        </div>
-        ${isLocked&&!access
-          ?`<button class="pack-cta-btn" onclick="openPackModal('${esc(p.title)}')"><i class="fas fa-crown"></i>S'inscrire pour accéder</button>`
-          :`<button class="pack-cta-btn" style="background:rgba(16,185,129,.8);color:white;" onclick="openPackContent('${packId}')"><i class="fas fa-play"></i>Ouvrir le pack</button>`
-        }
-      </div>`;
+      window._packData[packId]={title:p.title,items:items};
+      var iconMap={video:'fa-play-circle',pdf:'fa-file-pdf',image:'fa-image',existing:'fa-link',text:'fa-minus'};
+      var featRows=items.map(function(item){
+        if(item.type==='text') return '<div class="pk-row lbl">'+esc(item.title)+'</div>';
+        return '<div class="pk-row"><i class="fas '+(iconMap[item.type]||'fa-check')+'"></i>'+esc(item.title)+'</div>';
+      }).join('');
+      var btn=isLocked&&!acc.ok
+        ?'<button class="pk-btn pk-btn-gold" onclick="openPackModal(\''+esc(p.title)+'\')"><i class="fas fa-crown"></i>S\'inscrire pour accéder</button>'
+        :'<button class="pk-btn pk-btn-open" onclick="openPackContent(\''+packId+'\')"><i class="fas fa-play"></i>Ouvrir le pack</button>';
+      return '<div class="pk">'+
+        '<div class="pk-head">'+
+        '<div class="pk-badge"><i class="fas fa-box-open"></i>Pack · '+realCount+' cours</div>'+
+        '<h3>'+esc(p.title||'Pack')+'</h3>'+
+        '<p>'+esc(p.body||'')+'</p>'+
+        (p.price?'<div class="pk-price-row"><span class="pk-price">'+esc(p.price)+'</span><span class="pk-per">/ accès</span></div>':'')+
+        '</div>'+
+        '<div class="pk-sep"></div>'+
+        '<div class="pk-body">'+featRows+'</div>'+
+        btn+
+        '</div>';
     }).join('');
-  }catch(e){c.innerHTML='<p style="color:rgba(255,255,255,.38);font-size:.83rem;grid-column:1/-1;text-align:center;">Packs indisponibles.</p>';}
+  }catch(e){c.innerHTML='<p style="color:rgba(255,255,255,.4);font-size:.83rem;grid-column:1/-1;text-align:center;">Packs indisponibles.</p>';}
 }
 
 function openPackModal(title){document.getElementById('lockMsg').textContent=`Le pack "${title}" est réservé aux élèves inscrits. Contactez l'enseignant sur WhatsApp pour vous inscrire.`;document.getElementById('lockOverlay').classList.add('on');}
@@ -982,37 +1009,42 @@ function loadPackItem(i){
 
 /* PLAYLISTS on public site */
 async function loadPlaylists(){
-  const sec=document.getElementById('playlists-sec');if(!sec)return;
+  var sec=document.getElementById('playlists-sec');if(!sec)return;
   try{
-    const files=await ghList('content/posts');
-    const pls=(files||[]).filter(f=>(f.name && f.name.startsWith('pl-'))&&(f.name && f.name.endsWith('.md')));
+    var files=await ghList('content/posts');
+    var pls=(files||[]).filter(function(f){return (f.name&&f.name.startsWith('pl-'))&&(f.name&&f.name.endsWith('.md'));});
     if(!pls.length){sec.style.display='none';return;}
-    const data=await Promise.all(pls.map(async f=>{const r=await fetch(f.download_url);const t=await r.text();return{...pFM(t),_n:f.name};}));
+    var data=await Promise.all(pls.map(async function(f){var r=await fetch(f.download_url);var t=await r.text();return Object.assign({},pFM(t),{_n:f.name});}));
     sec.style.display='block';
-    const grid=document.getElementById('pl-grid');
-    if(!grid)return;
-    grid.innerHTML=data.map(pl=>{
-      let refs=[];
+    var grid=document.getElementById('pl-grid');if(!grid)return;
+    grid.innerHTML=data.map(function(pl){
+      var refs=[];
       if(pl.refs_b64){try{refs=JSON.parse(decodeURIComponent(escape(atob(pl.refs_b64))));}catch(e){}}
-      const{ok:access}=hasAcc({...pl,locked:pl.locked||'false'});
-      return `<div class="pl-card">
-        <div class="pl-head">
-          <div class="pl-chip"><i class="fas fa-list-ol"></i>Playlist · ${refs.length} cours</div>
-          <h3>${esc(pl.title||'Playlist')}</h3>
-          <p>${pl.category?esc(pl.category):''}</p>
-        </div>
-        <div class="pl-body">
-          ${refs.slice(0,4).map((r,i)=>`<div class="pl-item"><span class="pl-num">${i+1}</span><span class="pl-title">${esc(r.title)}</span></div>`).join('')}
-          ${refs.length>4?`<p style="font-size:.72rem;color:var(--light);padding:.3rem 0;font-style:italic;">+${refs.length-4} autres cours…</p>`:''}
-          ${pl.locked==='true'&&!access
-            ?`<button class="pl-btn pl-btn-pay" onclick="openPlaylistModal('${esc(pl.title)}')"><i class="fas fa-crown"></i>S'inscrire pour accéder</button>`
-            :`<button class="pl-btn" onclick="openPlaylistViewer(${JSON.stringify(refs).replace(/'/g,'&#39;').replace(/"/g,'&quot;')},'${esc(pl.title)}')"><i class="fas fa-play"></i>Démarrer la playlist</button>`
-          }
-        </div>
-      </div>`;
+      var acc=hasAcc({locked:pl.locked||'false'});
+      var isLocked=pl.locked==='true';
+      var itemsHtml=refs.slice(0,4).map(function(r,i){
+        return '<div class="pl-item"><span class="pl-num">'+(i+1)+'</span><span class="pl-ttl">'+esc(r.title)+'</span></div>';
+      }).join('');
+      if(refs.length>4){ itemsHtml+='<p class="pl-more">+'+(refs.length-4)+' autres cours...</p>'; }
+      var refsJSON=JSON.stringify(refs).replace(/'/g,'&#39;').replace(/"/g,'&quot;');
+      var btn=isLocked&&!acc.ok
+        ?'<button class="pl-btn pl-btn-pay" onclick="openPlaylistModal(\''+esc(pl.title)+'\')"><i class="fas fa-crown"></i>S\'inscrire pour accéder</button>'
+        :'<button class="pl-btn" onclick="openPlaylistViewer('+refsJSON+',\''+esc(pl.title)+'\')"><i class="fas fa-play"></i>Démarrer la playlist</button>';
+      return '<div class="pl-card">'+
+        '<div class="pl-thumb"></div>'+
+        '<div class="pl-head">'+
+        '<div class="pl-chip"><i class="fas fa-list-ol"></i>Playlist · '+refs.length+' cours</div>'+
+        '<h3>'+esc(pl.title||'Playlist')+'</h3>'+
+        (pl.category?'<p>'+esc(pl.category)+'</p>':'')+
+        '</div>'+
+        '<div class="pl-sep"></div>'+
+        '<div class="pl-body">'+itemsHtml+'</div>'+
+        '<div class="pl-actions">'+btn+'</div>'+
+        '</div>';
     }).join('');
   }catch(e){console.error(e);}
 }
+
 function openPlaylistModal(title){document.getElementById('lockMsg').textContent=`La playlist "${title}" est réservée aux élèves inscrits.`;document.getElementById('lockOverlay').classList.add('on');}
 function openPlaylistViewer(refs,title){
   // Convert playlist refs to pack-style items for reuse
@@ -1125,76 +1157,10 @@ function syncDrawerBadge(){
   else sb2.style.display='none';
 }
 /* ── drawer ── */
-function openDrawer(){document.getElementById('nd').classList.add('open');}
-function closeDrawer(){document.getElementById('nd').classList.remove('open');}
+function openDrawer(){var d=document.getElementById('dr');if(d)d.classList.add('open');document.body.style.overflow='hidden';}
+function closeDrawer(){var d=document.getElementById('dr');if(d)d.classList.remove('open');document.body.style.overflow='';}
 /* sync secondary student badge in drawer */
 
 
 
-/* ─── POST CARD accent colors ─── */
-function getAccent(type){
-  var m={video:'#f59e0b',pdf:'#ef4444',image:'#10b981',announcement:'#8b5cf6',post:'#2563eb'};
-  return m[type]||'#2563eb';
-}
-/* Override buildCard to add accent line */
-var _origBuildCard=buildCard;
-buildCard=function(p){
-  var card=_origBuildCard(p);
-  var type=(p&&p.type)||'post';
-  var accent=getAccent(type);
-  return card.replace('class="post"','class="post" style="--post-accent:'+accent+'"');
-};
-
-/* ─── PACK cards with new CSS ─── */
-var _origLoadPacks=loadPacks;
-loadPacks=function(){
-  var c=document.getElementById('packs-container');
-  if(!c)return;
-  var _origInner=Object.getOwnPropertyDescriptor(Element.prototype,'innerHTML');
-  return _origLoadPacks().then&&_origLoadPacks()||_origLoadPacks();
-};
-
-/* ─── PLAYLIST cards with new CSS ─── */
-/* Override the loadPlaylists to use new pl-card structure */
-var _origLoadPlaylists=loadPlaylists;
-
-/* ─── DRAWER — no backdrop-filter, just overlay ─── */
-function openDrawer(){
-  document.getElementById('dr').classList.add('open');
-  document.body.style.overflow='hidden';
-}
-function closeDrawer(){
-  document.getElementById('dr').classList.remove('open');
-  document.body.style.overflow='';
-}
-function closeNav(){closeDrawer();}
-document.querySelectorAll('a[href^="#"]').forEach(function(a){
-  a.addEventListener('click',function(e){
-    var t=document.querySelector(a.getAttribute('href'));
-    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});closeDrawer();}
-  });
-});
-/* sync drawer student badge */
-function syncDrawerBadge(){
-  var s2=document.getElementById('sb2');
-  var n2=document.getElementById('sn2');
-  if(!s2||!n2)return;
-  if(typeof CS!=='undefined'&&CS){n2.textContent=CS.name||CS.email;s2.style.display='flex';}
-  else s2.style.display='none';
-}
-/* patch refreshUI */
-var _rui=refreshUI;
-refreshUI=function(){
-  _rui();
-  syncDrawerBadge();
-};
-/* patch switchTab — correct selector */
-switchTab=function(f,btn){
-  activeTab=f;
-  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
-  btn.classList.add('on');
-  renderFeed();
-};
-</script>
-</body>
-</html>
+>
