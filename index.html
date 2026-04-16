@@ -792,7 +792,7 @@ document.addEventListener('click',function(){
 function toEmbed(url){
   if(!url)return null;
   var m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
-  if(m)return'https://www.youtube-nocookie.com/embed/'+m[1]+'?rel=0&modestbranding=1&playsinline=1&iv_load_policy=3';
+  if(m)return'https://www.youtube-nocookie.com/embed/'+m[1]+'?rel=0&modestbranding=1&playsinline=1&iv_load_policy=3&controls=1&disablekb=0&fs=1&cc_load_policy=0&color=white';
   m=url.match(/vimeo\.com\/(\d+)/);if(m)return'https://player.vimeo.com/video/'+m[1]+'?title=0&byline=0&portrait=0';
   m=url.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);if(m)return'https://www.dailymotion.com/embed/video/'+m[1]+'?ui-logo=0';
   m=url.match(/drive\.google\.com\/file\/d\/([^/]+)/);if(m)return'https://drive.google.com/file/d/'+m[1]+'/preview';
@@ -829,7 +829,7 @@ function buildCard(p){
       var vid=cid+'v';
       media='<div class="tlp paused" id="tp-'+vid+'"><video id="'+vid+'" preload="metadata" onclick="togglePlay(\''+vid+'\')" style="cursor:pointer;"><source src="'+esc(p.video_url)+'" type="video/mp4"></video><div class="tlp-ui"><input type="range" class="tlp-prog" id="pp-'+vid+'" value="0" min="0" max="100" step=".1" oninput="seekVideo(\''+vid+'\',this.value)" style="width:100%;"><div class="tlp-row"><button class="pb" onclick="togglePlay(\''+vid+'\')" id="pb-'+vid+'"><i class="fas fa-play"></i></button><span class="p-t" id="pt-'+vid+'">0:00 / 0:00</span><button class="pb" onclick="toggleMute(\''+vid+'\')"><i class="fas fa-volume-up" id="pm-'+vid+'"></i></button><input type="range" class="p-vol" value="100" min="0" max="100" oninput="setVol(\''+vid+'\',this.value)"><div class="p-sp"></div><select onchange="setSpeed(\''+vid+'\',this.value)" class="p-spd"><option value=".5">.5x</option><option value=".75">.75x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="2">2x</option></select><button class="pb" onclick="goFull(\''+vid+'\')"><i class="fas fa-expand"></i></button></div></div></div>';
     } else if(embed){
-      media='<div class="tlp"><div class="emb"><iframe src="'+esc(embed)+'" allowfullscreen loading="lazy"></iframe></div><div class="emb-sh"></div></div>';
+      media='<div class="tlp"><div class="emb"><iframe src="'+esc(embed)+'" allowfullscreen allow="autoplay;encrypted-media" loading="lazy"></iframe></div><div class="emb-sh" style="pointer-events:none;"></div></div>';
     }
   } else if(type==='pdf'&&(p.pdf_file||p.link)){
     var u=rPdf(p.pdf_file||p.link);
@@ -969,81 +969,217 @@ function openLockModal(title){
 }
 
 /* ── PACK VIEWER ── */
+/* ══════════════════════════════════════════
+   PACK / PLAYLIST VIEWER — Pro responsive
+   Desktop: sidebar + content side by side
+   Mobile: bottom sheet course list + content
+══════════════════════════════════════════ */
 function openPackViewer(pid){
   var data=window._packs&&window._packs[pid];if(!data)return;
   var old=document.getElementById('pack-viewer');if(old)old.parentNode.removeChild(old);
   var el=document.createElement('div');el.id='pack-viewer';
-  el.style.cssText='position:fixed;inset:0;background:rgba(5,13,31,.97);z-index:3000;display:flex;flex-direction:column;font-family:Plus Jakarta Sans,sans-serif;';
-  var ico={video:'🎬',pdf:'📄',image:'🖼️',existing:'🔗',text:'📌'};
-  var sideItems='';
+
+  var ico={video:'▶',pdf:'📄',image:'🖼',existing:'🔗',text:'—'};
+
+  /* Build sidebar items HTML */
+  var sideHTML='';
+  var firstIdx=-1;
   data.items.forEach(function(item,i){
-    if(item.type==='text'){sideItems+='<div style="padding:.3rem .9rem;font-size:.65rem;font-weight:700;color:rgba(212,175,55,.42);text-transform:uppercase;letter-spacing:.8px;margin-top:.3rem;">'+esc(item.title)+'</div>';}
-    else{sideItems+='<div id="pvi-'+i+'" onclick="loadPI('+i+')" style="display:flex;align-items:center;gap:.7rem;padding:.62rem .9rem;cursor:pointer;border-left:3px solid transparent;transition:.14s;" onmouseover="this.style.background=\'rgba(255,255,255,.05)\'" onmouseout="this.style.background=\'\'"><span>'+ico[item.type]+'</span><span style="font-size:.78rem;color:rgba(255,255,255,.72);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+esc(item.title)+'</span></div>';}
+    if(item.type==='text'){
+      sideHTML+='<div style="padding:.22rem 1rem .1rem;font-size:.6rem;font-weight:700;color:rgba(212,175,55,.45);text-transform:uppercase;letter-spacing:.9px;margin-top:.5rem;">'+esc(item.title)+'</div>';
+    } else {
+      if(firstIdx<0)firstIdx=i;
+      sideHTML+='<button id="pvi-'+i+'" onclick="loadPI('+i+')" style="width:100%;text-align:left;background:none;border:none;border-left:3px solid transparent;padding:.65rem 1rem;cursor:pointer;display:flex;align-items:flex-start;gap:.65rem;transition:.14s;font-family:inherit;" onmouseover="this.style.background=\'rgba(255,255,255,.05)\'" onmouseout="this.style.background=currentPI==='+i+' ?\'rgba(212,175,55,.08)\':\'\'">'
+        +'<span style="font-size:.85rem;flex-shrink:0;margin-top:.08rem;">'+(ico[item.type]||'·')+'</span>'
+        +'<span style="font-size:.78rem;color:rgba(255,255,255,.72);line-height:1.38;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">'+esc(item.title)+'</span>'
+        +'</button>';
+    }
   });
-  el.innerHTML='<div style="background:#0a1628;border-bottom:1px solid rgba(212,175,55,.18);padding:.75rem 1.2rem;display:flex;align-items:center;gap:.8rem;flex-shrink:0;"><button onclick="var e=document.getElementById(\'pack-viewer\');if(e)e.parentNode.removeChild(e);" style="background:rgba(255,255,255,.08);border:none;color:#fff;width:32px;height:32px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;"><i class="fas fa-arrow-left"></i></button><div style="flex:1;"><div style="color:#fff;font-weight:700;font-size:.9rem;">'+esc(data.title)+'</div><div style="color:rgba(255,255,255,.38);font-size:.7rem;">'+data.items.filter(function(i){return i.type!=='text';}).length+' cours &middot; Pack Teach Line</div></div></div><div style="display:flex;flex:1;overflow:hidden;"><div style="width:260px;background:#060d1f;border-right:1px solid rgba(255,255,255,.06);overflow-y:auto;flex-shrink:0;"><div style="padding:.65rem .9rem;font-size:.6rem;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:1px;font-weight:700;">Contenu du pack</div>'+sideItems+'</div><div id="pv-main" style="flex:1;overflow-y:auto;background:#070e1f;display:flex;align-items:center;justify-content:center;padding:2rem;"><div style="color:rgba(255,255,255,.3);text-align:center;"><i class="fas fa-play-circle" style="font-size:3rem;margin-bottom:1rem;display:block;"></i><p style="font-size:.88rem;">Choisissez un cours dans la liste</p></div></div></div>';
+
+  var totalReal=data.items.filter(function(i){return i.type!=='text';}).length;
+
+  el.innerHTML=
+    /* ── TOP BAR ── */
+    '<div id="pv-bar" style="background:#0a1628;border-bottom:1px solid rgba(212,175,55,.18);padding:.8rem 1.1rem;display:flex;align-items:center;gap:.75rem;flex-shrink:0;z-index:1;">'
+      +'<button onclick="closePV()" style="width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.08);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;"><i class="fas fa-arrow-left"></i></button>'
+      +'<div style="flex:1;min-width:0;">'
+        +'<div style="color:#fff;font-weight:700;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+esc(data.title)+'</div>'
+        +'<div style="color:rgba(255,255,255,.38);font-size:.68rem;">'+totalReal+' cours · Teach Line</div>'
+      +'</div>'
+      /* Mobile: toggle list button */
+      +'<button id="pv-tog" onclick="togglePVList()" style="display:none;width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.08);border:none;color:#fff;cursor:pointer;align-items:center;justify-content:center;font-size:.88rem;flex-shrink:0;"><i class="fas fa-list"></i></button>'
+    +'</div>'
+
+    /* ── BODY (sidebar + content) ── */
+    +'<div id="pv-body" style="flex:1;display:flex;overflow:hidden;position:relative;">'
+
+      /* Sidebar */
+      +'<div id="pv-side" style="width:270px;background:#060d1f;border-right:1px solid rgba(255,255,255,.07);overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column;">'
+        +'<div style="padding:.55rem 1rem .3rem;font-size:.6rem;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:1px;font-weight:700;flex-shrink:0;">Contenu du pack</div>'
+        +'<div style="flex:1;overflow-y:auto;padding-bottom:.5rem;">'+sideHTML+'</div>'
+      +'</div>'
+
+      /* Main content area */
+      +'<div id="pv-main" style="flex:1;overflow-y:auto;background:#070e1f;display:flex;align-items:flex-start;justify-content:center;padding:2rem 1.5rem;">'
+        +'<div style="color:rgba(255,255,255,.3);text-align:center;margin-top:4rem;">'
+          +'<i class="fas fa-play-circle" style="font-size:3rem;margin-bottom:1rem;display:block;color:rgba(212,175,55,.4);"></i>'
+          +'<p style="font-size:.88rem;">Choisissez un cours dans la liste</p>'
+        +'</div>'
+      +'</div>'
+
+      /* Mobile overlay for course list */
+      +'<div id="pv-mob-bg" onclick="togglePVList()" style="display:none;position:absolute;inset:0;background:rgba(5,13,31,.7);z-index:10;"></div>'
+      +'<div id="pv-mob-list" style="display:none;position:absolute;bottom:0;left:0;right:0;background:#060d1f;border-top:1px solid rgba(255,255,255,.1);max-height:65vh;overflow-y:auto;z-index:11;border-radius:16px 16px 0 0;padding-bottom:1rem;">'
+        +'<div style="display:flex;align-items:center;justify-content:space-between;padding:.9rem 1rem .5rem;border-bottom:1px solid rgba(255,255,255,.06);">'
+          +'<span style="color:#fff;font-size:.85rem;font-weight:700;">Contenu du pack</span>'
+          +'<button onclick="togglePVList()" style="background:rgba(255,255,255,.08);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:.78rem;display:flex;align-items:center;justify-content:center;"><i class="fas fa-times"></i></button>'
+        +'</div>'
+        +sideHTML
+      +'</div>'
+    +'</div>';
+
+  /* Full screen container */
+  el.style.cssText='position:fixed;inset:0;background:#070e1f;z-index:3000;display:flex;flex-direction:column;font-family:Plus Jakarta Sans,sans-serif;';
   document.body.appendChild(el);
-  window._cPack=data;window._cPI=-1;
-  var first=data.items.findIndex(function(i){return i.type!=='text';});
-  if(first>=0)setTimeout(function(){loadPI(first);},150);
+  document.body.style.overflow='hidden';
+
+  window.currentPI=-1;
+  window._cPack=data;
+
+  /* Responsive: show/hide toggle button on mobile */
+  function applyResp(){
+    var tog=document.getElementById('pv-tog');
+    var side=document.getElementById('pv-side');
+    var mobList=document.getElementById('pv-mob-list');
+    var mobBg=document.getElementById('pv-mob-bg');
+    if(window.innerWidth<700){
+      if(tog)tog.style.display='inline-flex';
+      if(side)side.style.display='none';
+      if(mobList)mobList.style.display='none';
+      if(mobBg)mobBg.style.display='none';
+    } else {
+      if(tog)tog.style.display='none';
+      if(side)side.style.display='flex';
+      if(mobList)mobList.style.display='none';
+      if(mobBg)mobBg.style.display='none';
+    }
+  }
+  applyResp();
+  window._pvResp=applyResp;
+  window.addEventListener('resize',applyResp);
+
+  /* Auto-open first item */
+  if(firstIdx>=0)setTimeout(function(){loadPI(firstIdx);},180);
 }
+
+function togglePVList(){
+  var mob=document.getElementById('pv-mob-list');
+  var bg=document.getElementById('pv-mob-bg');
+  if(!mob)return;
+  var isOpen=mob.style.display!=='none';
+  mob.style.display=isOpen?'none':'block';
+  bg.style.display=isOpen?'none':'block';
+}
+
+function closePV(){
+  var el=document.getElementById('pack-viewer');
+  if(el)el.parentNode.removeChild(el);
+  document.body.style.overflow='';
+  if(window._pvResp)window.removeEventListener('resize',window._pvResp);
+}
+
+var currentPI=-1;
 
 function loadPI(i){
   var data=window._cPack;if(!data)return;
   var item=data.items[i];if(!item||item.type==='text')return;
-  window._cPI=i;
+  currentPI=i;
+
+  /* Update sidebar highlights — both desktop and mobile */
   data.items.forEach(function(_,j){
-    var el=document.getElementById('pvi-'+j);
-    if(el){el.style.background=j===i?'rgba(212,175,55,.1)':'';el.style.borderLeftColor=j===i?'var(--g1)':'transparent';}
+    var btn=document.getElementById('pvi-'+j);
+    if(btn){
+      btn.style.background=j===i?'rgba(212,175,55,.1)':'';
+      btn.style.borderLeftColor=j===i?'#d4af37':'transparent';
+      btn.style.color=j===i?'#fff':'';
+    }
   });
+
+  /* Close mobile list after selection */
+  var mob=document.getElementById('pv-mob-list');var bg=document.getElementById('pv-mob-bg');
+  if(mob&&mob.style.display!=='none'){mob.style.display='none';if(bg)bg.style.display='none';}
+
   var main=document.getElementById('pv-main');if(!main)return;
+  main.style.alignItems='flex-start';
+
+  /* ── VIDEO ── */
   if(item.type==='video'){
     var embed=toEmbed(item.url);
-    if(embed){main.innerHTML='<div style="width:100%;max-width:960px;"><div style="position:relative;padding-bottom:56.25%;background:#000;border-radius:12px;overflow:hidden;"><iframe src="'+esc(embed)+'" style="position:absolute;inset:0;width:100%;height:100%;border:none;" allowfullscreen></iframe></div><h3 style="color:#fff;font-size:1rem;margin-top:1.2rem;">'+esc(item.title)+'</h3>'+(item.desc?'<p style="color:rgba(255,255,255,.5);font-size:.83rem;margin-top:.3rem;">'+esc(item.desc)+'</p>':'')+' </div>';}
-    else{main.innerHTML='<div style="width:100%;max-width:960px;"><video controls autoplay style="width:100%;border-radius:12px;background:#000;max-height:540px;"><source src="'+esc(item.url)+'"></video><h3 style="color:#fff;font-size:1rem;margin-top:1.2rem;">'+esc(item.title)+'</h3></div>';}
-  } else if(item.type==='pdf'){
-    var url=item.url.indexOf('http')===0?item.url:RAW+'/'+item.url;
-    main.innerHTML='<div style="width:100%;max-width:960px;height:80vh;display:flex;flex-direction:column;gap:.8rem;"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;"><h3 style="color:#fff;font-size:.95rem;">'+esc(item.title)+'</h3><a href="'+esc(url)+'" download target="_blank" style="display:inline-flex;align-items:center;gap:5px;background:#2563eb;color:#fff;padding:.42rem .9rem;border-radius:8px;font-size:.78rem;font-weight:600;text-decoration:none;"><i class="fas fa-download"></i>Télécharger</a></div><iframe src="'+esc(url)+'" style="flex:1;border:none;border-radius:12px;background:#fff;"></iframe></div>';
-  } else if(item.type==='image'){
-    var iurl=item.url.indexOf('http')===0?item.url:RAW+'/'+item.url;
-    main.innerHTML='<div style="text-align:center;max-width:900px;width:100%;"><img src="'+esc(iurl)+'" alt="'+esc(item.title)+'" style="max-width:100%;max-height:75vh;border-radius:12px;object-fit:contain;cursor:zoom-in;" onclick="openLb(\''+esc(iurl)+'\')"><h3 style="color:#fff;font-size:.95rem;margin-top:1rem;">'+esc(item.title)+'</h3></div>';
-  } else if(item.type==='existing'){
-    main.innerHTML='<div style="color:rgba(255,255,255,.5);text-align:center;"><i class="fas fa-spinner fa-spin" style="font-size:2rem;margin-bottom:1rem;display:block;"></i><p>Chargement...</p></div>';
-    fetch(RAW+'/content/posts/'+item.postRef).then(function(r){return r.text();}).then(function(t){
-      var post=pFM(t);var html='<div style="width:100%;max-width:900px;">';
-      html+='<h3 style="color:#fff;font-size:1rem;margin-bottom:.8rem;">'+esc(post.title||item.title)+'</h3>';
-      if(post.video_url){var emb=toEmbed(post.video_url);if(emb)html+='<div style="position:relative;padding-bottom:56.25%;background:#000;border-radius:12px;overflow:hidden;margin-bottom:1rem;"><iframe src="'+esc(emb)+'" style="position:absolute;inset:0;width:100%;height:100%;border:none;" allowfullscreen></iframe></div>';}
-      if(post.pdf_file){var pu=post.pdf_file.indexOf('http')===0?post.pdf_file:RAW+'/'+post.pdf_file;html+='<div style="height:60vh;"><iframe src="'+esc(pu)+'" style="width:100%;height:100%;border:none;border-radius:12px;"></iframe></div>';}
-      if(post.body)html+='<div style="color:rgba(255,255,255,.7);font-size:.85rem;line-height:1.75;white-space:pre-wrap;margin-top:.8rem;">'+esc(post.body)+'</div>';
+    var isDirect=/\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(item.url||'');
+    var html='<div style="width:100%;max-width:900px;">';
+    if(isDirect){
+      html+='<video controls autoplay style="width:100%;border-radius:14px;background:#000;max-height:520px;display:block;"><source src="'+esc(item.url)+'" type="video/mp4"><p style="color:#fff;padding:1rem;">Votre navigateur ne supporte pas la lecture vidéo.</p></video>';
+    } else if(embed){
+      /* youtube-nocookie + no-interaction shield */
+      html+='<div style="position:relative;padding-bottom:56.25%;background:#000;border-radius:14px;overflow:hidden;">'
+        +'<iframe src="'+esc(embed)+'" style="position:absolute;inset:0;width:100%;height:100%;border:none;" allowfullscreen allow="autoplay;encrypted-media" loading="lazy"></iframe>'
+        /* transparent shield covers bottom bar of YouTube player */
+        +'<div style="position:absolute;bottom:0;left:0;right:0;height:44px;z-index:2;background:transparent;pointer-events:none;"></div>'
+        +'</div>';
+    }
+    html+='<div style="padding:1.2rem 0 .5rem;">'
+      +'<h3 style="color:#fff;font-size:1rem;font-weight:700;margin-bottom:.4rem;line-height:1.4;">'+esc(item.title)+'</h3>'
+      +(item.desc?'<p style="color:rgba(255,255,255,.5);font-size:.83rem;line-height:1.6;">'+esc(item.desc)+'</p>':'')
+      +'</div></div>';
+    main.innerHTML=html;
+  }
+
+  /* ── PDF ── */
+  else if(item.type==='pdf'){
+    var url=item.url?(item.url.indexOf('http')===0?item.url:RAW+'/'+item.url):'';
+    main.innerHTML='<div style="width:100%;max-width:900px;display:flex;flex-direction:column;gap:.8rem;height:calc(100vh - 130px);">'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;flex-shrink:0;">'
+        +'<h3 style="color:#fff;font-size:.95rem;font-weight:700;">'+esc(item.title)+'</h3>'
+        +'<a href="'+esc(url)+'" download target="_blank" style="display:inline-flex;align-items:center;gap:5px;background:#2563eb;color:#fff;padding:.42rem .9rem;border-radius:8px;font-size:.76rem;font-weight:600;text-decoration:none;"><i class="fas fa-download"></i>Télécharger</a>'
+      +'</div>'
+      +'<iframe src="'+esc(url)+'" style="flex:1;border:none;border-radius:12px;background:#fff;min-height:400px;"></iframe>'
+      +'</div>';
+  }
+
+  /* ── IMAGE ── */
+  else if(item.type==='image'){
+    var iurl=item.url?(item.url.indexOf('http')===0?item.url:RAW+'/'+item.url):'';
+    main.innerHTML='<div style="text-align:center;max-width:860px;width:100%;">'
+      +'<img src="'+esc(iurl)+'" alt="'+esc(item.title)+'" style="max-width:100%;max-height:70vh;border-radius:12px;object-fit:contain;cursor:zoom-in;" onclick="openLb(\''+esc(iurl)+'\')">'
+      +'<h3 style="color:#fff;font-size:.95rem;font-weight:700;margin-top:1.1rem;">'+esc(item.title)+'</h3>'
+      +'</div>';
+  }
+
+  /* ── EXISTING POST ── */
+  else if(item.type==='existing'){
+    main.innerHTML='<div style="width:100%;max-width:860px;text-align:center;padding:2rem 0;">'
+      +'<i class="fas fa-spinner fa-spin" style="font-size:2rem;color:rgba(212,175,55,.5);margin-bottom:1rem;display:block;"></i>'
+      +'<p style="color:rgba(255,255,255,.4);font-size:.85rem;">Chargement du cours...</p>'
+      +'</div>';
+    fetch(RAW+'/content/posts/'+(item.postRef||item.name)).then(function(r){return r.text();}).then(function(t){
+      var post=pFM(t);
+      var html='<div style="width:100%;max-width:860px;">';
+      html+='<h3 style="color:#fff;font-size:1.05rem;font-weight:700;margin-bottom:1rem;line-height:1.4;">'+esc(post.title||item.title)+'</h3>';
+      if(post.video_url){
+        var emb=toEmbed(post.video_url);
+        var isDr=/\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(post.video_url||'');
+        if(isDr){html+='<video controls style="width:100%;border-radius:12px;background:#000;max-height:480px;display:block;margin-bottom:1rem;"><source src="'+esc(post.video_url)+'"></video>';}
+        else if(emb){html+='<div style="position:relative;padding-bottom:56.25%;background:#000;border-radius:12px;overflow:hidden;margin-bottom:1rem;"><iframe src="'+esc(emb)+'" style="position:absolute;inset:0;width:100%;height:100%;border:none;" allowfullscreen></iframe></div>';}
+      }
+      if(post.pdf_file){var pu=post.pdf_file.indexOf('http')===0?post.pdf_file:RAW+'/'+post.pdf_file;html+='<iframe src="'+esc(pu)+'" style="width:100%;height:60vh;border:none;border-radius:12px;background:#fff;margin-bottom:1rem;"></iframe>';}
+      if(post.image&&!post.video_url){html+='<img src="'+esc(post.image)+'" alt="" style="width:100%;max-height:420px;object-fit:cover;border-radius:12px;margin-bottom:1rem;cursor:zoom-in;" onclick="openLb(\''+esc(post.image)+'\')">';}
+      if(post.body){html+='<div style="color:rgba(255,255,255,.72);font-size:.85rem;line-height:1.78;white-space:pre-wrap;margin-top:.8rem;background:rgba(255,255,255,.04);border-radius:10px;padding:1rem;">'+esc(post.body)+'</div>';}
       html+='</div>';
       if(main)main.innerHTML=html;
-    }).catch(function(){if(main)main.innerHTML='<p style="color:rgba(255,255,255,.4);">Impossible de charger ce cours.</p>';});
-  }
-}
-
-/* ── PLAYLISTS ── */
-function loadPlaylists(){
-  var sec=document.getElementById('playlists-sec');if(!sec)return;
-  ghList('content/posts').then(function(files){
-    var pls=(files||[]).filter(function(f){return f.name&&f.name.indexOf('pl-')===0&&f.name.slice(-3)==='.md';});
-    if(!pls.length){sec.style.display='none';return;}
-    return Promise.all(pls.map(function(f){return fetch(f.download_url).then(function(r){return r.text();}).then(function(t){var p=pFM(t);p._n=f.name;return p;});})).then(function(data){
-      sec.style.display='block';
-      var grid=document.getElementById('pl-grid');if(!grid)return;
-      grid.innerHTML=data.map(function(pl){
-        var refs=[];if(pl.refs_b64){try{refs=JSON.parse(decodeURIComponent(escape(atob(pl.refs_b64))));}catch(e){}}
-        var acc=hasAcc({locked:pl.locked||'false'});
-        var isLocked=pl.locked==='true';
-        var itemsHtml='';
-        refs.slice(0,4).forEach(function(r,i){itemsHtml+='<div class="pl-item"><span class="pl-num">'+(i+1)+'</span><span class="pl-ttl">'+esc(r.title)+'</span></div>';});
-        if(refs.length>4)itemsHtml+='<p class="pl-more">+'+(refs.length-4)+' autres cours...</p>';
-        var refsEnc=JSON.stringify(refs).replace(/'/g,'&#39;').replace(/"/g,'&quot;');
-        var btn=isLocked&&!acc.ok?
-          '<button class="pl-btn pl-pay" onclick="openLockModal(\''+esc(pl.title)+'\')"><i class="fas fa-crown"></i>S\'inscrire pour accéder</button>':
-          '<button class="pl-btn pl-go" onclick="openPlaylistViewer('+refsEnc+',\''+esc(pl.title)+'\')"><i class="fas fa-play"></i>Démarrer la playlist</button>';
-        return '<div class="pl-card"><div class="pl-thumb"></div><div class="pl-head"><div class="pl-chip"><i class="fas fa-list-ol"></i>Playlist &middot; '+refs.length+' cours</div><h3>'+esc(pl.title||'Playlist')+'</h3>'+(pl.category?'<p>'+esc(pl.category)+'</p>':'')+' </div><div class="pl-sep"></div><div class="pl-body">'+itemsHtml+'</div><div class="pl-actions">'+btn+'</div></div>';
-      }).join('');
+    }).catch(function(){
+      if(main)main.innerHTML='<div style="text-align:center;color:rgba(255,255,255,.4);padding:2rem;"><i class="fas fa-exclamation-circle" style="font-size:2rem;display:block;margin-bottom:.8rem;"></i><p>Impossible de charger ce cours.</p></div>';
     });
-  }).catch(function(e){console.error(e);});
+  }
 }
 
 function openPlaylistViewer(refs,title){
