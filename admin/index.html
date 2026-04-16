@@ -1212,9 +1212,60 @@ let plItems=[]; // [{name, title, type}] — references to existing posts
 function showCreatePlaylist(){
   document.getElementById('createPlaylistForm').style.display='block';
   plItems=[];renderPlItems();
-  loadExistingPicker();
+  loadPlaylistPicker();
 }
 
+async function loadPlaylistPicker(){
+  var picker=document.getElementById('pl-picker');
+  if(!picker)return;
+  picker.innerHTML='<p style="color:var(--gray);font-size:.8rem;"><i class="fas fa-spinner fa-spin"></i> Chargement...</p>';
+  try{
+    var resList=await Promise.all([
+      ghGet('content/posts').catch(function(){return[];}),
+      ghGet('content/resumes').catch(function(){return[];})
+    ]);
+    var pf=resList[0];var rf=resList[1];
+    var pm=(pf||[]).filter(function(f){return f.name&&f.name.slice(-3)==='.md'&&f.name.slice(0,3)!=='pl-';});
+    var rm=(rf||[]).filter(function(f){return f.name&&f.name.slice(-3)==='.md';});
+    var fetchers=[];
+    pm.forEach(function(f){fetchers.push(fetch(f.download_url).then(function(r){return r.text();}).then(function(t){var p=parseFM(t);return{title:p.title||f.name,type:p.type||'post',name:f.name,kind:'post'};}).catch(function(){return{title:f.name,type:'post',name:f.name,kind:'post'};}));});
+    rm.forEach(function(f){fetchers.push(fetch(f.download_url).then(function(r){return r.text();}).then(function(t){var p=parseFM(t);return{title:p.title||f.name,type:p.type||'pdf',name:f.name,kind:'resource'};}).catch(function(){return{title:f.name,type:'pdf',name:f.name,kind:'resource'};}));});
+    var allItems=await Promise.all(fetchers);
+    if(!allItems.length){
+      picker.innerHTML='<div style="text-align:center;padding:1.2rem;color:var(--gray);font-size:.82rem;"><i class="fas fa-folder-open" style="font-size:1.8rem;display:block;margin-bottom:.6rem;opacity:.35;"></i>Aucun contenu publie encore.</div>';
+      return;
+    }
+    /* Store items globally for click handlers */
+    window._plPickerItems=allItems;
+    var ico={post:'\uD83D\uDCF0',video:'\uD83C\uDFAC',pdf:'\uD83D\uDCC4',image:'\uD83D\uDDBC',announcement:'\uD83D\uDCE3'};
+    var rows='';
+    allItems.forEach(function(item,i){
+      var badge=item.kind==='resource'?'Ressource':'Publication';
+      rows+='<div class="pl-pick-row" data-idx="'+i+'" style="display:flex;align-items:center;gap:.5rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.5rem .75rem;cursor:pointer;transition:.14s;margin-bottom:.25rem;">'
+        +'<span style="font-size:.85rem;flex-shrink:0;">'+(ico[item.type]||'\uD83D\uDCC1')+'</span>'
+        +'<div style="flex:1;min-width:0;">'
+          +'<div style="font-size:.8rem;font-weight:600;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+esc(item.title)+'</div>'
+          +'<div style="font-size:.63rem;color:var(--gray);">'+badge+' &middot; '+item.type.toUpperCase()+'</div>'
+        +'</div>'
+        +'<span style="background:#ede9fe;color:#6d28d9;font-size:.62rem;font-weight:700;padding:.1rem .44rem;border-radius:5px;flex-shrink:0;white-space:nowrap;"><i class="fas fa-plus"></i> Ajouter</span>'
+        +'</div>';
+    });
+    picker.innerHTML=rows;
+    /* Attach click handlers after insertion */
+    picker.querySelectorAll('.pl-pick-row').forEach(function(row){
+      row.addEventListener('mouseover',function(){this.style.borderColor='#7c3aed';this.style.background='rgba(139,92,246,.06)';});
+      row.addEventListener('mouseout',function(){this.style.borderColor='var(--border)';this.style.background='var(--bg)';});
+      row.addEventListener('click',function(){
+        var idx2=parseInt(this.getAttribute('data-idx'));
+        var item=window._plPickerItems&&window._plPickerItems[idx2];
+        if(item)addToPlaylist(item.name,item.title,item.type);
+      });
+    });
+  }catch(err2){
+    var el2=document.getElementById('pl-picker');
+    if(el2)el2.innerHTML='<p style="color:var(--red);font-size:.8rem;">Erreur GitHub. Verifiez la configuration.</p>';
+  }
+}
 function addToPlaylist(name,title,type){
   if(plItems.find(p=>p.name===name)){toast('Déjà dans la playlist','warn');return;}
   plItems.push({name,title,type});
