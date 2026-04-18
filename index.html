@@ -1381,9 +1381,67 @@ function sendContact(){
 }
 
 /* ── INIT ── */
+
+function loadPlaylists(){
+  var sec=document.getElementById('playlists-sec');
+  if(!sec)return;
+  ghList('content/posts').then(function(files){
+    var pls=(files||[]).filter(function(f){
+      return f.name&&f.name.slice(0,3)==='pl-'&&f.name.slice(-3)==='.md';
+    });
+    if(!pls.length){sec.style.display='none';return;}
+    return Promise.all(pls.map(function(f){
+      return fetch(f.download_url).then(function(r){return r.text();}).then(function(t){
+        var p=pFM(t);p._n=f.name;return p;
+      });
+    })).then(function(data){
+      sec.style.display='block';
+      var grid=document.getElementById('pl-grid');
+      if(!grid)return;
+      grid.innerHTML=data.map(function(pl){
+        var refs=[];
+        if(pl.refs_b64){try{refs=JSON.parse(decodeURIComponent(escape(atob(pl.refs_b64))));}catch(e){}}
+        var acc=hasAcc({locked:pl.locked||'false'});
+        var isLocked=pl.locked==='true';
+        var itemsHtml='';
+        refs.slice(0,4).forEach(function(r,i){
+          itemsHtml+='<div class="pl-item"><span class="pl-num">'+(i+1)+'</span><span class="pl-ttl">'+esc(r.title)+'</span></div>';
+        });
+        if(refs.length>4)itemsHtml+='<p class="pl-more">+'+(refs.length-4)+' autres cours...</p>';
+        var refsEnc=JSON.stringify(refs).replace(/'/g,'&#39;').replace(/"/g,'&quot;');
+        var btn=isLocked&&!acc.ok
+          ?'<button class="pl-btn pl-pay" onclick="openLockModal(\''+esc(pl.title)+'\')"><i class="fas fa-crown"></i>S\'inscrire pour accéder</button>'
+          :'<button class="pl-btn pl-go" onclick="openPlaylistViewer('+refsEnc+',\''+esc(pl.title)+'\')"><i class="fas fa-play"></i>Démarrer la playlist</button>';
+        return '<div class="pl-card">'
+          +'<div class="pl-thumb"></div>'
+          +'<div class="pl-head">'
+            +'<div class="pl-chip"><i class="fas fa-list-ol"></i>Playlist &middot; '+refs.length+' cours</div>'
+            +'<h3>'+esc(pl.title||'Playlist')+'</h3>'
+            +(pl.category?'<p>'+esc(pl.category)+'</p>':'')
+          +'</div>'
+          +'<div class="pl-sep"></div>'
+          +'<div class="pl-body">'+itemsHtml+'</div>'
+          +'<div class="pl-actions">'+btn+'</div>'
+          +'</div>';
+      }).join('');
+    });
+  }).catch(function(e){console.error('loadPlaylists error:',e);});
+}
+
+function openPlaylistViewer(refs,title){
+  var pid='pl-'+Date.now();
+  window._packs=window._packs||{};
+  window._packs[pid]={title:title,items:refs.map(function(r){
+    return{type:'existing',title:r.title,postRef:r.name};
+  })};
+  openPackViewer(pid);
+}
+
 loadAccessData().then(function(){
   loadFeed();
   loadResources();
+  loadPacks();
+  loadPlaylists();
 });
 
 </script>
