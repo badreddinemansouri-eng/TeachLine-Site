@@ -373,6 +373,21 @@ footer{background:#020810;}
   .btn-gold,.btn-wire{width:100%;justify-content:center;}
 }
 @media(min-width:769px){.nmenu{display:flex!important;}.burger{display:none!important;}}
+
+/* PACK THUMBNAIL */
+.pk-thumb{height:168px;background:#0a1628;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background-size:cover;background-position:center;flex-shrink:0;}
+.pk-thumb-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,13,31,.1),rgba(5,13,31,.6));}
+.pk-thumb-video{background:linear-gradient(135deg,#0a1628,#162c60);}
+.pk-thumb-pdf{background:linear-gradient(135deg,#1a0505,#3b0a0a);}
+.pk-thumb-existing{background:linear-gradient(135deg,#0a1628,#1a2744);}
+.pk-thumb-default{background:linear-gradient(135deg,#0a1628,#111f45);}
+.pk-play-btn{position:relative;z-index:2;width:52px;height:52px;border-radius:50%;background:rgba(212,175,55,.9);display:flex;align-items:center;justify-content:center;color:#050d1f;font-size:1.1rem;padding-left:3px;box-shadow:0 4px 20px rgba(212,175,55,.4);transition:.2s;}
+.pk-thumb:hover .pk-play-btn{transform:scale(1.1);background:var(--g2);}
+.pk-thumb-badge{position:absolute;top:.6rem;left:.6rem;background:rgba(5,13,31,.75);color:rgba(255,255,255,.85);font-size:.6rem;font-weight:700;padding:.18rem .55rem;border-radius:20px;z-index:2;display:flex;align-items:center;gap:4px;}
+.pk-stat{display:inline-flex;align-items:center;gap:4px;background:rgba(245,158,11,.15);color:#f59e0b;font-size:.66rem;font-weight:700;padding:.18rem .55rem;border-radius:20px;}
+.pk-stat-p{background:rgba(239,68,68,.12);color:#ef4444;}
+.pk-stat-i{background:rgba(16,185,129,.12);color:#10b981;}
+.pk-stat-e{background:rgba(37,99,235,.12);color:#60a5fa;}
 </style>
 </head>
 <body>
@@ -931,30 +946,157 @@ function renderFeed(){
 
 /* ── PACKS ── */
 function loadPacks(){
-  var c=document.getElementById('packs-container');if(!c)return;
+  var con=document.getElementById('packs-container');if(!con)return;
   return ghList('content/packs').then(function(files){
     var mds=(files||[]).filter(function(f){return f.name&&f.name.slice(-3)==='.md';});
-    if(!mds.length){c.innerHTML='<p style="color:rgba(255,255,255,.4);font-size:.9rem;grid-column:1/-1;text-align:center;font-style:italic;">Aucun pack disponible pour le moment.</p>';return;}
-    return Promise.all(mds.map(function(f){return fetch(f.download_url).then(function(r){return r.text();}).then(pFM);})).then(function(packs){
-      c.innerHTML=packs.map(function(p){
+    if(!mds.length){
+      con.innerHTML='<p style="color:rgba(255,255,255,.42);font-size:.9rem;grid-column:1/-1;text-align:center;font-style:italic;">Aucun pack disponible pour le moment.</p>';
+      return;
+    }
+    return Promise.all(mds.map(function(f){
+      return fetch(f.download_url).then(function(r){return r.text();}).then(pFM);
+    })).then(function(packs){
+      con.innerHTML=packs.map(function(p){
+        /* Parse items */
         var items=[];
         if(p.items_b64){try{items=JSON.parse(decodeURIComponent(escape(atob(p.items_b64))));}catch(e){}}
         else{items=(p.body||'').split('\n').filter(function(l){return l.indexOf('- ')===0;}).map(function(l){return{type:'text',title:l.slice(2)};});}
+
         var acc=hasAcc({locked:p.locked||'false'});
         var isLocked=p.locked==='true';
-        var cnt=items.filter(function(i){return i.type!=='text';}).length||items.length;
+        var realItems=items.filter(function(i){return i.type!=='text';});
+        var cnt=realItems.length||items.length;
+
         var pid='pk-'+Math.random().toString(36).substr(2,6);
-        window._packs=window._packs||{};window._packs[pid]={title:p.title,items:items};
-        var icoM={video:'fa-play-circle',pdf:'fa-file-pdf',image:'fa-image',existing:'fa-link',text:'fa-minus'};
-        var rows='';items.forEach(function(item){
-          if(item.type==='text'){rows+='<div class="pk-lbl">'+esc(item.title)+'</div>';}
-          else{rows+='<div class="pk-row"><i class="fas '+(icoM[item.type]||'fa-check')+'"></i>'+esc(item.title)+'</div>';}
+        window._packs=window._packs||{};
+        window._packs[pid]={title:p.title,items:items};
+
+        /* ── FIND PREVIEW THUMBNAIL ── */
+        /* Priority: first video → YT thumb, first image → url, pdf → icon */
+        var thumbHTML='';
+        var foundThumb=false;
+        for(var ti=0;ti<items.length;ti++){
+          var it=items[ti];
+          if(it.type==='video'&&it.url&&!foundThumb){
+            var ytm=it.url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+            if(ytm){
+              thumbHTML='<div class="pk-thumb" style="background-image:url(https://img.youtube.com/vi/'+ytm[1]+'/mqdefault.jpg);">'
+                +'<div class="pk-thumb-overlay"><div class="pk-play-btn"><i class="fas fa-play"></i></div></div>'
+                +'<div class="pk-thumb-badge"><i class="fas fa-video"></i> Vidéo</div>'
+                +'</div>';
+              foundThumb=true;break;
+            }
+            /* Direct video */
+            thumbHTML='<div class="pk-thumb pk-thumb-video">'
+              +'<div class="pk-thumb-overlay"><div class="pk-play-btn"><i class="fas fa-play"></i></div></div>'
+              +'<div class="pk-thumb-badge"><i class="fas fa-video"></i> Vidéo</div>'
+              +'</div>';
+            foundThumb=true;break;
+          }
+          if(it.type==='image'&&it.url&&!foundThumb){
+            var iurl=it.url.indexOf('http')===0?it.url:RAW+'/'+it.url;
+            thumbHTML='<div class="pk-thumb" style="background-image:url('+iurl+');">'
+              +'<div class="pk-thumb-overlay"></div>'
+              +'<div class="pk-thumb-badge"><i class="fas fa-image"></i> Image</div>'
+              +'</div>';
+            foundThumb=true;break;
+          }
+          if(it.type==='pdf'&&!foundThumb){
+            thumbHTML='<div class="pk-thumb pk-thumb-pdf">'
+              +'<div style="display:flex;flex-direction:column;align-items:center;gap:.5rem;">'
+                +'<i class="fas fa-file-pdf" style="font-size:2.8rem;color:#ef4444;"></i>'
+                +'<span style="color:rgba(255,255,255,.6);font-size:.72rem;font-weight:600;">DOCUMENT PDF</span>'
+              +'</div>'
+              +'<div class="pk-thumb-badge"><i class="fas fa-file-pdf"></i> PDF</div>'
+              +'</div>';
+            foundThumb=true;break;
+          }
+          if(it.type==='existing'&&!foundThumb){
+            thumbHTML='<div class="pk-thumb pk-thumb-existing">'
+              +'<div style="display:flex;flex-direction:column;align-items:center;gap:.5rem;">'
+                +'<i class="fas fa-graduation-cap" style="font-size:2.6rem;color:rgba(212,175,55,.7);"></i>'
+                +'<span style="color:rgba(255,255,255,.55);font-size:.72rem;font-weight:600;">COURS</span>'
+              +'</div>'
+              +'<div class="pk-thumb-badge"><i class="fas fa-link"></i> Cours</div>'
+              +'</div>';
+            foundThumb=true;break;
+          }
+        }
+        /* Fallback thumb */
+        if(!foundThumb){
+          thumbHTML='<div class="pk-thumb pk-thumb-default">'
+            +'<div style="display:flex;flex-direction:column;align-items:center;gap:.6rem;">'
+              +'<i class="fas fa-box-open" style="font-size:2.6rem;color:rgba(212,175,55,.55);"></i>'
+              +'<span style="color:rgba(255,255,255,.4);font-size:.7rem;font-weight:600;">PACK</span>'
+            +'</div>'
+            +'</div>';
+        }
+
+        /* ── CONTENT PREVIEW ROWS ── */
+        /* Show first 4 real items as preview pills */
+        var typeIco={video:'fa-play-circle',pdf:'fa-file-pdf',image:'fa-image',existing:'fa-link',text:'fa-minus'};
+        var typeLbl={video:'Vidéo',pdf:'PDF',image:'Image',existing:'Cours',text:''};
+        var typeClr={video:'rgba(245,158,11,.15)',pdf:'rgba(239,68,68,.12)',image:'rgba(16,185,129,.12)',existing:'rgba(37,99,235,.12)',text:'transparent'};
+        var typeTxt={video:'#f59e0b',pdf:'#ef4444',image:'#10b981',existing:'#60a5fa',text:'#9ca3af'};
+
+        var previewPills='';
+        var shown=0;
+        items.forEach(function(item){
+          if(item.type==='text'||shown>=4)return;
+          shown++;
+          previewPills+='<div style="display:flex;align-items:center;gap:.55rem;padding:.42rem .7rem;border-radius:9px;background:'+typeClr[item.type]+';">'
+            +'<i class="fas '+typeIco[item.type]+'" style="color:'+typeTxt[item.type]+';font-size:.75rem;width:14px;flex-shrink:0;"></i>'
+            +'<span style="font-size:.77rem;color:rgba(255,255,255,.78);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;">'+esc(item.title)+'</span>'
+            +'<span style="font-size:.6rem;color:'+typeTxt[item.type]+';font-weight:700;flex-shrink:0;background:rgba(255,255,255,.07);padding:.08rem .38rem;border-radius:4px;">'+typeLbl[item.type]+'</span>'
+            +'</div>';
         });
-        var btn=isLocked&&!acc.ok?
-          '<button class="pk-btn pk-gold" onclick="openLockModal(\''+esc(p.title)+'\')"><i class="fas fa-crown"></i>S\'inscrire pour accéder</button>':
-          '<button class="pk-btn pk-open" onclick="openPackViewer(\''+pid+'\')"><i class="fas fa-play"></i>Ouvrir le pack</button>';
-        return '<div class="pk"><div class="pk-head"><div class="pk-badge"><i class="fas fa-box-open"></i>Pack &middot; '+cnt+' cours</div><h3>'+esc(p.title||'Pack')+'</h3><p>'+esc(p.body||'')+'</p>'+(p.price?'<div><span class="pk-price">'+esc(p.price)+'</span><span class="pk-per">/ accès</span></div>':'')+
-          '</div><div class="pk-sep"></div><div class="pk-body">'+rows+'</div>'+btn+'</div>';
+
+        var remaining=realItems.length-shown;
+        if(remaining>0){
+          previewPills+='<div style="text-align:center;padding:.3rem;font-size:.72rem;color:rgba(255,255,255,.35);font-style:italic;">+'+remaining+' autres cours...</div>';
+        }
+
+        /* ── STAT CHIPS ── */
+        var videos=items.filter(function(i){return i.type==='video';}).length;
+        var pdfs=items.filter(function(i){return i.type==='pdf';}).length;
+        var imgs=items.filter(function(i){return i.type==='image';}).length;
+        var exs=items.filter(function(i){return i.type==='existing';}).length;
+        var statsHTML='';
+        if(videos)statsHTML+='<span class="pk-stat"><i class="fas fa-video"></i>'+videos+'</span>';
+        if(pdfs)statsHTML+='<span class="pk-stat pk-stat-p"><i class="fas fa-file-pdf"></i>'+pdfs+'</span>';
+        if(imgs)statsHTML+='<span class="pk-stat pk-stat-i"><i class="fas fa-image"></i>'+imgs+'</span>';
+        if(exs)statsHTML+='<span class="pk-stat pk-stat-e"><i class="fas fa-link"></i>'+exs+'</span>';
+
+        /* ── CTA BUTTON ── */
+        var btn=isLocked&&!acc.ok
+          ?'<button class="pk-btn pk-gold" onclick="openLockModal(\''+esc(p.title)+'\')"><i class="fas fa-crown"></i>S\'inscrire pour accéder</button>'
+          :'<button class="pk-btn pk-open" onclick="openPackViewer(\''+pid+'\')"><i class="fas fa-play"></i>Ouvrir le pack</button>';
+
+        return '<div class="pk">'
+          /* Thumbnail */
+          +thumbHTML
+          /* Header */
+          +'<div class="pk-head">'
+            +'<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem;margin-bottom:.5rem;">'
+              +'<div class="pk-badge"><i class="fas fa-box-open"></i>Pack &middot; '+cnt+' cours</div>'
+              +(isLocked&&!acc.ok?'<span style="background:rgba(212,175,55,.2);color:var(--g1);font-size:.6rem;font-weight:700;padding:.15rem .48rem;border-radius:20px;white-space:nowrap;"><i class="fas fa-lock"></i> Payant</span>':'<span style="background:rgba(16,185,129,.15);color:#6ee7b7;font-size:.6rem;font-weight:700;padding:.15rem .48rem;border-radius:20px;white-space:nowrap;"><i class="fas fa-check"></i> Accès libre</span>')
+            +'</div>'
+            +'<h3 style="font-family:Playfair Display,serif;font-size:1.06rem;color:#fff;font-weight:700;margin-bottom:.3rem;line-height:1.35;">'+esc(p.title||'Pack')+'</h3>'
+            +(p.body?'<p style="color:rgba(255,255,255,.45);font-size:.76rem;line-height:1.55;margin-bottom:.5rem;">'+esc(p.body.substring(0,100))+(p.body.length>100?'...':'')+'</p>':'')
+            /* Stats */
+            +(statsHTML?'<div style="display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.6rem;">'+statsHTML+'</div>':'')
+            /* Price */
+            +(p.price?'<div style="margin-bottom:.2rem;"><span style="font-family:Playfair Display,serif;font-size:1.6rem;font-weight:900;color:var(--g1);">'+esc(p.price)+'</span><span style="font-size:.7rem;color:rgba(255,255,255,.35);margin-left:.3rem;">/ accès</span></div>':'')
+          +'</div>'
+          /* Preview list */
+          +'<div class="pk-sep"></div>'
+          +'<div class="pk-body">'
+            +'<div style="font-size:.6rem;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.9px;font-weight:700;margin-bottom:.5rem;">Aperçu du contenu</div>'
+            +previewPills
+          +'</div>'
+          /* CTA */
+          +btn
+          +'</div>';
       }).join('');
     });
   }).catch(function(){
