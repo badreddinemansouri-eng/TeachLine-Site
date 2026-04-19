@@ -239,6 +239,7 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
       <button class="nb" onclick="showPanel('newPost')"><i class="fas fa-plus-circle"></i> Nouvelle publication</button>
       <button class="nb" onclick="showPanel('newResource')"><i class="fas fa-upload"></i> Ajouter ressource</button>
       <button class="nb" onclick="showPanel('packs')"><i class="fas fa-box-open"></i> Packs de cours <span class="cnt" id="nb-packs" style="background:var(--teal)">—</span></button>
+      <button class="nb" onclick="showPanel('packorder');loadPacks()"><i class="fas fa-sort"></i> Ordre des packs</button>
       <button class="nb" onclick="showPanel('playlists')"><i class="fas fa-list-ol"></i> Playlists <span class="cnt" id="nb-playlists" style="background:var(--purple)">—</span></button>
       <button class="nb" onclick="showPanel('notifications')"><i class="fas fa-bell"></i> Notifications</button>
       <button class="nb" onclick="showPanel('posts')"><i class="fas fa-newspaper"></i> Publications <span class="cnt" id="nb-posts">—</span></button>
@@ -620,6 +621,21 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
               <i class="fas fa-shield-halved" style="margin-top:.1rem;flex-shrink:0;"></i>
               <span>Vos identifiants sont stockés <strong>uniquement sur votre appareil</strong>. Jamais visibles sur le site public.</span>
             </div>
+            <!-- CLOUDFLARE WORKER SECURITY -->
+            <div style="background:linear-gradient(135deg,rgba(37,99,235,.08),rgba(139,92,246,.08));border:1.5px solid rgba(37,99,235,.2);border-radius:12px;padding:1.1rem;margin-bottom:1.2rem;">
+              <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.65rem;">
+                <i class="fas fa-shield-halved" style="color:var(--blue);font-size:1.1rem;"></i>
+                <strong style="font-size:.85rem;color:var(--navy);">Proxy Cloudflare Worker (recommandé)</strong>
+                <span id="worker-status" style="margin-left:auto;"></span>
+              </div>
+              <p style="font-size:.77rem;color:var(--gray);margin-bottom:.7rem;line-height:1.55;">Déployez le fichier <code style="background:var(--bg);padding:.1rem .35rem;border-radius:4px;">worker.js</code> sur Cloudflare Workers pour garder votre token GitHub <strong>invisible</strong> côté public. Laissez vide pour utiliser le token direct.</p>
+              <div class="fg">
+                <label>URL du Worker Cloudflare</label>
+                <input type="url" id="cfg-worker-url" placeholder="https://teachline-proxy.votrecompte.workers.dev">
+              </div>
+              <button class="btn b-primary" onclick="saveWorkerUrl()"><i class="fas fa-save"></i> Sauvegarder l'URL</button>
+              <a href="https://dash.cloudflare.com" target="_blank" class="btn b-ghost" style="margin-left:.5rem;"><i class="fas fa-external-link-alt"></i> Ouvrir Cloudflare</a>
+            </div>
             <div class="fgrid">
               <div class="fg"><label>Nom du dépôt *</label><input type="text" id="cfg-repo" placeholder="TeachLine-Site"></div>
               <div class="fg"><label>Branche</label><input type="text" id="cfg-branch" placeholder="main"></div>
@@ -691,6 +707,20 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
         </div>
       </div>
 
+    
+      <!-- PACK ORDER -->
+      <div class="panel" id="panel-packorder">
+        <div class="topbar"><div class="tb-left"><h2>Ordre des packs</h2><p>Réorganisez l'ordre d'affichage des packs sur le site</p></div><button class="btn b-teal" onclick="savePackOrder()"><i class="fas fa-save"></i> Sauvegarder l'ordre</button></div>
+        <div class="card">
+          <div class="card-header"><h3><i class="fas fa-sort" style="color:var(--teal)"></i> Glissez pour réordonner</h3></div>
+          <div class="card-body">
+            <p style="font-size:.8rem;color:var(--gray);margin-bottom:1rem;">Utilisez les flèches pour changer l'ordre d'affichage. Cliquez "Sauvegarder" pour appliquer.</p>
+            <div id="pack-order-list"><p style="color:var(--gray);font-size:.82rem;"><i class="fas fa-spinner fa-spin"></i> Chargez les packs...</p></div>
+            <button class="btn b-ghost" style="margin-top:.8rem;" onclick="loadPacks().then(function(){})"><i class="fas fa-sync"></i> Recharger les packs</button>
+          </div>
+        </div>
+      </div>
+
     </main>
   </div>
 </div>
@@ -742,8 +772,10 @@ function showPanel(id){
   if(id==='resources')loadResTable();
   if(id==='access')loadAccessPanel();
   if(id==='packs')loadPacks();
+  if(id==='packorder'){loadPacks().then(function(packs){if(typeof initPackOrder==='function'&&packs)initPackOrder(packs);});}
   if(id==='playlists')loadPlaylists();
   if(id==='notifications')loadAnnonce();
+  if(id==='settings')updateWorkerStatus();
 }
 
 // ═══ CONFIG ═══
@@ -768,14 +800,24 @@ const cfg=()=>({owner:localStorage.getItem('tl_owner')||'',repo:localStorage.get
 // ═══ GITHUB API ═══
 async function ghGet(path){
   const c=cfg();
-  // Note: no Cache-Control header — causes CORS preflight failures with GitHub API
+  if(c.worker){
+    const r=await fetch(c.worker,{method:'GET',headers:{'X-TL-Action':'get','X-TL-Path':path,'Content-Type':'application/json'}});
+    if(!r.ok)throw new Error('Worker '+r.status+' – '+path);
+    return r.json();
+  }
   const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}?ref=${c.branch}`,{headers:{Authorization:'Bearer '+c.token}});
   if(!r.ok)throw new Error('GitHub '+r.status+' – '+path);
   return r.json();
 }
 async function ghPut(path,content,msg,sha=null){
   const c=cfg();
-  const body={message:msg,content:btoa(unescape(encodeURIComponent(content))),branch:c.branch};
+  const b64=btoa(unescape(encodeURIComponent(content)));
+  if(c.worker){
+    const r=await fetch(c.worker,{method:'POST',headers:{'X-TL-Action':'put','X-TL-Path':path,'X-TL-MSG':msg,'X-TL-SHA':sha||'','Content-Type':'application/json'},body:JSON.stringify({content:b64})});
+    if(!r.ok){const e=await r.json();throw new Error(e.message||'Worker PUT '+r.status);}
+    return r.json();
+  }
+  const body={message:msg,content:b64,branch:c.branch};
   if(sha)body.sha=sha;
   const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}`,{method:'PUT',headers:{Authorization:'Bearer '+c.token,'Content-Type':'application/json'},body:JSON.stringify(body)});
   if(!r.ok){const e=await r.json();throw new Error(e.message||'PUT failed '+r.status);}
@@ -789,12 +831,22 @@ async function ghPutB64(path,b64,msg,sha=null){
 }
 async function ghDel(path,msg,sha){
   const c=cfg();
+  if(c.worker){
+    const r=await fetch(c.worker,{method:'POST',headers:{'X-TL-Action':'delete','X-TL-Path':path,'X-TL-MSG':msg,'X-TL-SHA':sha||'','Content-Type':'application/json'},body:JSON.stringify({})});
+    if(!r.ok)throw new Error('Worker DEL '+r.status);
+    return;
+  }
   const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}`,{method:'DELETE',headers:{Authorization:'Bearer '+c.token,'Content-Type':'application/json'},body:JSON.stringify({message:msg,sha,branch:c.branch})});
   if(!r.ok)throw new Error('Delete failed '+r.status);
 }
 async function getSha(path){
   try{
     const c=cfg();
+    if(c.worker){
+      const r=await fetch(c.worker,{method:'GET',headers:{'X-TL-Action':'sha','X-TL-Path':path,'Content-Type':'application/json'}});
+      if(r.ok){const d=await r.json();return d.sha||null;}
+      return null;
+    }
     const r=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}?ref=${c.branch}`,{headers:{Authorization:'Bearer '+c.token}});
     if(r.ok){const d=await r.json();return d.sha||null;}
     return null;
@@ -1380,6 +1432,7 @@ async function loadPostsTable(){
         <td><div class="ab">
           <button class="btn b-primary btn-icon" onclick="openEditModal('${key}')" title="Modifier"><i class="fas fa-edit"></i></button>
           <button class="btn b-danger btn-icon" onclick="delPost('${esc(p._n)}','${esc(p._sha)}','${esc(p.title)}')" title="Supprimer"><i class="fas fa-trash"></i></button>
+          <button class="btn b-ghost btn-icon" onclick="duplicatePost('${key}')" title="Dupliquer"><i class="fas fa-copy"></i></button>
         </div></td>
       </tr>`;
     }).join('');
@@ -1727,6 +1780,241 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('editOverlay').addEventListener('click',function(e){if(e.target===this)closeEditModal();});
 });
 
+
+/* ═══════════════════════════════════════════════════════
+   NEW FEATURES BLOCK
+   - Worker URL in cfg/saveCfg
+   - Student picker for allowed_emails
+   - Bulk student import
+   - Post duplicate
+   - Pack reordering
+═══════════════════════════════════════════════════════ */
+
+/* ── WORKER URL in cfg ── */
+/* Patches cfg() to also read/save worker URL */
+var _origCfg = cfg;
+cfg = function(){
+  var base = _origCfg ? _origCfg() : {};
+  base.worker = localStorage.getItem('tl_worker') || '';
+  return base;
+};
+
+function saveWorkerUrl(){
+  var url = (document.getElementById('cfg-worker-url') || {}).value || '';
+  url = url.trim().replace(/\/$/, '');
+  localStorage.setItem('tl_worker', url);
+  toast(url ? '✅ Worker URL sauvegardé — token sécurisé!' : 'Worker désactivé — token direct utilisé', 'ok');
+  updateWorkerStatus();
+}
+function updateWorkerStatus(){
+  var url = localStorage.getItem('tl_worker') || '';
+  var el = document.getElementById('worker-status');
+  if(!el) return;
+  el.innerHTML = url
+    ? '<span style="color:var(--green);font-size:.75rem;"><i class="fas fa-shield-halved"></i> Proxy actif: '+esc(url.replace('https://',''))+'</span>'
+    : '<span style="color:var(--accent);font-size:.75rem;"><i class="fas fa-exclamation-triangle"></i> Token exposé dans le navigateur</span>';
+  var inp = document.getElementById('cfg-worker-url');
+  if(inp && !inp.value) inp.value = url;
+}
+
+/* ── STUDENT PICKER FOR allowed_emails ── */
+function openStudentPicker(targetInputId){
+  var students = (typeof accessData !== 'undefined' ? accessData.students : []) || [];
+  if(!students.length){ toast('Aucun élève inscrit encore', 'err'); return; }
+  var old = document.getElementById('student-picker-modal');
+  if(old) old.parentNode.removeChild(old);
+  var el = document.createElement('div');
+  el.id = 'student-picker-modal';
+  el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9000;display:flex;align-items:center;justify-content:center;padding:1rem;';
+  var rows = students.map(function(s, i){
+    return '<label style="display:flex;align-items:center;gap:.7rem;padding:.55rem .9rem;border-radius:8px;cursor:pointer;transition:.14s;border:1px solid var(--border);margin-bottom:.25rem;background:var(--bg);" onmouseover="this.style.borderColor=\'var(--blue)\'" onmouseout="this.style.borderColor=\'var(--border)\'">'
+      + '<input type="checkbox" value="'+esc(s.email)+'" style="width:15px;height:15px;accent-color:var(--blue);flex-shrink:0;">'
+      + '<div style="flex:1;min-width:0;">'
+        + '<div style="font-size:.82rem;font-weight:600;color:var(--navy);">'+esc(s.name||s.email)+'</div>'
+        + '<div style="font-size:.68rem;color:var(--gray);">'+esc(s.email)+'</div>'
+      + '</div>'
+      + (s.expires ? '<span style="font-size:.63rem;color:var(--gray);">'+esc(s.expires)+'</span>' : '')
+    + '</label>';
+  }).join('');
+  el.innerHTML = '<div style="background:#fff;border-radius:18px;padding:1.5rem;max-width:420px;width:100%;max-height:80vh;overflow-y:auto;">'
+    + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">'
+      + '<h3 style="font-size:.95rem;font-weight:700;color:var(--navy);">Choisir les élèves</h3>'
+      + '<button onclick="var e=document.getElementById(\'student-picker-modal\');if(e)e.parentNode.removeChild(e);" style="background:var(--bg);border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--gray);">✕</button>'
+    + '</div>'
+    + '<div id="sp-rows">'+rows+'</div>'
+    + '<div style="display:flex;gap:.6rem;margin-top:1rem;">'
+      + '<button onclick="selectAllStudents()" style="flex:1;padding:.6rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;font-size:.78rem;font-weight:600;cursor:pointer;">Tout sélectionner</button>'
+      + '<button onclick="applyStudentPicker(\''+esc(targetInputId)+'\')" style="flex:2;padding:.6rem;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:.78rem;font-weight:700;cursor:pointer;"><i class="fas fa-check"></i> Appliquer</button>'
+    + '</div>'
+  + '</div>';
+  // Pre-check already selected
+  var existing = (document.getElementById(targetInputId)||{}).value || '';
+  var existingEmails = existing.split(',').map(function(e){ return e.trim(); });
+  document.body.appendChild(el);
+  el.querySelectorAll('input[type=checkbox]').forEach(function(cb){
+    if(existingEmails.indexOf(cb.value) > -1) cb.checked = true;
+  });
+}
+function selectAllStudents(){
+  var modal = document.getElementById('student-picker-modal');
+  if(!modal) return;
+  modal.querySelectorAll('input[type=checkbox]').forEach(function(cb){ cb.checked = true; });
+}
+function applyStudentPicker(targetId){
+  var modal = document.getElementById('student-picker-modal');
+  if(!modal) return;
+  var selected = [];
+  modal.querySelectorAll('input[type=checkbox]:checked').forEach(function(cb){ selected.push(cb.value); });
+  var inp = document.getElementById(targetId);
+  if(inp) inp.value = selected.join(', ');
+  modal.parentNode.removeChild(modal);
+  toast(selected.length + ' élève(s) sélectionné(s)', 'ok');
+}
+
+/* ── BULK STUDENT IMPORT ── */
+function openBulkImport(){
+  var old = document.getElementById('bulk-modal');
+  if(old) old.parentNode.removeChild(old);
+  var el = document.createElement('div');
+  el.id = 'bulk-modal';
+  el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9000;display:flex;align-items:center;justify-content:center;padding:1rem;';
+  el.innerHTML = '<div style="background:#fff;border-radius:18px;padding:1.5rem;max-width:480px;width:100%;">'
+    + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">'
+      + '<h3 style="font-size:.95rem;font-weight:700;color:var(--navy);"><i class="fas fa-upload" style="color:var(--blue);margin-right:6px;"></i>Import groupé</h3>'
+      + '<button onclick="var e=document.getElementById(\'bulk-modal\');if(e)e.parentNode.removeChild(e);" style="background:var(--bg);border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:.8rem;color:var(--gray);">✕</button>'
+    + '</div>'
+    + '<p style="font-size:.8rem;color:var(--gray);margin-bottom:.8rem;">Collez une liste d\'emails (un par ligne ou séparés par virgule). Un mot de passe sera généré pour chacun.</p>'
+    + '<textarea id="bulk-emails" placeholder="eleve1@email.com&#10;eleve2@email.com&#10;..." style="width:100%;min-height:120px;padding:.75rem;border:1.5px solid var(--border);border-radius:10px;font-family:inherit;font-size:.83rem;resize:vertical;outline:none;margin-bottom:.7rem;"></textarea>'
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.8rem;">'
+      + '<div><label style="font-size:.7rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:.3rem;">Durée d\'accès</label>'
+        + '<select id="bulk-duration" style="width:100%;padding:.6rem;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.82rem;outline:none;">'
+          + '<option value="30">30 jours</option><option value="60">60 jours</option>'
+          + '<option value="90">90 jours</option><option value="180">6 mois</option>'
+          + '<option value="365">1 an</option><option value="9999">Illimité</option>'
+        + '</select></div>'
+      + '<div><label style="font-size:.7rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:.3rem;">Pack</label>'
+        + '<input type="text" id="bulk-pack" placeholder="all" value="all" style="width:100%;padding:.6rem;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.82rem;outline:none;">'
+      + '</div>'
+    + '</div>'
+    + '<button onclick="executeBulkImport()" style="width:100%;padding:.75rem;background:var(--blue);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.85rem;cursor:pointer;"><i class="fas fa-users"></i> Importer les élèves</button>'
+    + '<div id="bulk-result" style="margin-top:.8rem;font-size:.78rem;"></div>'
+  + '</div>';
+  document.body.appendChild(el);
+}
+function executeBulkImport(){
+  var raw = document.getElementById('bulk-emails').value || '';
+  var duration = document.getElementById('bulk-duration').value || '30';
+  var pack = document.getElementById('bulk-pack').value || 'all';
+  var emails = raw.split(/[\n,;]+/).map(function(e){ return e.trim().toLowerCase(); })
+                  .filter(function(e){ return e && e.indexOf('@') > -1; });
+  if(!emails.length){ toast('Aucun email valide', 'err'); return; }
+  var added = 0, skipped = 0;
+  emails.forEach(function(email){
+    if((accessData.students||[]).find(function(s){ return s.email === email; })){ skipped++; return; }
+    var password = randPass();
+    var expires = duration === '9999' ? '' : addDays(duration);
+    accessData.students = accessData.students || [];
+    accessData.students.push({email:email, name:'', password:password, date:today(), expires:expires, pack:pack});
+    added++;
+  });
+  renderStudentList();
+  var res = document.getElementById('bulk-result');
+  if(res) res.innerHTML = '<span style="color:var(--green);font-weight:600;">✅ '+added+' ajouté(s)</span>'
+    + (skipped ? ' <span style="color:var(--gray)">· '+skipped+' déjà existant(s)</span>' : '')
+    + ' — <strong>Cliquez Sauvegarder pour appliquer.</strong>';
+  if(added > 0) toast(added + ' élève(s) ajouté(s) — sauvegardez!', 'ok');
+}
+
+/* ── POST DUPLICATE ── */
+async function duplicatePost(key){
+  var p = PC[key];
+  if(!p){ toast('Publication introuvable', 'err'); return; }
+  var c2 = cfg();
+  if(!c2.token && !c2.worker){ toast('Configurez GitHub', 'err'); showPanel('settings'); return; }
+  if(!c2.owner) await fetchOwner(c2.token);
+  var newTitle = (p.title || 'Post') + ' (copie)';
+  var newSlug = slug(newTitle) + '-' + today().replace(/-/g,'') + '.md';
+  var fm = '---\ntitle: "' + newTitle.replace(/"/g,'\\"') + '"\ndate: "' + today() + '"\n'
+    + 'category: "' + (p.category||'') + '"\ntype: "' + (p.type||'post') + '"\nlocked: "' + (p.locked||'false') + '"\n';
+  if(p.video_url) fm += 'video_url: "' + p.video_url + '"\n';
+  if(p.pdf_file)  fm += 'pdf_file: "' + p.pdf_file + '"\n';
+  if(p.image)     fm += 'image: "' + p.image + '"\n';
+  if(p.link)      fm += 'link: "' + p.link + '"\n';
+  fm += '---\n\n' + (p.body || '');
+  try{
+    showPub('Duplication...', 'Copie en cours...');
+    await ghPut('content/posts/' + newSlug, fm, 'Duplicate: ' + (p.title||''));
+    setPubDone('Dupliqué!', '"' + newTitle + '" créé.');
+    setTimeout(function(){ loadPostsTable(); }, 1200);
+  } catch(e){ closePub(); toast('Erreur: ' + e.message, 'err'); }
+}
+
+/* ── PACK REORDERING ── */
+var packOrder = [];
+function initPackOrder(packs){
+  packOrder = packs.map(function(p){ return p._n; });
+  renderPackOrderUI();
+}
+function renderPackOrderUI(){
+  var el = document.getElementById('pack-order-list');
+  if(!el) return;
+  if(!packOrder.length){ el.innerHTML = '<p style="color:var(--gray);font-size:.82rem;">Chargez les packs d\'abord.</p>'; return; }
+  el.innerHTML = packOrder.map(function(name, i){
+    return '<div style="display:flex;align-items:center;gap:.6rem;background:#fff;border:1px solid var(--border);border-radius:10px;padding:.55rem .9rem;margin-bottom:.3rem;">'
+      + '<i class="fas fa-grip-vertical" style="color:var(--gray);font-size:.9rem;cursor:grab;"></i>'
+      + '<span style="flex:1;font-size:.83rem;font-weight:500;color:var(--navy);">'+esc(name.replace(/\.md$/,'').replace(/-\d+$/,''))+'</span>'
+      + '<button onclick="movePackOrder('+i+',-1)" style="background:none;border:none;cursor:pointer;color:var(--gray);padding:.2rem .4rem;font-size:.8rem;" title="Monter"><i class="fas fa-arrow-up"></i></button>'
+      + '<button onclick="movePackOrder('+i+',1)" style="background:none;border:none;cursor:pointer;color:var(--gray);padding:.2rem .4rem;font-size:.8rem;" title="Descendre"><i class="fas fa-arrow-down"></i></button>'
+    + '</div>';
+  }).join('');
+}
+function movePackOrder(i, dir){
+  var j = i + dir;
+  if(j < 0 || j >= packOrder.length) return;
+  var tmp = packOrder[i]; packOrder[i] = packOrder[j]; packOrder[j] = tmp;
+  renderPackOrderUI();
+}
+async function savePackOrder(){
+  var c2 = cfg();
+  if(!c2.token && !c2.worker){ toast('Configurez GitHub', 'err'); return; }
+  // Write order to content/packs/.order file
+  var orderContent = packOrder.join('\n');
+  showPub('Sauvegarde de l\'ordre...', 'GitHub...');
+  try{
+    var sha = await getSha('content/packs/.order');
+    await ghPut('content/packs/.order', orderContent, 'Pack order update', sha);
+    setPubDone('Ordre sauvegardé!', 'Les packs s\'afficheront dans cet ordre.');
+  } catch(e){ closePub(); toast('Erreur: ' + e.message, 'err'); }
+}
+
+/* ── INIT NEW FEATURES ON SETTINGS PANEL LOAD ── */
+document.addEventListener('DOMContentLoaded', function(){
+  updateWorkerStatus();
+  // Patch p-emails field to show student picker button
+  var emailsInput = document.getElementById('p-emails');
+  if(emailsInput && !document.getElementById('p-emails-picker-btn')){
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = 'p-emails-picker-btn';
+    btn.className = 'btn b-ghost';
+    btn.style.cssText = 'margin-top:.3rem;font-size:.72rem;';
+    btn.innerHTML = '<i class="fas fa-users"></i> Choisir dans la liste';
+    btn.onclick = function(){ openStudentPicker('p-emails'); };
+    emailsInput.parentNode.insertBefore(btn, emailsInput.nextSibling);
+  }
+  // Patch edit modal allowed_emails too
+  var editEmails = document.getElementById('edit-emails');
+  if(editEmails && !document.getElementById('edit-emails-picker-btn')){
+    var btn2 = document.createElement('button');
+    btn2.type = 'button';
+    btn2.id = 'edit-emails-picker-btn';
+    btn2.className = 'btn b-ghost';
+    btn2.style.cssText = 'margin-top:.3rem;font-size:.72rem;';
+    btn2.innerHTML = '<i class="fas fa-users"></i> Choisir dans la liste';
+    btn2.onclick = function(){ openStudentPicker('edit-emails'); };
+    editEmails.parentNode.insertBefore(btn2, editEmails.nextSibling);
+  }
+});
 </script>
 </body>
 </html>
