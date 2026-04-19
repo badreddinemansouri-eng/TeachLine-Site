@@ -3,8 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Teach Line | Plateforme Éducative Premium · BAC 2026</title>
-<meta name="description" content="Cours vidéo HD, PDF, packs complets pour réussir le BAC.">
+<title>Teach Line | Cours BAC 2026 Tunisie · Vidéos HD · PDF · Packs</title>
+<meta name="description" content="Teach Line — Plateforme éducative premium pour réussir le BAC en Tunisie. Cours vidéo HD, résumés PDF, packs complets. 1200+ élèves.">
+<!-- ═══ SEO & OPEN GRAPH ═══ -->
+<meta name="keywords" content="cours BAC Tunisie, révision BAC 2026, cours physique Tunisie, cours maths BAC, teach line, plateforme éducative Tunisie, cours en ligne Tunisie, cours secondaire Tunisie">
+<meta name="author" content="Teach Line">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://teachline.pages.dev/">
+
+<!-- Open Graph — Facebook, WhatsApp, LinkedIn -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://teachline.pages.dev/">
+<meta property="og:title" content="Teach Line | Cours BAC 2026 Tunisie · Vidéos HD · PDF">
+<meta property="og:description" content="La plateforme éducative premium pour réussir le BAC en Tunisie. Cours vidéo HD, résumés PDF, packs complets. Rejoignez 1200+ élèves.">
+<meta property="og:image" content="https://teachline.pages.dev/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Teach Line">
+<meta property="og:locale" content="fr_TN">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Teach Line | Cours BAC 2026 Tunisie">
+<meta name="twitter:description" content="La plateforme éducative premium pour réussir le BAC. Cours vidéo HD, PDF, packs complets.">
+<meta name="twitter:image" content="https://teachline.pages.dev/og-image.jpg">
+
+<!-- Theme -->
+<meta name="theme-color" content="#050d1f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Teach Line">
+
+<!-- Schema.org JSON-LD -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"EducationalOrganization","name":"Teach Line","description":"Plateforme educative premium pour reussir le BAC en Tunisie.","url":"https://teachline.pages.dev","sameAs":["https://www.facebook.com/share/1FER5U4BfD/","http://www.youtube.com/@teachline-ld9hb"],"contactPoint":{"@type":"ContactPoint","telephone":"+216-58-338-187","contactType":"customer service","availableLanguage":"French"}}</script>
+
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
@@ -443,6 +474,14 @@ footer{background:#020810;}
   </div>
 </div>
 
+<!-- EXPIRY ALERT -->
+<div id="expiry-alert" style="display:none;background:linear-gradient(135deg,#7f1d1d,#991b1b);border-bottom:1px solid rgba(252,165,165,.3);padding:.7rem 1rem;align-items:center;gap:.7rem;flex-wrap:wrap;position:sticky;top:66px;z-index:549;">
+  <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:#fca5a5;font-size:.8rem;flex-shrink:0;"><i class="fas fa-clock"></i></div>
+  <span id="expiry-alert-text" style="color:#fecaca;font-size:.8rem;font-weight:600;flex:1;"></span>
+  <a href="https://wa.me/21658338187?text=Renouveler%20mon%20abonnement%20Teach%20Line" target="_blank" style="display:inline-flex;align-items:center;gap:5px;background:#25D366;color:#fff;padding:.28rem .75rem;border-radius:20px;font-size:.72rem;font-weight:700;text-decoration:none;white-space:nowrap;"><i class="fab fa-whatsapp"></i>Renouveler</a>
+  <button onclick="dismissExpiryAlert()" style="background:rgba(255,255,255,.1);border:none;width:26px;height:26px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fca5a5;font-size:.72rem;flex-shrink:0;"><i class="fas fa-times"></i></button>
+</div>
+
 <a href="https://wa.me/21658338187?text=Bonjour%20Teach%20Line%20!" class="wa-fab" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
 <!-- HERO -->
@@ -770,10 +809,12 @@ function refreshUI(){
     if(sb)sb.classList.add('on');
     if(sb2)sb2.classList.add('on');
     if(slb)slb.style.display='none';
+    if(typeof checkExpiryAlert==='function')checkExpiryAlert();
   }else{
     if(sb)sb.classList.remove('on');
     if(sb2)sb2.classList.remove('on');
     if(slb)slb.style.display='';
+    if(typeof hideExpiryAlert==='function')hideExpiryAlert();
   }
   renderFeed();
   renderResources();
@@ -938,7 +979,7 @@ function buildCard(p){
     (p.category?'<span class="post-cat">'+esc(p.category)+'</span>':'')+
     '<span class="post-dt"><i class="far fa-calendar-alt"></i> '+esc(p.date||'')+'</span></div>'+
     '<h3>'+esc(p.title||'')+'</h3>'+textHtml+attHtml+
-    (btns?'<div class="post-ft">'+btns+'</div>':'')+
+    (btns||!locked?'<div class="post-ft">'+btns+'<button class="bx" style="background:rgba(24,119,242,.1);color:#1877f2;border:1.5px solid rgba(24,119,242,.2);margin-left:auto;" title="Partager sur Facebook" onclick="sharePost(\''+esc(p.title)+'\')" ><i class="fab fa-facebook-f"></i></button><button class="bx" style="background:rgba(37,211,102,.1);color:#128C7E;border:1.5px solid rgba(37,211,102,.2);" title="Partager sur WhatsApp" onclick="shareWA(\''+esc(p.title)+'\')" ><i class="fab fa-whatsapp"></i></button></div>':'')+
     '</div></div>';
 }
 
@@ -1482,6 +1523,51 @@ function openPlaylistViewer(refs,title){
     return{type:'existing',title:r.title,postRef:r.name};
   })};
   openPackViewer(pid);
+}
+
+
+/* ─── EXPIRY ALERT ─── */
+function checkExpiryAlert(){
+  if(!CS)return;
+  var f=AD.students.filter(function(s){return s.email===CS.email;})[0];
+  if(!f||!f.expires)return;
+  var exp=new Date(f.expires);
+  var now=new Date();
+  var daysLeft=Math.ceil((exp-now)/(1000*60*60*24));
+  var dismissed=localStorage.getItem('tl_exp_dismissed');
+  if(dismissed===f.expires)return;
+  var alertEl=document.getElementById('expiry-alert');
+  var textEl=document.getElementById('expiry-alert-text');
+  if(!alertEl||!textEl)return;
+  if(daysLeft<=0){
+    textEl.textContent='Votre acces a expire. Contactez votre enseignant pour renouveler.';
+    alertEl.style.display='flex';
+  } else if(daysLeft<=7){
+    textEl.textContent='Votre acces expire dans '+daysLeft+' jour'+(daysLeft>1?'s':'')+'. Renouvelez maintenant pour ne pas perdre vos cours.';
+    alertEl.style.display='flex';
+  } else {
+    alertEl.style.display='none';
+  }
+}
+function hideExpiryAlert(){
+  var el=document.getElementById('expiry-alert');
+  if(el)el.style.display='none';
+}
+function dismissExpiryAlert(){
+  if(CS&&CS.expires)localStorage.setItem('tl_exp_dismissed',CS.expires);
+  var el=document.getElementById('expiry-alert');
+  if(el)el.style.display='none';
+}
+
+/* ─── SHARE FUNCTIONS ─── */
+function sharePost(title){
+  var url='https://teachline.pages.dev';
+  var fbUrl='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(url)+'&quote='+encodeURIComponent(title+' — Teach Line');
+  window.open(fbUrl,'_blank','width=600,height=400');
+}
+function shareWA(title){
+  var msg=encodeURIComponent('Cours: '+title+'\nvoir sur Teach Line: https://teachline.pages.dev');
+  window.open('https://wa.me/?text='+msg,'_blank');
 }
 
 loadAccessData().then(function(){
