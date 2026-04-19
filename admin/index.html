@@ -240,6 +240,7 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
       <button class="nb" onclick="showPanel('newResource')"><i class="fas fa-upload"></i> Ajouter ressource</button>
       <button class="nb" onclick="showPanel('packs')"><i class="fas fa-box-open"></i> Packs de cours <span class="cnt" id="nb-packs" style="background:var(--teal)">—</span></button>
       <button class="nb" onclick="showPanel('playlists')"><i class="fas fa-list-ol"></i> Playlists <span class="cnt" id="nb-playlists" style="background:var(--purple)">—</span></button>
+      <button class="nb" onclick="showPanel('notifications')"><i class="fas fa-bell"></i> Notifications</button>
       <button class="nb" onclick="showPanel('posts')"><i class="fas fa-newspaper"></i> Publications <span class="cnt" id="nb-posts">—</span></button>
       <button class="nb" onclick="showPanel('resources')"><i class="fas fa-folder-open"></i> Ressources <span class="cnt" id="nb-res">—</span></button>
       <div class="sb-sec">Élèves</div>
@@ -661,6 +662,35 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
         </div>
       </div>
 
+    
+      <!-- NOTIFICATIONS -->
+      <div class="panel" id="panel-notifications">
+        <div class="topbar"><div class="tb-left"><h2>Notifications</h2><p>Affichez une bannière dorée en haut du site pour vos élèves</p></div></div>
+        <div class="card">
+          <div class="card-header"><h3><i class="fas fa-bell" style="color:var(--accent)"></i> Bannière d'annonce</h3><span id="ann-status"></span></div>
+          <div class="card-body">
+            <div class="fg"><label>Texte de la notification *</label><textarea id="ann-text" oninput="var p=document.getElementById('ann-preview');if(p)p.textContent=this.value||'Votre texte apparaîtra ici';" placeholder="Ex: Examen blanc ce vendredi ! Préparez-vous bien." style="min-height:75px;"></textarea></div>
+            <div class="fg"><label>Lien optionnel (ex: vers une publication)</label><input type="url" id="ann-link" placeholder="https://… (laisser vide si aucun lien)"></div>
+            <div class="toggle-field">
+              <div class="toggle-info"><label>🔔 Notification active</label><small>Si désactivée, la bannière disparaît du site.</small></div>
+              <label class="switch"><input type="checkbox" id="ann-active" checked><span class="slider"></span></label>
+            </div>
+            <div style="display:flex;gap:.7rem;flex-wrap:wrap;">
+              <button class="btn b-accent btn-lg" onclick="publishAnnonce()"><i class="fas fa-paper-plane"></i>Publier la notification</button>
+              <button class="btn b-danger" onclick="clearAnnonce()"><i class="fas fa-trash"></i>Supprimer</button>
+            </div>
+            <div style="margin-top:1.2rem;background:var(--bg);border-radius:12px;padding:1rem;">
+              <p style="font-size:.75rem;font-weight:700;color:var(--navy);margin-bottom:.5rem;"><i class="fas fa-eye"></i> Aperçu de la bannière</p>
+              <div style="background:linear-gradient(135deg,#d4af37,#b8860b);padding:.65rem 1rem;border-radius:8px;display:flex;align-items:center;gap:.7rem;">
+                <div style="width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.76rem;flex-shrink:0;"><i class="fas fa-bell"></i></div>
+                <span id="ann-preview" style="color:#050d1f;font-size:.8rem;font-weight:700;flex:1;">Votre texte apparaîtra ici</span>
+                <button style="background:rgba(5,13,31,.15);border:none;width:24px;height:24px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#050d1f;font-size:.7rem;"><i class="fas fa-times"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </main>
   </div>
 </div>
@@ -669,51 +699,9 @@ td{padding:.82rem 1.1rem;font-size:.84rem;vertical-align:middle;}
 <div class="edit-overlay" id="editOverlay">
   <div class="edit-modal">
     <div class="edit-modal-header">
-      <h3><i class="fas fa-edit"></i> Modifier la publication</h3>
-      <button onclick="closeEditModal()"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="edit-modal-body">
-      <div class="fg"><label>Titre</label><input type="text" id="edit-title"></div>
-      <div class="fgrid">
-        <div class="fg"><label>Catégorie</label><select id="edit-cat"><option>Cours</option><option>Annonce</option><option>Résumé</option><option>Exercice</option><option>Examen</option><option>Actualité</option></select></div>
-        <div class="fg"><label>Type</label><select id="edit-type"><option value="post">📝 Article</option><option value="video">🎬 Vidéo</option><option value="pdf">📄 PDF</option><option value="image">🖼️ Image</option><option value="announcement">📣 Annonce</option></select></div>
-      </div>
-      <div class="fg"><label>URL vidéo</label><input type="url" id="edit-video" placeholder="https://youtube.com/…"></div>
-      <div class="fg"><label>Fichier PDF (chemin GitHub ou URL)</label><input type="text" id="edit-pdf" placeholder="content/files/… ou https://…"></div>
-      <div class="fg"><label>Image de couverture (URL)</label><input type="url" id="edit-cover" placeholder="https://…"></div>
-      <div class="fg"><label>Contenu / Description</label><textarea id="edit-body" style="min-height:130px;"></textarea></div>
-      <div class="fg"><label>Lien externe</label><input type="url" id="edit-link" placeholder="https://…"></div>
-      <div class="toggle-field" style="margin-bottom:.9rem;">
-        <div class="toggle-info"><label>🔒 Contenu payant / privé</label><small>Affiche « Contenu réservé » aux non-inscrits.</small></div>
-        <label class="switch"><input type="checkbox" id="edit-locked"><span class="slider"></span></label>
-      </div>
-      <div class="fg"><label>Emails autorisés spécifiques</label><input type="text" id="edit-emails" placeholder="email1@ex.com, email2@ex.com"></div>
-    </div>
-    <div class="edit-modal-footer">
-      <button class="btn b-ghost" onclick="closeEditModal()">Annuler</button>
-      <button class="btn b-primary btn-lg" onclick="saveEditPost()"><i class="fas fa-save"></i> Enregistrer les modifications</button>
-    </div>
-  </div>
-</div>
+      <h3><i class="fas fa-edit"></i> Modifier la publication</h3><script>
 
-<!-- PUBLISH OVERLAY -->
-<div class="pub-overlay" id="pubOverlay">
-  <div class="pub-card">
-    <i class="fas fa-spinner pub-spin" id="pubSpin"></i>
-    <i class="fas fa-check-circle pub-check" id="pubCheck"></i>
-    <h3 id="pubTitle">Publication…</h3>
-    <p id="pubMsg">Connexion à GitHub…</p>
-    <div class="pub-step" id="pubStep"></div>
-    <div class="pub-actions" id="pubActions">
-      <a href="../index.html" target="_blank" class="btn b-ghost"><i class="fas fa-eye"></i> Voir le site</a>
-      <button class="btn b-primary" onclick="closePub()"><i class="fas fa-check"></i> OK</button>
-    </div>
-  </div>
-</div>
-
-<div class="toast-wrap" id="toastWrap"></div>
-
-<script>
+  
 // ═══ POST CACHE — avoids JSON.stringify in onclick attributes ═══
 const PC = {}; // postsCache: rowKey → post object
 
@@ -755,6 +743,7 @@ function showPanel(id){
   if(id==='access')loadAccessPanel();
   if(id==='packs')loadPacks();
   if(id==='playlists')loadPlaylists();
+  if(id==='notifications')loadAnnonce();
 }
 
 // ═══ CONFIG ═══
@@ -1635,6 +1624,109 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
   document.getElementById('editOverlay').addEventListener('click',function(e){if(e.target===this)closeEditModal();});
 });
+
+
+/* ═══ ADMIN: NOTIFICATIONS MANAGER ═══ */
+async function publishAnnonce(){
+  var text=(document.getElementById('ann-text').value||'').trim();
+  if(!text){toast('Entrez un texte','err');return;}
+  var link=(document.getElementById('ann-link').value||'').trim();
+  var active=document.getElementById('ann-active').checked;
+  var id=Date.now().toString();
+  var payload={text:text,link:link||'',active:active,id:id,date:today()};
+  var cfg_=cfg();if(!cfg_.token){toast('Configurez GitHub','err');return;}
+  if(!cfg_.owner)await fetchOwner(cfg_.token);
+  showPub('Publication de la notification...','GitHub...');
+  try{
+    var existing=await getSha('content/annonce.json');
+    await ghPut('content/annonce.json',JSON.stringify(payload,null,2),'Notification: '+text.substring(0,40),existing);
+    setPubDone('Notification publiée!','Visible sur le site immédiatement.');
+    toast('Notification publiée!','ok');
+  }catch(err){closePub();toast('Erreur: '+err.message,'err');}
+}
+
+async function clearAnnonce(){
+  if(!confirm('Supprimer la notification active?'))return;
+  var cfg_=cfg();if(!cfg_.token)return;
+  if(!cfg_.owner)await fetchOwner(cfg_.token);
+  try{
+    var sha=await getSha('content/annonce.json');
+    var payload={text:'',link:'',active:false,id:'0',date:today()};
+    await ghPut('content/annonce.json',JSON.stringify(payload,null,2),'Clear notification',sha);
+    toast('Notification supprimée','ok');
+    document.getElementById('ann-text').value='';
+    document.getElementById('ann-link').value='';
+  }catch(err){toast('Erreur','err');}
+}
+
+async function loadAnnonce(){
+  var cfg_=cfg();if(!cfg_.token||!cfg_.owner)return;
+  try{
+    var RAW_='https://raw.githubusercontent.com/'+cfg_.owner+'/TeachLine-Site/main';
+    var r=await fetch(RAW_+'/content/annonce.json?_='+Date.now());
+    if(!r.ok)return;
+    var d=await r.json();
+    if(d.text)document.getElementById('ann-text').value=d.text;
+    if(d.link)document.getElementById('ann-link').value=d.link||'';
+    var act=document.getElementById('ann-active');
+    if(act)act.checked=!!d.active;
+    var status=document.getElementById('ann-status');
+    if(status)status.innerHTML=d.active?'<span style="color:var(--green);font-size:.75rem;"><i class="fas fa-circle"></i> Notification active</span>':'<span style="color:var(--gray);font-size:.75rem;"><i class="far fa-circle"></i> Inactive</span>';
+  }catch(err){}
+}
+function removeStudent(i){
+  if(!confirm('Retirer cet élève ? Il perdra l\'accès immédiatement.'))return;
+  accessData.students.splice(i,1);renderStudentList();toast('Élève retiré. Sauvegardez pour appliquer.','warn');
+}
+async function saveAccessData(){
+  const c=cfg();if(!c.token){toast('Configurez GitHub','err');showPanel('settings');return;}
+  showPub('Sauvegarde des accès…','GitHub…');
+  try{
+    const sha=await getSha('access/allowed.json');
+    await ghPut('access/allowed.json',JSON.stringify(accessData,null,2),'Accès élèves',sha);
+    setPubDone('Accès sauvegardés !','Les élèves peuvent maintenant se connecter.');loadStats();
+  }catch(e){closePub();toast('Erreur: '+e.message,'err');}
+}
+
+// ═══ PUBLISH OVERLAY ═══
+function showPub(title,msg){
+  setEl('pubTitle',title);setEl('pubMsg',msg);setEl('pubStep','');
+  document.getElementById('pubSpin').style.display='block';document.getElementById('pubCheck').style.display='none';
+  document.getElementById('pubActions').classList.remove('show');document.getElementById('pubOverlay').classList.add('show');
+}
+function setPubStep(s){setEl('pubStep',s);}
+function setPubDone(title,msg){
+  document.getElementById('pubSpin').style.display='none';document.getElementById('pubCheck').style.display='block';
+  setEl('pubTitle',title);setEl('pubMsg',msg);setEl('pubStep','');
+  document.getElementById('pubActions').classList.add('show');toast(title,'ok');
+}
+function closePub(){document.getElementById('pubOverlay').classList.remove('show');}
+
+// ═══ TOAST ═══
+function toast(msg,type=''){
+  const w=document.getElementById('toastWrap'),el=document.createElement('div');
+  el.className='toast'+(type?' t-'+type:'');
+  el.innerHTML='<i class="fas '+(type==='ok'?'fa-check-circle':type==='err'?'fa-times-circle':'fa-exclamation-triangle')+'"></i> '+msg;
+  w.appendChild(el);setTimeout(()=>{el.style.opacity='0';el.style.transform='translateX(50px)';setTimeout(()=>el.remove(),400);},5000);
+}
+
+// ═══ INIT ═══
+async function init(){
+  loadConfig();
+  if(!cfg().owner&&cfg().token)await fetchOwner(cfg().token);
+  checkGH();loadStats();
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  onPostTypeChange();onResTypeChange();
+  document.querySelectorAll('.file-zone').forEach(z=>{
+    z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('drag');});
+    z.addEventListener('dragleave',()=>z.classList.remove('drag'));
+    z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('drag');});
+  });
+  document.getElementById('editOverlay').addEventListener('click',function(e){if(e.target===this)closeEditModal();});
+});
+
 </script>
 </body>
 </html>
