@@ -696,9 +696,34 @@ document.addEventListener('DOMContentLoaded',function(){
 
 /* ── GITHUB API ── */
 function ghList(path){
+  var key='tlc_'+path;
+  var expKey='tlcx_'+path;
+  var now=Date.now();
+  try{
+    var cached=sessionStorage.getItem(key);
+    var expiry=parseInt(sessionStorage.getItem(expKey)||'0');
+    if(cached&&expiry>now)return Promise.resolve(JSON.parse(cached));
+  }catch(e){}
   return fetch('https://api.github.com/repos/'+OWNER+'/'+REPO+'/contents/'+path+'?ref='+BRANCH)
     .then(function(r){return r.ok?r.json():[];})
+    .then(function(data){
+      try{
+        sessionStorage.setItem(key,JSON.stringify(data));
+        sessionStorage.setItem(expKey,String(now+5*60*1000));
+      }catch(e){}
+      return data;
+    })
     .catch(function(){return[];});
+}
+function clearGhCache(){
+  try{
+    var keys=[];
+    for(var i=0;i<sessionStorage.length;i++){
+      var k=sessionStorage.key(i);
+      if(k&&(k.indexOf('tlc_')===0||k.indexOf('tlcx_')===0))keys.push(k);
+    }
+    keys.forEach(function(k){sessionStorage.removeItem(k);});
+  }catch(e){}
 }
 
 /* ── ACCESS ── */
@@ -950,9 +975,19 @@ function switchTab(f,btn){
 
 function renderFeed(){
   var c=document.getElementById('feed-container');if(!c)return;
-  var posts=allPosts.filter(function(p){return activeTab==='all'||(p.type||'post')===activeTab;});
-  if(!posts.length){c.innerHTML='<div class="empty-s"><i class="fas fa-inbox"></i><p>Aucune publication dans cette catégorie.</p></div>';return;}
+  var posts=allPosts.filter(function(p){
+    if(activeTab!=='all'&&(p.type||'post')!==activeTab)return false;
+    if(!searchQuery)return true;
+    var hay=(p.title||'')+' '+(p.body||'')+' '+(p.category||'');
+    return hay.toLowerCase().indexOf(searchQuery)>-1;
+  });
+  if(!posts.length){
+    c.innerHTML='<div class="empty-s"><i class="fas fa-'+(searchQuery?'search':'inbox')+'"></i><p>'+(searchQuery?'Aucun résultat pour "'+esc(searchQuery)+'"':'Aucune publication dans cette catégorie.')+'</p></div>';
+    return;
+  }
   c.innerHTML=posts.map(function(p){return buildCard(p);}).join('');
+  var cnt=document.getElementById('search-count');
+  if(cnt)cnt.textContent=searchQuery?posts.length+' résultat'+(posts.length>1?'s':''):'';
 }
 
 /* ── PACKS ── */
@@ -1471,23 +1506,7 @@ initFeatures();
 ═══════════════════════════════════════════════════════════ */
 
 /* ── 1. CACHED ghList (5min sessionStorage cache) ── */
-function ghListCached(path){
-  var key='tlc_'+path;
-  var exp='tlc_exp_'+path;
-  var now=Date.now();
-  try{
-    var cached=sessionStorage.getItem(key);
-    var expiry=parseInt(sessionStorage.getItem(exp)||'0');
-    if(cached&&expiry>now)return Promise.resolve(JSON.parse(cached));
-  }catch(e){}
-  return ghList(path).then(function(data){
-    try{
-      sessionStorage.setItem(key,JSON.stringify(data));
-      sessionStorage.setItem(exp,String(now+5*60*1000));
-    }catch(e){}
-    return data;
-  });
-}
+
 function clearGhCache(){
   try{
     Object.keys(sessionStorage).forEach(function(k){
@@ -1516,25 +1535,7 @@ function initSearch(){
   });
 }
 /* Override renderFeed to apply search */
-var _origRenderFeed=null;
-function patchRenderFeed(){
-  _origRenderFeed=renderFeed;
-  renderFeed=function(){
-    var c=document.getElementById('feed-container');if(!c)return;
-    var posts=allPosts.filter(function(p){
-      if(activeTab!=='all'&&(p.type||'post')!==activeTab)return false;
-      if(!searchQuery)return true;
-      var hay=(p.title||'')+' '+(p.body||'')+' '+(p.category||'');
-      return hay.toLowerCase().indexOf(searchQuery)>-1;
-    });
-    if(!posts.length){
-      c.innerHTML='<div class="empty-s"><i class="fas fa-'+(searchQuery?'search':'inbox')+'"></i><p>'+(searchQuery?'Aucun résultat pour "'+esc(searchQuery)+'"':'Aucune publication dans cette catégorie.')+'</p></div>';
-      return;
-    }
-    c.innerHTML=posts.map(function(p){return buildCard(p);}).join('');
-    updateSearchCount(posts.length);
-  };
-}
+
 function updateSearchCount(n){
   var el=document.getElementById('search-count');
   if(!el)return;
@@ -1573,33 +1574,7 @@ function updatePackProgress(packId){
   if(card)card.style.borderColor=pct===100?'rgba(16,185,129,.4)':'rgba(255,255,255,.1)';
 }
 /* Patch loadPI to track progress */
-var _origLoadPI=null;
-function patchLoadPI(){
-  _origLoadPI=loadPI;
-  loadPI=function(i){
-    _origLoadPI(i);
-    /* Find which pack this belongs to and mark item done after 5s */
-    var data=window._cPack;
-    if(!data||!window._cPackId)return;
-    setTimeout(function(){
-      var real=data.items.filter(function(x){return x.type!=='text';});
-      var realIdx=0;
-      for(var j=0;j<data.items.length;j++){
-        if(data.items[j].type!=='text'){
-          if(j===i){markDone(window._cPackId,realIdx);break;}
-          realIdx++;
-        }
-      }
-    },5000);
-    /* Show done checkmark in sidebar */
-    setTimeout(function(){
-      var btn=document.getElementById('pvi-'+i);
-      if(btn&&btn.querySelector('.pv-done')){
-        btn.querySelector('.pv-done').style.display='inline-flex';
-      }
-    },5100);
-  };
-}
+
 
 /* ── 4. NOTIFICATIONS BANNER ── */
 function loadBanner(){
@@ -1729,15 +1704,7 @@ function openLockModal(title){
 
 /* ── INIT ALL FEATURES ── */
 function initFeatures(){
-  /* Replace ghList with cached version everywhere */
-  ghList=ghListCached;
-  /* Init search */
   initSearch();
-  /* Patch renderFeed for search */
-  patchRenderFeed();
-  /* Patch loadPI for progress */
-  patchLoadPI();
-  /* Load notification banner */
   loadBanner();
 }
 
