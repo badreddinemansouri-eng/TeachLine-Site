@@ -1,0 +1,9 @@
+# Teach Line — robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://teachline.pages.dev/sitemap.xml
+
+# Block admin from indexing
+Disallow: /admin/
